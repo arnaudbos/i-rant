@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Arnaud Bos</title>
+    <link>http://www.arnaudbos.com/categories/conference/index.xml</link>
+    <description>Recent content on Arnaud Bos</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <atom:link href="http://www.arnaudbos.com/categories/conference/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>EclipseCon France 2016 — Review</title>
+      <link>http://www.arnaudbos.com/eclipsecon-france-2016-review/</link>
+      <pubDate>Wed, 13 Jul 2016 12:55:28 +0100</pubDate>
+      
+      <guid>http://www.arnaudbos.com/eclipsecon-france-2016-review/</guid>
+      <description>
+
+
+&lt;figure  &gt;
+    
+        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/eclipsecon.jpg&#34; alt=&#34;Picture taken during the Keynote&#34;
+            width=&#34;100%&#34;
+            /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h6&gt;&lt;em&gt;Keynote&lt;/em&gt;&lt;/h6&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+
+&lt;hr /&gt;
+
+&lt;p&gt;This ear, I&amp;rsquo;ve been given the opportunity to attend the French edition of the EclipseCon. It&amp;rsquo;s been the first time I could attend an event of this nature with Keynotes, workshops, talks and demos on various topics, informal talks with other attendees and speakers.&lt;/p&gt;
+
+&lt;p&gt;Bellow is a feedback on &lt;strong&gt;my&lt;/strong&gt; experience of the EclipseCon France 2016.&lt;/p&gt;
+
+&lt;p&gt;Schedule: &lt;a href=&#34;https://www.eclipsecon.org/france2016/conference/schedule/session/2016-06-07&#34;&gt;https://www.eclipsecon.org/france2016/conference/schedule/session/2016-06-07&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;connecting-low-power-iot-devices-with-lora-mqtt-and-the-things-network&#34;&gt;Connecting low power IoT devices with LoRa, MQTT, and The Things Network&lt;/h2&gt;
+
+
+&lt;figure  style=&#34;text-align: center;&#34;&gt;
+    
+        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/iot.png&#34; alt=&#34;Eclipse IoT logo&#34;
+            width=&#34;280px&#34;
+            /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+
+&lt;p&gt;&lt;br /&gt;
+From my point of view, &lt;a href=&#34;http://iot.eclipse.org/&#34;&gt;IoT&lt;/a&gt; really was an important topic this year in Toulouse, most notably because of the presence of &lt;a href=&#34;https://www.thethingsnetwork.org/&#34;&gt;The Things Network&lt;/a&gt;, who&amp;rsquo;s been invited by the Eclipse Foundation to lead a workshop and give the first Keynote of the conference.&lt;/p&gt;
+
+&lt;p&gt;This team, from Amsterdam, wants to federate people and communities anywhere in the world around their worldwide network dedicated to connected devices, based on the LoRa technology.&lt;/p&gt;
+
+&lt;p&gt;So, what is LoRa? And what is The Things Network?&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;lora&#34;&gt;LoRa&lt;/h3&gt;
+
+
+&lt;figure  style=&#34;text-align: center;&#34;&gt;
+    
+        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/lora.png&#34; alt=&#34;LoRaWan logo&#34;
+            width=&#34;280px&#34;
+            /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+
+&lt;p&gt;Taken from the &lt;a href=&#34;https://www.lora-alliance.org/&#34;&gt;LoRa Alliance&lt;/a&gt; :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;LoRa is a diminutive for LoRaWAN™: Low Power Wide Area Network (LPWAM).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Without going into too much details (that I don&amp;rsquo;t master anyways), here&amp;rsquo;s what I can say:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;LoRa is a free and open wireless specification based on ISM radios bands (&lt;a href=&#34;https://en.wikipedia.org/wiki/ISM_band&#34;&gt;https://en.wikipedia.org/wiki/ISM_band&lt;/a&gt;).&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This technology particularly fits in as a network layer for communication of small, connected devices because it allows for localization and mobility of devices, low consumption, does not need a big or existing previous installation, and communication can go both ways (bi-directional).&lt;/p&gt;
+
+&lt;p&gt;With a single antenna on top of a building in an urban area, or in fields, LoRa allows the connection of thousands of devices without loss, far more than a classic wireless gateway (WiFi, Bluetooth) and energy consumption is kept low and is less costly that a 3G gateway.&lt;/p&gt;
+
+&lt;p&gt;A few examples:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Power networks: predict consumption and adapt to real needs&lt;/li&gt;
+&lt;li&gt;Logistics: accurate delivery and moving targets&lt;/li&gt;
+&lt;li&gt;Transportation: emergency calls&lt;/li&gt;
+&lt;li&gt;Health: embedded measuring devices&lt;/li&gt;
+&lt;li&gt;And a lot more&amp;hellip; all that wirelessly.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;LoRa competes with the &lt;a href=&#34;https://sigfox.com/&#34;&gt;Sigfox&lt;/a&gt; technology, that you&amp;rsquo;re obviously aware of if you&amp;rsquo;re working/living in Toulouse like I do. Nonetheless, the two have different approaches, as Sigfox&amp;rsquo;s technology is proprietary and implies license costs, whereas the LoRa specification is free and open.&lt;/p&gt;
+
+&lt;p&gt;Some measures made by The Things Network, as well as a few tech characteristics:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Dense urban environment: 500m to 3km&lt;/li&gt;
+&lt;li&gt;Rural environment: 10-50km (up to 92km over lands)&lt;/li&gt;
+&lt;li&gt;Up to 10.000 devices per gateway&lt;/li&gt;
+&lt;li&gt;Up to 3 years batteries&lt;/li&gt;
+&lt;li&gt;Very low consumption (and no &amp;ldquo;handshake&amp;rdquo;)&lt;/li&gt;
+&lt;li&gt;Free, open license, in both emit and receive&lt;/li&gt;
+&lt;li&gt;No previous installation required&lt;/li&gt;
+&lt;li&gt;Multi-coverage (multiple gateways can relay the information)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Devices connecting to a LoRa network can be sorted into three categories:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A) Uplink only, device initiates the communication and server can answer;
+B) Device and network are in sync on a shooting window the data exchange;
+C) Device constantly listening for updates.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Of course consumption depends on device category.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;the-things-network&#34;&gt;The Things Network&lt;/h3&gt;
+
+
+&lt;figure  style=&#34;text-align: center;&#34;&gt;
+    
+        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/ttn.png&#34; alt=&#34;The Things Network logo&#34;
+            width=&#34;280px&#34;
+            /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+
+&lt;p&gt;&lt;a href=&#34;https://www.thethingsnetwork.org/&#34;&gt;The Things Network&lt;/a&gt; is a project born in Amsterdam, the goal is to build a worldwide, open distributed network for IoT devices.&lt;/p&gt;
+
+&lt;p&gt;Following a crowdfunding campaign, the team has started to create a Web platform in order to allow connection of devices via brokers.&lt;/p&gt;
+
+&lt;p&gt;All the source code of The Things Network is &lt;a href=&#34;https://github.com/TheThingsNetwork/&#34;&gt;open source and available on Github&lt;/a&gt;, according to their commitment to allow a vast adoption of these technologies.&lt;/p&gt;
+
+&lt;p&gt;In parallel, their business entity sells &lt;a href=&#34;https://shop.thethingsnetwork.com/&#34;&gt;Starter kits&lt;/a&gt; for education purposes as well as gateways, and participates in workshops and trainings to allow people to equip their homes/neighborhoods/towns and initiate a global coverage movement.&lt;/p&gt;
+
+&lt;p&gt;There already are communities around the world, mostly in Europe at this time. Those communities were sometimes initiated by the team members of The Things Network, who travel a lot to advocate for their project and the LoRa technology, and sometimes communities are spontaneously created by local people.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;what-every-java-developer-should-know-about-angularjs&#34;&gt;What every Java developer should know about AngularJS&lt;/h2&gt;
+
+
+&lt;figure  style=&#34;text-align: center;&#34;&gt;
+    
+        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/angular.png&#34; alt=&#34;AngularJS logo&#34;
+            width=&#34;280px&#34;
+            /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+
+&lt;p&gt;Everything&amp;rsquo;s in the title.&lt;/p&gt;
+
+&lt;p&gt;This workshop was intended to developers who are more familiar with backend technologies and wanted to have an introduction at the most famous front-end framework of the moment: &lt;a href=&#34;https://angularjs.org/&#34;&gt;AngularJS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The was articulated about an introduction to controllers, scopes, services and directives, based on a tiny project example.&lt;/p&gt;
+
+&lt;p&gt;As a full-stack developer I think this workshop was well adapted to its audience, with an iterative process in order to introduce new concepts in turn on the tiny project.&lt;/p&gt;
+
+&lt;p&gt;The speakers chose to have &lt;a href=&#34;https://www.typescriptlang.org/&#34;&gt;TypeScript&lt;/a&gt; at the basis of their example, in order to keep their audience, more used to classical object architectures than ECMAScript, in their comfort zone. My co-attendees had the occasion to have their feet wet in a project architecture modeled around interfaces and implementations, with generic types and inheritance. On the other hand, they&amp;rsquo;ve had to deal with the poor front-end development tooling of the Eclipse IDE.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s talk about tooling.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;tooling&#34;&gt;Tooling&lt;/h2&gt;
+
+&lt;p&gt;This year we (the attendees) had a lot of choice regarding sessions about the Eclipse tooling. Here are is a feedback on the tools I&amp;rsquo;ve been presented.&lt;/p&gt;
+
+&lt;h3 id=&#34;jsdt-2-0&#34;&gt;JSDT 2.0&lt;/h3&gt;
+
+&lt;p&gt;This talk was dedicated to the new version of the JavaScript Development Tools (JSDT), currently under development.&lt;/p&gt;
+
+&lt;p&gt;The objectives of JSDT 2.0 are to support the tools and methods of the current state of the art of modern JavaScript development.&lt;/p&gt;
+
+&lt;p&gt;At the moment, JSDT 2.0 benefits from a new parser, more powerful and robust than the previous one, which is able to handle the ECMAScript 6 specification.&lt;/p&gt;
+
+&lt;p&gt;The other objectives are centered around the integration of packets managers (npm / bower), task builders (grunt, gulp), support of Node.js, and additional tools for debugging and browsers integrations (Chrome).&lt;/p&gt;
+
+&lt;h3 id=&#34;the-state-of-docker-and-vagrant-tooling-in-eclipse&#34;&gt;The State of Docker and Vagrant Tooling in Eclipse&lt;/h3&gt;
+
+&lt;p&gt;It&amp;rsquo;s been a few month I got myself interested in &lt;a href=&#34;https://www.vagrantup.com/&#34;&gt;Vagrant&lt;/a&gt; and &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; and started to mess with them, especially for development and integration environments. The idea to setup and share with teams/contributors an immutable infrastructure and repeatable deployment processes is very exciting.&lt;/p&gt;
+
+&lt;p&gt;In this talk, I&amp;rsquo;ve been showcased two Eclipse plugins, one for &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; integration and the other one for &lt;a href=&#34;https://www.vagrantup.com/&#34;&gt;Vagrant&lt;/a&gt; integration.&lt;/p&gt;
+
+&lt;p&gt;At the moment, the two plugins provide new &amp;ldquo;perspectives&amp;rdquo; to the Eclipse IDE, allowing to do everything (I mean, almost everything) you can do on the command line:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create and manage Vagrant boxes&lt;/li&gt;
+&lt;li&gt;Configure your Vagrantfile&lt;/li&gt;
+&lt;li&gt;Create and manage virtual machines&lt;/li&gt;
+&lt;li&gt;Create and manage Docker images&lt;/li&gt;
+&lt;li&gt;List and manage Docker containers&lt;/li&gt;
+&lt;li&gt;Edit Dockerfile&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I&amp;rsquo;m a little bit disappointed, even though I personally don&amp;rsquo;t have an affinity for IDE integrations of command lines tools (I like my git separated from my IDE for instance).&lt;/p&gt;
+
+&lt;p&gt;Anyway it&amp;rsquo;s worth mentioning that all the developments made on these plugins are the work of developers who are doing it for free, there are not a lot of them, and like everybody else they have to mow their lawn and fix their home on weekends.
+So thanks guys, and keep up the good work.&lt;/p&gt;
+
+&lt;h2 id=&#34;continuous-delivery-pipeline-as-code-with-jenkins&#34;&gt;Continuous Delivery: Pipeline As Code With Jenkins&lt;/h2&gt;
+
+
+&lt;figure  style=&#34;text-align: center;&#34;&gt;
+    
+        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/jenkins.png&#34; alt=&#34;Jenkins CI logo&#34;
+            width=&#34;280px&#34;
+            /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+
+&lt;p&gt;I was very enthusiast to attend this talk. I&amp;rsquo;m very interested in the opportunity to manage build jobs in a pipeline-shaped way. I&amp;rsquo;m also interested in &amp;ldquo;Continuous Delivery&amp;rdquo; and in &amp;ldquo;Continuous Deployment&amp;rdquo; for that matter.&lt;/p&gt;
+
+&lt;p&gt;So what was this talk about ? Mainly what I could describe as the ability of orchestration, interruption and resilience of build jobs. Nothing less&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Like said in &lt;a href=&#34;http://batmat.github.io/presentations/jenkins-pipeline-as-code/prez.html&#34;&gt;the slides&lt;/a&gt;, what happens when you have fairly complicated build jobs, requiring operator inputs and possibly the ability to run in parallel?&lt;/p&gt;
+
+&lt;p&gt;Apart from creating multiple individual jobs, that you can link or chain later on, leave alone fail-fast and parallelism, there is no idiomatic way to do.&lt;/p&gt;
+
+&lt;p&gt;This is the kind of problems &amp;ldquo;Jenkins Pipeline Plugins&amp;rdquo;, which is in reality, a set of plugins, is try to solve. At the core of it is a DSL, the &amp;ldquo;Pipeline DSL&amp;rdquo;, allowing to chain builds, as steps, and attach to each a set of configuration options, like parallelism for instance.&lt;/p&gt;
+
+&lt;p&gt;It becomes possible, for example, to configure a few dozens look-alike (small variation) jobs shaping the basis (the dependencies of a cascading build job) and trigger the execution of all these builds in parallel, before the execution of the next build job which depends upon them. All of this while specifying that the &lt;strong&gt;complete&lt;/strong&gt; build sequence should stop in case of a failure of any of the base builds (fail-fast).&lt;/p&gt;
+
+&lt;p&gt;For the record, the speaker showcased this example exactly, on a &lt;a href=&#34;https://www.docker.com/products/docker-swarm/&#34;&gt;Docker Swarm&lt;/a&gt; build cluster provided by a cloud provider:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;336 CPUs&lt;/li&gt;
+&lt;li&gt;1.032 TiB RAM&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Don&amp;rsquo;t we all have one like that in our basement?&lt;/p&gt;
+
+&lt;p&gt;Anyways, I was really curious about the choice of a DSL, instead of a fully declarative description of the build pipeline thanks to configuration file(s).
+It&amp;rsquo;s easy to envision how to describe via simple data structures like maps and collections, the orchestration of jobs and the description of each step.&lt;/p&gt;
+
+&lt;p&gt;I did not get a clear answer except that: most of the contributors being Java developers, a DSL (which really looks like Java by the way) seemed a natural choice.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;I&amp;rsquo;ve fully enjoyed my first time at a conference. The organization was perfect and the quality of the speakers was very satisfying.&lt;/p&gt;
+
+&lt;p&gt;I will be please to come over next year at the EclipseCon France 2017, and I recommend to any developer having the opportunity to attend it, to do so without hesitation.&lt;/p&gt;
+
+&lt;p&gt;All of the Keynotes and talks have been video recorded and are available on the Eclipse Foundation&amp;rsquo;s &lt;a href=&#34;https://www.youtube.com/playlist?list=PLy7t4z5SYNaRJff0KBMbubOaj8gevvML4&#34;&gt;Youtube channel&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

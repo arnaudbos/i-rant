@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+    <meta name="description" content="My corner of the interweb.">
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.arnaudbos.com/img/favicon.ico">
+    <title>Nabaztag/tag internals</title>
+    <meta name="generator" content="Hugo 0.17" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="http://www.arnaudbos.com/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://www.arnaudbos.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="http://i-rant.arnaudbos.com/">BLOG</a></li>
+        
+        <li><a href="http://side-effects.arnaudbos.com/">PROJECTS</a></li>
+        
+        <li><a href="http://vitae.arnaudbos.com/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="http://www.arnaudbos.com/nabaztagtag-internals/">Nabaztag/tag internals</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          June 6, 2016
+          &nbsp;&nbsp;
+          —
+          &nbsp;&nbsp;
+          10 minutes read
+          </h4>
+        </div>
+        <div>
+          <h4>
+            
+            <span class="label label-success">iot</span>
+            
+            <span class="label label-success">nabaztag</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/Nabaztag.jpg" alt="Photo of a dismantled Nabaztag/tag"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>Nabaztag/tag</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<hr />
+
+<ul>
+<li><strong>Updated</strong>: June 15th, 2016</li>
+<li><strong>Created</strong>: June 6th, 2016</li>
+<li><strong>Object</strong>: Detail what&rsquo;s inside a Nabaztag/tag, with components references when possible.</li>
+</ul>
+
+<hr />
+
+<p>I&rsquo;m obviously not the first one trying to recycle my Nabaztag. Previous dissections have been done by others so I will reuse what they have done and will keep it here as a reference for my own usage.</p>
+
+<p>Most of the information on this page come from <a href="http://petertyser.com/nabaztag-nabaztagtag-dissection/">this guy</a>, so <em>thank you</em>.</p>
+
+<p>Pictures are from multiple sources (links at the bottom of this page) and I&rsquo;ve made my own, mostly because I didn&rsquo;t find pictures detailing the ears mechanism (DC motors, pulleys-belt and IR encoders).</p>
+
+<p>You&rsquo;ll notice my Nabaztag/tag&rsquo;s plastic body turned a bit yellowish with the years, I&rsquo;ll try to fix this with the <a href="https://en.wikipedia.org/wiki/Retr0bright">Retr0bright chemical mixture</a> later on.</p>
+
+<h2 id="front-view">Front view</h2>
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/1-Front-view.jpg" alt="Picture of Nabaztag/tag front view"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/5-Inside-front.jpg" alt="Picture of Nabaztag/tag opened front view"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<p>So from this point of view we can see (top/down):</p>
+
+<ul>
+<li>A button at the top;</li>
+<li>Two rotating, magnetic placeholders for the ears;</li>
+<li>4 LEDs with directional cones;</li>
+<li>An RFID reader at the center, in front of the main board;</li>
+<li>A microphone at the base of the rabbit;</li>
+<li>The main board but I don&rsquo;t care about this one.</li>
+</ul>
+
+<h2 id="back-view">Back view</h2>
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/2-Back-view.jpg" alt="Picture of Nabaztag/tag back view"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/6-Inside-back.jpg" alt="Picture of Nabaztag/tag opened back view"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<p>At the rear, we can see (top/down):</p>
+
+<ul>
+<li>Two IR encoders to control the rotation of the ears, at the top;</li>
+<li>The WiFi antenna at the center, in green;</li>
+<li>A loudspeaker a the center just under the WiFi antenna;</li>
+<li>The small card at the bottom is the &ldquo;power adapter&rdquo;;</li>
+<li>A scroll wheel;</li>
+<li>A 3.5mm phone connector (headphone jack).</li>
+</ul>
+
+<h2 id="the-button">The button</h2>
+
+<p>Will be reusable as is, it seems, so I don&rsquo;t have much to say about this one.</p>
+
+<h2 id="the-ears">The ears</h2>
+
+<p>They are attached to the body via magnets and are really just two pieces of white plastic.</p>
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/4-No-ears.jpg" alt="Picture of Nabaztag/tag without its ears"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<p>At some point, Violet or one of its successor, used to sell colored ears (with patterns and all) for fun and profit. I wonder where they did all go. Anyway.</p>
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/9-Ears-motors.jpg" alt="Picture of Nabaztag/tag&#39;s ears mechanism"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<p>This is the internal view of the back of the rabbit once you&rsquo;ve removed the black plastic case covering the ears mechanism.</p>
+
+<p>You can see it consists of two &ldquo;classic DC motors&rdquo;, wired to the rotating pads of the ears (on top) via pulleys-belts.</p>
+
+<h3 id="the-dc-motors">The DC motors</h3>
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/12-DC-motor.jpg" alt="Picture of Nabaztag/tag&#39;s ears DC motors"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<p>Plagiarizing <a href="http://www.instructables.com/id/Hack-the-Nabaztag/?ALLSTEPS">Hack the Nabaztag</a>, here&rsquo;s a description of the DC motors:</p>
+
+<pre><code>The motor wires are BROWN and RED. If you connect one to GND and one to
+PWR, the ears will spin in one direction; if you swap them, they go in
+the opposite direction.
+</code></pre>
+
+<p>And:</p>
+
+<pre><code>If you want the ears to be bidirectional, you will have to implement an
+H-bridge - a hardware switch that reverses a motor's polarity.
+</code></pre>
+
+<p>Thanks, this is exactly what we&rsquo;ll do eventually.</p>
+
+<h3 id="the-ir-encoders">The IR encoders</h3>
+
+<p>
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/10-IR-encoder.jpg" alt="Picture of Nabaztag/tag&#39;s ears IR encoder"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/11-Pulleys-belt.jpg" alt="Picture of Nabaztag/tag&#39;s pulleys-belt and cogs mechanism"
+            width="100%"
+            />
+    
+    
+</figure>
+
+</p>
+
+<p>This time plagiarizing from <a href="https://github.com/Oripy/Rabbity-Pi/wiki/Nabaztag-hardware-investigation">Rabbity-Pi</a>, here&rsquo;s a description of the use of the IR encoder:</p>
+
+<pre><code>A IR encoder is used to control the rotation, a wheel with 20 tooth
+passes in front of the IR sensor. Actually 3 of those tooth are missing
+(in order to detect the absolute position). The Nabaztag is doing a full
+rotation of the ears when booting in order to initialise the positioning.
+
+Numbering each teeth from 0 to 19, ear is vertical when teeth number 3 is
+in front of the sensor, and horizontal when it is teeth number 13.
+</code></pre>
+
+<p>And from <a href="http://www.instructables.com/id/Hack-the-Nabaztag/?ALLSTEPS">Hack the Nabaztag</a>:</p>
+
+<pre><code>Each of the little blue chips has a small optical encoder on it: an IR
+LED and a receiver that senses it. As the ear turns, a gear's teeth pass
+between the LED and receiver, and turn it 'on' and 'off'. The gear is
+missing one single tooth, so the encoder knows: when its signal does NOT
+get interrupted by the gear's teeth, the ear is pointing forward. On
+tooth 3, ears point up; on tooth 13, they are horizontal.
+</code></pre>
+
+<p>I&rsquo;m a total electronic beginner and if you too, I&rsquo;ve googled around and found this <a href="https://youtu.be/Q9d3d-gNii8">great video on How an Encoder Works</a>.</p>
+
+<h2 id="leds">LEDs</h2>
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/LEDs.png" alt="Picture of Nabaztag/tag&#39;s LEDs and cones"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<p>On this picture we can see four directional cones to lead the LEDs light onto the translucent case.</p>
+
+<p>The LEDs are soldered onto the board, and what you cannot see on this picture (and I forgot to take another one, duh) is that there is a fifth LED at the bottom of the main board, whose cone is aimed toward the bottom of the rabbit, to give some sort of &ldquo;ambient light&rdquo;.</p>
+
+<p>I don&rsquo;t want to start &ldquo;doing electronics&rdquo; by having to identify components and unsolder them, so I just won&rsquo;t reuse the LEDs and experiment with simpler ones.</p>
+
+<h2 id="rfid">RFID</h2>
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/RFID.png" alt="Picture of Nabaztag/tag&#39;s RFID reader"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<p>The RFID reader is also visible on the front picture, right at the center, between the LED cones and in front of the main board.</p>
+
+<p><a href="http://petertyser.com/nabaztag-nabaztagtag-dissection/">Nabaztagtag (Nabaztag v2) Dissection</a> has more detailed information as he tried identify each component of the RFID reader. I am not going to use the RFID reader at first, and I can&rsquo;t decide which technology (RFID, NFC, Bluetooth Low Energy?) I will use eventually, so I won&rsquo;t try to reuse it either.</p>
+
+<h2 id="microphone">Microphone</h2>
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/Microphone.png" alt="Picture of Nabaztag/tag&#39;s Microphone"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/16-Microphone.jpg" alt="Detailed view of the microphone"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<p>I do not know if I will make use of the microphone &ldquo;as is&rdquo; yet. Maybe I will have to replace it, be it for compatibility reasons or sound quality.</p>
+
+<p>In <a href="http://www.instructables.com/id/RabbitPi-the-Alexa-Enabled-IFTTT-Connected-Ear-Wig/?ALLSTEPS">RabbitPi</a>, MisterM has used a <a href="https://www.raspberrypi.org/products/camera-module/">Pi camera</a> in his project to put where the Nabaztag/tag&rsquo;s microphone and Karotz (Nabaztag V3) camera used to stand. And for the microphone, he used a webcam&rsquo;s microphone.</p>
+
+<p>Although he hacked a Nabaztag V1 which does not have a microphone already, whereas my V2 has one, I have to admit that I&rsquo;m very tempted to do the same thing (with the Pi camera). Plus I will not have to drill a hole, maybe just make it larger.</p>
+
+<h2 id="wifi">WiFi</h2>
+
+<p>The WiFi capabilities is added via two components as it seems, a wireless module attached to the back of the main board, and a WiFi antenna at the rear of the rabbit.</p>
+
+<p>
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/Wireless.png" alt="Detailed view of the wireless module"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/WiFi-antenna.png" alt="Detailed view of the WiFi antenna"
+            width="100%"
+            />
+    
+    
+</figure>
+
+</p>
+
+<p>Again, at this point I think I am just not going to use this setup at find a standalone WiFi dongle that fits into the rabbit&rsquo;s body. There are some <a href="http://hackaday.com/2015/11/28/first-raspberry-pi-zero-hack-piggy-back-wifi/">funny hacks</a> out there, and also an <a href="https://www.kickstarter.com/projects/1991736672/iot-hat-for-raspberry-pi-a-must-have-for-pi-zero/description">interesting project</a> to keep an eye on.</p>
+
+<h2 id="loudspeaker">Loudspeaker</h2>
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/6-Inside-back.jpg" alt="Picture of Nabaztag/tag&#39;s loudspeaker"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<p>The loudspeaker is clearly visible at the center of the rabbit&rsquo;s back. To me it looks like a basic sound speaker, nothing to be afraid of.</p>
+
+<p>In <a href="http://www.instructables.com/id/RabbitPi-the-Alexa-Enabled-IFTTT-Connected-Ear-Wig/?ALLSTEPS">RabbitPi</a>, MisterM has used a phillips soundspeaker in place of the original one.</p>
+
+<p>I&rsquo;m not sure I understand why, plus it looks like it needs a battery instead of just being powered by the Nabaztag itself. But maybe I just missed an important information while reading his project.</p>
+
+<h2 id="power">Power</h2>
+
+<p>
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/13-Power-adapter-back.jpg" alt="Detailed back view of the power supply"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/14-Power-adapter-front.jpg" alt="Detailed front view of the power supply"
+            width="100%"
+            />
+    
+    
+</figure>
+
+</p>
+
+<p>I&rsquo;m a bit lost, here.</p>
+
+<p>This is the power supply of the Nabaztag/tag, which comes with a cord that I have lost, I mean I think did. And even if I still have it, somewhere, I&rsquo;m not quite sure what to do about it because I&rsquo;m pretty sure this needs work to make the voltage and stuff in line with what the RaspberryPi needs/can sustain.</p>
+
+<p><a href="https://github.com/Oripy/Rabbity-Pi/wiki/Nabaztag-hardware-investigation">Rabbity-Pi</a> summarizes my thinking almost accurately:</p>
+
+<pre><code>At first I wasn't interested in re-using the Nabaztag power system but as
+it provides a removable connector that may be easily connected to my
+electronic board, I may reuse it. At least to power the motors, and maybe
+the Raspberry-Pi itself if the voltage and other characteristics are
+suitable.
+</code></pre>
+
+<p><a href="http://www.instructables.com/id/RabbitPi-the-Alexa-Enabled-IFTTT-Connected-Ear-Wig/?ALLSTEPS">RabbitPi</a></p>
+
+<pre><code>I had planned to run the motors from a usb power bank so that I'd only
+need a single power plug, but this turned out not to have enough grunt,
+it wouldn't even light up the &quot;Working&quot; led on the HAT. I decided instead
+to use a DC power adaptor to run the HAT and ears, I conveniently had one
+of those universal ones with interchangeable tips handy. What I didn't
+have was a DC socket to connect the adaptor to the HAT. [...] I
+remembered from the teardown that the Nabaztag's original power lead was
+a standard DC plug - therefore I could just re-wire the original power
+socket to the HAT - neat! In the end I also re-used the original Nabaztag
+power supply, as it provided just the right amount of power.
+</code></pre>
+
+<p>I&rsquo;m too much of a beginner to know at first sight what I can/cannot do with a piece of electronics. My guts tell me that I can reuse this (and <strong><em>me wants to reuse this</em></strong>), but I will see what I can do with it when I&rsquo;ll really begin messing with eletronics and get my hands dirty on some basic techniques.</p>
+
+<h2 id="sound">Sound</h2>
+
+
+<figure  >
+    
+        <img src="/img/nabaztagtag-internals/15-Wheel-and-Jack.jpg" alt="Detailed front view of the volume wheel and jack entry"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<h3 id="scroll-wheel">Scroll wheel</h3>
+
+<p>I definitely want to keep this and use it for either sound volume control or other interaction.</p>
+
+<p>Again according to <a href="http://www.instructables.com/id/Hack-the-Nabaztag/?ALLSTEPS">Hack the Nabaztag</a>:</p>
+
+<pre><code>The scroll wheel is a potentiometer: it measures voltage, which changes
+as we rub the 'wiper' up and down. This is an analog input, which the
+Teensy will convert into a number between 0 and 1023.
+</code></pre>
+
+<p>He&rsquo;s talking about a a <code>Teensy</code> because it&rsquo;s the microcontroller he&rsquo;s using. I <em>think</em> my RaspberryPi also has one or two analog inputs (need to check), and I also think it is possible to add external ones in the mix, so no blocker here, just need to wire everything correctly.</p>
+
+<h3 id="phone-connector">Phone connector</h3>
+
+<h2 id="closing">Closing</h2>
+
+<p>The following are two parts of <a href="http://www.instructables.com/id/Hack-the-Nabaztag/?ALLSTEPS">Hack the Nabaztag</a> that I quote here for reference, I feel like they will prove useful.</p>
+
+<p>This section is called &ldquo;<strong>Step 10: Wiring it up, for reals.</strong>&rdquo; and it summarizes some wiring order instructions and voltage information:</p>
+
+<pre><code>At this point, if you've been working on a breadboard, it's time to take
+it all apart and re-solder it permanently. This is going to be a MESS of
+wires, so pay close attention to where you route things - there's less
+space in that rabbit than you think!
+
+My recommendation: take your break-apart headers, and solder your wires
+to them first, so that they are like breakaway extensions from the
+existing wires. Do everything but the H-bridge; that's a special case.
+Once you have extension wires on all 5 sets (head, scroll, LEDs, and two
+ears), temporarily mount the H-bridge and the Teensy somewhere on your
+cardboard block. Route wires as carefully as you can into their final
+places, and solder them into the Teensy. Finally, connect all the H
+bridge wires to the motors and the Teensy.
+
+As a review, these are the pins, as I've placed them:
+
+* Head button 14 (digital input)
+* Scroll wheel 21 (analog input)
+* LEDs 2 (output)
+* Left motor enable 7 (output)
+* Left motor reverse 8 (output)
+* Left motor forward 9 (output)
+* Right motor enable 10 (output)
+* Right motor reverse 11 (output)
+* Right motor forward 12 (output)
+* Left encoder 18 (analog input) (with resistor --&gt; GND)
+* Right encoder 19 (analog input) (with resistor --&gt; GND)
+
+The power should be:
+
+* Head: NONE
+* Scroll: 3.3V
+* LEDs: 5V
+* H-Bridge: 5V
+* Encoder BLUE wires (with resistors): 5V
+* Encoder YELLOW wires: 3.3V
+
+... and you should have 6 wires going to GND.
+</code></pre>
+
+<p>This part is called &ldquo;<strong>Step 11: Putting the Bunny back together.</strong>&rdquo;, and its name is pretty self explanatory:</p>
+
+<pre><code>Once you have all the wires soldered and heat-shinked, it's time to wrap
+up.
+
+First, make sure you've removed the existing power jack from the base of
+the black column, then thread your USB micro cable through the white
+base. If it doesn't fit, shave some plastic off the cord's head until it
+does. Plug it into the Teensy, and you're set for powering and updating
+your new Bunny.
+
+Screw the black column back onto the white base. You don't need the black
+ring around the base anymore (though you can put it back if you like).
+
+Gently wiggle the white case over the electronics and back into place.
+This might take a while. Just be patient - press wires out of the way,
+shave off more cardboard, add tape where needed - until it all fits
+again. It's important to get the alignment right, or the ears will get
+stuck against the body. If you run into this problem, place a thin
+washer-magnet between the ear and the socket to give the ear some extra
+clearance.
+
+Put the screws in, and you're done - at least, with this part.
+</code></pre>
+
+<h2 id="links">Links</h2>
+
+<p>Pictures and information (really, all of it) courtesy of:</p>
+
+<ul>
+<li><a href="http://petertyser.com/nabaztag-nabaztagtag-dissection/">Nabaztagtag (Nabaztag v2) Dissection</a></li>
+<li><a href="http://www.techrepublic.com/pictures/cracking-open-the-nabaztag-wi-fi-rabbit/6/">Cracking open the Nabaztag Wi-Fi rabbit</a></li>
+<li><a href="https://github.com/Oripy/Rabbity-Pi/wiki/Nabaztag-hardware-investigation">Rabbity-Pi</a></li>
+<li><a href="Instructables">Hack the Nabaztag</a></li>
+<li><a href="Instructables">RabbitPi</a></li>
+</ul>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        June 5, 2016
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/mr-p-outline/">MR. P — Project outline</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/sumaxime/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  <a target='_blank' href="https://github.com/arnaudbos" class="github-corner" aria-label="Fork me on Github">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#27A822; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+      <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+      <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+      <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    </svg>
+  </a>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://www.arnaudbos.com/js/docs.min.js"></script>
+<script src="http://www.arnaudbos.com/js/main.js"></script>
+
+<script src="http://www.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
+
+
+
+  </body>
+</html>

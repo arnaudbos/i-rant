@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://www.arnaudbos.com/</loc>
+    <lastmod>2016-11-07T12:55:28+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.arnaudbos.com/start-blog/</loc>
+    <lastmod>2016-11-07T12:55:28+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.arnaudbos.com/eclipsecon-france-2016-review/</loc>
+    <lastmod>2016-07-13T12:55:28+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.arnaudbos.com/nabaztagtag-internals/</loc>
+    <lastmod>2016-06-06T15:00:36+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.arnaudbos.com/mr-p-outline/</loc>
+    <lastmod>2016-06-05T00:22:34+01:00</lastmod>
+  </url>
+  
+</urlset>
