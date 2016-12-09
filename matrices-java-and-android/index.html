@@ -60,7 +60,7 @@
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          42 minutes read
+          41 minutes read
           </h4>
         </div>
         <div>
@@ -321,45 +321,48 @@ and turn the problem backward: we know where the position vectors will land,
 but we&rsquo;re looking for <code>$ \mathbf{A} $</code>.</p>
 
 <p><code>TODO</code> Insert 2D plane with <code>$P_{(2,1)}$</code>, <code>$Q_{(-2,0)}$</code>, <code>$P'_{(5, 0)}$</code>
-and <code>$Q'_{(-4, 2)}$</code></p>
+and <code>$Q'_{(-4, 2)}$</code>.</p>
 
 <p>We know that:</p>
 
 <section class="split-half">
-    <div class="left">`$$ \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} 5\\ 0 \end{bmatrix} $$`</div>
-    <div class="right">`$$ \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} -4\\ 2 \end{bmatrix} $$`</div>
+    <div class="left">$$ \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} 5\\ 0 \end{bmatrix} $$</div>
+    <div class="right">$$ \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} -4\\ 2 \end{bmatrix} $$</div>
 </section>
-<br>
 
-Which means:
+<p><br></p>
+
+<p>Which means:</p>
 
 <section class="split-half">
-    <div class="left">`$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$`</div>
-    <div class="right">`$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$`</div>
+    <div class="left">$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$</div>
+    <div class="right">$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$</div>
 </section>
-<br>
 
-From which we can deduce:
+<p><br></p>
+
+<p>From which we can deduce:</p>
 
 <section class="split-half">
-    <div class="left">`$$ \begin{bmatrix} 2.a+1.b\\ 2.c+1.d \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$`</div>
-    <div class="right">`$$ \begin{bmatrix} -2.a+0.b\\ -2.c+0.d \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$`</div>
+    <div class="left">$$ \begin{bmatrix} 2.a+1.b\\ 2.c+1.d \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$</div>
+    <div class="right">$$ \begin{bmatrix} -2.a+0.b\\ -2.c+0.d \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$</div>
 </section>
-<br>
 
-The right side gives us `$ a=2 $` and `$ c = -1 $`, with which we can deduce
-`$ b=1 $` and `$ d=2 $` from the left side.
+<p><br></p>
 
-**And this, is our transformation matrix**:
+<p>The right side gives us <code>$ a=2 $</code> and <code>$ c = -1 $</code>, with which we can deduce
+<code>$ b=1 $</code> and <code>$ d=2 $</code> from the left side.</p>
+
+<p><strong>And this, is our transformation matrix</strong>:</p>
 
 <div>$$ \mathbf{A} = \begin{bmatrix} \color{Green} 2 & \color{Red} 1\\ \color{Green} -\color{Green} 1 & \color{Red} 2 \end{bmatrix} $$</div>
 
-### The identity matrix
+<h3 id="the-identity-matrix">The identity matrix</h3>
 
-We don't know how to define a transformation matrix yet, but we know its form.  
-So what do we do next? Remember the last section where we've seen that
-a position vector `$ \begin{bmatrix} x\\  y \end{bmatrix} $` can be
-broken down as `$
+<p>We don&rsquo;t know how to define a transformation matrix yet, but we know its form.<br />
+So what do we do next? Remember the last section where we&rsquo;ve seen that
+a position vector <code>$ \begin{bmatrix} x\\  y \end{bmatrix} $</code> can be
+broken down as <code>$
 \begin{bmatrix}
 x\\
 y
@@ -371,9 +374,9 @@ y
 + y \begin{bmatrix}
 \color{Red} 0\\
 \color{Red} 1
-\end{bmatrix} $` ?
+\end{bmatrix} $</code> ?</p>
 
-That's a pretty good starting point, we just laid out our "base" matrix:
+<p>That&rsquo;s a pretty good starting point, we just laid out our &ldquo;base&rdquo; matrix:</p>
 
 <div>
 $$
@@ -384,13 +387,13 @@ $$
 $$
 </div>
 
-This matrix represents the base state of your plane, the matrix applied
+<p>This matrix represents the base state of your plane, the matrix applied
 to your plane when you have just loaded your image for example (granted
-your image is the same size as its receiving container view).  
-In other words, ***this is the matrix that, applied to a position vector will
-return that same position vector***.
+your image is the same size as its receiving container view).<br />
+In other words, <strong><em>this is the matrix that, applied to a position vector will
+return that same position vector</em></strong>.</p>
 
-This matrix is called [the identity matrix][khan-identity-matrix]:
+<p>This matrix is called <a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/a/intro-to-identity-matrices">the identity matrix</a>:</p>
 
 
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
@@ -398,32 +401,32 @@ This matrix is called [the identity matrix][khan-identity-matrix]:
  </div>
 
 
-<br>
+<p><br></p>
 
-### Combining transformations
+<h3 id="combining-transformations">Combining transformations</h3>
 
-One more thing before we get concrete: *We want our user to be able
-to combine/chain transformations* (like zooming and panning at the same time
-for instance).
+<p>One more thing before we get concrete: <em>We want our user to be able
+to combine/chain transformations</em> (like zooming and panning at the same time
+for instance).</p>
 
-In order to chain multiple transformations we need to understand the
-[properties of matrix multiplication][khan-mult-properties], and more
-specifically the `non-commutative` and `associative` properties of matrix
-multiplication.
+<p>In order to chain multiple transformations we need to understand the
+<a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/a/properties-of-matrix-multiplication">properties of matrix multiplication</a>, and more
+specifically the <code>non-commutative</code> and <code>associative</code> properties of matrix
+multiplication.</p>
 
-Let's take yet another example:  
-Imagine we want to apply transformations `$ \mathbf{B} $`, then transformation
-`$ \mathbf{A} $` to our position vector `$ \vec{v} $`.
+<p>Let&rsquo;s take yet another example:<br />
+Imagine we want to apply transformations <code>$ \mathbf{B} $</code>, then transformation
+<code>$ \mathbf{A} $</code> to our position vector <code>$ \vec{v} $</code>.</p>
 
-We have
-`$
+<p>We have
+<code>$
 \vec{v'} = \mathbf{B} . \vec{v}
-$`
+$</code>
 and
-`$
+<code>$
 \vec{v''} = \mathbf{A} . \vec{v'}
-$`,
-which leads us to:
+$</code>,
+which leads us to:</p>
 
 <div>
 $$
@@ -431,9 +434,8 @@ $$
 $$
 </div>
 
-From the previous link on matrix properties, we know that matrix multiplication
-is `associative`, which gives us:
-
+<p>From the previous link on matrix properties, we know that matrix multiplication
+is <code>associative</code>, which gives us:</p>
 
 <div>
 $$
@@ -443,32 +445,34 @@ $$
 $$
 </div>
 
-In conclusion, in order to apply multiple transformations at once, we can
+<p>In conclusion, in order to apply multiple transformations at once, we can
 multiply all our transformation matrices and apply the resulting transformation
-matrix to our vector(s).
+matrix to our vector(s).</p>
 
-The previous link also taught us that matrix multiplication is **not**
+<p>The previous link also taught us that matrix multiplication is <strong>not</strong>
 commutative, so the order in which we multiply our transformation matrices
-(`$ \mathbf{A} . \mathbf{B} $` or `$ \mathbf{B} . \mathbf{A} $`) will have
+(<code>$ \mathbf{A} . \mathbf{B} $</code> or <code>$ \mathbf{B} . \mathbf{A} $</code>) will have
 an impact on our final matrix and will lead to results, different
-transformations.
+transformations.</p>
 
-## Types of transformations
+<h2 id="types-of-transformations">Types of transformations</h2>
 
-There are several types of 2D transformations we are able to define using 2x2
-dimensions matrices, and you've had a preview of most of them in this
-course on [matrices as transformations][khan-matrices-transform].  
-Namely:
+<p>There are several types of 2D transformations we are able to define using 2x2
+dimensions matrices, and you&rsquo;ve had a preview of most of them in this
+course on <a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-matrices-as-transformations/a/matrices-as-transformations">matrices as transformations</a>.<br />
+Namely:</p>
 
-* Scaling
-* Reflexion
-* Shearing
-* Rotation
+<ul>
+<li>Scaling</li>
+<li>Reflexion</li>
+<li>Shearing</li>
+<li>Rotation</li>
+</ul>
 
-For the rest of this section imagine we have the point
-`$ P_{\left(x, y\right)} $`, which represents any point of
+<p>For the rest of this section imagine we have the point
+<code>$ P_{\left(x, y\right)} $</code>, which represents any point of
 an object on the plane, and we want to find the matrix to transform it into
-`$ P'_{\left(x', y'\right)}$` such that
+<code>$ P'_{\left(x', y'\right)}$</code> such that</p>
 
 <div>
 $$
@@ -480,18 +484,18 @@ $$
 $$
 </div>
 
-### Scaling
+<h3 id="scaling">Scaling</h3>
 
-Scaling (like zooming in by a factor of 2 for instance) might seem
+<p>Scaling (like zooming in by a factor of 2 for instance) might seem
 straightforward to represent at the time of pinch-zoom/digital devices, right?
-*"Simply multiply the coordinates by the scaling factor and you're done."*  
-But the pitfall here is that you *might* want to have different horizontal and
-vertical scaling factors for your transformation, I mean it's possible!
+<em>&ldquo;Simply multiply the coordinates by the scaling factor and you&rsquo;re done.&rdquo;</em><br />
+But the pitfall here is that you <em>might</em> want to have different horizontal and
+vertical scaling factors for your transformation, I mean it&rsquo;s possible!</p>
 
-So we must differentiate between `$ s_{x} $` and `$ s_{y} $` which represent
-the horizontal and vertical scaling factors, respectively.
+<p>So we must differentiate between <code>$ s_{x} $</code> and <code>$ s_{y} $</code> which represent
+the horizontal and vertical scaling factors, respectively.</p>
 
-The two equations this gives us are:
+<p>The two equations this gives us are:</p>
 
 <div>
 $$
@@ -500,7 +504,7 @@ y' = s_{y} . y
 $$
 </div>
 
-Knowing that:
+<p>Knowing that:</p>
 
 <div>
 $$
@@ -511,28 +515,29 @@ $$
 $$
 </div>
 
-We can find `$a$`, `$b$`, `$c$` and `$d$`:
+<p>We can find <code>$a$</code>, <code>$b$</code>, <code>$c$</code> and <code>$d$</code>:</p>
 
 <section class="split-half">
     <div class="left">
-`$$
+$$
 s_{x} . x = a . x + b . y\\
 \Rightarrow
 a = s_{x} \text{ and } b = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 s_{y} . y = c . x + d . y\\
 \Rightarrow
 c = s_{y} \text{ and } d = 0
-$$`
+$$
 </div>
 </section>
-<br>
 
-In conclusion, the 2x2 scaling matrix for the factors
-`$ \left(s_{x}, s_{y}\right) $` is
+<p><br></p>
+
+<p>In conclusion, the 2x2 scaling matrix for the factors
+<code>$ \left(s_{x}, s_{y}\right) $</code> is</p>
 
 <div>
 $$
@@ -542,8 +547,8 @@ $$
 $$
 </div>
 
-Which makes sense, right? I mean, scaling by a factor of `$1$` both on the
-`$x$` and `$y$` axises will give:
+<p>Which makes sense, right? I mean, scaling by a factor of <code>$1$</code> both on the
+<code>$x$</code> and <code>$y$</code> axises will give:</p>
 
 <div>
 $$
@@ -553,42 +558,43 @@ $$
 $$
 </div>
 
-Which is... the `identity` matrix! So nothing moves, basically.
+<p>Which is&hellip; the <code>identity</code> matrix! So nothing moves, basically.</p>
 
-### Reflexion
+<h3 id="reflexion">Reflexion</h3>
 
-There are 2 types of reflexions we can think about right ahead: reflexion around
-an axis, or around a point.  
-To keep things simple we'll focus on reflexions around the `$x$` and `$y$`
+<p>There are 2 types of reflexions we can think about right ahead: reflexion around
+an axis, or around a point.<br />
+To keep things simple we&rsquo;ll focus on reflexions around the <code>$x$</code> and <code>$y$</code>
 axises (reflexion around the origin is the equivalent of applying a reflexion on
-the `$x$` and `$y$` axises successively).
+the <code>$x$</code> and <code>$y$</code> axises successively).</p>
 
-Reflexion around the `$x$` axis gives us:
+<p>Reflexion around the <code>$x$</code> axis gives us:</p>
 
 <section class="split-half">
     <div class="left">
-`$$
+$$
 x' = x\\
 \Rightarrow
 x = a . x + b . y\\
 \Rightarrow
 a = 1 \text{ and } b = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 y' = -y\\
 \Rightarrow
 -y = c . x + d . y\\
 \Rightarrow
 c = 0 \text{ and } d = -1
-$$`
+$$
 </div>
 </section>
-<br>
 
-Funny, reflecting around the `$x$` axis is the same transformation as scaling
-`$x$` by a factor of `$-1$` and `$y$` by a factor of `$1$`:
+<p><br></p>
+
+<p>Funny, reflecting around the <code>$x$</code> axis is the same transformation as scaling
+<code>$x$</code> by a factor of <code>$-1$</code> and <code>$y$</code> by a factor of <code>$1$</code>:</p>
 
 <div>
 $$
@@ -601,31 +607,32 @@ $$
 $$
 </div>
 
-And reflexion around the `$y$` axis gives us:
+<p>And reflexion around the <code>$y$</code> axis gives us:</p>
 
 <section class="split-half">
     <div class="left">
-`$$
+$$
 x' = -x\\
 \Rightarrow
 -x = a . x + b . y\\
 \Rightarrow
 a = -1 \text{ and } b = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 y' = y\\
 \Rightarrow
 y = c . x + d . y\\
 \Rightarrow
 c = 0 \text{ and } d = 1
-$$`
+$$
 </div>
 </section>
-<br>
 
-The transformation matrix to reflect around the `$y$` axis is:
+<p><br></p>
+
+<p>The transformation matrix to reflect around the <code>$y$</code> axis is:</p>
 
 <div>
 $$
@@ -638,36 +645,40 @@ $$
 $$
 </div>
 
-### Shearing
+<h3 id="shearing">Shearing</h3>
 
-Now it gets a little bit trickier.
+<p>Now it gets a little bit trickier.</p>
 
-In most examples I've found, shearing is explained by saying the coordinates
-are changed by adding a constant that measures the degree of shearing.  
-For instance, a shear along the `$x$` axis is often represented showing a
-rectangle with a vertex at `$\left(0, 1\right)$` is transformed into a
-parallelogram with a vertex at `$\left(1, 1\right)$`.
+<p>In most examples I&rsquo;ve found, shearing is explained by saying the coordinates
+are changed by adding a constant that measures the degree of shearing.<br />
+For instance, a shear along the <code>$x$</code> axis is often represented showing a
+rectangle with a vertex at <code>$\left(0, 1\right)$</code> is transformed into a
+parallelogram with a vertex at <code>$\left(1, 1\right)$</code>.</p>
 
-TODO: (insert image of a plane with a shearing of alpha)
+<p><code>TODO</code>: (insert image of a plane with a shearing of alpha)</p>
 
-In this article, I want to explain it using the shearing angle, the angle
-through which the axis is sheared. Let's call it `$\alpha$` (alpha).
+<p>In this article, I want to explain it using the shearing angle, the angle
+through which the axis is sheared. Let&rsquo;s call it <code>$\alpha$</code> (alpha).</p>
 
-Remember your [trigonometry][trigonometry] class?
+<p>Remember your <a href="http://www.mathsisfun.com/algebra/trigonometry.html">trigonometry</a> class?</p>
 
-> In a right-angled triangle:
->
-> * the hypotenuse is the longest side
-> * the the opposite side is the one at the opposite of a given angle
-> * the adjacent side is the next to a given angle
+<blockquote>
+<p>In a right-angled triangle:</p>
 
-If we look at the plane above, we can see that the new abscissa `$x'$` is
-equals to the addition of `$x$` plus the opposite side of the triangle formed
-by the `$y$` axis, the sheared version of the `$y$` axis and the segment
+<ul>
+<li>the hypotenuse is the longest side</li>
+<li>the the opposite side is the one at the opposite of a given angle</li>
+<li>the adjacent side is the next to a given angle</li>
+</ul>
+</blockquote>
+
+<p>If we look at the plane above, we can see that the new abscissa <code>$x'$</code> is
+equals to the addition of <code>$x$</code> plus the opposite side of the triangle formed
+by the <code>$y$</code> axis, the sheared version of the <code>$y$</code> axis and the segment
 between the top left vertex of the rectangle and the top left vertex of the
-parallelogram.
+parallelogram.</p>
 
-From our trigonometry class, we know that:
+<p>From our trigonometry class, we know that:</p>
 
 <div>
 $$
@@ -677,34 +688,35 @@ $$
 $$
 </div>
 
-We know `$\alpha$`, but we don't know the length of the hypotenuse, so we
-can't use the cosine function.  
-But we know the adjacent side's length: it's `$y$`, so we can use the tangent
-function find the opposite side's length.
+<p>We know <code>$\alpha$</code>, but we don&rsquo;t know the length of the hypotenuse, so we
+can&rsquo;t use the cosine function.<br />
+But we know the adjacent side&rsquo;s length: it&rsquo;s <code>$y$</code>, so we can use the tangent
+function find the opposite side&rsquo;s length.</p>
 
 <section class="split-half">
     <div class="left">
-`$$
+$$
 x' = x + y . \tan \left( -\alpha \right) \\
 \Rightarrow
 x + y . \tan \left( -\alpha \right) = a . x + b . y\\
 \Rightarrow
 a = 1 \text{ and } b = \tan \left( -\alpha \right)
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 y' = y\\
 \Rightarrow
 y = c . x + d . y\\
 \Rightarrow
 c = 0 \text{ and } d = 1
-$$`
+$$
 </div>
 </section>
-<br>
 
-The transformation matrix to shear along the `$x$` direction is:
+<p><br></p>
+
+<p>The transformation matrix to shear along the <code>$x$</code> direction is:</p>
 
 <div>
 $$
@@ -723,7 +735,7 @@ $$
 $$
 </div>
 
-Similarly, the transformation matrix to shear along the `$y$` direction is:
+<p>Similarly, the transformation matrix to shear along the <code>$y$</code> direction is:</p>
 
 <div>
 $$
@@ -742,48 +754,48 @@ k_{y} & 1
 $$
 </div>
 
-### Rotation
+<h3 id="rotation">Rotation</h3>
 
-Rotations are yet a little bit more complex.
+<p>Rotations are yet a little bit more complex.</p>
 
-Let's take a closer look at it with an example of rotating (around the origin)
-from a angle `$ \theta $` (theta).
+<p>Let&rsquo;s take a closer look at it with an example of rotating (around the origin)
+from a angle <code>$ \theta $</code> (theta).</p>
 
-<a title="By Nick Berry" href="http://datagenetics.com/blog/august32013/"><img style="background-color: #333;"
-src="/img/matrices-java-and-android/g22.png"></a>
+<p><a title="By Nick Berry" href="http://datagenetics.com/blog/august32013/"><img style="background-color: #333;"
+src="/img/matrices-java-and-android/g22.png"></a></p>
 
-This image shows a point `$ P $` before and after a rotation: `$ P $`
-in the starting and ending planes respectively.
+<p>This image shows a point <code>$ P $</code> before and after a rotation: <code>$ P $</code>
+in the starting and ending planes respectively.</p>
 
-Notice how the coordinates of `$ P $` in each plane are the same:
-`$ P $` has the same set of coordinates `$ \left( x, y\right) $` in both
-planes.  
-But now `$ P $` has ***new coordinates*** `$ \left( x, y\right) $` ***in the
-first plane***.
+<p>Notice how the coordinates of <code>$ P $</code> in each plane are the same:
+<code>$ P $</code> has the same set of coordinates <code>$ \left( x, y\right) $</code> in both
+planes.<br />
+But now <code>$ P $</code> has <strong><em>new coordinates</em></strong> <code>$ \left( x, y\right) $</code> <strong><em>in the
+first plane</em></strong>.</p>
 
-Let's rename the coordinates of `$ P $` in the second plane as
-`$ \left( x', y'\right) $`.
-At this point we know `$ x' $` and `$ y' $`, because they are the same as the
-original `$ x $` and `$ y $`. But we don't know the new `$ x $` and `$ y $`.  
-On the other hand, we can now define the ***relationship*** between the new
-coordinates `$ \left(x, y\right) $` and the coordinates in the rotated plane
-`$ \left(x', y'\right) $`, right?
+<p>Let&rsquo;s rename the coordinates of <code>$ P $</code> in the second plane as
+<code>$ \left( x', y'\right) $</code>.
+At this point we know <code>$ x' $</code> and <code>$ y' $</code>, because they are the same as the
+original <code>$ x $</code> and <code>$ y $</code>. But we don&rsquo;t know the new <code>$ x $</code> and <code>$ y $</code>.<br />
+On the other hand, we can now define the <strong><em>relationship</em></strong> between the new
+coordinates <code>$ \left(x, y\right) $</code> and the coordinates in the rotated plane
+<code>$ \left(x', y'\right) $</code>, right?</p>
 
-This is where [trigonometry][trigonometry] helps again, along with
-[this post][datagenetics-rotation] and [this video][matrix-rotation-video].
+<p>This is where <a href="http://www.mathsisfun.com/algebra/trigonometry.html">trigonometry</a> helps again, along with
+<a href="http://datagenetics.com/blog/august32013/">this post</a> and <a href="https://www.youtube.com/watch?v=h11ljFJeaLo">this video</a>.</p>
 
-<a title="By Nick Berry" href="http://datagenetics.com/blog/august32013/"><img style="background-color: #333;"
-src="/img/matrices-java-and-android/g32.png"></a>
+<p><a title="By Nick Berry" href="http://datagenetics.com/blog/august32013/"><img style="background-color: #333;"
+src="/img/matrices-java-and-android/g32.png"></a></p>
 
-Here we see that `$ x' $` (the blue line) can be expressed as the addition of
+<p>Here we see that <code>$ x' $</code> (the blue line) can be expressed as the addition of
 the
 <span class="green-text">adjacent side of the green triangle</span>
 plus
-<span class="red-text">the opposite side of the red triangle.</span>  
-And `$ y' $` as the subtraction of
+<span class="red-text">the opposite side of the red triangle.</span><br />
+And <code>$ y' $</code> as the subtraction of
 <span class="green-text">the opposite side of the green triangle</span>
 from
-<span class="red-text">the adjacent side of the red triangle</span>.
+<span class="red-text">the adjacent side of the red triangle</span>.</p>
 
 <div>
 $$
@@ -792,7 +804,7 @@ $$
 $$
 </div>
 
-So we can express our relationship as follows:
+<p>So we can express our relationship as follows:</p>
 
 <div>
 $$
@@ -804,7 +816,7 @@ x' & = \color{Green}a\color{Green}d\color{Green}j\color{Green}a\color{Green}c\co
 $$
 </div>
 
-and:
+<p>and:</p>
 
 <div>
 $$
@@ -817,8 +829,8 @@ y' & = \color{Red}a\color{Red}d\color{Red}j\color{Red}a\color{Red}c\color{Red}e\
 $$
 </div>
 
-In the end what we really have here is a system of equations that we can
-represent as a 2x2 matrix:
+<p>In the end what we really have here is a system of equations that we can
+represent as a 2x2 matrix:</p>
 
 <div>
 $$
@@ -839,18 +851,18 @@ y
 $$
 </div>
 
-But this is not *exactly* what we are looking for, right?  
-This defines the relationship to convert from the *new* coordinates in the
+<p>But this is not <em>exactly</em> what we are looking for, right?<br />
+This defines the relationship to convert from the <em>new</em> coordinates in the
 original plane
-`$ \left(x, y\right) $`
-what are the coordinates `$ \left(x', y'\right) $` in the rotated plane.  
+<code>$ \left(x, y\right) $</code>
+what are the coordinates <code>$ \left(x', y'\right) $</code> in the rotated plane.<br />
 Whereas what we want to define is how to convert from the rotated plane
-(the coordinates that we know) to the original plane.
+(the coordinates that we know) to the original plane.</p>
 
-In order to do what we want, we need to take the same matrix, but define a
-rotation of `$ - \theta $`.
+<p>In order to do what we want, we need to take the same matrix, but define a
+rotation of <code>$ - \theta $</code>.</p>
 
-We know that:
+<p>We know that:</p>
 
 <div>
 $$
@@ -859,7 +871,7 @@ $$
 $$
 </div>
 
-Which gives us our desired rotation matrix:
+<p>Which gives us our desired rotation matrix:</p>
 
 <div>
 $$
@@ -872,32 +884,34 @@ $$
 $$
 </div>
 
-Congratulations! You know of to define scaling, reflexion, shearing and rotation
-transformation matrices. So what is missing?
+<p>Congratulations! You know of to define scaling, reflexion, shearing and rotation
+transformation matrices. So what is missing?</p>
 
-## 2D transformations with 3x3 matrices
+<h2 id="2d-transformations-with-3x3-matrices">2D transformations with 3x3 matrices</h2>
 
-If you're still with me at this point, maybe you're wondering why any of this
-is useful. If it's the case, you missed the point of this article, which is to
-***understand*** affine transformations in order to apply them in code.
+<p>If you&rsquo;re still with me at this point, maybe you&rsquo;re wondering why any of this
+is useful. If it&rsquo;s the case, you missed the point of this article, which is to
+<strong><em>understand</em></strong> affine transformations in order to apply them in code.</p>
 
-This is useful because at this point you know what a transformation matrix
+<p>This is useful because at this point you know what a transformation matrix
 looks like, and you know how to compute one given a few position vectors,
-and it is also a great accomplishment by itself.
+and it is also a great accomplishment by itself.</p>
 
-But here's the thing: 2x2 matrices are limiting us in the number of operations
+<p>But here&rsquo;s the thing: 2x2 matrices are limiting us in the number of operations
 we can perform. With a 2x2 matrix, the only transformations we can do are the
-ones we've seen in the previous section:
+ones we&rsquo;ve seen in the previous section:</p>
 
-* Scaling
-* Reflexion
-* Shearing
-* Rotation
+<ul>
+<li>Scaling</li>
+<li>Reflexion</li>
+<li>Shearing</li>
+<li>Rotation</li>
+</ul>
 
-So what are we missing? Answer: translations!  
+<p>So what are we missing? Answer: translations!<br />
 And this is unfortunate, as translations are really useful, like when the user
-pans and the image has to behave accordingly (aka. *follow the finger*).  
-Translations are defined by the addition of two matrices :
+pans and the image has to behave accordingly (aka. <em>follow the finger</em>).<br />
+Translations are defined by the addition of two matrices :</p>
 
 <div>
 $$
@@ -918,33 +932,35 @@ t_{y}
 $$
 </div>
 
-But we want our user to be able to combine/chain transformations (like
+<p>But we want our user to be able to combine/chain transformations (like
 zooming on a specific point which is not the origin), so we need to find a
-way to express translations as matrices multiplications too.
+way to express translations as matrices multiplications too.</p>
 
-Here comes the world of [Homogeneous coordinates][homogeneous-coordinates]...
+<p>Here comes the world of <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">Homogeneous coordinates</a>&hellip;</p>
 
-**No, you don't *have* to read it**, and no I don't totally get it either...
+<p><strong>No, you don&rsquo;t <em>have</em> to read it</strong>, and no I don&rsquo;t totally get it either&hellip;</p>
 
-The gist of it is:
+<p>The gist of it is:</p>
 
-* the Cartesian plane you're used to, is really just one of the multiple
-  planes that exist in the 3D space, and is at `$ z = 1 $`
-* for any point `$ \left(x, y, z\right)$` in the 3D space, the line in
-  the projecting space that is going through this point and the origin is
-  also passing through any point that is obtained by scaling
-  `$x$`, `$y$` and `$z$` by the same factor
-* the coordinates of any of these points on the line is
-  `$ \left(\frac{x}{z}, \frac{y}{z}, z\right)$`.
+<ul>
+<li>the Cartesian plane you&rsquo;re used to, is really just one of the multiple
+planes that exist in the 3D space, and is at <code>$ z = 1 $</code></li>
+<li>for any point <code>$ \left(x, y, z\right)$</code> in the 3D space, the line in
+the projecting space that is going through this point and the origin is
+also passing through any point that is obtained by scaling
+<code>$x$</code>, <code>$y$</code> and <code>$z$</code> by the same factor</li>
+<li>the coordinates of any of these points on the line is
+<code>$ \left(\frac{x}{z}, \frac{y}{z}, z\right)$</code>.</li>
+</ul>
 
-`TODO` Insert projective geometry/homogeneous coordinates 3D plot here
+<p><code>TODO</code> Insert projective geometry/homogeneous coordinates 3D plot here</p>
 
-I've collected a list of blog posts, articles and videos links at the end of
-this post if you're interested.
+<p>I&rsquo;ve collected a list of blog posts, articles and videos links at the end of
+this post if you&rsquo;re interested.</p>
 
-Without further dig in, this is helping, because it says that we
-can now represent any point in our Cartesian plane (`$ z = 1 $`) not only as
-a 2x1 matrix, but also as a 3x1 matrix:
+<p>Without further dig in, this is helping, because it says that we
+can now represent any point in our Cartesian plane (<code>$ z = 1 $</code>) not only as
+a 2x1 matrix, but also as a 3x1 matrix:</p>
 
 <div>
 $$
@@ -961,21 +977,21 @@ y\\
 $$
 </div>
 
-Which means we have to redefine all our previous transformation matrices,
+<p>Which means we have to redefine all our previous transformation matrices,
 because the product of a 3x1 matrix (position vector) by a 2x2 matrix
-(transformation) is *undefined*.
+(transformation) is <em>undefined</em>.</p>
 
-**Don't rage quit! It's straightforward: `$z'=z$`.**
+<p><strong>Don&rsquo;t rage quit! It&rsquo;s straightforward: <code>$z'=z$</code>.</strong></p>
 
-We have to find the transformation matrix `$
+<p>We have to find the transformation matrix <code>$
 \mathbf{A} =
-\begin{bmatrix} a & b & c\\ d & e & f\\ g & h & i \end{bmatrix}
-$`
+\begin{bmatrix} a &amp; b &amp; c\\ d &amp; e &amp; f\\ g &amp; h &amp; i \end{bmatrix}
+$</code></p>
 
-If, like in the previous section, we imagine that we have the point
-`$ P_{\left(x, y, z\right)} $`, which represents any point of
+<p>If, like in the previous section, we imagine that we have the point
+<code>$ P_{\left(x, y, z\right)} $</code>, which represents any point of
 an object on the cartesian plane, then we want to find the matrix to transform
-it into `$ P'_{\left(x', y', z'\right)}$` such that
+it into <code>$ P'_{\left(x', y', z'\right)}$</code> such that</p>
 
 <div>
 $$
@@ -987,42 +1003,42 @@ $$
 $$
 </div>
 
-
-### Scaling
+<h3 id="scaling-1">Scaling</h3>
 
 <section class="split-third">
     <div class="left">
-`$$
+$$
 x' = s_{x} . x\\
 \Rightarrow
 s_{x} . x = a . x + b . y + c . z\\
 \Rightarrow
 a = s_{x} \text{ and } b = 0 \text{ and } c = 0
-$$`
+$$
     </div>
     <div class="middle">
-`$$
+$$
 y' = s_{y} . y\\
 \Rightarrow
 s_{y} . y = d . x + e . y + f + z\\
 \Rightarrow
 d = s_{y} \text{ and } e = 0 \text{ and } f = 0
-$$`
+$$
     </div>
     <div class="right">
-`$$
+$$
 z' = z\\
 \Rightarrow
 z = g . x + h . y + i + z\\
 \Rightarrow
 g = 0 \text{ and } h = 0 \text{ and } i = 1
-$$`
+$$
     </div>
 </section>
-<br>
 
-The 3x3 scaling matrix for the factors
-`$ \left(s_{x}, s_{y}\right) $` is
+<p><br></p>
+
+<p>The 3x3 scaling matrix for the factors
+<code>$ \left(s_{x}, s_{y}\right) $</code> is</p>
 
 <div>
 $$
@@ -1032,42 +1048,43 @@ $$
 $$
 </div>
 
-### Reflexion
+<h3 id="reflexion-1">Reflexion</h3>
 
-Reflexion around the `$x$` axis:
+<p>Reflexion around the <code>$x$</code> axis:</p>
 
 <section class="split-third">
     <div class="left">
-`$$
+$$
 x' = x\\
 \Rightarrow
 x = a . x + b . y + c . z\\
 \Rightarrow
 a = 1 \text{ and } b = 0 \text{ and } c = 0
-$$`
+$$
 </div>
     <div class="middle">
-`$$
+$$
 y' = -y\\
 \Rightarrow
 -y = d . x + e . y + f . z\\
 \Rightarrow
 d = 0 \text{ and } e = -1 \text{ and } f = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 z' = z\\
 \Rightarrow
 z = g . x + h . y + i . z\\
 \Rightarrow
 g = 0 \text{ and } h = 0 \text{ and } i = 1
-$$`
+$$
 </div>
 </section>
-<br>
 
-The transformation matrix to reflect around the `$x$` axis is:
+<p><br></p>
+
+<p>The transformation matrix to reflect around the <code>$x$</code> axis is:</p>
 
 <div>
 $$
@@ -1081,40 +1098,41 @@ $$
 $$
 </div>
 
-Reflexion around the `$y$` axis:
+<p>Reflexion around the <code>$y$</code> axis:</p>
 
 <section class="split-third">
     <div class="left">
-`$$
+$$
 x' = -x\\
 \Rightarrow
 -x = a . x + b . y + c . z\\
 \Rightarrow
 a = -1 \text{ and } b = 0 \text{ and } c = 0
-$$`
+$$
 </div>
     <div class="middle">
-`$$
+$$
 y' = y\\
 \Rightarrow
 y = d . x + e . y + f . z\\
 \Rightarrow
 d = 0 \text{ and } e = 1 \text{ and } f = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 z' = z\\
 \Rightarrow
 z = g . x + h . y + i . z\\
 \Rightarrow
 g = 0 \text{ and } h = 0 \text{ and } i = 1
-$$`
+$$
 </div>
 </section>
-<br>
 
-The transformation matrix to reflect around the `$y$` axis is:
+<p><br></p>
+
+<p>The transformation matrix to reflect around the <code>$y$</code> axis is:</p>
 
 <div>
 $$
@@ -1128,39 +1146,40 @@ $$
 $$
 </div>
 
-### Shearing
+<h3 id="shearing-1">Shearing</h3>
 
 <section class="split-half">
     <div class="left">
-`$$
+$$
 x' = x + y . \tan \left( -\alpha \right) \\
 \Rightarrow
 x + y . \tan \left( -\alpha \right) = a . x + b . y + c . z\\
 \Rightarrow
 a = 1 \text{ and } b = \tan \left( -\alpha \right) \text{ and } c = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 y' = y\\
 \Rightarrow
 y = d . x + e . y + f . z\\
 \Rightarrow
 d = 0 \text{ and } e = 1 \text{ and } f = 0
-$$`
+$$
 </div>
 </section>
-<br>
+
+<p><br></p>
 
 <section class="split-half">
     <div class="right">
-`$$
+$$
 z' = z\\
 \Rightarrow
 z = g . x + h . y + i . z\\
 \Rightarrow
 g = 0 \text{ and } h = 0 \text{ and } i = 1
-$$`
+$$
 </div>
 </section>
 
@@ -1948,9 +1967,7 @@ return new matrices that are ready to use and can be combined by using the
 <li><code>AffineTransform.getShearInstance(shx, shy)</code></li>
 </ul>
 
-<h3 id="zooming-example">Zooming example</h3>
-
-<p>The 2x zoom at the center of the rectangle from our previous
+<p>For instance, the 2x zoom at the center of the rectangle from our previous
 example can be achieved in the following way:</p>
 
 <pre><code class="language-java">package com.arnaudbos.java2d;
@@ -2209,21 +2226,7 @@ transformations, because the order matters!</p>
 going to make use of the <code>post</code> methods. But the <code>pre</code> methods are here also
 and will simplify your like if you need this kind of operations.</p>
 
-<h3 id="rotation-example">Rotation example</h3>
-
-<p>The 90° rotation at the center of the rectangle from our previous
-example can be achieved in the following way:</p>
-
-<pre><code class="language-java">// TODO insert code
-</code></pre>
-
-<hr />
-
-<p><code>TODO</code> insert screenshot of Android rotation here</p>
-
 <h2 id="links">Links</h2>
-
-<p><code>TODO</code> do it</p>
 
               <hr>
               <div class="related-posts">
