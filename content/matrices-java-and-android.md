@@ -208,30 +208,33 @@ and turn the problem backward: we know where the position vectors will land,
 but we're looking for `$ \mathbf{A} $`.
 
 `TODO` Insert 2D plane with `$P_{(2,1)}$`, `$Q_{(-2,0)}$`, `$P'_{(5, 0)}$`
-and `$Q'_{(-4, 2)}$`
+and `$Q'_{(-4, 2)}$`.
 
 We know that:
 
 <section class="split-half">
-    <div class="left">`$$ \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} 5\\ 0 \end{bmatrix} $$`</div>
-    <div class="right">`$$ \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} -4\\ 2 \end{bmatrix} $$`</div>
+    <div class="left">$$ \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} 5\\ 0 \end{bmatrix} $$</div>
+    <div class="right">$$ \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} -4\\ 2 \end{bmatrix} $$</div>
 </section>
+
 <br>
 
 Which means:
 
 <section class="split-half">
-    <div class="left">`$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$`</div>
-    <div class="right">`$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$`</div>
+    <div class="left">$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$</div>
+    <div class="right">$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$</div>
 </section>
+
 <br>
 
 From which we can deduce:
 
 <section class="split-half">
-    <div class="left">`$$ \begin{bmatrix} 2.a+1.b\\ 2.c+1.d \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$`</div>
-    <div class="right">`$$ \begin{bmatrix} -2.a+0.b\\ -2.c+0.d \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$`</div>
+    <div class="left">$$ \begin{bmatrix} 2.a+1.b\\ 2.c+1.d \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$</div>
+    <div class="right">$$ \begin{bmatrix} -2.a+0.b\\ -2.c+0.d \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$</div>
 </section>
+
 <br>
 
 The right side gives us `$ a=2 $` and `$ c = -1 $`, with which we can deduce
@@ -398,20 +401,21 @@ We can find `$a$`, `$b$`, `$c$` and `$d$`:
 
 <section class="split-half">
     <div class="left">
-`$$
+$$
 s_{x} . x = a . x + b . y\\
 \Rightarrow
 a = s_{x} \text{ and } b = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 s_{y} . y = c . x + d . y\\
 \Rightarrow
 c = s_{y} \text{ and } d = 0
-$$`
+$$
 </div>
 </section>
+
 <br>
 
 In conclusion, the 2x2 scaling matrix for the factors
@@ -450,24 +454,25 @@ Reflexion around the `$x$` axis gives us:
 
 <section class="split-half">
     <div class="left">
-`$$
+$$
 x' = x\\
 \Rightarrow
 x = a . x + b . y\\
 \Rightarrow
 a = 1 \text{ and } b = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 y' = -y\\
 \Rightarrow
 -y = c . x + d . y\\
 \Rightarrow
 c = 0 \text{ and } d = -1
-$$`
+$$
 </div>
 </section>
+
 <br>
 
 Funny, reflecting around the `$x$` axis is the same transformation as scaling
@@ -488,24 +493,25 @@ And reflexion around the `$y$` axis gives us:
 
 <section class="split-half">
     <div class="left">
-`$$
+$$
 x' = -x\\
 \Rightarrow
 -x = a . x + b . y\\
 \Rightarrow
 a = -1 \text{ and } b = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 y' = y\\
 \Rightarrow
 y = c . x + d . y\\
 \Rightarrow
 c = 0 \text{ and } d = 1
-$$`
+$$
 </div>
 </section>
+
 <br>
 
 The transformation matrix to reflect around the `$y$` axis is:
@@ -531,7 +537,7 @@ For instance, a shear along the `$x$` axis is often represented showing a
 rectangle with a vertex at `$\left(0, 1\right)$` is transformed into a
 parallelogram with a vertex at `$\left(1, 1\right)$`.
 
-TODO: (insert image of a plane with a shearing of alpha)
+`TODO`: (insert image of a plane with a shearing of alpha)
 
 In this article, I want to explain it using the shearing angle, the angle
 through which the axis is sheared. Let's call it `$\alpha$` (alpha).
@@ -567,24 +573,25 @@ function find the opposite side's length.
 
 <section class="split-half">
     <div class="left">
-`$$
+$$
 x' = x + y . \tan \left( -\alpha \right) \\
 \Rightarrow
 x + y . \tan \left( -\alpha \right) = a . x + b . y\\
 \Rightarrow
 a = 1 \text{ and } b = \tan \left( -\alpha \right)
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 y' = y\\
 \Rightarrow
 y = c . x + d . y\\
 \Rightarrow
 c = 0 \text{ and } d = 1
-$$`
+$$
 </div>
 </section>
+
 <br>
 
 The transformation matrix to shear along the `$x$` direction is:
@@ -875,33 +882,34 @@ $$
 
 <section class="split-third">
     <div class="left">
-`$$
+$$
 x' = s_{x} . x\\
 \Rightarrow
 s_{x} . x = a . x + b . y + c . z\\
 \Rightarrow
 a = s_{x} \text{ and } b = 0 \text{ and } c = 0
-$$`
+$$
     </div>
     <div class="middle">
-`$$
+$$
 y' = s_{y} . y\\
 \Rightarrow
 s_{y} . y = d . x + e . y + f + z\\
 \Rightarrow
 d = s_{y} \text{ and } e = 0 \text{ and } f = 0
-$$`
+$$
     </div>
     <div class="right">
-`$$
+$$
 z' = z\\
 \Rightarrow
 z = g . x + h . y + i + z\\
 \Rightarrow
 g = 0 \text{ and } h = 0 \text{ and } i = 1
-$$`
+$$
     </div>
 </section>
+
 <br>
 
 The 3x3 scaling matrix for the factors
@@ -921,33 +929,34 @@ Reflexion around the `$x$` axis:
 
 <section class="split-third">
     <div class="left">
-`$$
+$$
 x' = x\\
 \Rightarrow
 x = a . x + b . y + c . z\\
 \Rightarrow
 a = 1 \text{ and } b = 0 \text{ and } c = 0
-$$`
+$$
 </div>
     <div class="middle">
-`$$
+$$
 y' = -y\\
 \Rightarrow
 -y = d . x + e . y + f . z\\
 \Rightarrow
 d = 0 \text{ and } e = -1 \text{ and } f = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 z' = z\\
 \Rightarrow
 z = g . x + h . y + i . z\\
 \Rightarrow
 g = 0 \text{ and } h = 0 \text{ and } i = 1
-$$`
+$$
 </div>
 </section>
+
 <br>
 
 The transformation matrix to reflect around the `$x$` axis is:
@@ -968,33 +977,34 @@ Reflexion around the `$y$` axis:
 
 <section class="split-third">
     <div class="left">
-`$$
+$$
 x' = -x\\
 \Rightarrow
 -x = a . x + b . y + c . z\\
 \Rightarrow
 a = -1 \text{ and } b = 0 \text{ and } c = 0
-$$`
+$$
 </div>
     <div class="middle">
-`$$
+$$
 y' = y\\
 \Rightarrow
 y = d . x + e . y + f . z\\
 \Rightarrow
 d = 0 \text{ and } e = 1 \text{ and } f = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 z' = z\\
 \Rightarrow
 z = g . x + h . y + i . z\\
 \Rightarrow
 g = 0 \text{ and } h = 0 \text{ and } i = 1
-$$`
+$$
 </div>
 </section>
+
 <br>
 
 The transformation matrix to reflect around the `$y$` axis is:
@@ -1015,35 +1025,36 @@ $$
 
 <section class="split-half">
     <div class="left">
-`$$
+$$
 x' = x + y . \tan \left( -\alpha \right) \\
 \Rightarrow
 x + y . \tan \left( -\alpha \right) = a . x + b . y + c . z\\
 \Rightarrow
 a = 1 \text{ and } b = \tan \left( -\alpha \right) \text{ and } c = 0
-$$`
+$$
 </div>
     <div class="right">
-`$$
+$$
 y' = y\\
 \Rightarrow
 y = d . x + e . y + f . z\\
 \Rightarrow
 d = 0 \text{ and } e = 1 \text{ and } f = 0
-$$`
+$$
 </div>
 </section>
+
 <br>
 
 <section class="split-half">
     <div class="right">
-`$$
+$$
 z' = z\\
 \Rightarrow
 z = g . x + h . y + i . z\\
 \Rightarrow
 g = 0 \text{ and } h = 0 \text{ and } i = 1
-$$`
+$$
 </div>
 </section>
 
@@ -1799,9 +1810,7 @@ return new matrices that are ready to use and can be combined by using the
 * `AffineTransform.getScaleInstance(sx, sy)`
 * `AffineTransform.getShearInstance(shx, shy)`
 
-### Zooming example
-
-The 2x zoom at the center of the rectangle from our previous
+For instance, the 2x zoom at the center of the rectangle from our previous
 example can be achieved in the following way:
 
 ```java
@@ -2026,22 +2035,7 @@ And because of the way we want to apply our transformations, in Android we're
 going to make use of the `post` methods. But the `pre` methods are here also
 and will simplify your like if you need this kind of operations.
 
-### Rotation example
-
-The 90° rotation at the center of the rectangle from our previous
-example can be achieved in the following way:
-
-```java
-// TODO insert code
-```
-
-----
-
-`TODO` insert screenshot of Android rotation here
-
 ## Links
-
-`TODO` do it
 
 [Matrix.postScale]: https://developer.android.com/reference/android/graphics/Matrix.html#postScale(float,%20float,%20float,%20float)
 [climbing-away]: https://play.google.com/store/apps/details?id=fr.climbingaway
