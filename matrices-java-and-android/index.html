@@ -1,0 +1,2323 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+    <meta name="description" content="My corner of the interweb.">
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.arnaudbos.com/img/favicon.ico">
+    <title>2D transformations with Matrices for Java and Android developers</title>
+    <meta name="generator" content="Hugo 0.17" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="http://www.arnaudbos.com/css/main.css" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://www.arnaudbos.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="http://i-rant.arnaudbos.com/">BLOG</a></li>
+        
+        <li><a href="http://side-effects.arnaudbos.com/">PROJECTS</a></li>
+        
+        <li><a href="http://vitae.arnaudbos.com/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="/matrices-java-and-android/">2D transformations with Matrices for Java and Android developers</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          November 19, 2016
+          &nbsp;&nbsp;
+          —
+          &nbsp;&nbsp;
+          42 minutes read
+          </h4>
+        </div>
+        <div>
+          <h4>
+            
+            <span class="label label-success">java</span>
+            
+            <span class="label label-success">android</span>
+            
+            <span class="label label-success">matrix</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+<p>A few weeks ago I was on an <code>android-user-group</code> channel,
+when someone posted a question about Android&rsquo;s
+<a href="https://developer.android.com/reference/android/graphics/Matrix.html#postScale(float,%20float,%20float,%20float)">Matrix.postScale(sx, sy, px, py)</a> method and how it works
+because it was <em>&ldquo;hard to grasp&rdquo;</em>.</p>
+
+<p>Coincidence: a few months ago, at the beginning of 2016, I finished a freelance
+project on an <a href="https://play.google.com/store/apps/details?id=fr.climbingaway">Android application</a> where I had to implement
+an exciting feature:</p>
+
+<p>The user, after buying and downloading a digital topography of a crag, had
+be able to view the crag which was composed of:</p>
+
+<ul>
+<li>a picture of the cliff,</li>
+<li>a SVG file containing the overlay of the climbing routes.</li>
+</ul>
+
+<p>The user had to have the ability to pan and zoom at will and have the routes
+layer &ldquo;<em>follow</em>&rdquo; the picture.</p>
+
+<p>In order to do this, the SVG parser had to build a tree of objects representing
+SVG DOM elements, down to the <code>path</code>, <code>line</code>, <code>polyline</code>, <code>polygon</code>, <code>rect</code>,
+<code>circle</code> and <code>ellipse</code> elements, respectively represented in Android as
+<code>android.graphics</code> objects.</p>
+
+<p>Nothing fancy here (except the parsing part): the first four can be drawn using
+a <code>Path</code> only, and the remaining three are just special drawing methods based on
+the <code>RectF</code> specification.</p>
+
+<p>I will not enter into the performance optimization twists I (modestly) made
+here, but feel free to contact me to discuss the matter and I&rsquo;ll write a
+follow-up post on the subject.</p>
+
+<h2 id="now-the-interesting-stuff">Now the interesting stuff</h2>
+
+<p>In order to have the overlay of routes follow the user&rsquo;s actions, I had to
+apply 2D transformations, that is <code>android.graphics.Matrix</code>.</p>
+
+<p>The problem with this class, is that if you have no mathematical background,
+it&rsquo;s quite mysterious what it does.</p>
+
+<p>So at this very moment of the development process I realized I&rsquo;d needed
+basic math skills about <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)">matrices</a> I had forgotten many years prior,
+after finishing my first two years of uni 😱</p>
+
+<p><strong><em>Google to the rescue!</em></strong></p>
+
+<p>While searching around I&rsquo;ve found a number of good resources and was able to
+learn some math again, and it felt great. It also helped me solve my 2D
+transformations problems by applying my understandings as code in Java and
+Android.</p>
+
+<p>So, given the discussion I&rsquo;ve had on the channel I&rsquo;ve mentioned above, it
+seems I was not the only one struggling with matrices, trying to make sense of
+it and using these skills with Android&rsquo;s Matrix class and methods,
+so I thought I&rsquo;d write an article.</p>
+
+<h2 id="the-plan">The plan</h2>
+
+<ol>
+<li><strong>Matrices basics</strong>: A lot of links and videos to <em>go</em> learn matrices algebra</li>
+<li><strong>Transformation matrices</strong>: A deeper dive into matrices for 2D
+transformations</li>
+<li><strong>Types of transformations</strong>: We define the different types of
+transformations and define a 2x2 matrix for each</li>
+<li><strong>2D transformations with 3x3 matrices</strong>: We define our transformation
+matrices as 3x3 matrices</li>
+<li><strong>Matrices wrap-up</strong>: A quick summary of the matrices we&rsquo;ve seen in previous
+sections</li>
+<li><strong>Affine transformations with Java</strong>: Use <code>java.awt.geom.AffineTransform</code></li>
+<li><strong>Affine transformations with Android</strong>: Use <code>android.graphics.Matrix</code></li>
+<li><strong>Links</strong></li>
+</ol>
+
+<h2 id="matrices-basics">Matrices basics</h2>
+
+<p>The first resource you might encounter when trying to understand affine
+transformations is Wikipedia:</p>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Transformation_matrix#Affine_transformations">https://en.wikipedia.org/wiki/Transformation_matrix#Affine_transformations</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Affine_transformation">https://en.wikipedia.org/wiki/Affine_transformation</a></li>
+</ul>
+
+<p>With this material, I almost got—wait&hellip;</p>
+
+
+<figure  >
+    
+        <img src="/img/matrices-java-and-android/awkward-seal.png" alt="Awkward seal"
+            width="100%"
+            />
+    
+    
+</figure>
+
+
+
+<p><strong>NOPE, nevermind, I didn&rsquo;t get anything at all.</strong></p>
+
+<p>But there&rsquo;s hope: on <strong><em>Khan Academy</em></strong> you will find a very well taught
+<a href="https://www.khanacademy.org/math/algebra-home/alg-matrices">algebra course about matrices</a>.</p>
+
+<p>If you have this kind of problem, I encourage you to take the time needed to
+follow this course until you reach that &ldquo;AHA&rdquo; moment. It&rsquo;s just a few hours of
+investment (it&rsquo;s free) and you won&rsquo;t regret it. Plus, I will
+point you to the parts in particular that helped me.</p>
+
+<h3 id="what-is-a-matrix">What is a matrix?</h3>
+
+<p>Well, you&rsquo;ll find out by watching this video and <a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-intro-to-matrices/a/intro-to-matrices">the accompanying course here</a>.</p>
+
+
+<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/0oGJTQCy4cQ" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0"></iframe>
+ </div>
+
+
+<p><br></p>
+
+<p>So a matrix is an array of numbers, fantastic. Now what can we do with it?</p>
+
+<p>We can define an algebra for it: like
+<a href="https://www.khanacademy.org/bigbingo_redirect?continue=https%3A%2F%2Fwww.khanacademy.org%2Fmath%2Falgebra-home%2Falg-matrices%2Falg-adding-and-subtracting-matrices%2Fv%2Fmatrix-addition-and-subtraction-1&amp;conversion_ids=condensed_tutorial_title_click">addition, subtraction</a> and multiplication operations,
+for fun and profit. 🤓</p>
+
+<p><strong>Spoiler alert</strong>: for 2D transformations you&rsquo;ll be more interested in
+multiplication than addition/subtraction, but I really encourage you to follow
+the whole course, it&rsquo;s worth it.</p>
+
+<h3 id="matrix-multiplication">Matrix multiplication</h3>
+
+<p>Still reading? Ok, <a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-multiplying-matrices-by-matrices/a/multiplying-matrices">let&rsquo;s multiply matrices</a>:</p>
+
+
+<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/kT4Mp9EdVqs" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0"></iframe>
+ </div>
+
+
+<p><br></p>
+
+<p>The bad news: <strong><em>you can&rsquo;t always multiply two matrices</em></strong>.</p>
+
+<p>Just as there&rsquo;s a rule for adding/subtracting two matrices (the two matrices
+must have the same dimensions), there&rsquo;s a rule for multiplying two matrices:</p>
+
+<blockquote>
+<p>In order for matrix multiplication to be defined, the number of columns in
+the first matrix must be equal to the number of rows in the second matrix.</p>
+</blockquote>
+
+<p>Otherwise you just <strong>can&rsquo;t</strong> multiply, period.</p>
+
+<p>More details <a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/v/defined-and-undefined-matrix-operations">here</a> and <a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/a/matrix-multiplication-dimensions">here</a> if you
+are interested.</p>
+
+<h2 id="transformation-matrices">Transformation matrices</h2>
+
+<p>Now that we know what is a matrix and how we can multiply matrices, we can see
+why it is interesting for <strong>2D transformations</strong>.</p>
+
+<p>The next video will show you how you can use a matrix to <strong>transform a point</strong>!</p>
+
+
+<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/Kh8HKAxdEyw" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0"></iframe>
+ </div>
+
+
+<p><br></p>
+
+<p>Or <strong>a series of points</strong>!</p>
+
+
+<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/RKBSX-6pKgY" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0"></iframe>
+ </div>
+
+
+<p><br></p>
+
+<p>Notice the nature of the transformation is not clear yet, the transformation
+matrix was picked at random, and yet we see how interesting and useful it is
+for 2D manipulation of graphics.</p>
+
+<p>For now, I suppose all you know is the type of transformations you want to
+apply: <code>rotation</code>, <code>scale</code> or <code>translation</code> and the parameters.</p>
+
+<p>So how do you go from <code>scale by a factor of 2</code> and <code>rotate 90 degrees clockwise</code>
+to a transformation matrix?</p>
+
+<p>Well the answer is:</p>
+
+
+<figure  >
+    
+        <img src="/img/matrices-java-and-android/moar-math-stuff.jpg" alt="Moar math stuff with smiling cat meme"
+            width="60%"
+            />
+    
+    
+</figure>
+
+
+
+<h3 id="more-math-stuff">More math stuff</h3>
+
+<p>More particularly you&rsquo;ll need to read <a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-matrices-as-transformations/a/matrices-as-transformations">this course on <em>Matrices as
+transformations</em> (which is full of fancy plots and
+animations)</a> and particularly its last part:
+<strong><em>Representing two dimensional linear transforms with matrices</em></strong>.</p>
+
+<p>Come back here once you&rsquo;ve read it, or it&rsquo;s gonna hurt 😅</p>
+
+<hr />
+
+<p>Ok I suppose you&rsquo;ve read the course I linked to above, so in this course we&rsquo;ve
+learned that:</p>
+
+<ul>
+<li><p>a position vector <code>$ \begin{bmatrix} x\\  y \end{bmatrix} $</code> can be broken down as <code>$ \begin{bmatrix} x\\ y \end{bmatrix} = x \begin{bmatrix} \color{Green} 1\\ \color{Green} 0 \end{bmatrix} + y \begin{bmatrix} \color{Red} 0\\ \color{Red} 1 \end{bmatrix} $</code>.</p></li>
+
+<li><p>we&rsquo;ve also learned that
+<code>$ \begin{bmatrix} \color{Green} a\\ \color{Green} c \end{bmatrix} $</code> and <code>$ \begin{bmatrix} \color{Red} b\\ \color{Red} d \end{bmatrix} $</code> are the position vectors where <code>$ \begin{bmatrix} \color{Green} 0\\ \color{Green} 1 \end{bmatrix} $</code> and <code>$ \begin{bmatrix} \color{Red} 1\\ \color{Red} 0 \end{bmatrix} $</code> will land respectively after the matrix <code>$ \mathbf{A} = \begin{bmatrix} \color{Green} a &amp; \color{Red} b\\ \color{Green} c &amp; \color{Red} d \end{bmatrix} $</code> has been applied.</p></li>
+
+<li><p>and that given the same transformation, <code>$ \begin{bmatrix} x\\ y \end{bmatrix} $</code> will land on <code>$ \begin{bmatrix} \color{Green} a x + \color{Red} b x\\ \color{Green} c x + \color{Red} d y \end{bmatrix} $</code>.</p></li>
+</ul>
+
+<p>If you don&rsquo;t understand this conclusion, read again, take your time.</p>
+
+<hr />
+
+<p>Now remember, our goal is to determine what <code>$ \mathbf{A} $</code> is, because we
+know the transformation we want to apply but we&rsquo;re searching for the matrix we
+should apply to our position vector(s) in order to transform our graphics.</p>
+
+<p>Let&rsquo;s take the example of the series of points transformation video above
+and turn the problem backward: we know where the position vectors will land,
+but we&rsquo;re looking for <code>$ \mathbf{A} $</code>.</p>
+
+<p><code>TODO</code> Insert 2D plane with <code>$P_{(2,1)}$</code>, <code>$Q_{(-2,0)}$</code>, <code>$P'_{(5, 0)}$</code>
+and <code>$Q'_{(-4, 2)}$</code></p>
+
+<p>We know that:</p>
+
+<section class="split-half">
+    <div class="left">`$$ \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} 5\\ 0 \end{bmatrix} $$`</div>
+    <div class="right">`$$ \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} -4\\ 2 \end{bmatrix} $$`</div>
+</section>
+<br>
+
+Which means:
+
+<section class="split-half">
+    <div class="left">`$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$`</div>
+    <div class="right">`$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$`</div>
+</section>
+<br>
+
+From which we can deduce:
+
+<section class="split-half">
+    <div class="left">`$$ \begin{bmatrix} 2.a+1.b\\ 2.c+1.d \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$`</div>
+    <div class="right">`$$ \begin{bmatrix} -2.a+0.b\\ -2.c+0.d \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$`</div>
+</section>
+<br>
+
+The right side gives us `$ a=2 $` and `$ c = -1 $`, with which we can deduce
+`$ b=1 $` and `$ d=2 $` from the left side.
+
+**And this, is our transformation matrix**:
+
+<div>$$ \mathbf{A} = \begin{bmatrix} \color{Green} 2 & \color{Red} 1\\ \color{Green} -\color{Green} 1 & \color{Red} 2 \end{bmatrix} $$</div>
+
+### The identity matrix
+
+We don't know how to define a transformation matrix yet, but we know its form.  
+So what do we do next? Remember the last section where we've seen that
+a position vector `$ \begin{bmatrix} x\\  y \end{bmatrix} $` can be
+broken down as `$
+\begin{bmatrix}
+x\\
+y
+\end{bmatrix}
+= x \begin{bmatrix}
+\color{Green} 1\\
+\color{Green} 0
+\end{bmatrix}
++ y \begin{bmatrix}
+\color{Red} 0\\
+\color{Red} 1
+\end{bmatrix} $` ?
+
+That's a pretty good starting point, we just laid out our "base" matrix:
+
+<div>
+$$
+\begin{bmatrix}
+\color{Green} 1 & \color{Red} 0\\
+\color{Green} 0 & \color{Red} 1
+\end{bmatrix}
+$$
+</div>
+
+This matrix represents the base state of your plane, the matrix applied
+to your plane when you have just loaded your image for example (granted
+your image is the same size as its receiving container view).  
+In other words, ***this is the matrix that, applied to a position vector will
+return that same position vector***.
+
+This matrix is called [the identity matrix][khan-identity-matrix]:
+
+
+<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/3cnIa0fYJkY" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0"></iframe>
+ </div>
+
+
+<br>
+
+### Combining transformations
+
+One more thing before we get concrete: *We want our user to be able
+to combine/chain transformations* (like zooming and panning at the same time
+for instance).
+
+In order to chain multiple transformations we need to understand the
+[properties of matrix multiplication][khan-mult-properties], and more
+specifically the `non-commutative` and `associative` properties of matrix
+multiplication.
+
+Let's take yet another example:  
+Imagine we want to apply transformations `$ \mathbf{B} $`, then transformation
+`$ \mathbf{A} $` to our position vector `$ \vec{v} $`.
+
+We have
+`$
+\vec{v'} = \mathbf{B} . \vec{v}
+$`
+and
+`$
+\vec{v''} = \mathbf{A} . \vec{v'}
+$`,
+which leads us to:
+
+<div>
+$$
+\vec{v''} = \mathbf{A} . \left( \mathbf{B} . \vec{v} \right)
+$$
+</div>
+
+From the previous link on matrix properties, we know that matrix multiplication
+is `associative`, which gives us:
+
+
+<div>
+$$
+\vec{v''} = \mathbf{A} . \left( \mathbf{B} . \vec{v} \right)
+\Leftrightarrow
+\vec{v''} = \left( \mathbf{A} . \mathbf{B} \right) . \vec{v}
+$$
+</div>
+
+In conclusion, in order to apply multiple transformations at once, we can
+multiply all our transformation matrices and apply the resulting transformation
+matrix to our vector(s).
+
+The previous link also taught us that matrix multiplication is **not**
+commutative, so the order in which we multiply our transformation matrices
+(`$ \mathbf{A} . \mathbf{B} $` or `$ \mathbf{B} . \mathbf{A} $`) will have
+an impact on our final matrix and will lead to results, different
+transformations.
+
+## Types of transformations
+
+There are several types of 2D transformations we are able to define using 2x2
+dimensions matrices, and you've had a preview of most of them in this
+course on [matrices as transformations][khan-matrices-transform].  
+Namely:
+
+* Scaling
+* Reflexion
+* Shearing
+* Rotation
+
+For the rest of this section imagine we have the point
+`$ P_{\left(x, y\right)} $`, which represents any point of
+an object on the plane, and we want to find the matrix to transform it into
+`$ P'_{\left(x', y'\right)}$` such that
+
+<div>
+$$
+\begin{bmatrix} x'\\y' \end{bmatrix} =
+\mathbf{A} . \begin{bmatrix} x\\y \end{bmatrix} =
+\begin{bmatrix} a & b\\c & d \end{bmatrix}
+.
+\begin{bmatrix} x\\y \end{bmatrix}
+$$
+</div>
+
+### Scaling
+
+Scaling (like zooming in by a factor of 2 for instance) might seem
+straightforward to represent at the time of pinch-zoom/digital devices, right?
+*"Simply multiply the coordinates by the scaling factor and you're done."*  
+But the pitfall here is that you *might* want to have different horizontal and
+vertical scaling factors for your transformation, I mean it's possible!
+
+So we must differentiate between `$ s_{x} $` and `$ s_{y} $` which represent
+the horizontal and vertical scaling factors, respectively.
+
+The two equations this gives us are:
+
+<div>
+$$
+x' = s_{x} . x \\
+y' = s_{y} . y
+$$
+</div>
+
+Knowing that:
+
+<div>
+$$
+\begin{bmatrix} x'\\y' \end{bmatrix} =
+\begin{bmatrix} a & b\\c & d \end{bmatrix}
+.
+\begin{bmatrix} x'\\y' \end{bmatrix}
+$$
+</div>
+
+We can find `$a$`, `$b$`, `$c$` and `$d$`:
+
+<section class="split-half">
+    <div class="left">
+`$$
+s_{x} . x = a . x + b . y\\
+\Rightarrow
+a = s_{x} \text{ and } b = 0
+$$`
+</div>
+    <div class="right">
+`$$
+s_{y} . y = c . x + d . y\\
+\Rightarrow
+c = s_{y} \text{ and } d = 0
+$$`
+</div>
+</section>
+<br>
+
+In conclusion, the 2x2 scaling matrix for the factors
+`$ \left(s_{x}, s_{y}\right) $` is
+
+<div>
+$$
+\begin{bmatrix} a & b\\c & d \end{bmatrix}
+=
+\begin{bmatrix} s_{x} & 0\\0 & s_{y} \end{bmatrix}
+$$
+</div>
+
+Which makes sense, right? I mean, scaling by a factor of `$1$` both on the
+`$x$` and `$y$` axises will give:
+
+<div>
+$$
+\begin{bmatrix} s_{x} & 0\\0 & s_{y} \end{bmatrix}
+=
+\begin{bmatrix} 1 & 0\\0 & 1 \end{bmatrix}
+$$
+</div>
+
+Which is... the `identity` matrix! So nothing moves, basically.
+
+### Reflexion
+
+There are 2 types of reflexions we can think about right ahead: reflexion around
+an axis, or around a point.  
+To keep things simple we'll focus on reflexions around the `$x$` and `$y$`
+axises (reflexion around the origin is the equivalent of applying a reflexion on
+the `$x$` and `$y$` axises successively).
+
+Reflexion around the `$x$` axis gives us:
+
+<section class="split-half">
+    <div class="left">
+`$$
+x' = x\\
+\Rightarrow
+x = a . x + b . y\\
+\Rightarrow
+a = 1 \text{ and } b = 0
+$$`
+</div>
+    <div class="right">
+`$$
+y' = -y\\
+\Rightarrow
+-y = c . x + d . y\\
+\Rightarrow
+c = 0 \text{ and } d = -1
+$$`
+</div>
+</section>
+<br>
+
+Funny, reflecting around the `$x$` axis is the same transformation as scaling
+`$x$` by a factor of `$-1$` and `$y$` by a factor of `$1$`:
+
+<div>
+$$
+\begin{bmatrix} a & b\\c & d \end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0\\
+0 & -1
+\end{bmatrix}
+$$
+</div>
+
+And reflexion around the `$y$` axis gives us:
+
+<section class="split-half">
+    <div class="left">
+`$$
+x' = -x\\
+\Rightarrow
+-x = a . x + b . y\\
+\Rightarrow
+a = -1 \text{ and } b = 0
+$$`
+</div>
+    <div class="right">
+`$$
+y' = y\\
+\Rightarrow
+y = c . x + d . y\\
+\Rightarrow
+c = 0 \text{ and } d = 1
+$$`
+</div>
+</section>
+<br>
+
+The transformation matrix to reflect around the `$y$` axis is:
+
+<div>
+$$
+\begin{bmatrix} a & b\\c & d \end{bmatrix}
+=
+\begin{bmatrix}
+-1 & 0\\
+0 & 1
+\end{bmatrix}
+$$
+</div>
+
+### Shearing
+
+Now it gets a little bit trickier.
+
+In most examples I've found, shearing is explained by saying the coordinates
+are changed by adding a constant that measures the degree of shearing.  
+For instance, a shear along the `$x$` axis is often represented showing a
+rectangle with a vertex at `$\left(0, 1\right)$` is transformed into a
+parallelogram with a vertex at `$\left(1, 1\right)$`.
+
+TODO: (insert image of a plane with a shearing of alpha)
+
+In this article, I want to explain it using the shearing angle, the angle
+through which the axis is sheared. Let's call it `$\alpha$` (alpha).
+
+Remember your [trigonometry][trigonometry] class?
+
+> In a right-angled triangle:
+>
+> * the hypotenuse is the longest side
+> * the the opposite side is the one at the opposite of a given angle
+> * the adjacent side is the next to a given angle
+
+If we look at the plane above, we can see that the new abscissa `$x'$` is
+equals to the addition of `$x$` plus the opposite side of the triangle formed
+by the `$y$` axis, the sheared version of the `$y$` axis and the segment
+between the top left vertex of the rectangle and the top left vertex of the
+parallelogram.
+
+From our trigonometry class, we know that:
+
+<div>
+$$
+\cos \left( \alpha \right) = \frac{adjacent}{hypotenuse}\\
+\sin \left( \alpha \right) = \frac{opposite}{hypotenuse}\\
+\tan \left( \alpha \right) = \frac{opposite}{adjacent}
+$$
+</div>
+
+We know `$\alpha$`, but we don't know the length of the hypotenuse, so we
+can't use the cosine function.  
+But we know the adjacent side's length: it's `$y$`, so we can use the tangent
+function find the opposite side's length.
+
+<section class="split-half">
+    <div class="left">
+`$$
+x' = x + y . \tan \left( -\alpha \right) \\
+\Rightarrow
+x + y . \tan \left( -\alpha \right) = a . x + b . y\\
+\Rightarrow
+a = 1 \text{ and } b = \tan \left( -\alpha \right)
+$$`
+</div>
+    <div class="right">
+`$$
+y' = y\\
+\Rightarrow
+y = c . x + d . y\\
+\Rightarrow
+c = 0 \text{ and } d = 1
+$$`
+</div>
+</section>
+<br>
+
+The transformation matrix to shear along the `$x$` direction is:
+
+<div>
+$$
+\begin{bmatrix} a & b\\c & d \end{bmatrix}
+=
+\begin{bmatrix}
+1 & \tan \left( -\alpha \right)\\
+0 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & k_{x}\\
+0 & 1
+\end{bmatrix}\\
+\text{where } k_{x} \text{ is the shearing constant}
+$$
+</div>
+
+Similarly, the transformation matrix to shear along the `$y$` direction is:
+
+<div>
+$$
+\begin{bmatrix} a & b\\c & d \end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0\\
+\tan \left( -\beta \right) & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0\\
+k_{y} & 1
+\end{bmatrix}\\
+\text{where } k_{y} \text{ is the shearing constant}
+$$
+</div>
+
+### Rotation
+
+Rotations are yet a little bit more complex.
+
+Let's take a closer look at it with an example of rotating (around the origin)
+from a angle `$ \theta $` (theta).
+
+<a title="By Nick Berry" href="http://datagenetics.com/blog/august32013/"><img style="background-color: #333;"
+src="/img/matrices-java-and-android/g22.png"></a>
+
+This image shows a point `$ P $` before and after a rotation: `$ P $`
+in the starting and ending planes respectively.
+
+Notice how the coordinates of `$ P $` in each plane are the same:
+`$ P $` has the same set of coordinates `$ \left( x, y\right) $` in both
+planes.  
+But now `$ P $` has ***new coordinates*** `$ \left( x, y\right) $` ***in the
+first plane***.
+
+Let's rename the coordinates of `$ P $` in the second plane as
+`$ \left( x', y'\right) $`.
+At this point we know `$ x' $` and `$ y' $`, because they are the same as the
+original `$ x $` and `$ y $`. But we don't know the new `$ x $` and `$ y $`.  
+On the other hand, we can now define the ***relationship*** between the new
+coordinates `$ \left(x, y\right) $` and the coordinates in the rotated plane
+`$ \left(x', y'\right) $`, right?
+
+This is where [trigonometry][trigonometry] helps again, along with
+[this post][datagenetics-rotation] and [this video][matrix-rotation-video].
+
+<a title="By Nick Berry" href="http://datagenetics.com/blog/august32013/"><img style="background-color: #333;"
+src="/img/matrices-java-and-android/g32.png"></a>
+
+Here we see that `$ x' $` (the blue line) can be expressed as the addition of
+the
+<span class="green-text">adjacent side of the green triangle</span>
+plus
+<span class="red-text">the opposite side of the red triangle.</span>  
+And `$ y' $` as the subtraction of
+<span class="green-text">the opposite side of the green triangle</span>
+from
+<span class="red-text">the adjacent side of the red triangle</span>.
+
+<div>
+$$
+\cos \left( \theta \right) = \frac{adjacent}{hypotenuse} \Rightarrow adjacent = hypotenuse . \cos \left( \theta \right)\\
+\sin \left( \theta \right) = \frac{opposite}{hypotenuse} \Rightarrow opposite = hypotenuse . \sin \left( \theta \right)
+$$
+</div>
+
+So we can express our relationship as follows:
+
+<div>
+$$
+\begin{align}
+x' & = \color{Green}a\color{Green}d\color{Green}j\color{Green}a\color{Green}c\color{Green}e\color{Green}n\color{Green}t + \color{Red}o\color{Red}p\color{Red}p\color{Red}o\color{Red}s\color{Red}i\color{Red}t\color{Red}e\\
+& = \color{Green}h\color{Green}y\color{Green}p\color{Green}o\color{Green}t\color{Green}e\color{Green}n\color{Green}u\color{Green}s\color{Green}e . \cos \left( \theta \right) + \color{Red}h\color{Red}y\color{Red}p\color{Red}o\color{Red}t\color{Red}e\color{Red}n\color{Red}u\color{Red}s\color{Red}e . \sin \left( \theta \right)\\
+& = x . \cos \left( \theta \right) + y . \sin \left( \theta \right)
+\end{align}
+$$
+</div>
+
+and:
+
+<div>
+$$
+\begin{align}
+y' & = \color{Red}a\color{Red}d\color{Red}j\color{Red}a\color{Red}c\color{Red}e\color{Red}n\color{Red}t - \color{Green}o\color{Green}p\color{Green}p\color{Green}o\color{Green}s\color{Green}i\color{Green}t\color{Green}e\\
+& = \color{Red}h\color{Red}y\color{Red}p\color{Red}o\color{Red}t\color{Red}e\color{Red}n\color{Red}u\color{Red}s\color{Red}e . \cos \left( \theta \right) - \color{Green}h\color{Green}y\color{Green}p\color{Green}o\color{Green}t\color{Green}e\color{Green}n\color{Green}u\color{Green}s\color{Green}e . \sin \left( \theta \right)\\
+& = y . \cos \left( \theta \right) - x . \sin \left( \theta \right)\\
+& = -x . \sin \left( \theta \right) + y . \cos \left( \theta \right)
+\end{align}
+$$
+</div>
+
+In the end what we really have here is a system of equations that we can
+represent as a 2x2 matrix:
+
+<div>
+$$
+\begin{bmatrix}
+x'\\
+y'
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos \left( \theta \right) & \sin \left( \theta \right)\\
+-\sin \left( \theta \right) & \cos \left( \theta \right)
+\end{bmatrix}
+.
+\begin{bmatrix}
+x\\
+y
+\end{bmatrix}
+$$
+</div>
+
+But this is not *exactly* what we are looking for, right?  
+This defines the relationship to convert from the *new* coordinates in the
+original plane
+`$ \left(x, y\right) $`
+what are the coordinates `$ \left(x', y'\right) $` in the rotated plane.  
+Whereas what we want to define is how to convert from the rotated plane
+(the coordinates that we know) to the original plane.
+
+In order to do what we want, we need to take the same matrix, but define a
+rotation of `$ - \theta $`.
+
+We know that:
+
+<div>
+$$
+\cos \left( -\theta \right) = cos \left( \theta \right)\\
+\sin \left( -\theta \right) = - sin \left( \theta \right)
+$$
+</div>
+
+Which gives us our desired rotation matrix:
+
+<div>
+$$
+\begin{bmatrix} a & b\\c & d \end{bmatrix}
+=
+\begin{bmatrix}
+\cos \left( \theta \right) & -\sin \left( \theta \right)\\
+\sin \left( \theta \right) & \cos \left( \theta \right)
+\end{bmatrix}
+$$
+</div>
+
+Congratulations! You know of to define scaling, reflexion, shearing and rotation
+transformation matrices. So what is missing?
+
+## 2D transformations with 3x3 matrices
+
+If you're still with me at this point, maybe you're wondering why any of this
+is useful. If it's the case, you missed the point of this article, which is to
+***understand*** affine transformations in order to apply them in code.
+
+This is useful because at this point you know what a transformation matrix
+looks like, and you know how to compute one given a few position vectors,
+and it is also a great accomplishment by itself.
+
+But here's the thing: 2x2 matrices are limiting us in the number of operations
+we can perform. With a 2x2 matrix, the only transformations we can do are the
+ones we've seen in the previous section:
+
+* Scaling
+* Reflexion
+* Shearing
+* Rotation
+
+So what are we missing? Answer: translations!  
+And this is unfortunate, as translations are really useful, like when the user
+pans and the image has to behave accordingly (aka. *follow the finger*).  
+Translations are defined by the addition of two matrices :
+
+<div>
+$$
+\begin{bmatrix}
+x'\\
+y'
+\end{bmatrix}
+=
+\begin{bmatrix}
+x\\
+y
+\end{bmatrix}
++
+\begin{bmatrix}
+t_{x}\\
+t_{y}
+\end{bmatrix}
+$$
+</div>
+
+But we want our user to be able to combine/chain transformations (like
+zooming on a specific point which is not the origin), so we need to find a
+way to express translations as matrices multiplications too.
+
+Here comes the world of [Homogeneous coordinates][homogeneous-coordinates]...
+
+**No, you don't *have* to read it**, and no I don't totally get it either...
+
+The gist of it is:
+
+* the Cartesian plane you're used to, is really just one of the multiple
+  planes that exist in the 3D space, and is at `$ z = 1 $`
+* for any point `$ \left(x, y, z\right)$` in the 3D space, the line in
+  the projecting space that is going through this point and the origin is
+  also passing through any point that is obtained by scaling
+  `$x$`, `$y$` and `$z$` by the same factor
+* the coordinates of any of these points on the line is
+  `$ \left(\frac{x}{z}, \frac{y}{z}, z\right)$`.
+
+`TODO` Insert projective geometry/homogeneous coordinates 3D plot here
+
+I've collected a list of blog posts, articles and videos links at the end of
+this post if you're interested.
+
+Without further dig in, this is helping, because it says that we
+can now represent any point in our Cartesian plane (`$ z = 1 $`) not only as
+a 2x1 matrix, but also as a 3x1 matrix:
+
+<div>
+$$
+\begin{bmatrix}
+x\\
+y
+\end{bmatrix}
+\Leftrightarrow
+\begin{bmatrix}
+x\\
+y\\
+1
+\end{bmatrix}
+$$
+</div>
+
+Which means we have to redefine all our previous transformation matrices,
+because the product of a 3x1 matrix (position vector) by a 2x2 matrix
+(transformation) is *undefined*.
+
+**Don't rage quit! It's straightforward: `$z'=z$`.**
+
+We have to find the transformation matrix `$
+\mathbf{A} =
+\begin{bmatrix} a & b & c\\ d & e & f\\ g & h & i \end{bmatrix}
+$`
+
+If, like in the previous section, we imagine that we have the point
+`$ P_{\left(x, y, z\right)} $`, which represents any point of
+an object on the cartesian plane, then we want to find the matrix to transform
+it into `$ P'_{\left(x', y', z'\right)}$` such that
+
+<div>
+$$
+\begin{bmatrix} x'\\y'\\z' \end{bmatrix} =
+\mathbf{A} . \begin{bmatrix} x\\y\\z \end{bmatrix} =
+\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+.
+\begin{bmatrix} x\\y\\z \end{bmatrix}
+$$
+</div>
+
+
+### Scaling
+
+<section class="split-third">
+    <div class="left">
+`$$
+x' = s_{x} . x\\
+\Rightarrow
+s_{x} . x = a . x + b . y + c . z\\
+\Rightarrow
+a = s_{x} \text{ and } b = 0 \text{ and } c = 0
+$$`
+    </div>
+    <div class="middle">
+`$$
+y' = s_{y} . y\\
+\Rightarrow
+s_{y} . y = d . x + e . y + f + z\\
+\Rightarrow
+d = s_{y} \text{ and } e = 0 \text{ and } f = 0
+$$`
+    </div>
+    <div class="right">
+`$$
+z' = z\\
+\Rightarrow
+z = g . x + h . y + i + z\\
+\Rightarrow
+g = 0 \text{ and } h = 0 \text{ and } i = 1
+$$`
+    </div>
+</section>
+<br>
+
+The 3x3 scaling matrix for the factors
+`$ \left(s_{x}, s_{y}\right) $` is
+
+<div>
+$$
+\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+=
+\begin{bmatrix} s_{x} & 0 &0\\0 & s_{y} & 0\\0 & 0 & 1\end{bmatrix}
+$$
+</div>
+
+### Reflexion
+
+Reflexion around the `$x$` axis:
+
+<section class="split-third">
+    <div class="left">
+`$$
+x' = x\\
+\Rightarrow
+x = a . x + b . y + c . z\\
+\Rightarrow
+a = 1 \text{ and } b = 0 \text{ and } c = 0
+$$`
+</div>
+    <div class="middle">
+`$$
+y' = -y\\
+\Rightarrow
+-y = d . x + e . y + f . z\\
+\Rightarrow
+d = 0 \text{ and } e = -1 \text{ and } f = 0
+$$`
+</div>
+    <div class="right">
+`$$
+z' = z\\
+\Rightarrow
+z = g . x + h . y + i . z\\
+\Rightarrow
+g = 0 \text{ and } h = 0 \text{ and } i = 1
+$$`
+</div>
+</section>
+<br>
+
+The transformation matrix to reflect around the `$x$` axis is:
+
+<div>
+$$
+\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & 0\\
+0 & -1 & 0\\
+0 & 0 & 1
+\end{bmatrix}
+$$
+</div>
+
+Reflexion around the `$y$` axis:
+
+<section class="split-third">
+    <div class="left">
+`$$
+x' = -x\\
+\Rightarrow
+-x = a . x + b . y + c . z\\
+\Rightarrow
+a = -1 \text{ and } b = 0 \text{ and } c = 0
+$$`
+</div>
+    <div class="middle">
+`$$
+y' = y\\
+\Rightarrow
+y = d . x + e . y + f . z\\
+\Rightarrow
+d = 0 \text{ and } e = 1 \text{ and } f = 0
+$$`
+</div>
+    <div class="right">
+`$$
+z' = z\\
+\Rightarrow
+z = g . x + h . y + i . z\\
+\Rightarrow
+g = 0 \text{ and } h = 0 \text{ and } i = 1
+$$`
+</div>
+</section>
+<br>
+
+The transformation matrix to reflect around the `$y$` axis is:
+
+<div>
+$$
+\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+=
+\begin{bmatrix}
+-1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
+\end{bmatrix}
+$$
+</div>
+
+### Shearing
+
+<section class="split-half">
+    <div class="left">
+`$$
+x' = x + y . \tan \left( -\alpha \right) \\
+\Rightarrow
+x + y . \tan \left( -\alpha \right) = a . x + b . y + c . z\\
+\Rightarrow
+a = 1 \text{ and } b = \tan \left( -\alpha \right) \text{ and } c = 0
+$$`
+</div>
+    <div class="right">
+`$$
+y' = y\\
+\Rightarrow
+y = d . x + e . y + f . z\\
+\Rightarrow
+d = 0 \text{ and } e = 1 \text{ and } f = 0
+$$`
+</div>
+</section>
+<br>
+
+<section class="split-half">
+    <div class="right">
+`$$
+z' = z\\
+\Rightarrow
+z = g . x + h . y + i . z\\
+\Rightarrow
+g = 0 \text{ and } h = 0 \text{ and } i = 1
+$$`
+</div>
+</section>
+
+<p>The transformation matrix to shear along the <code>$x$</code> direction is:</p>
+
+<div>
+$$
+\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+=
+\begin{bmatrix}
+1 & \tan \left( -\alpha \right) & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & k_{x} & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
+\end{bmatrix}\\
+\text{where } k \text{ is the shearing constant}
+$$
+</div>
+
+<p>Similarly, the transformation matrix to shear along the <code>$y$</code> direction is:</p>
+
+<div>
+$$
+\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & 0\\
+\tan \left( -\beta \right) & 1 & 0\\
+0 & 0 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & 0\\
+k_{y} & 1 & 0\\
+0 & 0 & 1
+\end{bmatrix}\\
+\text{where } k \text{ is the shearing constant}
+$$
+</div>
+
+<h3 id="rotating">Rotating</h3>
+
+<p>Well, I&rsquo;m a bit lazy here 🤗<br />
+You see the pattern, right?</p>
+
+<div>
+$$
+\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+=
+\begin{bmatrix}
+\cos \left( \theta \right) & -\sin \left( \theta \right) & 0\\
+\sin \left( \theta \right) & \cos \left( \theta \right) & 0\\
+0 & 0 & 1
+\end{bmatrix}
+$$
+</div>
+
+<h4 id="translation">Translation</h4>
+
+<p>And now we can define translations as matrices multiplication!</p>
+
+<p><section class="split-third">
+    <div class="left">
+<code>$$
+x' = x + t_{x} \\
+\Rightarrow
+x + t_{x} = a . x + b . y + c . z\\
+\Rightarrow
+a = 1 \text{ and } b = 0 \text{ and } c = t_{x}
+$$</code>
+</div>
+    <div class="middle">
+<code>$$
+y' = y + t_{y}\\
+\Rightarrow
+y + t_{y} = d . x + e . y + f . z\\
+\Rightarrow
+d = 0 \text{ and } e = 1 \text{ and } f = t_{y}
+$$</code>
+</div>
+    <div class="right">
+<code>$$
+z' = z\\
+\Rightarrow
+z = g . x + h . y + i . z\\
+\Rightarrow
+g = 0 \text{ and } h = 0 \text{ and } i = 1
+$$</code>
+</div>
+</section>
+<br></p>
+
+<p>The 3x3 translation matrix for the translation
+<code>$ \left(t_{x}, t_{y}\right) $</code> is</p>
+
+<div>
+$$
+\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+=
+\begin{bmatrix} 1 & 0 & t_{x}\\0 & 1 & t_{y}\\0 & 0 & 1\end{bmatrix}
+$$
+</div>
+
+<h2 id="matrices-wrap-up">Matrices wrap-up</h2>
+
+<p>We went into more or less details in the previous sections.<br />
+Obviously, you won&rsquo;t have to go into all of these algebra stuff each
+time you want to know what is the matrix you need to apply in order to do
+your transformations.</p>
+
+<p>You can &ldquo;just&rdquo; use the following reminder.</p>
+
+<p>Translation matrix:
+<code>$
+\begin{bmatrix}
+1 &amp; 0 &amp; t_{x}\\
+0 &amp; 1 &amp; t_{y}\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+$</code></p>
+
+<p>Scaling matrix:
+<code>$
+\begin{bmatrix}
+s_{x} &amp; 0 &amp; 0\\
+0 &amp; s_{y} &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+$</code></p>
+
+<p>Shear matrix:
+<code>$
+\begin{bmatrix}
+1 &amp; \tan \left( - \alpha \right) &amp; 0\\
+\tan \left( - \beta \right) &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+\text{ = }
+\begin{bmatrix}
+1 &amp; k_{x} &amp; 0\\
+k_{y} &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+$</code></p>
+
+<p>Rotation matrix:
+<code>$
+\begin{bmatrix}
+\cos \left( \theta \right) &amp; -\sin \left( \theta \right) &amp; 0\\
+\sin \left( \theta \right) &amp; \cos \left( \theta \right) &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+$</code></p>
+
+<p>That&rsquo;s neat! Now you can define your matrices easily, plus you know how it
+works.</p>
+
+<p>One last thing: all the transformations we&rsquo;ve seen are <strong><em>centered around the
+origin</em></strong>.<br />
+How do we apply what we know in order to, for instance, zoom on a
+specific point which is <strong>not</strong> the origin, or rotate an object <strong>in place</strong>,
+around its center?</p>
+
+<p>The answer is <strong><em>composition</em></strong>: We must <em>compose</em> our transformations by using
+several other transformations.</p>
+
+<h3 id="how-to-zoom-on-a-specific-point">How to zoom on a specific point</h3>
+
+<p>Imagine you have a shape, like a square for instance, and you want to zoom in
+at the center of the square, to mimic a pinch-zoom behaviour.<br />
+This transformation is composed of the following sequence:</p>
+
+<ul>
+<li>move anchor point to origin: <code>$ \left( -t_{x}, -t_{y} \right) $</code></li>
+<li>scale by <code>$ \left( s_{x}, s_{y} \right) $</code></li>
+<li>move back anchor point: <code>$ \left( t_{x}, t_{y} \right) $</code></li>
+</ul>
+
+<p>Where <code>$t$</code> is the anchor point of our scaling transformation (the center of
+the square).</p>
+
+<p>Our transformations are defined by the first translation matrix
+<code>$ \mathbf{C} $</code>, the scaling matrix <code>$ \mathbf{B} $</code>, and the last
+translation matrix <code>$ \mathbf{A} $</code>.</p>
+
+<div>
+$$
+\mathbf{C} =
+\begin{bmatrix}
+1 & 0 & -t_{x} \\
+0 & 1 & -t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+\text{ , }
+\mathbf{B} =
+\begin{bmatrix}
+s_{x} & 0 & 0 \\
+0 & s_{y} & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\text{ and }
+\mathbf{A} =
+\begin{bmatrix}
+1 & 0 & t_{x} \\
+0 & 1 & t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+$$
+</div>
+
+<p>Because matrix multiplication is non-commutative, the order matters, so we will
+apply them in reverse order (hence the reverse naming order).<br />
+The composition of these transformations gives us the following product:</p>
+
+<div>
+$$
+\begin{align}
+\mathbf{A} . \mathbf{B} . \mathbf{C}
+&=
+\begin{bmatrix}
+1 & 0 & t_{x} \\
+0 & 1 & t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+s_{x} & 0 & 0 \\
+0 & s_{y} & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+1 & 0 & -t_{x} \\
+0 & 1 & -t_{y} \\
+0 & 0 & 1
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+1 & 0 & t_{x} \\
+0 & 1 & t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+s_{x} & 0 & s_{x} . -t_{x} \\
+0 & s_{y} & s_{y} . -t_{y} \\
+0 & 0 & 1
+\end{bmatrix}\\
+\mathbf{A} . \mathbf{B} . \mathbf{C}
+&=
+\begin{bmatrix}
+s_{x} & 0 & s_{x} . -t_{x} + t_{x} \\
+0 & s_{y} & s_{y} . -t_{y} + t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+\end{align}
+$$
+</div>
+
+<p>Suppose we have the following points representing a square:
+<code>$
+\begin{bmatrix}
+x_{1} &amp; x_{2} &amp; x_{3} &amp; x_{4}\\
+y_{1} &amp; y_{2} &amp; y_{3} &amp; y_{4}\\
+1 &amp; 1 &amp; 1 &amp; 1
+\end{bmatrix}
+\text{ = }
+\begin{bmatrix}
+2 &amp; 4 &amp; 4 &amp; 2\\
+1 &amp; 1 &amp; 3 &amp; 3\\
+1 &amp; 1 &amp; 1 &amp; 1
+\end{bmatrix}
+$</code></p>
+
+<p><code>TODO</code> Insert 2D plot with those 4 points</p>
+
+<p>And we want to apply a 2x zoom focusing on its center.<br />
+The new coordinates will be:</p>
+
+<div>
+$$
+\begin{align}
+\begin{bmatrix}
+x_{1}' & x_{2}' & x_{3}' & x_{4}'\\
+y_{1}' & y_{2}' & y_{3}' & y_{4}'\\
+1 & 1 & 1 & 1
+\end{bmatrix}
+&=
+\begin{bmatrix}
+s_{x} & 0 & s_{x} . -t_{x} + t_{x} \\
+0 & s_{y} & s_{y} . -t_{y} + t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+x_{1} & x_{2} & x_{3} & x_{4}\\
+y_{1} & y_{2} & y_{3} & y_{4}\\
+1 & 1 & 1 & 1
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+2 & 0 & 2 . \left(-3\right) + 3 \\
+0 & 2 & 2 . \left(-2\right) + 2 \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+2 & 4 & 4 & 2\\
+1 & 1 & 3 & 3\\
+1 & 1 & 1 & 1
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+2 & 0 & -3 \\
+0 & 2 & -2 \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+2 & 4 & 4 & 2\\
+1 & 1 & 3 & 3\\
+1 & 1 & 1 & 1
+\end{bmatrix}\\
+\begin{bmatrix}
+x_{1}' & x_{2}' & x_{3}' & x_{4}'\\
+y_{1}' & y_{2}' & y_{3}' & y_{4}'\\
+1 & 1 & 1 & 1
+\end{bmatrix}
+&=
+\begin{bmatrix}
+1 & 5 & 5 & 1\\
+0 & 0 & 4 & 4\\
+1 & 1 & 1 & 1
+\end{bmatrix}
+\end{align}
+$$
+</div>
+
+<p><code>TODO</code> Insert 2D plot with the 8 points</p>
+
+<h3 id="how-to-rotate-around-a-specific-point">How to rotate around a specific point</h3>
+
+<p>Now imagine you have an image in a view, the origin is not a the center of the
+view, it is probably at the top-left corner (implementations may vary),
+but you want to rotate the image at the center of the view.<br />
+This transformation is composed of the following sequence:</p>
+
+<ul>
+<li>move anchor point to origin: <code>$ \left( -t_{x}, -t_{y} \right) $</code></li>
+<li>rotate by <code>$ \theta $</code></li>
+<li>move back anchor point: <code>$ \left( t_{x}, t_{y} \right) $</code></li>
+</ul>
+
+<p>Where <code>$t$</code> is the anchor point of our rotation transformation.</p>
+
+<p>Our transformations are defined by the first translation matrix
+<code>$ \mathbf{C} $</code>, the rotation matrix <code>$ \mathbf{B} $</code>, and the last
+translation matrix <code>$ \mathbf{A} $</code>.</p>
+
+<div>
+$$
+\mathbf{C} =
+\begin{bmatrix}
+1 & 0 & -t_{x} \\
+0 & 1 & -t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+\text{ , }
+\mathbf{B} =
+\begin{bmatrix}
+\cos \left( \theta \right) & -\sin \left( \theta \right) & 0 \\
+\sin \left( \theta \right) & \cos \left( \theta \right) & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\text{ and }
+\mathbf{A} =
+\begin{bmatrix}
+1 & 0 & t_{x} \\
+0 & 1 & t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+$$
+</div>
+
+<p>The composition of these transformations gives us the following product:</p>
+
+<div>
+$$
+\begin{align}
+\mathbf{A} . \mathbf{B} . \mathbf{C}
+&=
+\begin{bmatrix}
+1 & 0 & t_{x} \\
+0 & 1 & t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+\cos \left( \theta \right) & -\sin \left( \theta \right) & 0 \\
+\sin \left( \theta \right) & \cos \left( \theta \right) & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+1 & 0 & -t_{x} \\
+0 & 1 & -t_{y} \\
+0 & 0 & 1
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+1 & 0 & t_{x} \\
+0 & 1 & t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+\cos \left( \theta \right) & -\sin \left( \theta \right) & \cos \left( \theta \right) . -t_{x} + \sin \left( \theta \right) . -t_{y} \\
+\sin \left( \theta \right) & \cos \left( \theta \right) & \sin \left( \theta \right) . -t_{x} + \cos \left( \theta \right) . -t_{y} \\
+0 & 0 & 1
+\end{bmatrix}\\
+\mathbf{A} . \mathbf{B} . \mathbf{C}
+&=
+\begin{bmatrix}
+\cos \left( \theta \right) & -\sin \left( \theta \right) & \cos \left( \theta \right) . -t_{x} - \sin \left( \theta \right) . -t_{y} + t_{x} \\
+\sin \left( \theta \right) & \cos \left( \theta \right) & \sin \left( \theta \right) . -t_{x} + \cos \left( \theta \right) . -t_{y} + t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+\end{align}
+$$
+</div>
+
+<p>Suppose we have the following points representing a square:
+<code>$
+\begin{bmatrix}
+x_{1} &amp; x_{2} &amp; x_{3} &amp; x_{4}\\
+y_{1} &amp; y_{2} &amp; y_{3} &amp; y_{4}\\
+1 &amp; 1 &amp; 1 &amp; 1
+\end{bmatrix}
+\text{ = }
+\begin{bmatrix}
+2 &amp; 4 &amp; 4 &amp; 2\\
+1 &amp; 1 &amp; 3 &amp; 3\\
+1 &amp; 1 &amp; 1 &amp; 1
+\end{bmatrix}
+$</code></p>
+
+<p><code>TODO</code> Insert 2D plot with those 4 points</p>
+
+<p>And we want to apply a rotation of <code>$ \theta = 90° $</code> focusing on its center.<br />
+The new coordinates will be:</p>
+
+<div>
+$$
+\begin{align}
+\begin{bmatrix}
+x_{1}' & x_{2}' & x_{3}' & x_{4}'\\
+y_{1}' & y_{2}' & y_{3}' & y_{4}'\\
+1 & 1 & 1 & 1
+\end{bmatrix}
+&=
+\begin{bmatrix}
+\cos \left( \theta \right) & -\sin \left( \theta \right) & \cos \left( \theta \right) . -t_{x} - \sin \left( \theta \right) . -t_{y} + t_{x} \\
+\sin \left( \theta \right) & \cos \left( \theta \right) & \sin \left( \theta \right) . -t_{x} + \cos \left( \theta \right) . -t_{y} + t_{y} \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+x_{1} & x_{2} & x_{3} & x_{4}\\
+y_{1} & y_{2} & y_{3} & y_{4}\\
+1 & 1 & 1 & 1
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+0 & -1 & 0 . \left(-3\right) - 1 . \left(-2\right) + 3 \\
+1 & 0 & 1 . \left(-3\right) + 0 . \left(-2\right) + 2 \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+2 & 4 & 4 & 2\\
+1 & 1 & 3 & 3\\
+1 & 1 & 1 & 1
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+0 & -1 & 5 \\
+1 & 0 & -1 \\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+2 & 4 & 4 & 2\\
+1 & 1 & 3 & 3\\
+1 & 1 & 1 & 1
+\end{bmatrix}\\
+\begin{bmatrix}
+x_{1}' & x_{2}' & x_{3}' & x_{4}'\\
+y_{1}' & y_{2}' & y_{3}' & y_{4}'\\
+1 & 1 & 1 & 1
+\end{bmatrix}
+&=
+\begin{bmatrix}
+4 & 4 & 2 & 2\\
+1 & 3 & 3 & 1\\
+1 & 1 & 1 & 1
+\end{bmatrix}
+\end{align}
+$$
+</div>
+
+<p><code>TODO</code> Insert 2D plot with those 8 points</p>
+
+<hr />
+
+
+<figure  >
+    
+        <img src="/img/matrices-java-and-android/koalifications.jpg" alt="Koala meme"
+            
+            />
+    
+    
+</figure>
+
+
+
+<hr />
+
+<h2 id="affine-transformations-with-java">Affine transformations with Java</h2>
+
+<p>When I was working on the project I mentioned at the beginning of this article,
+I was constantly moving back and forth between the
+<a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/AffineTransform.html">JDK&rsquo;s implementation of affine transformations</a> and the
+<a href="https://developer.android.com/reference/android/graphics/Matrix.html">Android SDK&rsquo;s implementation of matrices</a>.</p>
+
+<p>I find the <code>java.awt.geom.AffineTransform</code> class fairly well featured
+but not that much, plus it is a bit ambiguous. Fortunately, the documentation is
+good, it&rsquo;s not perfect but at least it&rsquo;s better than Android&rsquo;s one on this
+topic as we shall see later.</p>
+
+<p>The Javadoc starts with a reminder of what are 2D affine transformations and a
+matrix multiplication pattern to transform coordinates.</p>
+
+<div>
+$$
+\begin{bmatrix}
+x'\\
+y'\\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+m00 & m01 & m02\\
+m10 & m11 & m12\\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+x\\
+y\\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+m00 . x + m01 . y + m02\\
+m10 . x + m11 . y + m12\\
+1
+\end{bmatrix}
+$$
+</div>
+
+<p>That&rsquo;s neat, you have to appreciate the effort there (I mean, is your
+Javadoc that great? 😇 ), and Android&rsquo;s Javadoc doesn&rsquo;t have it so&hellip;</p>
+
+<p>The way this pattern is written lets us see a glimpse of implementation details,
+right? Those <code>m00</code>, <code>m01</code> and etc, they (not so) strangely resemble stringified
+versions of indexes in a two-dimensional array.</p>
+
+<h3 id="ambiguous-part-1">Ambiguous — Part 1</h3>
+
+<p>So what is <em>&ldquo;ambiguous&rdquo;</em> with this class? Granted it might be a matter of taste,
+but if you look at the constructor
+<code>AffineTransform(m00, m10, m01, m11, m02, m12)</code> and the method
+<code>setTransform(m00, m10, m01, m11, m02, m12)</code>, they only take 6 input
+parameters.</p>
+
+<p>While it makes perfectly sense to not take as inputs parameters that are fixed
+(<code>0, 0, 1</code>) in the context of 2D affine transformations, I find it disturbing.</p>
+
+<p>More disturbing perhaps, is the ordering of those parameters.</p>
+
+<p>If you make the parallel between those and our <code>$a$</code>, <code>$b$</code>, etc. to the <code>$i$</code>
+values we saw in the matrices above, you notice that the reading direction is not the
+same.<br />
+With <code>$a$</code>, <code>$b$</code>, etc., we used to read more <em>&ldquo;naturally&rdquo;</em> I would say, like
+normal english written text: line by line.<br />
+Whereas <code>$m00$</code>, <code>$m10$</code>, etc. is reading the matrix column by column.</p>
+
+<p>I&rsquo;m not saying one is better than the other, just that I&rsquo;m more familiar with
+the first one, and that it&rsquo;s worth pointing at it to clarify the use of this
+class. Because the <code>getMatrix(flatmatrix)</code> method will fill in an
+array containing the entries of the matrix in that specific order.<br />
+Also, <code>getMatrix</code> <em>&ldquo;Retrieves the 6 specifiable values in the 3x3 affine
+transformation matrix&rdquo;</em>, which means it will only give you those <code>$m00$</code>,
+<code>$m10$</code>, etc., entries, not the ones from the third row.</p>
+
+<h3 id="well-featured-but-not-that-much">Well featured but not that much</h3>
+
+<p>To understand what I mean, let&rsquo;s try to execute the kind of transformations we
+have seen throughout the first part of this article.</p>
+
+<h5 id="1-can-we-translate">1. Can we translate?</h5>
+
+<p>Yes! We have <code>translate(tx, ty)</code>:</p>
+
+<blockquote>
+<p>Concatenates this transform with a translation transformation.</p>
+</blockquote>
+
+<p>We&rsquo;ll see what &ldquo;concatenates&rdquo; means in this context in a moment, for now what
+we understand is that we have a method to apply a translation transformation.</p>
+
+<h5 id="2-can-we-shear">2. Can we shear?</h5>
+
+<p>Yes, but only by constants, not by angles, we have <code>shear(shx, shy)</code>:</p>
+
+<blockquote>
+<p>Concatenates this transform with a shearing transformation.</p>
+</blockquote>
+
+<h5 id="3-can-we-scale">3. Can we scale?</h5>
+
+<p>Yes! We have <code>scale(sx, sy)</code>:</p>
+
+<blockquote>
+<p>Concatenates this transform with a scaling transformation.</p>
+</blockquote>
+
+<h5 id="4-can-we-reflect">4. Can we reflect?</h5>
+
+<p>Not directly, at least I don&rsquo;t see anything doing a reflexion directly, so we
+either have to scale by negative values, or to use
+<code>setTransform(-1, 0, 0, -1, 0, 0)</code> (for example) manually and then
+<code>concatenate</code>.</p>
+
+<h5 id="5-can-we-rotate">5. Can we rotate?</h5>
+
+<p>Yes! We have <code>rotate(theta)</code>:</p>
+
+<blockquote>
+<p>Concatenates this transform with a rotation transformation.</p>
+</blockquote>
+
+<p>Beware: <code>theta</code> here is in radians, not in degrees.</p>
+
+<h5 id="6-can-we-scale-on-an-anchor-point">6. Can we scale on an anchor point?</h5>
+
+<p>No. You will have to compose your transformation as we&rsquo;ve done it &ldquo;by hand&rdquo;
+above, with a combination of <code>scale(sx, sy)</code> and <code>translate(tx, ty)</code>.</p>
+
+<h5 id="7-can-we-rotate-around-an-anchor-point">7. Can we rotate around an anchor point?</h5>
+
+<p>Yes! We have <code>rotate(theta, anchorx, anchory)</code>:</p>
+
+<blockquote>
+<p>Concatenates this transform with a transform that rotates coordinates around
+an anchor point.</p>
+</blockquote>
+
+<h5 id="8-can-we-transform-points">8. Can we transform points?</h5>
+
+<p>Yes! We have several methods available in order to transform points (even
+shapes) from their original position to their new coordinates after the
+transformation has been applied.</p>
+
+<h5 id="why-am-i-not-happy-with-this">Why am I not happy with this?</h5>
+
+<p>I am, actually, and there are more methods that allow you to do interesting
+stuff with this class.<br />
+I&rsquo;m just wondering why they decided to implement
+<code>rotate(theta, anchorx, anchory)</code> but not
+<code>scale(sx, sy, anchorx, anchory)</code>.</p>
+
+<p>On the other hand, all the methods I&rsquo;ve outlined above are quite opinionated.
+Why? Because they assume that what you want to do is:</p>
+
+<blockquote>
+<p>Concatenates this transform with a transformation</p>
+</blockquote>
+
+<p>An that&rsquo;s where bad stuff happen.</p>
+
+<h3 id="ambiguous-part-2">Ambiguous — Part 2</h3>
+
+<p>All the transformations we&rsquo;ve seen in the first part of this article are
+defined this way:</p>
+
+<div>
+$$
+P' = \mathbf{T}.P
+$$
+</div>
+
+<p>Where:</p>
+
+<ul>
+<li><code>$P$</code> is a point</li>
+<li><code>$P'$</code> is the point where <code>$P$</code> will land after the transformation has been applied</li>
+<li><code>$\mathbf{T}$</code> is a transformation matrix</li>
+<li><code>$\mathbf{T}$</code> is the product of many transformations matrices, applied
+in the reverse order: that is for transforming by <code>$\mathbf{A}$</code>, then
+<code>$\mathbf{B}$</code>, then <code>$\mathbf{C}$</code> we have
+<code>$\mathbf{T} = \mathbf{C} . \mathbf{B} . \mathbf{A} $</code>, and reciprocally.</li>
+</ul>
+
+<p>Now, look at the definition of the description of the
+<code>concatenate(AffineTransform Tx)</code> method:</p>
+
+<blockquote>
+<p>Concatenates an AffineTransform Tx to this AffineTransform Cx in the most commonly useful way to provide a new user space that is mapped to the former user space by Tx. Cx is updated to perform the combined transformation. Transforming a point p by the updated transform Cx&rsquo; is equivalent to first transforming p by Tx and then transforming the result by the original transform Cx like this: Cx&rsquo;(p) = Cx(Tx(p)) In matrix notation, if this transform Cx is represented by the matrix <strong>[this</strong>] and Tx is represented by the matrix <strong>[Tx</strong>] then this method does the following:</p>
+
+<p><strong>[this</strong>] = <strong>[this</strong>] x <strong>[Tx</strong>]</p>
+</blockquote>
+
+<p>In our notation this gives that for transforming by <code>$\mathbf{A}$</code>, then
+<code>$\mathbf{B}$</code>, then <code>$\mathbf{C}$</code> we have:</p>
+
+<div>
+$$
+\mathbf{this}
+=
+\left( \left( \mathbf{this} . \mathbf{A} \right) . \mathbf{B} \right) . \mathbf{C}\\
+\Leftrightarrow
+\mathbf{this} = \mathbf{this} . \mathbf{Tx}
+\text{ where }
+\mathbf{Tx} = \mathbf{A} . \mathbf{B} . \mathbf{C}
+$$
+</div>
+
+<p>This is very different than:</p>
+
+<div>
+$$
+\mathbf{this} = \mathbf{Tx} . \mathbf{this}
+\text{ where }
+\mathbf{Tx} = \mathbf{A} . \mathbf{B} . \mathbf{C}
+$$
+</div>
+
+<p>As we&rsquo;ve seen, matrix multiplication is non-commutative, so this will lead to
+very different results than what you might expect!</p>
+
+<p>The good news: there&rsquo;s a method <code>preConcatenate(AffineTransform Tx)</code> that does
+what we want:</p>
+
+<blockquote>
+<p><strong>[this</strong>] = <strong>[Tx</strong>] x <strong>[this</strong>]</p>
+</blockquote>
+
+<p>The bad news: you won&rsquo;t be able to represent your transformations with the
+built-in <code>translate</code>, <code>scale</code>, <code>rotate</code> as is. Because they don&rsquo;t behave the
+way you think.<br />
+At least they don&rsquo;t behave the way <strong><em>I</em></strong> think about transformations, which is
+the one I&rsquo;ve described in the matrices section above.</p>
+
+<p>Honestly, I don&rsquo;t know what the Javadoc means by <em>&ldquo;in the most commonly useful
+way to provide a new user space&rdquo;</em>. I&rsquo;m sure it makes sense for some, but I
+don&rsquo;t get it.</p>
+
+<p>So how do we use the <code>AffineTransform</code> class to chain our transformations the
+way we want?<br />
+Fortunately, the class provides us with a bunch of useful static methods that
+return new matrices that are ready to use and can be combined by using the
+<code>preConcatenate</code> method:</p>
+
+<ul>
+<li><code>AffineTransform.getTranslateInstance(tx, ty)</code></li>
+<li><code>AffineTransform.getRotateInstance(theta)</code></li>
+<li><code>AffineTransform.getScaleInstance(sx, sy)</code></li>
+<li><code>AffineTransform.getShearInstance(shx, shy)</code></li>
+</ul>
+
+<h3 id="zooming-example">Zooming example</h3>
+
+<p>The 2x zoom at the center of the rectangle from our previous
+example can be achieved in the following way:</p>
+
+<pre><code class="language-java">package com.arnaudbos.java2d;
+// imports stripped
+
+public class AffineTransformZoomExample {
+    // code stripped
+
+    private static class ZoomCanvas extends JComponent {
+
+        public void paint(Graphics g) {
+            Graphics2D ourGraphics = (Graphics2D) g;
+
+            // code stripped
+
+            // Draw initial object
+            ourGraphics.setColor(Color.black);
+            ourGraphics.drawRect(100, 100, 100, 100);
+
+            // Create matrix (set to identity by default)
+            AffineTransform tx = new AffineTransform();
+
+            // This is not the transformation you're looking for
+            tx.translate(-150, -150);
+            tx.scale(2, 2);
+            tx.translate(150, 150);
+            ourGraphics.setTransform(tx);
+            ourGraphics.setColor(Color.red);
+            ourGraphics.drawRect(100, 100, 100, 100);
+
+            // Reset matrix to identity to clear previous transformations
+            tx.setToIdentity();
+
+            // Apply our transformations in order to zoom-in the square
+            tx.preConcatenate(AffineTransform.getTranslateInstance(-150, -150));
+            tx.preConcatenate(AffineTransform.getScaleInstance(2, 2));
+            tx.preConcatenate(AffineTransform.getTranslateInstance(150, 150));
+            ourGraphics.setTransform(tx);
+            ourGraphics.setColor(Color.green);
+            ourGraphics.drawRect(100, 100, 100, 100);
+        }
+    }
+}
+</code></pre>
+
+<hr />
+
+
+<figure  >
+    
+        <img src="/img/matrices-java-and-android/java-zoom-at-center.png" alt="Demo of Java 2D zooming"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>Demo of Java 2D zooming: in black the original square, in red the unexpected transformation and in green the desired transformation</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<h2 id="affine-transformations-with-android">Affine transformations with Android</h2>
+
+<p>Unlike Oracle, Google&rsquo;s <code>android.graphics.Matrix</code> class assumes you already
+know your way around matrices. There&rsquo;s no reminders, no details about matrices,
+no explanations.<br />
+Nonetheless, the API is good and well featured, as long as you understand a
+few things.</p>
+
+<h3 id="construction">Construction</h3>
+
+<p>Unlike Java, Android provides ways of building matrices that seem more
+explicit and straightforward to me.</p>
+
+<p>The first thing we see in the Javadoc is a bunch of constants that are used to
+describe each entry in the matrix:</p>
+
+<ul>
+<li><code>int MPERSP_0 = 6</code></li>
+<li><code>int MPERSP_1 = 7</code></li>
+<li><code>int MPERSP_2 = 8</code></li>
+<li><code>int MSCALE_X = 0</code></li>
+<li><code>int MSCALE_Y = 4</code></li>
+<li><code>int MSKEW_X = 1</code></li>
+<li><code>int MSKEW_Y = 3</code></li>
+<li><code>int MTRANS_X = 2</code></li>
+<li><code>int MTRANS_Y = 5</code></li>
+</ul>
+
+<p>Put this back ordered by their value and now look at:</p>
+
+<ul>
+<li><code>setValues(values)</code>: <em>&ldquo;Copy 9 values from the array into the matrix.&rdquo;</em></li>
+<li><code>getValues(values)</code>: <em>&ldquo;Copy 9 values from the matrix into the array.&rdquo;</em></li>
+</ul>
+
+<p>What we see here is, I think, a more explicit API than the Java one: you are
+dealing with a 3x3 dimensions matrix, so you specify/retrieve the 9 entries
+that this matrix is composed of.</p>
+
+<p>Granted Java&rsquo;s <code>AffineTransform</code> class is named this way for a reason, that
+reason being you can only deal with <strong>affine transformations</strong>. Whereas
+Android&rsquo;s <code>Matrix</code> class can be used to represent projections by playing with
+the <code>MPERSP_0</code>, <code>MPERSP_1</code> and <code>MPERSP_2</code> entries (hence their names and the
+<code>isAffine()</code> method).</p>
+
+<h3 id="well-featured">Well featured</h3>
+
+<p>Let&rsquo;s do it again.</p>
+
+<h5 id="1-can-we-translate-1">1. Can we translate?</h5>
+
+<p>Yes! We have <code>preTranslate(dx, dy)</code> and <code>postTranslate(dx, dy)</code>:</p>
+
+<blockquote>
+<p>Pre/Post-concats the matrix with the specified translation.</p>
+</blockquote>
+
+<h5 id="2-can-we-shear-1">2. Can we shear?</h5>
+
+<p>Yes, but only by constants not by angles, and it&rsquo;s named &ldquo;skew&rdquo;.<br />
+We have <code>preSkew(kx, ky)</code> and  <code>postSkew(kx, ky)</code>:</p>
+
+<blockquote>
+<p>Pre/Post-concats the matrix with the specified skew.</p>
+</blockquote>
+
+<p>We also have <code>preSkew(kx, ky, px, py)</code> and <code>postSkew(kx, ky, px, py)</code> in order
+to skew not around the origin, by around a given anchor point. That&rsquo;s nice.</p>
+
+<h5 id="3-can-we-scale-1">3. Can we scale?</h5>
+
+<p>Yes! We have <code>preScale(sx, sy)</code> and <code>postScale(sx, sy)</code>:</p>
+
+<blockquote>
+<p>Pre/Post-concats the matrix with the specified scale.</p>
+</blockquote>
+
+<h5 id="4-can-we-reflect-1">4. Can we reflect?</h5>
+
+<p>Again, not directly, we can scale by negative values, or we can use
+<code>setValues({-1, 0, 0, 0, -1, 0, 0, 0, 1})</code> (for example) and then
+<code>postConcat</code>.</p>
+
+<h5 id="5-can-we-rotate-1">5. Can we rotate?</h5>
+
+<p>Yes! We have <code>preRotate(degrees)</code> and <code>postRotate(degrees)</code>:</p>
+
+<blockquote>
+<p>Pre/Post-concats the matrix with the specified rotation.</p>
+</blockquote>
+
+<h5 id="6-can-we-scale-on-an-anchor-point-1">6. Can we scale on an anchor point?</h5>
+
+<p>Yes! We have <code>preScale(sx, sy, px, py)</code> and <code>postScale(sx, sy, px, py)</code>:</p>
+
+<blockquote>
+<p>Pre/Post-concats the matrix with the specified scale.</p>
+</blockquote>
+
+<h5 id="7-can-we-rotate-around-an-anchor-point-1">7. Can we rotate around an anchor point?</h5>
+
+<p>Yes! We have <code>preRotate(degrees, px, py)</code> and <code>postRotate(degrees, px, py)</code>:</p>
+
+<blockquote>
+<p>Pre-Post-concats the matrix with the specified rotation.</p>
+</blockquote>
+
+<h5 id="8-can-we-transform-points-1">8. Can we transform points?</h5>
+
+<p>Also yes! We have several methods available in order to transform points and
+shapes from their original position to their new coordinates after the
+transformation has been applied.</p>
+
+<h3 id="ambiguous">Ambiguous</h3>
+
+<p>Yes, I like this word&hellip;</p>
+
+<p>The API is undeniably well featured, provides <code>pre</code> and <code>post</code> methods for
+the most common transformations, a <code>setValues</code> method to create matrices of
+any shape, and also <code>preConcat(Matrix other)</code> and <code>postConcat(Matrix other)</code>.</p>
+
+<p>What do they do?</p>
+
+<h5 id="preconcat">preConcat</h5>
+
+<blockquote>
+<p>Preconcats the matrix with the specified matrix. M&rsquo; = M * other</p>
+</blockquote>
+
+<p>So, if I read correctly, this is equivalent to:</p>
+
+<div>
+$$
+\mathbf{this} = \mathbf{this} . \mathbf{Tx}
+$$
+</div>
+
+<p>Wait&hellip; in Java&rsquo;s <code>AffineTransform</code>, this was the equivalent of the
+<code>concatenate</code> method&hellip;</p>
+
+<h5 id="postconcat">postConcat</h5>
+
+<blockquote>
+<p>Postconcats the matrix with the specified matrix. M&rsquo; = other * M</p>
+</blockquote>
+
+<p>Again, if I read correctly, this is equivalent to:</p>
+
+<div>
+$$
+\mathbf{this} = \mathbf{Tx} . \mathbf{this}
+$$
+</div>
+
+<p>Wait&hellip; in Java&rsquo;s <code>AffineTransform</code>, this was the equivalent of the
+<code>preConcatenate</code> method&hellip;</p>
+
+<h5 id="wtf-dude">WTF dude?</h5>
+
+<p>Exactly. If you don&rsquo;t read the doc, <strong>you&rsquo;re screwed</strong> 💩</p>
+
+<p>So who&rsquo;s right?</p>
+
+<p>I&rsquo;ve searched a few minutes on the Interwebs and here&rsquo;s what I&rsquo;ve found
+<a href="https://en.wikipedia.org/wiki/Matrix_multiplication">from Wikipedia</a>:</p>
+
+<blockquote>
+<p>&ldquo;pre-multiply (or left multiply) <code>$\mathbf{A}$</code> by <code>$\mathbf{B}$</code>&rdquo; means
+<code>$\mathbf{B}.\mathbf{A}$</code>,
+while &ldquo;post-multiply (or right multiply) <code>$\mathbf{A}$</code> by <code>$\mathbf{C}$</code>&ldquo;
+means <code>$\mathbf{A}.\mathbf{C}$</code></p>
+</blockquote>
+
+<p>And because two sources are better than one, from
+<a href="http://web.cse.ohio-state.edu/~whmin/courses/cse5542-2013-spring/6-Transformation_II.pdf">this &ldquo;ohio-state&rdquo; course</a>:</p>
+
+<blockquote>
+<p>Pre-multiplication is to multiply the new matrix <code>$\mathbf{B}$</code> to the left
+of the existing matrix <code>$\mathbf{A}$</code> to get the result
+<code>$\mathbf{C} = \mathbf{B}.\mathbf{A}$</code></p>
+
+<p>Post-multiplication is to multiply the new matrix <code>$\mathbf{B}$</code> to the right
+of the existing matrix <code>$\mathbf{A}$</code> to get the result
+<code>$\mathbf{C} = \mathbf{A}.\mathbf{B}$</code></p>
+</blockquote>
+
+<p>So it seems like Sun/Oracle got it right, and Google got it backward. But it
+doesn&rsquo;t solve our problem: we have to be cautious when applying affine
+transformations, because the order matters!</p>
+
+<p>And because of the way we want to apply our transformations, in Android we&rsquo;re
+going to make use of the <code>post</code> methods. But the <code>pre</code> methods are here also
+and will simplify your like if you need this kind of operations.</p>
+
+<h3 id="rotation-example">Rotation example</h3>
+
+<p>The 90° rotation at the center of the rectangle from our previous
+example can be achieved in the following way:</p>
+
+<pre><code class="language-java">// TODO insert code
+</code></pre>
+
+<hr />
+
+<p><code>TODO</code> insert screenshot of Android rotation here</p>
+
+<h2 id="links">Links</h2>
+
+<p><code>TODO</code> do it</p>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/sumaxime/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  <a target='_blank' href="https://github.com/arnaudbos" class="github-corner" aria-label="Fork me on Github">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#27A822; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+      <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+      <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+      <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    </svg>
+  </a>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://www.arnaudbos.com/js/docs.min.js"></script>
+<script src="http://www.arnaudbos.com/js/main.js"></script>
+
+<script src="http://www.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script><!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- Math syntax -->
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+
+
+
+  </body>
+</html>

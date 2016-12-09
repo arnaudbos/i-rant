@@ -89,7 +89,7 @@ body {
 
 .container {
   width: auto;
-  max-width: 800px;
+  max-width: 860px;
   text-align: center;
 }
 .container .text-muted {
@@ -117,7 +117,7 @@ body {
   font-size: 18px;
 }
 .panel-default h6 {
-  font-size: 15px;
+  font-size: 16px;
 }
 .panel-default h4 a, h5 a {
   color: #27A822;
@@ -161,18 +161,20 @@ body {
 .blogpost {
   text-align: left;
   line-height: 1.42857143;
-  font-size: 15px;
+  font-size: 16px;
 }
 .blogpost a {
   color: #008d7c;
+  text-decoration: underline;
 }
 .blogpost a:hover {
   color: #00c0aa;
+  text-decoration: underline;
 }
 .list h5{
   text-align: left;
   line-height: 0.4;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 figure {
@@ -195,7 +197,7 @@ pre {
   background-image: -ms-linear-gradient(transparent 50%,rgba(69,142,209,.04) 50%);
   background-image: -o-linear-gradient(transparent 50%,rgba(69,142,209,.04) 50%);
   background-image: linear-gradient(transparent 50%,rgba(69,142,209,.04) 50%);
-  background-size: 3em 3em;
+  background-size: 2.99em 2.99em;
   background-origin: content-box;
   overflow: auto;
   max-height: 50rem;
@@ -207,10 +209,11 @@ pre {
   border-radius: 0;
 }
 
-code, pre[class*=language-] {
+pre > code[class*=hljs] {
   color: #000;
   background-color: #fdfdfd;
   font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
+  font-size: 13px;
   direction: ltr;
   text-align: left;
   white-space: pre;
@@ -225,6 +228,79 @@ code, pre[class*=language-] {
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
+}
+
+code.has-jax {
+  font: inherit;
+  font-size: 100%;
+  background: inherit;
+  color: #333;
+}
+
+blockquote {
+  color: #000;
+  background-color: #fdfdfd;
+  font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
+  font-size: 13px;
+  -webkit-box-shadow: -1px 0 0 0 #358ccb,0 0 0 1px #dfdfdf;
+  -moz-box-shadow: -1px 0 0 0 #358ccb,0 0 0 1px #dfdfdf;
+  box-shadow: -1px 0 0 0 #358ccb,0 0 0 1px #dfdfdf;
+  border-left: 10px solid #18a3b9;
+  overflow: auto;
+  max-height: 50rem;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.hljs {
+  background: inherit;
+  padding: 0;
+}
+
+section.split-half, section.split-third {
+  margin: auto;
+}
+
+section.split-half > div.left {
+  width: 50%;
+  height: 100%;
+  float: left;
+}
+section.split-half > div.right {
+  border-left: 2px solid #333;
+  margin-left: 50%;
+  height: 100%;
+}
+
+section.split-third > div.left {
+  width: 33%;
+  height: 100%;
+  float: left;
+}
+section.split-third > div.middle {
+  border-left: 2px solid #333;
+  width: 33%;
+  height: 100%;
+  float: left;
+}
+section.split-third > div.right {
+  border-left: 2px solid #333;
+  margin-left: 67%;
+  height: 100%;
+}
+
+.green-text {
+  color: green;
+}
+.red-text {
+  color: red;
 }
 
 /* Footer

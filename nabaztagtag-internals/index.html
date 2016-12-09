@@ -10,9 +10,9 @@
     <title>Nabaztag/tag internals</title>
     <meta name="generator" content="Hugo 0.17" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="http://www.arnaudbos.com/css/main.css" />
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    <link rel="stylesheet" type="text/css" href="http://www.arnaudbos.com/css/main.css" />
     
     <!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -239,16 +239,18 @@
 
 <p>Plagiarizing <a href="http://www.instructables.com/id/Hack-the-Nabaztag/?ALLSTEPS">Hack the Nabaztag</a>, here&rsquo;s a description of the DC motors:</p>
 
-<pre><code>The motor wires are BROWN and RED. If you connect one to GND and one to
+<blockquote>
+<p>The motor wires are BROWN and RED. If you connect one to GND and one to
 PWR, the ears will spin in one direction; if you swap them, they go in
-the opposite direction.
-</code></pre>
+the opposite direction.</p>
+</blockquote>
 
 <p>And:</p>
 
-<pre><code>If you want the ears to be bidirectional, you will have to implement an
-H-bridge - a hardware switch that reverses a motor's polarity.
-</code></pre>
+<blockquote>
+<p>If you want the ears to be bidirectional, you will have to implement an
+H-bridge - a hardware switch that reverses a motor&rsquo;s polarity.</p>
+</blockquote>
 
 <p>Thanks, this is exactly what we&rsquo;ll do eventually.</p>
 
@@ -279,24 +281,26 @@ H-bridge - a hardware switch that reverses a motor's polarity.
 
 <p>This time plagiarizing from <a href="https://github.com/Oripy/Rabbity-Pi/wiki/Nabaztag-hardware-investigation">Rabbity-Pi</a>, here&rsquo;s a description of the use of the IR encoder:</p>
 
-<pre><code>A IR encoder is used to control the rotation, a wheel with 20 tooth
+<blockquote>
+<p>A IR encoder is used to control the rotation, a wheel with 20 tooth
 passes in front of the IR sensor. Actually 3 of those tooth are missing
 (in order to detect the absolute position). The Nabaztag is doing a full
-rotation of the ears when booting in order to initialise the positioning.
+rotation of the ears when booting in order to initialise the positioning.</p>
 
-Numbering each teeth from 0 to 19, ear is vertical when teeth number 3 is
-in front of the sensor, and horizontal when it is teeth number 13.
-</code></pre>
+<p>Numbering each teeth from 0 to 19, ear is vertical when teeth number 3 is
+in front of the sensor, and horizontal when it is teeth number 13.</p>
+</blockquote>
 
 <p>And from <a href="http://www.instructables.com/id/Hack-the-Nabaztag/?ALLSTEPS">Hack the Nabaztag</a>:</p>
 
-<pre><code>Each of the little blue chips has a small optical encoder on it: an IR
-LED and a receiver that senses it. As the ear turns, a gear's teeth pass
-between the LED and receiver, and turn it 'on' and 'off'. The gear is
+<blockquote>
+<p>Each of the little blue chips has a small optical encoder on it: an IR
+LED and a receiver that senses it. As the ear turns, a gear&rsquo;s teeth pass
+between the LED and receiver, and turn it &lsquo;on&rsquo; and &lsquo;off&rsquo;. The gear is
 missing one single tooth, so the encoder knows: when its signal does NOT
-get interrupted by the gear's teeth, the ear is pointing forward. On
-tooth 3, ears point up; on tooth 13, they are horizontal.
-</code></pre>
+get interrupted by the gear&rsquo;s teeth, the ear is pointing forward. On
+tooth 3, ears point up; on tooth 13, they are horizontal.</p>
+</blockquote>
 
 <p>I&rsquo;m a total electronic beginner and if you too, I&rsquo;ve googled around and found this <a href="https://youtu.be/Q9d3d-gNii8">great video on How an Encoder Works</a>.</p>
 
@@ -450,26 +454,28 @@ tooth 3, ears point up; on tooth 13, they are horizontal.
 
 <p><a href="https://github.com/Oripy/Rabbity-Pi/wiki/Nabaztag-hardware-investigation">Rabbity-Pi</a> summarizes my thinking almost accurately:</p>
 
-<pre><code>At first I wasn't interested in re-using the Nabaztag power system but as
+<blockquote>
+<p>At first I wasn&rsquo;t interested in re-using the Nabaztag power system but as
 it provides a removable connector that may be easily connected to my
 electronic board, I may reuse it. At least to power the motors, and maybe
 the Raspberry-Pi itself if the voltage and other characteristics are
-suitable.
-</code></pre>
+suitable.</p>
+</blockquote>
 
 <p><a href="http://www.instructables.com/id/RabbitPi-the-Alexa-Enabled-IFTTT-Connected-Ear-Wig/?ALLSTEPS">RabbitPi</a></p>
 
-<pre><code>I had planned to run the motors from a usb power bank so that I'd only
+<blockquote>
+<p>I had planned to run the motors from a usb power bank so that I&rsquo;d only
 need a single power plug, but this turned out not to have enough grunt,
-it wouldn't even light up the &quot;Working&quot; led on the HAT. I decided instead
+it wouldn&rsquo;t even light up the &ldquo;Working&rdquo; led on the HAT. I decided instead
 to use a DC power adaptor to run the HAT and ears, I conveniently had one
-of those universal ones with interchangeable tips handy. What I didn't
-have was a DC socket to connect the adaptor to the HAT. [...] I
-remembered from the teardown that the Nabaztag's original power lead was
+of those universal ones with interchangeable tips handy. What I didn&rsquo;t
+have was a DC socket to connect the adaptor to the HAT. [&hellip;] I
+remembered from the teardown that the Nabaztag&rsquo;s original power lead was
 a standard DC plug - therefore I could just re-wire the original power
 socket to the HAT - neat! In the end I also re-used the original Nabaztag
-power supply, as it provided just the right amount of power.
-</code></pre>
+power supply, as it provided just the right amount of power.</p>
+</blockquote>
 
 <p>I&rsquo;m too much of a beginner to know at first sight what I can/cannot do with a piece of electronics. My guts tell me that I can reuse this (and <strong><em>me wants to reuse this</em></strong>), but I will see what I can do with it when I&rsquo;ll really begin messing with eletronics and get my hands dirty on some basic techniques.</p>
 
@@ -493,14 +499,13 @@ power supply, as it provided just the right amount of power.
 
 <p>Again according to <a href="http://www.instructables.com/id/Hack-the-Nabaztag/?ALLSTEPS">Hack the Nabaztag</a>:</p>
 
-<pre><code>The scroll wheel is a potentiometer: it measures voltage, which changes
-as we rub the 'wiper' up and down. This is an analog input, which the
-Teensy will convert into a number between 0 and 1023.
-</code></pre>
+<blockquote>
+<p>The scroll wheel is a potentiometer: it measures voltage, which changes
+as we rub the &lsquo;wiper&rsquo; up and down. This is an analog input, which the
+Teensy will convert into a number between 0 and 1023.</p>
+</blockquote>
 
 <p>He&rsquo;s talking about a a <code>Teensy</code> because it&rsquo;s the microcontroller he&rsquo;s using. I <em>think</em> my RaspberryPi also has one or two analog inputs (need to check), and I also think it is possible to add external ones in the mix, so no blocker here, just need to wire everything correctly.</p>
-
-<h3 id="phone-connector">Phone connector</h3>
 
 <h2 id="closing">Closing</h2>
 
@@ -508,70 +513,76 @@ Teensy will convert into a number between 0 and 1023.
 
 <p>This section is called &ldquo;<strong>Step 10: Wiring it up, for reals.</strong>&rdquo; and it summarizes some wiring order instructions and voltage information:</p>
 
-<pre><code>At this point, if you've been working on a breadboard, it's time to take
+<blockquote>
+<p>At this point, if you&rsquo;ve been working on a breadboard, it&rsquo;s time to take
 it all apart and re-solder it permanently. This is going to be a MESS of
-wires, so pay close attention to where you route things - there's less
-space in that rabbit than you think!
+wires, so pay close attention to where you route things - there&rsquo;s less
+space in that rabbit than you think!</p>
 
-My recommendation: take your break-apart headers, and solder your wires
+<p>My recommendation: take your break-apart headers, and solder your wires
 to them first, so that they are like breakaway extensions from the
-existing wires. Do everything but the H-bridge; that's a special case.
+existing wires. Do everything but the H-bridge; that&rsquo;s a special case.
 Once you have extension wires on all 5 sets (head, scroll, LEDs, and two
 ears), temporarily mount the H-bridge and the Teensy somewhere on your
 cardboard block. Route wires as carefully as you can into their final
 places, and solder them into the Teensy. Finally, connect all the H
-bridge wires to the motors and the Teensy.
+bridge wires to the motors and the Teensy.</p>
 
-As a review, these are the pins, as I've placed them:
+<p>As a review, these are the pins, as I&rsquo;ve placed them:</p>
 
-* Head button 14 (digital input)
-* Scroll wheel 21 (analog input)
-* LEDs 2 (output)
-* Left motor enable 7 (output)
-* Left motor reverse 8 (output)
-* Left motor forward 9 (output)
-* Right motor enable 10 (output)
-* Right motor reverse 11 (output)
-* Right motor forward 12 (output)
-* Left encoder 18 (analog input) (with resistor --&gt; GND)
-* Right encoder 19 (analog input) (with resistor --&gt; GND)
+<ul>
+<li>Head button 14 (digital input)</li>
+<li>Scroll wheel 21 (analog input)</li>
+<li>LEDs 2 (output)</li>
+<li>Left motor enable 7 (output)</li>
+<li>Left motor reverse 8 (output)</li>
+<li>Left motor forward 9 (output)</li>
+<li>Right motor enable 10 (output)</li>
+<li>Right motor reverse 11 (output)</li>
+<li>Right motor forward 12 (output)</li>
+<li>Left encoder 18 (analog input) (with resistor &ndash;&gt; GND)</li>
+<li>Right encoder 19 (analog input) (with resistor &ndash;&gt; GND)</li>
+</ul>
 
-The power should be:
+<p>The power should be:</p>
 
-* Head: NONE
-* Scroll: 3.3V
-* LEDs: 5V
-* H-Bridge: 5V
-* Encoder BLUE wires (with resistors): 5V
-* Encoder YELLOW wires: 3.3V
+<ul>
+<li>Head: NONE</li>
+<li>Scroll: 3.3V</li>
+<li>LEDs: 5V</li>
+<li>H-Bridge: 5V</li>
+<li>Encoder BLUE wires (with resistors): 5V</li>
+<li>Encoder YELLOW wires: 3.3V</li>
+</ul>
 
-... and you should have 6 wires going to GND.
-</code></pre>
+<p>&hellip; and you should have 6 wires going to GND.</p>
+</blockquote>
 
 <p>This part is called &ldquo;<strong>Step 11: Putting the Bunny back together.</strong>&rdquo;, and its name is pretty self explanatory:</p>
 
-<pre><code>Once you have all the wires soldered and heat-shinked, it's time to wrap
-up.
+<blockquote>
+<p>Once you have all the wires soldered and heat-shinked, it&rsquo;s time to wrap
+up.</p>
 
-First, make sure you've removed the existing power jack from the base of
+<p>First, make sure you&rsquo;ve removed the existing power jack from the base of
 the black column, then thread your USB micro cable through the white
-base. If it doesn't fit, shave some plastic off the cord's head until it
-does. Plug it into the Teensy, and you're set for powering and updating
-your new Bunny.
+base. If it doesn&rsquo;t fit, shave some plastic off the cord&rsquo;s head until it
+does. Plug it into the Teensy, and you&rsquo;re set for powering and updating
+your new Bunny.</p>
 
-Screw the black column back onto the white base. You don't need the black
-ring around the base anymore (though you can put it back if you like).
+<p>Screw the black column back onto the white base. You don&rsquo;t need the black
+ring around the base anymore (though you can put it back if you like).</p>
 
-Gently wiggle the white case over the electronics and back into place.
+<p>Gently wiggle the white case over the electronics and back into place.
 This might take a while. Just be patient - press wires out of the way,
 shave off more cardboard, add tape where needed - until it all fits
-again. It's important to get the alignment right, or the ears will get
+again. It&rsquo;s important to get the alignment right, or the ears will get
 stuck against the body. If you run into this problem, place a thin
 washer-magnet between the ear and the socket to give the ear some extra
-clearance.
+clearance.</p>
 
-Put the screws in, and you're done - at least, with this part.
-</code></pre>
+<p>Put the screws in, and you&rsquo;re done - at least, with this part.</p>
+</blockquote>
 
 <h2 id="links">Links</h2>
 
