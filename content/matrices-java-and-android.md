@@ -2037,6 +2037,10 @@ and will simplify your like if you need this kind of operations.
 
 ## Links
 
+Source code for the Java 2D example: [on Github][java-2d-source]
+
+`TODO` Insert moar! Alot moar!
+
 [Matrix.postScale]: https://developer.android.com/reference/android/graphics/Matrix.html#postScale(float,%20float,%20float,%20float)
 [climbing-away]: https://play.google.com/store/apps/details?id=fr.climbingaway
 [matrix]: https://en.wikipedia.org/wiki/Matrix_(mathematics)
@@ -2058,3 +2062,4 @@ and will simplify your like if you need this kind of operations.
 [android-matrix]: https://developer.android.com/reference/android/graphics/Matrix.html
 [wiki-matrix-multi]: https://en.wikipedia.org/wiki/Matrix_multiplication
 [ohio-matrices]: http://web.cse.ohio-state.edu/~whmin/courses/cse5542-2013-spring/6-Transformation_II.pdf
+[java-2d-source]: https://github.com/arnaudbos/i-rant/tree/develop/static/code/matrices-java-and-android/JavaAffineTransform
