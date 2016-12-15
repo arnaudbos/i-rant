@@ -1,5 +1,5 @@
 ---
-title: 2D transformations with Matrices for Java and Android developers
+title: Matrices for developers
 date: 2016-11-19T15:08:29+01:00
 description:
 tags: ["java","android","matrix"]
@@ -7,6 +7,7 @@ categories: ["java","android"]
 draft: true
 highlight: true
 math: true
+klipse: true
 ---
 
 A few weeks ago I was on an `android-user-group` channel,
@@ -27,32 +28,35 @@ be able to view the crag which was composed of:
 The user had to have the ability to pan and zoom at will and have the routes
 layer "*follow*" the picture.
 
-In order to do this, the SVG parser had to build a tree of objects representing
-SVG DOM elements, down to the `path`, `line`, `polyline`, `polygon`, `rect`,
-`circle` and `ellipse` elements, respectively represented in Android as
-`android.graphics` objects.
-
-Nothing fancy here (except the parsing part): the first four can be drawn using
-a `Path` only, and the remaining three are just special drawing methods based on
-the `RectF` specification.
-
-I will not enter into the performance optimization twists I (modestly) made
-here, but feel free to contact me to discuss the matter and I'll write a
-follow-up post on the subject.
-
-## Now the interesting stuff
+## Technical challenge
 
 In order to have the overlay of routes follow the user's actions, I had to
-apply 2D transformations, that is `android.graphics.Matrix`.
+apply 2D transformations. As a good engineer I searched on Stack Overflow
+how to do that and found I had to get my hands dirty by overloading an Android
+`ImageView`, draw onto the `Canvas`, deal with finger gestures and use the
+`android.graphics.Matrix` class for 2D transformations.
 
-The problem with this class, is that if you have no mathematical background,
-it's quite mysterious what it does.
+The problem with this class, is that it might seem obvious what it does, but if
+you have no mathematical background, it's still quite mysterious.
 
-So at this very moment of the development process I realized I'd needed
-basic math skills about [matrices][matrix] I had forgotten many years prior,
-after finishing my first two years of uni 😱
+> boolean postScale (float sx, float sy, float px, float py)
+>
+> Postconcats the matrix with the specified scale. M' = S(sx, sy, px, py) * M
 
-***Google to the rescue!***
+Yeah, cool, so it *scales* something with some parameters and it does it with
+some kind of multiplication. I don't get it:
+
+* What does it do exactly? Scales a matrix? What's that supposed to mean, I
+  want to scale the canvas...
+* What should I use, `preScale` of `postScale`? Do I try both while I get the
+  input parameters from my gesture detection code and enter an infite loop of
+  trial and error guesstimates? (No. Way.)
+
+So at this very moment of the development process I realized I needed to learn
+basic math skills about [matrices][wiki-matrices] that I had forgotten many
+years ago, after finishing my first two years of uni 😱
+
+***WWW to the rescue!***
 
 While searching around I've found a number of good resources and was able to
 learn some math again, and it felt great. It also helped me solve my 2D
@@ -64,75 +68,396 @@ seems I was not the only one struggling with matrices, trying to make sense of
 it and using these skills with Android's Matrix class and methods,
 so I thought I'd write an article.
 
-## The plan
+## Table of contents
 
-1. **Matrices basics**: A lot of links and videos to *go* learn matrices algebra
-2. **Transformation matrices**: A deeper dive into matrices for 2D
-transformations
-3. **Types of transformations**: We define the different types of
-transformations and define a 2x2 matrix for each
-4. **2D transformations with 3x3 matrices**: We define our transformation
-matrices as 3x3 matrices
-5. **Matrices wrap-up**: A quick summary of the matrices we've seen in previous
-sections
-6. **Affine transformations with Java**: Use `java.awt.geom.AffineTransform`
-7. **Affine transformations with Android**: Use `android.graphics.Matrix`
-8. **Links**
+{{< toc >}}
 
-## Matrices basics
+## What is a matrix?
 
-The first resource you might encounter when trying to understand affine
-transformations is Wikipedia:
+The first resource you might encounter when trying to understand 2D
+transformations are articles about *"Transformation matrix"* and
+*"Affine transformations"* on Wikipedia:
 
+* https://en.wikipedia.org/wiki/Transformation_matrix
 * https://en.wikipedia.org/wiki/Transformation_matrix#Affine_transformations
 * https://en.wikipedia.org/wiki/Affine_transformation
 
-With this material, I almost got—wait...
+I don't know you, but with this material, I almost got everything — wait...
 
-{{< img src="/img/matrices-java-and-android/awkward-seal.png"
+{{< img src="/img/matrices-for-developers/awkward-seal.png"
 alt="Awkward seal" width="100%">}}
 
-**NOPE, nevermind, I didn't get anything at all.**
+**NOPE! Nevermind, I didn't get anything at all.**
 
-But there's hope: on ***Khan Academy*** you will find a very well taught
+Luckily, on ***Khan Academy*** you will find a very well taught
 [algebra course about matrices][khan-alg-matrices].
 
 If you have this kind of problem, I encourage you to take the time needed to
 follow this course until you reach that "AHA" moment. It's just a few hours of
-investment (it's free) and you won't regret it. Plus, I will
-point you to the parts in particular that helped me.
+investment (it's free) and you won't regret it.
 
-### What is a matrix?
+Why? Because [matrices][wiki-matrices] are good at representing data, and
+operations on matrices can help you solve problems on this data. For instance,
+remember having to solve systems of linear equations at school?  
+The most common ways (at least the two **I**'ve studied) to solve a system
+like that is with the [elimination of variables][wiki-elim-variable] method
+or the [row reduction][wiki-row-reduction] method. But you can also use
+matrices for that, which leads to interesting algorithms.  
+Matrices are used heavily in every branch of science, and they can also be
+used for linear transformation to describe the position of points in space,
+and this is the use case we will study in this article.
 
-Well, you'll find out by watching this video and [the accompanying course here]
-[khan-intro-matrices].
+### Anatomy
 
-{{< youtube 0oGJTQCy4cQ >}}
+Simply put, a [matrix is a *2D array*][khan-intro-matrices]. In fact, talking
+about a `$m×n$` matrix relates to an array of length `$m$` in which
+each item is also an array but this time of length `$n$`. Usually, `$m$`
+represents a rows' number and `$n$` a columns' number. Each element in the
+matrix is called an *entry*.  
+A matrix is represented by a bold capital letter,
+and each entry is represented by the same letter, but in lowercase and suffixed
+with its row number and column number, in this order. For example:
+
+<div>
+$$
+\mathbf{A} =
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \vdots & a_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}
+$$
+</div>
+
+
+Now what can we do with it? We can define an algebra for instance: like
+[addition, subtraction][khan-addsub-matrices] and
+[multiplication][khan-mult-matrices] operations, for fun and profit. 🤓
+
+### Addition/Subtraction
+
+[Addition and subtraction of matrices][khan-addsub-matrices] is done by adding
+or subtracting the corresponding entries of the operand matrices. Like so:
+
+<div>
+$$
+\mathbf{A} + \mathbf{B} =
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \vdots & a_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}
++
+\begin{bmatrix}
+b_{11} & b_{12} & \cdots & b_{1n}\\
+b_{21} & b_{22} & \vdots & b_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+b_{m1} & b_{m2} & \cdots & b_{mn}
+\end{bmatrix}
+=
+\begin{bmatrix}
+a_{11}+b_{11} & a_{12}+b_{12} & \cdots & a_{1n}+b_{1n}\\
+a_{21}+b_{21} & a_{22}+b_{22} & \vdots & a_{2n}+b_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+a_{m1}+b_{m1} & a_{m2}+b_{m2} & \cdots & a_{mn}+b_{mn}
+\end{bmatrix}
+$$
+</div>
+
+<div>
+$$
+\mathbf{A} - \mathbf{B} =
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \vdots & a_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}
+-
+\begin{bmatrix}
+b_{11} & b_{12} & \cdots & b_{1n}\\
+b_{21} & b_{22} & \vdots & b_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+b_{m1} & b_{m2} & \cdots & b_{mn}
+\end{bmatrix}
+=
+\begin{bmatrix}
+a_{11}-b_{11} & a_{12}-b_{12} & \cdots & a_{1n}-b_{1n}\\
+a_{21}-b_{21} & a_{22}-b_{22} & \vdots & a_{2n}-b_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+a_{m1}-b_{m1} & a_{m2}-b_{m2} & \cdots & a_{mn}-b_{mn}
+\end{bmatrix}
+$$
+</div>
+
+Corollary to this definition we can deduce that in order to be *defined*, a matrix
+addition or subtracting must be performed against two matrices of same
+dimensions `$m×n$`, otherwise the *"corresponding entries"* bit would
+have no sense:  
+Grab a pen and paper and try to add a `$3×2$` matrix to a `$2×3$`
+matrix. What will you do with the last *row* of the first matrix? Same question
+with the last *column* of the second matrix?  
+If you don't know, then you've reach the same conclusion as the mathematicians
+that defined matrices additions and subtraction, pretty much 😋
+
+#### Examples
+
+<section class="split-half">
+<div class="left">
+$$
+\begin{align}
+\text{Addition}\\
+\mathbf{A} + \mathbf{B}
+&=
+\begin{bmatrix}
+4 & -8 & 7\\
+0 & 2 & -1\\
+15 & 4 & 9
+\end{bmatrix}
++
+\begin{bmatrix}
+-5 & 2 & 3\\
+4 & -1 & 6\\
+0 & 12 & 3
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+4+\left(-5\right) & \left(-8\right)+2 & 7+3\\
+0+4               & 2+\left(-1\right) & \left(-1\right)+6\\
+15+0              & 4+12              & 9+3
+\end{bmatrix}\\
+\mathbf{A} + \mathbf{B}
+&=
+\begin{bmatrix}
+-1 & -6 & 10\\
+4  & 1  & 5\\
+15 & 16 & 12
+\end{bmatrix}
+\end{align}
+$$
+</div>
+<div class="right">
+$$
+\begin{align}
+\text{Subtraction}\\
+\mathbf{A} - \mathbf{B}
+&=
+\begin{bmatrix}
+4  & -8 & 7\\
+0  & 2  & -1\\
+15 & 4  & 9
+\end{bmatrix}
+-
+\begin{bmatrix}
+-5 & 2 & 3\\
+4 & -1 & 6\\
+0 & 12 & 3
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+4-\left(-5\right) & \left(-8\right)-2 & 7-3\\
+0-4               & 2-\left(-1\right) & \left(-1\right)-6\\
+15-0              & 4-12              & 9-3
+\end{bmatrix}\\
+\mathbf{A} + \mathbf{B}
+&=
+\begin{bmatrix}
+9  & -10 & 4\\
+-4 & 3   & -7\\
+15 & -8  & 6
+\end{bmatrix}
+\end{align}
+$$
+</div>
+</section>
 
 <br>
-
-So a matrix is an array of numbers, fantastic. Now what can we do with it?
-
-We can define an algebra for it: like
-[addition, subtraction][khan-addsub-matrices] and multiplication operations,
-for fun and profit. 🤓
-
-**Spoiler alert**: for 2D transformations you'll be more interested in
-multiplication than addition/subtraction, but I really encourage you to follow
-the whole course, it's worth it.
 
 ### Matrix multiplication
 
-Still reading? Ok, [let's multiply matrices][khan-mult-matrices]:
+`TODO` Remove this:
 
-{{< youtube kT4Mp9EdVqs >}}
+{{< klipse >}}
 
-<br>
+Throughout all my math schooling I was said something along the lines of
+*"you can only perform operations against the same types of values"*,
+illustrated by sentences like
+*"[you can't add apples to oranges][wiki-apples-oranges], it makes no
+sense"*, in order to express the importance of units.  
+Well it turns out that multiplying apples and oranges *is* allowed. And it
+can be applied to matrices: we can multiply matrices by numbers, and we can
+multiply matrices by matrices.
 
-The bad news: ***you can't always multiply two matrices***.
+In the first case though, the number is not just a number (semantically).
+You don't multiply a matrix by a number, you multiply a matrix by a
+[**scalar**][wiki-scalar]. In order to
+[multiply a matrix by a scalar][khan-mult-scalar], we have to multiply each
+entry in the matrix by the scalar, which will give us another matrix as a
+result.
 
-Just as there's a rule for adding/subtracting two matrices (the two matrices
-must have the same dimensions), there's a rule for multiplying two matrices:
+<div>
+$$
+k . \mathbf{A}
+=
+k .
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \vdots & a_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}
+=
+\begin{bmatrix}
+k.a_{11} & k.a_{12} & \cdots & k.a_{1n}\\
+k.a_{21} & k.a_{22} & \vdots & k.a_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+k.a_{m1} & k.a_{m2} & \cdots & k.a_{mn}
+\end{bmatrix}
+$$
+</div>
+
+And a little example:
+
+<div>
+$$
+4 .
+\begin{bmatrix}
+0  & 3  & 12\\
+7  & -5 & 1\\
+-8 & 2  & 0
+\end{bmatrix}
+=
+\begin{bmatrix}
+0   & 12  & 48\\
+28  & -20 & 4\\
+-32 & 8   & 0
+\end{bmatrix}
+$$
+</div>
+
+The second type of multiplication operation is the
+[multiplication of matrices by matrices][khan-mult-matrices]. This operation
+is a little bit more complicated than addition/subtraction because in order
+to multiply a matrix by a matrix we don't simply multiply the corresponding
+entries. I'll just quote wikipedia on that one:
+
+> if `$A$` is an `$m×n$` matrix and `$B$` is an `$n×p$` matrix, their matrix
+> product `$AB$` is an `$m×p$` matrix, in which the `$n$` entries across a
+> row of `$A$` are multiplied with the `$n$` entries down a columns of `$B$`
+> and summed to produce an entry of `$AB$`
+
+This hurts my brain, let's break it down.
+
+See this simple `$2×2$` matrix
+`$A = \begin{bmatrix}a_{11} & a_{12}\\a_{21} & a_{22}\end{bmatrix}$`
+and this `$2×2$` matrix
+`$B = \begin{bmatrix}b_{11} & b_{12}\\b_{21} & b_{22}\end{bmatrix}$`.  
+We have `$m=2$`, `$n=2$` and `$p=2$` so the multiplication will give
+`$AB = \begin{bmatrix}ab_{11} & ab_{12}\\ab_{21} & ab_{22}\end{bmatrix}$`.
+
+* *"the `$n$` entries across a row of `$A$`"* means is that each row in
+  `$A$` is an array of `$n=2$` entries: if we take the first row we get
+  `$a_{11}$` and `$a_{12}$`
+* *"the `$n=2$` entries down a columns of `$B$`"* means that each column of
+  `$B$` is also an array of `$n=2$` entries: in the first column we get
+  `$b_{11}$` and `$b_{21}$`.  
+* *"are multiplied with"* means that each entry in `$\mathbf{A}$`'s row
+  must be multiplied with it corresponding (first with first, second with
+  second, etc.) entry in `$\mathbf{B}$`'s column: `$a_{11}×b_{11}$` and
+  `$a_{12}×b_{21}$`
+* *"And summed to produce an entry of `$AB$`"* means that we must add the
+  products of these corresponding rows and columns entries in order to get
+  the entry of the new matrix at this row number and column number: in our case
+  we took the products of the entries in the first row in the first matrix with
+  the entries in the first column in the second matrix, so this will give us the
+  entry in the first row and first column of the new matrix:
+  `$a_{11}×b_{11} + a_{12}×b_{21}$`
+
+To plagiate wikipedia, here is the formula:
+
+<div>
+$$
+\mathbf{A} =
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \vdots & a_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}
+\text{, }
+\mathbf{B} =
+\begin{bmatrix}
+b_{11} & b_{12} & \cdots & b_{1p}\\
+b_{21} & b_{22} & \vdots & b_{2p}\\
+\vdots & \vdots & \ddots & \vdots\\
+b_{n1} & b_{n2} & \cdots & b_{np}
+\end{bmatrix}\\
+\mathbf{AB} =
+\begin{bmatrix}
+ab_{11} & ab_{12} & \cdots & ab_{1p}\\
+ab_{21} & ab_{22} & \vdots & ab_{2p}\\
+\vdots & \vdots & \ddots & \vdots\\
+ab_{m1} & ab_{m2} & \cdots & ab_{mp}
+\end{bmatrix}\\
+\text{where }
+ab_{ij}=\sum_{k=1}^{m}a_{ik}b_{kj}
+$$
+</div>
+
+Ok I realize I don't have any better way to explain this so here is a visual
+representation of the matrix multiplication process and an example:
+
+<div style="text-align: center;">
+<a title="By File:Matrix multiplication diagram.svg:User:Bilou See below. [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AMatrix_multiplication_diagram_2.svg"><img width="256" alt="Matrix multiplication diagram 2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Matrix_multiplication_diagram_2.svg/256px-Matrix_multiplication_diagram_2.svg.png"/></a>
+</div>
+
+<div>
+$$
+\mathbf{A} =
+\begin{bmatrix}
+4  & 3\\
+0  & -5\\
+2  & 1\\
+-6 & 8
+\end{bmatrix}
+\text{, }
+\mathbf{B} =
+\begin{bmatrix}
+7  & 1 & 3\\
+-2 & 4 & 1
+\end{bmatrix}\\
+\begin{align}
+\mathbf{AB}
+&=
+\begin{bmatrix}
+4×7+3×\left(-2\right)               & 4×1+3×4               & 4×3+3×1\\
+0×7+\left(-5\right)×\left(-2\right) & 0×1+\left(-5\right)×4 & 0×3+\left(-5\right)×1\\
+2×7+1×\left(-2\right)               & 2×1+1×4               & 2×3+1×1\\
+\left(-6\right)×7+8×\left(-2\right) & \left(-6\right)×1+8×4 & \left(-6\right)×3+8×1
+\end{bmatrix}\\
+\mathbf{AB}
+&=
+\begin{bmatrix}
+28-6   & 4+12  & 12+3\\
+0+10   & 0-20  & 0-5\\
+14-2   & 2+4   & 6+1\\
+-42-16 & -6+32 & -18+8
+\end{bmatrix}\\
+\mathbf{AB}
+&=
+\begin{bmatrix}
+22  & 16  & 15\\
+10  & -20 & -5\\
+12  & 6   & 7\\
+-58 & 26  & -10
+\end{bmatrix}
+\end{align}
+$$
+</div>
+
+Remember:
 
 > In order for matrix multiplication to be defined, the number of columns in
 > the first matrix must be equal to the number of rows in the second matrix.
@@ -146,6 +471,47 @@ are interested.
 
 Now that we know what is a matrix and how we can multiply matrices, we can see
 why it is interesting for **2D transformations**.
+
+As I've said previously, matrices can be used to represent systems of
+linear equations. Suppose I give you this system:
+
+<div>
+$$
+2x+y=5\\
+-x+2y=0
+$$
+</div>
+
+Now that you are familiar with matrix multiplications, maybe you can see this
+coming, but we can definitely express this system of equations as the following
+matrix multiplication:
+
+<div>
+$$
+\begin{bmatrix}
+2  & 1\\
+-1 & 2
+\end{bmatrix}
+.
+\begin{bmatrix}
+x\\y
+\end{bmatrix}
+=
+\begin{bmatrix}
+5\\0
+\end{bmatrix}
+$$
+</div>
+
+If we go a little farther, we can see something else based on the matrices
+`$\begin{bmatrix}x\\y\end{bmatrix}$` and
+`$\begin{bmatrix}5\\0\end{bmatrix}$`.  
+We can see that they can be used to reprensent ***points*** in the Cartesian
+plane, right? A point can be represented by a vector originating from origin,
+and a vector is just a `$2×1$` matrix.
+
+What we have here, is a matrix multiplication that represents the
+transformation of a point 
 
 The next video will show you how you can use a matrix to **transform a point**!
 
@@ -171,7 +537,7 @@ to a transformation matrix?
 
 Well the answer is:
 
-{{< img src="/img/matrices-java-and-android/moar-math-stuff.jpg"
+{{< img src="/img/matrices-for-developers/moar-math-stuff.jpg"
 alt="Moar math stuff with smiling cat meme" width="60%">}}
 
 ### More math stuff
@@ -640,7 +1006,7 @@ Let's take a closer look at it with an example of rotating (around the origin)
 from a angle `$ \theta $` (theta).
 
 <a title="By Nick Berry" href="http://datagenetics.com/blog/august32013/"><img style="background-color: #333;"
-src="/img/matrices-java-and-android/g22.png"></a>
+src="/img/matrices-for-developers/g22.png"></a>
 
 This image shows a point `$ P $` before and after a rotation: `$ P $`
 in the starting and ending planes respectively.
@@ -663,7 +1029,7 @@ This is where [trigonometry][trigonometry] helps again, along with
 [this post][datagenetics-rotation] and [this video][matrix-rotation-video].
 
 <a title="By Nick Berry" href="http://datagenetics.com/blog/august32013/"><img style="background-color: #333;"
-src="/img/matrices-java-and-android/g32.png"></a>
+src="/img/matrices-for-developers/g32.png"></a>
 
 Here we see that `$ x' $` (the blue line) can be expressed as the addition of
 the
@@ -1571,7 +1937,7 @@ $$
 
 ----
 
-{{< img src="/img/matrices-java-and-android/koalifications.jpg"
+{{< img src="/img/matrices-for-developers/koalifications.jpg"
 alt="Koala meme">}}
 
 ----
@@ -1859,7 +2225,7 @@ public class AffineTransformZoomExample {
 
 ----
 
-{{< img src="/img/matrices-java-and-android/java-zoom-at-center.png"
+{{< img src="/img/matrices-for-developers/java-zoom-at-center.png"
 title="Demo of Java 2D zooming: in black the original square, in red the unexpected transformation and in green the desired transformation"
 alt="Demo of Java 2D zooming" width="100%">}}
 
@@ -2035,6 +2401,15 @@ And because of the way we want to apply our transformations, in Android we're
 going to make use of the `post` methods. But the `pre` methods are here also
 and will simplify your like if you need this kind of operations.
 
+## Acknowledgements
+
+I want to address my warmest thank you to the following people, who helped me
+during the review process of this article, by providing helpful feedbacks and
+advices:
+
+* Igor Laborie (@ilaborie)
+* Hadrien Toma (@twitter)
+
 ## Links
 
 Source code for the Java 2D example: [on Github][java-2d-source]
@@ -2043,13 +2418,20 @@ Source code for the Java 2D example: [on Github][java-2d-source]
 
 [Matrix.postScale]: https://developer.android.com/reference/android/graphics/Matrix.html#postScale(float,%20float,%20float,%20float)
 [climbing-away]: https://play.google.com/store/apps/details?id=fr.climbingaway
-[matrix]: https://en.wikipedia.org/wiki/Matrix_(mathematics)
+[wiki-matrices]: https://en.wikipedia.org/wiki/Matrix_(mathematics)
+[wiki-elim-variable]: https://en.wikipedia.org/wiki/System_of_linear_equations#Elimination_of_variables
+[wiki-row-reduction]: https://en.wikipedia.org/wiki/System_of_linear_equations#Row_reduction
 [khan-alg-matrices]: https://www.khanacademy.org/math/algebra-home/alg-matrices
 [khan-intro-matrices]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-intro-to-matrices/a/intro-to-matrices
 [khan-addsub-matrices]: https://www.khanacademy.org/bigbingo_redirect?continue=https%3A%2F%2Fwww.khanacademy.org%2Fmath%2Falgebra-home%2Falg-matrices%2Falg-adding-and-subtracting-matrices%2Fv%2Fmatrix-addition-and-subtraction-1&conversion_ids=condensed_tutorial_title_click
+[wiki-scalar]: https://en.wikipedia.org/wiki/Scalar_(mathematics)
+[khan-mult-scalar]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-multiplying-matrices-by-scalars/v/scalar-multiplication
 [khan-mult-matrices]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-multiplying-matrices-by-matrices/a/multiplying-matrices
+[wiki-apples-oranges]: https://en.wikipedia.org/wiki/Apples_and_oranges
 [khan-defined-vid]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/v/defined-and-undefined-matrix-operations
 [khan-defined-course]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/a/matrix-multiplication-dimensions
+[khan-transf-vector]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-matrices-as-transformations/v/transforming-position-vector
+[khan-transf-polygone]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-matrices-as-transformations/v/matrix-transformation-triangle
 [khan-matrices-transform]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-matrices-as-transformations/a/matrices-as-transformations
 [khan-identity-matrix]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/a/intro-to-identity-matrices
 [khan-mult-properties]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/a/properties-of-matrix-multiplication
@@ -2062,4 +2444,4 @@ Source code for the Java 2D example: [on Github][java-2d-source]
 [android-matrix]: https://developer.android.com/reference/android/graphics/Matrix.html
 [wiki-matrix-multi]: https://en.wikipedia.org/wiki/Matrix_multiplication
 [ohio-matrices]: http://web.cse.ohio-state.edu/~whmin/courses/cse5542-2013-spring/6-Transformation_II.pdf
-[java-2d-source]: https://github.com/arnaudbos/i-rant/tree/develop/static/code/matrices-java-and-android/JavaAffineTransform
+[java-2d-source]: https://github.com/arnaudbos/i-rant/tree/develop/static/code/matrices-for-developers/JavaAffineTransform
