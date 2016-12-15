@@ -110,7 +110,7 @@ and this is the use case we will study in this article.
 ### Anatomy
 
 Simply put, a [matrix is a *2D array*][khan-intro-matrices]. In fact, talking
-about a `$m×n$` matrix relates to an array of length `$m$` in which
+about a `$m\text{×}n$` matrix relates to an array of length `$m$` in which
 each item is also an array but this time of length `$n$`. Usually, `$m$`
 represents a rows' number and `$n$` a columns' number. Each element in the
 matrix is called an *entry*.  
@@ -194,9 +194,9 @@ $$
 
 Corollary to this definition we can deduce that in order to be *defined*, a matrix
 addition or subtracting must be performed against two matrices of same
-dimensions `$m×n$`, otherwise the *"corresponding entries"* bit would
+dimensions `$m\text{×}n$`, otherwise the *"corresponding entries"* bit would
 have no sense:  
-Grab a pen and paper and try to add a `$3×2$` matrix to a `$2×3$`
+Grab a pen and paper and try to add a `$3\text{×}2$` matrix to a `$2\text{×}3$`
 matrix. What will you do with the last *row* of the first matrix? Same question
 with the last *column* of the second matrix?  
 If you don't know, then you've reach the same conclusion as the mathematicians
@@ -343,16 +343,16 @@ is a little bit more complicated than addition/subtraction because in order
 to multiply a matrix by a matrix we don't simply multiply the corresponding
 entries. I'll just quote wikipedia on that one:
 
-> if `$A$` is an `$m×n$` matrix and `$B$` is an `$n×p$` matrix, their matrix
-> product `$AB$` is an `$m×p$` matrix, in which the `$n$` entries across a
+> if `$A$` is an `$m\text{×}n$` matrix and `$B$` is an `$n\text{×}p$` matrix, their matrix
+> product `$AB$` is an `$m\text{×}p$` matrix, in which the `$n$` entries across a
 > row of `$A$` are multiplied with the `$n$` entries down a columns of `$B$`
 > and summed to produce an entry of `$AB$`
 
 This hurts my brain, let's break it down.
 
-See this simple `$2×2$` matrix
+See this simple `$2\text{×}2$` matrix
 `$A = \begin{bmatrix}a_{11} & a_{12}\\a_{21} & a_{22}\end{bmatrix}$`
-and this `$2×2$` matrix
+and this `$2\text{×}2$` matrix
 `$B = \begin{bmatrix}b_{11} & b_{12}\\b_{21} & b_{22}\end{bmatrix}$`.  
 We have `$m=2$`, `$n=2$` and `$p=2$` so the multiplication will give
 `$AB = \begin{bmatrix}ab_{11} & ab_{12}\\ab_{21} & ab_{22}\end{bmatrix}$`.
@@ -365,15 +365,15 @@ We have `$m=2$`, `$n=2$` and `$p=2$` so the multiplication will give
   `$b_{11}$` and `$b_{21}$`.  
 * *"are multiplied with"* means that each entry in `$\mathbf{A}$`'s row
   must be multiplied with it corresponding (first with first, second with
-  second, etc.) entry in `$\mathbf{B}$`'s column: `$a_{11}×b_{11}$` and
-  `$a_{12}×b_{21}$`
+  second, etc.) entry in `$\mathbf{B}$`'s column: `$a_{11}\text{×}b_{11}$` and
+  `$a_{12}\text{×}b_{21}$`
 * *"And summed to produce an entry of `$AB$`"* means that we must add the
   products of these corresponding rows and columns entries in order to get
   the entry of the new matrix at this row number and column number: in our case
   we took the products of the entries in the first row in the first matrix with
   the entries in the first column in the second matrix, so this will give us the
   entry in the first row and first column of the new matrix:
-  `$a_{11}×b_{11} + a_{12}×b_{21}$`
+  `$a_{11}\text{×}b_{11} + a_{12}\text{×}b_{21}$`
 
 To plagiate wikipedia, here is the formula:
 
@@ -432,10 +432,10 @@ $$
 \mathbf{AB}
 &=
 \begin{bmatrix}
-4×7+3×\left(-2\right)               & 4×1+3×4               & 4×3+3×1\\
-0×7+\left(-5\right)×\left(-2\right) & 0×1+\left(-5\right)×4 & 0×3+\left(-5\right)×1\\
-2×7+1×\left(-2\right)               & 2×1+1×4               & 2×3+1×1\\
-\left(-6\right)×7+8×\left(-2\right) & \left(-6\right)×1+8×4 & \left(-6\right)×3+8×1
+4\text{×}7+3\text{×}\left(-2\right)               & 4\text{×}1+3\text{×}4               & 4\text{×}3+3\text{×}1\\
+0\text{×}7+\left(-5\right)\text{×}\left(-2\right) & 0\text{×}1+\left(-5\right)\text{×}4 & 0\text{×}3+\left(-5\right)\text{×}1\\
+2\text{×}7+1\text{×}\left(-2\right)               & 2\text{×}1+1\text{×}4               & 2\text{×}3+1\text{×}1\\
+\left(-6\right)\text{×}7+8\text{×}\left(-2\right) & \left(-6\right)\text{×}1+8\text{×}4 & \left(-6\right)\text{×}3+8\text{×}1
 \end{bmatrix}\\
 \mathbf{AB}
 &=
@@ -508,14 +508,62 @@ If we go a little farther, we can see something else based on the matrices
 `$\begin{bmatrix}5\\0\end{bmatrix}$`.  
 We can see that they can be used to reprensent ***points*** in the Cartesian
 plane, right? A point can be represented by a vector originating from origin,
-and a vector is just a `$2×1$` matrix.
+and a vector is just a `$2\text{×}1$` matrix.
 
 What we have here, is a matrix multiplication that represents the
-transformation of a point 
+transformation of a point into another point. We don't know what the first
+point's coordinates are yet, and it doesn't matter. What I wanted to show is
+that, given a position vector, we are able to *transform* it into another via
+a matrix multiplication operation.
 
-The next video will show you how you can use a matrix to **transform a point**!
+Given a point `$P$`, whose coordinates are represented by the position vector,
+`$\begin{bmatrix}x\\y\end{bmatrix}$`, we can obtain a new point `$P'$` whose
+coordinates are represented by the position vector
+`$\begin{bmatrix}x'\\y'\end{bmatrix}$` by multiplying it by a matrix.
 
-{{< youtube Kh8HKAxdEyw >}}
+One important thing is that this
+*[transformation matrix][khan-transf-vector]* has to have specific
+dimensions, in order to fulfill the rule of matrix multiplication: because
+`$\begin{bmatrix}x\\y\end{bmatrix}$` is a `$2\text{×}1$` matrix, and
+`$\begin{bmatrix}x'\\y'\end{bmatrix}$` is also a `$2\text{×}1$` matrix, then the
+transformation matrix has to be a `$2\text{×}2$` matrix in order to have:
+
+<div>
+$$
+\mathbf{A}
+.
+\begin{bmatrix}
+x\\y
+\end{bmatrix}
+=
+\begin{bmatrix}
+a_{11} & a_{12}\\
+a_{21} & a_{22}
+\end{bmatrix}
+.
+\begin{bmatrix}
+x\\y
+\end{bmatrix}
+=
+\begin{bmatrix}
+x'\\y'
+\end{bmatrix}
+$$
+</div>
+
+**Note:** The order here is important as we will see later, but you can already
+see that switching `$\mathbf{A}$` and `$\begin{bmatrix}x\\y\end{bmatrix}$`
+would lead to an `$undefined$` result (if you don't get it, re-read the part
+on matrix multiplication and their dimensions).
+
+Another great thing about transformation matrices, is that they can be used to
+[transform a whole bunch of points][khan-transf-polygone] in the same operation.
+
+Consider the following triangle for instance:
+
+`TODO: INSERT TRIANGLE IN CARTESIAN PLANE HERE`
+
+This triangle is formed by the position vectors `$P-{\Rightarrow}_{1}$`
 
 <br>
 
