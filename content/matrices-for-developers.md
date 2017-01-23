@@ -4,7 +4,6 @@ date: 2016-11-19T15:08:29+01:00
 description:
 tags: ["math","matrix"]
 categories: ["math"]
-draft: true
 highlight: true
 math: true
 klipse: true
