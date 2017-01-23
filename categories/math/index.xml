@@ -144,6 +144,10 @@ seems I was not the only one struggling with matrices, trying to make sense of
 it and using these skills with Android&amp;rsquo;s Matrix class and methods,
 so I thought I&amp;rsquo;d write an article.&lt;/p&gt;
 
+&lt;p&gt;The first part, this one, is about matrices. The upcoming second part will be
+about how to apply what you know about matrices in code, with Java and
+on Android.&lt;/p&gt;
+
 &lt;h2 id=&#34;table-of-contents&#34;&gt;Table of contents&lt;/h2&gt;
 
 &lt;div id=&#34;toc&#34; class=&#34;well col-md-12&#34;&gt;
