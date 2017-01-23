@@ -1399,7 +1399,7 @@ don't bother unless you're very curious and don't mind a little confusion.
 
 {{% fold id="rotation-matrix-explanation" title="Show fuzzy explanation" %}}
 
-{{< gallery title="$\underline{\text{Trigonometry triangles based on } \theta}$" >}}
+{{< gallery title="$\underline{\text{Unit vectors rotation by } \theta}$" >}}
   {{% galleryimage file="/img/matrices-for-developers/2D-rotation.png"
   size="1434x980" caption="Trigonometry triangles based on $\theta$"
   width="80%" %}}
