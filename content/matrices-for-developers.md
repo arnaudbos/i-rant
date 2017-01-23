@@ -82,6 +82,10 @@ seems I was not the only one struggling with matrices, trying to make sense of
 it and using these skills with Android's Matrix class and methods,
 so I thought I'd write an article.
 
+The first part, this one, is about matrices. The upcoming second part will be
+about how to apply what you know about matrices in code, with Java and
+on Android.
+
 ## Table of contents
 
 <div id="toc" class="well col-md-12">
