@@ -458,7 +458,7 @@ representation of the matrix multiplication process and an example:
 
 <div class="row row-same-height">
 <div class="col-md-4">
-<a title="By File:Matrix multiplication diagram.svg:User:Bilou See below. [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AMatrix_multiplication_diagram_2.svg" style="position: absolute; top: 50%; transform: translateY(-50%);"><img width="256" alt="Matrix multiplication diagram 2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Matrix_multiplication_diagram_2.svg/256px-Matrix_multiplication_diagram_2.svg.png"/></a>
+<a title="By File:Matrix multiplication diagram.svg:User:Bilou See below. [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AMatrix_multiplication_diagram_2.svg"><img width="256" alt="Matrix multiplication diagram 2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Matrix_multiplication_diagram_2.svg/256px-Matrix_multiplication_diagram_2.svg.png"/></a>
 </div>
 <div class="col-md-8">
 <div>
@@ -833,7 +833,7 @@ $$
 This matrix represents the base state of your plane, the matrix applied
 to your plane when you have just loaded your image for example (granted
 your image is the same size as its receiving container view).  
-In other words, ***this is the matrix that, applied to a position vector will
+In other words, ***this is the matrix that, applied to any position vector will
 return that same position vector***.
 
 This matrix is called the [identity matrix][khan-identity-matrix].
@@ -1189,7 +1189,7 @@ For instance, a shear along the $x$ axis is often represented showing a
 rectangle with a vertex at $\left(0, 1\right)$ is transformed into a
 parallelogram with a vertex at $\left(1, 1\right)$.
 
-{{< gallery title="Shearing along $\underline{x}$ axis by a constant $\underline{k_{x}=1}$" >}}
+{{< gallery title="$\underline{\text{Shearing along } x \text{ axis by a constant } k_{x}=1}$" >}}
   {{% galleryimage file="/img/matrices-for-developers/2D-constant-shearing.png"
   size="1084x769" caption="Cartesian plane shearing"
   width="80%" %}}
@@ -1198,7 +1198,7 @@ parallelogram with a vertex at $\left(1, 1\right)$.
 In this article, I want to explain it using the shearing angle, the angle
 through which the axis is sheared. Let's call it $\alpha$ (alpha).
 
-{{< gallery title="Shearing along $\underline{x}$ axis by an angle $\underline{\alpha}$" >}}
+{{< gallery title="$\underline{\text{Shearing along } x \text{ axis by an angle } \alpha}$" >}}
   {{% galleryimage file="/img/matrices-for-developers/2D-angle-shearing.gif"
   size="1083x691" caption="Cartesian plane shearing"
   width="80%" %}}
@@ -1211,7 +1211,7 @@ between the top left vertex of the rectangle and the top left vertex of the
 parallelogram. In other words, $x^{\prime}$ is equal to $x$ plus/minus the
 opposite side of the green triangle, see:
 
-{{< gallery title="Triangles formed by shearing along $\underline{x}$ axis by an angle $\underline{\alpha=-30^{\circ}}$ or $\underline{\alpha=30^{\circ}}$ when $\underline{y\left(P\right)>0}$ and $\underline{y\left(P\right)<0}$" >}}
+{{< gallery title="$\underline{\text{Triangles formed by shearing along } x \text{ axis by an angle } \alpha}$" >}}
   {{% galleryimage file="/img/matrices-for-developers/2D-angle-shearing-triangles-1.png"
     size="1434x882" title="Shearing by negative alpha=-30 degrees when y(P)>0"
     caption="Shearing by negative $\alpha=-30^{\circ}$ when $y\left(P\right)>0$"
@@ -1366,7 +1366,7 @@ Rotations are yet a little bit more complex.
 Let's take a closer look at it with an example of rotating (around the origin)
 from a angle $ \theta $ (theta).
 
-{{< gallery title="Rotate by an angle $\underline{\theta}$" >}}
+{{< gallery title="$\underline{\text{Rotate by an angle } \theta}$" >}}
   {{% galleryimage file="/img/matrices-for-developers/2D-rotation.gif"
   size="1083x740" caption="Cartesian plane rotation"
   width="80%" %}}
@@ -1390,17 +1390,18 @@ While searching for the demonstration of this, I stumbled upon this
 geometry based explanation
 by [Nick Berry][datagenetics-rotation] and [this video][matrix-rotation-video].
 
-To be honest, I'm not 100% comfortable with this solution which means I didn't
-fully understand it. And also Hadrien (one of by reviewers who's way more
-skilled at math than I am), found it awkward.  
+To be honest, I'm not 100% comfortable with this solution, which means I didn't
+fully understand it. And also after re-reading what I've written, Hadrien
+(one of the reviewers) and I have found **my** explanation to be a bit
+*awkward*.  
 So I'm leaving it here in case you're interested, but I suggest you
 don't bother unless you're very curious and don't mind a little confusion.
 
 {{% fold id="rotation-matrix-explanation" title="Show fuzzy explanation" %}}
 
-{{< gallery title="Trigonometry triangles based on $\underline{\theta}$" >}}
+{{< gallery title="$\underline{\text{Trigonometry triangles based on } \theta}$" >}}
   {{% galleryimage file="/img/matrices-for-developers/2D-rotation.png"
-  size="1434x980" caption="Trigonometry triangles based on $\underline{\theta}$"
+  size="1434x980" caption="Trigonometry triangles based on $\theta$"
   width="80%" %}}
 {{< /gallery >}}
 
@@ -2484,7 +2485,7 @@ advices:
 [khan-mult-properties]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/a/properties-of-matrix-multiplication
 [trigonometry]: http://www.mathsisfun.com/algebra/trigonometry.html
 [ilaborie]: https://twitter.com/ilaborie
-[matrices-texas]: https://www.cs.utexas.edu/~fussell/courses/cs384g/lectures/lecture07-Affine.pdf
+[matrices-texas]: https://www.cs.utexas.edu/~fussell/courses/cs384g-fall2010/lectures/lecture07-Affine.pdf
 [ohio-matrices]: http://web.cse.ohio-state.edu/~whmin/courses/cse5542-2013-spring/6-Transformation_II.pdf
 [datagenetics-rotation]: http://datagenetics.com/blog/august32013/
 [matrix-rotation-video]: https://www.youtube.com/watch?v=h11ljFJeaLo
