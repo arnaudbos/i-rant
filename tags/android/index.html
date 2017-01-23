@@ -60,7 +60,7 @@
                   </div>
                   <div class="col-sm-8 col-md-8 col-lg-8">
                     <h5 style="text-align: left">
-                      <strong><a href="/2d-transformations-android/">2D Transformations with Android</a></strong>
+                      <strong><a href="/2d-transformations-android-java/">2D Transformations with Android and Java</a></strong>
                     </h5>
                   </div>
                 </div>
@@ -101,6 +101,20 @@
 <script src="http://www.arnaudbos.com/js/main.js"></script>
 
 <script src="http://www.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- EmojiOne -->
+<script src="https://cdn.jsdelivr.net/emojione/2.2.7/lib/js/emojione.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/2.2.7/assets/css/emojione.min.css"/>
+
+<script>
+(function (){
+  var emojis = document.getElementsByClassName('emoji');
+  for(var i=0; i<emojis.length; i++){
+	  var content = emojis[i].textContent;
+    emojis[i].innerHTML = emojione.shortnameToImage(content);
+  }
+})();
+</script>
 
 
 

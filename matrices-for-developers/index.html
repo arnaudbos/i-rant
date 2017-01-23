@@ -60,7 +60,7 @@
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          43 minutes read
+          45 minutes read
           </h4>
         </div>
         <div>
@@ -77,31 +77,29 @@
             <div class="blogpost">
               
 
+<blockquote>
+<p>WARNING: Long article, big images, heavy GIFs.</p>
+</blockquote>
+
 <p>A few weeks ago I was on an <code>android-user-group</code> channel,
 when someone posted a question about Android&rsquo;s
 <a href="https://developer.android.com/reference/android/graphics/Matrix.html#postScale(float,%20float,%20float,%20float)">Matrix.postScale(sx, sy, px, py)</a> method and how it works
 because it was <em>&ldquo;hard to grasp&rdquo;</em>.</p>
 
-<p>Coincidence: a few months ago, at the beginning of 2016, I finished a freelance
+<p>Coincidence: in the beginning of 2016, I finished a freelance
 project on an <a href="https://play.google.com/store/apps/details?id=fr.climbingaway">Android application</a> where I had to implement
 an exciting feature:</p>
-
-<p>The user, after buying and downloading a digital topography of a crag, had to
-be able to view the crag which was composed of:</p>
-
-<ul>
-<li>a picture of the cliff,</li>
-<li>a SVG file containing an overlay of the climbing routes.</li>
-</ul>
-
-<p>The user had to have the ability to pan and zoom at will and have the routes
-layer &ldquo;<em>follow</em>&rdquo; the picture.</p>
 
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
   <a href="/img/matrices-for-developers/ca-screenshot-1.png" itemprop="contentUrl" data-size="1080x1920">
-      <img src="/img/matrices-for-developers/ca-screenshot-1.png" itemprop="thumbnail" alt="Climbing away - App screenshot 1" width="80" height="142" />
+      <img src="/img/matrices-for-developers/ca-screenshot-1.png" itemprop="thumbnail"
+        
+        
+        width="80"
+        height="142"
+        />
   </a>
 
   <figcaption itemprop="caption description">
@@ -112,7 +110,12 @@ layer &ldquo;<em>follow</em>&rdquo; the picture.</p>
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
   <a href="/img/matrices-for-developers/ca-screenshot-2.png" itemprop="contentUrl" data-size="1080x1920">
-      <img src="/img/matrices-for-developers/ca-screenshot-2.png" itemprop="thumbnail" alt="Climbing away - App screenshot 2" width="80" height="142" />
+      <img src="/img/matrices-for-developers/ca-screenshot-2.png" itemprop="thumbnail"
+        
+        
+        width="80"
+        height="142"
+        />
   </a>
 
   <figcaption itemprop="caption description">
@@ -123,7 +126,12 @@ layer &ldquo;<em>follow</em>&rdquo; the picture.</p>
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
   <a href="/img/matrices-for-developers/ca-screenshot-3.png" itemprop="contentUrl" data-size="1080x1920">
-      <img src="/img/matrices-for-developers/ca-screenshot-3.png" itemprop="thumbnail" alt="Climbing away - App screenshot 3" width="80" height="142" />
+      <img src="/img/matrices-for-developers/ca-screenshot-3.png" itemprop="thumbnail"
+        
+        
+        width="80"
+        height="142"
+        />
   </a>
 
   <figcaption itemprop="caption description">
@@ -137,17 +145,30 @@ layer &ldquo;<em>follow</em>&rdquo; the picture.</p>
 </div>
 
 
+<p>The user, after buying and downloading a digital topography of a crag, had to
+be able to view the crag which was composed of:</p>
+
+<ul>
+<li>a picture of the cliff,</li>
+<li>a SVG file containing an overlay of the climbing routes.</li>
+</ul>
+
+<p>The user had to have the ability to pan and zoom at will and have the routes
+layer <em>&ldquo;follow&rdquo;</em> the picture.</p>
+
 <h2 id="technical-challenge">Technical challenge</h2>
 
 <p>In order to have the overlay of routes follow the user&rsquo;s actions, I found I
 had to get my hands dirty by overloading an Android <code>ImageView</code>, draw onto the
 <code>Canvas</code> and deal with finger gestures.<br />
-As a good engineer: I searched on Stack Overflow 😅<br />
+As a good engineer: I searched on Stack Overflow
+<span class="emoji">:sweat_smile:</span>
+<br />
 And I discovered I&rsquo;d need the <code>android.graphics.Matrix</code> class for 2D
 transformations.</p>
 
 <p>The problem with this class, is that it might seem obvious what it does, but if
-you have no mathematical background, it&rsquo;s still quite mysterious.</p>
+you have no mathematical background, it&rsquo;s quite mysterious.</p>
 
 <blockquote>
 <p>boolean postScale (float sx, float sy, float px, float py)</p>
@@ -156,19 +177,21 @@ you have no mathematical background, it&rsquo;s still quite mysterious.</p>
 </blockquote>
 
 <p>Yeah, cool, so it <em>scales</em> something with some parameters and it does it with
-some kind of multiplication. I don&rsquo;t get it:</p>
+some kind of multiplication. Nah, I don&rsquo;t get it:</p>
 
 <ul>
 <li>What does it do exactly? Scales a matrix? What&rsquo;s that supposed to mean, I
 want to scale the canvas&hellip;</li>
 <li>What should I use, <code>preScale</code> or <code>postScale</code>? Do I try both while I get the
-input parameters from my gesture detection code and enter an infite loop of
+input parameters from my gesture detection code and enter an infinite loop of
 trial and error guesstimates? (No. Fucking. Way.)</li>
 </ul>
 
-<p>So at this very moment of the development process I realized I needed to learn
-basic math skills about <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)">matrices</a> that I had forgotten many
-years ago, after finishing my first two years of uni 😱</p>
+<p>So at this very moment of the development process I realized I needed to
+re-learn basic math skills about <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)">matrices</a> that I had forgotten
+many years ago, after finishing my first two years of uni
+<span class="emoji">:scream:</span>
+</p>
 
 <p><strong><em>WWW to the rescue!</em></strong></p>
 
@@ -226,6 +249,7 @@ so I thought I&rsquo;d write an article.</p>
 <li><a href="#combination-use-case-rotate-image">Combination use-case: rotate image</a></li>
 </ul></li>
 <li><a href="#acknowledgements">Acknowledgements</a></li>
+<li><a href="#resources">Resources</a></li>
 <li><a href="#links">Links</a></li>
 </ul></li>
 </ul>
@@ -281,9 +305,9 @@ and this is the use case we will study in this article.</p>
 <h3 id="anatomy">Anatomy</h3>
 
 <p>Simply put, a <a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-intro-to-matrices/a/intro-to-matrices">matrix is a <em>2D array</em></a>. In fact, talking
-about a <code>$m\text{×}n$</code> matrix relates to an array of length <code>$m$</code> in which
-each item is also an array but this time of length <code>$n$</code>. Usually, <code>$m$</code>
-represents a rows&rsquo; number and <code>$n$</code> a columns&rsquo; number. Each element in the
+about a $m \times n$ matrix relates to an array of length $m$ in which
+each item is also an array but this time of length $n$. Usually, $m$
+represents a rows&rsquo; number and $n$ a columns&rsquo; number. Each element in the
 matrix is called an <em>entry</em>.<br />
 A matrix is represented by a bold capital letter,
 and each entry is represented by the same letter, but in lowercase and suffixed
@@ -292,18 +316,20 @@ with its row number and column number, in this order. For example:</p>
 <div>
 $$
 \mathbf{A} =
-\begin{bmatrix}
+\begin{pmatrix}
 a_{11} & a_{12} & \cdots & a_{1n}\\
 a_{21} & a_{22} & \vdots & a_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 a_{m1} & a_{m2} & \cdots & a_{mn}
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
 <p>Now what can we do with it? We can define an algebra for instance: like
 <a href="https://www.khanacademy.org/bigbingo_redirect?continue=https%3A%2F%2Fwww.khanacademy.org%2Fmath%2Falgebra-home%2Falg-matrices%2Falg-adding-and-subtracting-matrices%2Fv%2Fmatrix-addition-and-subtraction-1&amp;conversion_ids=condensed_tutorial_title_click">addition, subtraction</a> and
-<a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-multiplying-matrices-by-matrices/a/multiplying-matrices">multiplication</a> operations, for fun and profit. 🤓</p>
+<a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-multiplying-matrices-by-matrices/a/multiplying-matrices">multiplication</a> operations, for fun and profit.
+<span class="emoji">:nerd:</span>
+</p>
 
 <h3 id="addition-subtraction">Addition/Subtraction</h3>
 
@@ -313,132 +339,134 @@ or subtracting the corresponding entries of the operand matrices:</p>
 <div>
 $$
 \mathbf{A} + \mathbf{B} =
-\begin{bmatrix}
+\begin{pmatrix}
 a_{11} & a_{12} & \cdots & a_{1n}\\
 a_{21} & a_{22} & \vdots & a_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 a_{m1} & a_{m2} & \cdots & a_{mn}
-\end{bmatrix}
+\end{pmatrix}
 +
-\begin{bmatrix}
+\begin{pmatrix}
 b_{11} & b_{12} & \cdots & b_{1n}\\
 b_{21} & b_{22} & \vdots & b_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 b_{m1} & b_{m2} & \cdots & b_{mn}
-\end{bmatrix}
+\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 a_{11}+b_{11} & a_{12}+b_{12} & \cdots & a_{1n}+b_{1n}\\
 a_{21}+b_{21} & a_{22}+b_{22} & \vdots & a_{2n}+b_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 a_{m1}+b_{m1} & a_{m2}+b_{m2} & \cdots & a_{mn}+b_{mn}
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
 <div>
 $$
 \mathbf{A} - \mathbf{B} =
-\begin{bmatrix}
+\begin{pmatrix}
 a_{11} & a_{12} & \cdots & a_{1n}\\
 a_{21} & a_{22} & \vdots & a_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 a_{m1} & a_{m2} & \cdots & a_{mn}
-\end{bmatrix}
+\end{pmatrix}
 -
-\begin{bmatrix}
+\begin{pmatrix}
 b_{11} & b_{12} & \cdots & b_{1n}\\
 b_{21} & b_{22} & \vdots & b_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 b_{m1} & b_{m2} & \cdots & b_{mn}
-\end{bmatrix}
+\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 a_{11}-b_{11} & a_{12}-b_{12} & \cdots & a_{1n}-b_{1n}\\
 a_{21}-b_{21} & a_{22}-b_{22} & \vdots & a_{2n}-b_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 a_{m1}-b_{m1} & a_{m2}-b_{m2} & \cdots & a_{mn}-b_{mn}
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
 <p>Corollary to this definition we can deduce that in order to be <em><code>defined</code></em>, a matrix
 addition or subtraction must be performed against two matrices of same
-dimensions <code>$m\text{×}n$</code>, otherwise the <em>&ldquo;corresponding entries&rdquo;</em> bit would
+dimensions $m \times n$, otherwise the <em>&ldquo;corresponding entries&rdquo;</em> bit would
 have no sense:<br />
-Grab a pen and paper and try to add a <code>$3\text{×}2$</code> matrix to a <code>$2\text{×}3$</code>
+Grab a pen and paper and try to add a $3 \times 2$ matrix to a $2 \times 3$
 matrix. What will you do with the last <em>row</em> of the first matrix? Same question
 with the last <em>column</em> of the second matrix?<br />
-If you don&rsquo;t know, then you&rsquo;ve reach the same conclusion as the mathematicians
-that defined matrices additions and subtractions, pretty much 😋</p>
+If you don&rsquo;t know, then you&rsquo;ve reached the same conclusion as the mathematicians
+that defined matrices additions and subtractions, pretty much
+<span class="emoji">:innocent:</span>
+</p>
 
 <h4>Examples</h4>
 
 <div class="row row-same-height">
 <div class="col-md-6">
 $$
-\begin{align}
+\begin{aligned}
 \text{Addition}\\
 \mathbf{A} + \mathbf{B}
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 4 & -8 & 7\\
 0 & 2 & -1\\
 15 & 4 & 9
-\end{bmatrix}
+\end{pmatrix}
 +
-\begin{bmatrix}
+\begin{pmatrix}
 -5 & 2 & 3\\
 4 & -1 & 6\\
 0 & 12 & 3
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 4+\left(-5\right) & \left(-8\right)+2 & 7+3\\
 0+4               & 2+\left(-1\right) & \left(-1\right)+6\\
 15+0              & 4+12              & 9+3
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 \mathbf{A} + \mathbf{B}
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 -1 & -6 & 10\\
 4  & 1  & 5\\
 15 & 16 & 12
-\end{bmatrix}
-\end{align}
+\end{pmatrix}
+\end{aligned}
 $$
 </div>
 <div class="col-md-6">
 $$
-\begin{align}
+\begin{aligned}
 \text{Subtraction}\\
 \mathbf{A} - \mathbf{B}
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 4  & -8 & 7\\
 0  & 2  & -1\\
 15 & 4  & 9
-\end{bmatrix}
+\end{pmatrix}
 -
-\begin{bmatrix}
+\begin{pmatrix}
 -5 & 2 & 3\\
 4 & -1 & 6\\
 0 & 12 & 3
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 4-\left(-5\right) & \left(-8\right)-2 & 7-3\\
 0-4               & 2-\left(-1\right) & \left(-1\right)-6\\
 15-0              & 4-12              & 9-3
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 \mathbf{A} + \mathbf{B}
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 9  & -10 & 4\\
 -4 & 3   & -7\\
 15 & -8  & 6
-\end{bmatrix}
-\end{align}
+\end{pmatrix}
+\end{aligned}
 $$
 </div>
 </div>
@@ -446,16 +474,6 @@ $$
 <p><br></p>
 
 <h3 id="matrix-multiplication">Matrix multiplication</h3>
-
-<p><code>TODO</code> Remove this:</p>
-
-<code class="language-klipse"
-  data-external-libs="https://raw.githubusercontent.com/thi-ng/typedarrays/master/src,https://raw.githubusercontent.com/thinktopic/aljabr/master/src,https://raw.githubusercontent.com/mikera/core.matrix/develop/src/main/clojure"
-  data-preamble="(ns toto.matrices-algebra (:require [clojure.core.matrix :refer [shape]]))">
-(shape 8.0)
-</code>
-<br>
-
 
 <p>Throughout all my math schooling I&rsquo;ve been said things like
 <em>&ldquo;<a href="https://en.wikipedia.org/wiki/Apples_and_oranges">you can&rsquo;t add apples to oranges</a>, it makes no
@@ -476,19 +494,19 @@ $$
 k . \mathbf{A}
 =
 k .
-\begin{bmatrix}
+\begin{pmatrix}
 a_{11} & a_{12} & \cdots & a_{1n}\\
 a_{21} & a_{22} & \vdots & a_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 a_{m1} & a_{m2} & \cdots & a_{mn}
-\end{bmatrix}
+\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 k.a_{11} & k.a_{12} & \cdots & k.a_{1n}\\
 k.a_{21} & k.a_{22} & \vdots & k.a_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 k.a_{m1} & k.a_{m2} & \cdots & k.a_{mn}
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
@@ -497,17 +515,17 @@ $$
 <div>
 $$
 4 .
-\begin{bmatrix}
+\begin{pmatrix}
 0  & 3  & 12\\
 7  & -5 & 1\\
 -8 & 2  & 0
-\end{bmatrix}
+\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 0   & 12  & 48\\
 28  & -20 & 4\\
 -32 & 8   & 0
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
@@ -518,57 +536,67 @@ to multiply a matrix by a matrix we don&rsquo;t simply multiply the correspondin
 entries. I&rsquo;ll just <a href="https://en.wikipedia.org/wiki/Matrix_multiplication">quote wikipedia</a> on that one:</p>
 
 <blockquote>
-<p>if <code>$\mathbf{A}$</code> is an <code>$m\text{×}n$</code> matrix and <code>$\mathbf{B}$</code> is an
-<code>$n\text{×}p$</code> matrix, their matrix product <code>$\mathbf{AB}$</code> is an
-<code>$m\text{×}p$</code> matrix, in which the <code>$n$</code> entries across a
-row of <code>$\mathbf{A}$</code> are multiplied with the <code>$n$</code> entries down a columns
-of <code>$\mathbf{B}$</code> and summed to produce an entry of <code>$\mathbf{AB}$</code></p>
+<p>if $\mathbf{A}$ is an $m \times n$ matrix and $\mathbf{B}$ is an
+$n \times p$ matrix, their matrix product $\mathbf{AB}$ is an
+$m \times p$ matrix, in which the $n$ entries across a
+row of $\mathbf{A}$ are multiplied with the $n$ entries down a columns
+of $\mathbf{B}$ and summed to produce an entry of $\mathbf{AB}$</p>
 </blockquote>
 
-<p>This hurts my brain, let&rsquo;s break it down.</p>
+<span class="emoji">:expressionless:</span>
 
-<p>The dimensions stuff first:</p>
+
+<p>This hurts my brain, let&rsquo;s break it down:</p>
 
 <blockquote>
-<p>if <code>$\mathbf{A}$</code> is an <code>$m\text{×}n$</code> matrix and <code>$\mathbf{B}$</code> is an
-<code>$n\text{×}p$</code> matrix, their matrix product <code>$\mathbf{AB}$</code> is an
-<code>$m\text{×}p$</code> matrix</p>
+<p>if $\mathbf{A}$ is an $m \times n$ matrix and $\mathbf{B}$ is an
+$n \times p$ matrix, their matrix product $\mathbf{AB}$ is an
+$m \times p$ matrix</p>
 </blockquote>
 
-<p>We can write this in a more graphical way: <code>$
-\underset{m\text{×}n}{\mathbf{A}}
-\text{×}
-\underset{n\text{×}p}{\mathbf{B}} =
-\underset{m\text{×}p}{\mathbf{AB}}
-$</code>.</p>
+<p>We can write this in a more graphical way: $
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{A} \\ ^{\scriptsize m \times n}\end{matrix} }
+\times
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{B} \\ ^{\scriptsize n \times p}\end{matrix} } =
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{AB} \\ ^{\scriptsize m \times p}\end{matrix} }
+$.</p>
 
 <p>See this simple matrix
-<code>$\underset{2\text{×}2}{\mathbf{A}} = \begin{bmatrix}a_{11} &amp; a_{12}\\a_{21} &amp; a_{22}\end{bmatrix}$</code>
+$
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{A} \\ ^{\scriptsize 2 \times 3}\end{matrix} } =
+\begin{pmatrix}a_{11} &amp; a_{12} &amp; a_{13}\\a_{21} &amp; a_{22} &amp; a_{23}\end{pmatrix}
+$
 and this other matrix
-<code>$\underset{2\text{×}2}{\mathbf{B}} = \begin{bmatrix}b_{11} &amp; b_{12}\\b_{21} &amp; b_{22}\end{bmatrix}$</code>.<br />
-We have <code>$m=2$</code>, <code>$n=2$</code> and <code>$p=2$</code> so the multiplication will give
-<code>$\underset{2\text{×}2}{\mathbf{AB}} = \begin{bmatrix}ab_{11} &amp; ab_{12}\\ab_{21} &amp; ab_{22}\end{bmatrix}$</code>.</p>
+$
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{B} \\ ^{\scriptsize 3 \times 1}\end{matrix} } =
+\begin{pmatrix}b_{11}\\b_{21}\\b_{31}\end{pmatrix}
+$.<br />
+We have $m=2$, $n=3$ and $p=1$ so the multiplication will give
+$
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{AB} \\ ^{\scriptsize 2 \times 1}\end{matrix} } =
+\begin{pmatrix}ab_{11}\\ab_{21}\end{pmatrix}
+$.</p>
 
 <p>Let&rsquo;s decompose the second part now:</p>
 
 <ul>
-<li><em>&ldquo;the <code>$n$</code> entries across a row of <code>$\mathbf{A}$</code>&ldquo;</em> means is that each row
-in <code>$\mathbf{A}$</code> is an array of <code>$n=2$</code> entries: if we take the first row we
-get <code>$a_{11}$</code> and <code>$a_{12}$</code></li>
-<li><em>&ldquo;the <code>$n$</code> entries down a columns of <code>$\mathbf{B}$</code>&ldquo;</em> means that each
-column of <code>$\mathbf{B}$</code> is also an array of <code>$n=2$</code> entries: in the first
-column we get <code>$b_{11}$</code> and <code>$b_{21}$</code>.</li>
-<li><em>&ldquo;are multiplied with&rdquo;</em> means that each entry in <code>$\mathbf{A}$</code>&rsquo;s row
+<li><em>&ldquo;the $n$ entries across a row of $\mathbf{A}$&rdquo;</em> means that each row
+in $\mathbf{A}$ is an array of $n=3$ entries: if we take the first row we
+get $a_{11}$, $a_{12}$ and $a_{13}$.</li>
+<li><em>&ldquo;the $n$ entries down a columns of $\mathbf{B}$&rdquo;</em> means that each
+column of $\mathbf{B}$ is also an array of $n=3$ entries: in the first
+column we get $b_{11}$, $b_{21}$ and $b_{31}$.</li>
+<li><em>&ldquo;are multiplied with&rdquo;</em> means that each entry in $\mathbf{A}$&rsquo;s row
 must be multiplied with its corresponding (first with first, second with
-second, etc.) entry in <code>$\mathbf{B}$</code>&rsquo;s column: <code>$a_{11}\text{×}b_{11}$</code> and
-<code>$a_{12}\text{×}b_{21}$</code></li>
-<li><em>&ldquo;And summed to produce an entry of <code>$\mathbf{AB}$</code>&ldquo;</em> means that we must add
+second, etc.) entry in $\mathbf{B}$&rsquo;s column: $a_{11} \times b_{11}$,
+$a_{12} \times b_{21}$ and $a_{13} \times b_{31}$</li>
+<li><em>&ldquo;And summed to produce an entry of $\mathbf{AB}$&rdquo;</em> means that we must add
 the products of these corresponding rows and columns entries in order to get
 the entry of the new matrix at this row number and column number: in our case
 we took the products of the entries in the first row in the first matrix with
 the entries in the first column in the second matrix, so this will give us the
 entry in the first row and first column of the new matrix:
-<code>$a_{11}\text{×}b_{11} + a_{12}\text{×}b_{21}$</code></li>
+$a_{11} \times b_{11} + a_{12} \times b_{21} + a_{13} \times b_{31}$</li>
 </ul>
 
 <p>To plagiate wikipedia, here is the formula:</p>
@@ -576,27 +604,31 @@ entry in the first row and first column of the new matrix:
 <div>
 $$
 \mathbf{A} =
-\begin{bmatrix}
+\begin{pmatrix}
 a_{11} & a_{12} & \cdots & a_{1n}\\
 a_{21} & a_{22} & \vdots & a_{2n}\\
 \vdots & \vdots & \ddots & \vdots\\
 a_{m1} & a_{m2} & \cdots & a_{mn}
-\end{bmatrix}
+\end{pmatrix}
 \text{, }
 \mathbf{B} =
-\begin{bmatrix}
+\begin{pmatrix}
 b_{11} & b_{12} & \cdots & b_{1p}\\
 b_{21} & b_{22} & \vdots & b_{2p}\\
 \vdots & \vdots & \ddots & \vdots\\
 b_{n1} & b_{n2} & \cdots & b_{np}
-\end{bmatrix}\\
+\end{pmatrix}
+$$
+</div>
+<div>
+$$
 \mathbf{AB} =
-\begin{bmatrix}
+\begin{pmatrix}
 ab_{11} & ab_{12} & \cdots & ab_{1p}\\
 ab_{21} & ab_{22} & \vdots & ab_{2p}\\
-\vdots & \vdots & \ddots & \vdots\\
+\vdots  & \vdots  & \ddots & \vdots\\
 ab_{m1} & ab_{m2} & \cdots & ab_{mp}
-\end{bmatrix}\\
+\end{pmatrix}
 \text{where }
 ab_{ij}=\sum_{k=1}^{m}a_{ik}b_{kj}
 $$
@@ -607,50 +639,55 @@ representation of the matrix multiplication process and an example:</p>
 
 <div class="row row-same-height">
 <div class="col-md-4">
-<a title="By File:Matrix multiplication diagram.svg:User:Bilou See below. [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AMatrix_multiplication_diagram_2.svg" style="text-align: center;"><img width="256" alt="Matrix multiplication diagram 2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Matrix_multiplication_diagram_2.svg/256px-Matrix_multiplication_diagram_2.svg.png"/></a>
+<a title="By File:Matrix multiplication diagram.svg:User:Bilou See below. [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AMatrix_multiplication_diagram_2.svg" style="position: absolute; top: 50%; transform: translateY(-50%);"><img width="256" alt="Matrix multiplication diagram 2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Matrix_multiplication_diagram_2.svg/256px-Matrix_multiplication_diagram_2.svg.png"/></a>
 </div>
 <div class="col-md-8">
+<div>
 $$
 \mathbf{A} =
-\begin{bmatrix}
+\begin{pmatrix}
 4  & 3\\
 0  & -5\\
 2  & 1\\
 -6 & 8
-\end{bmatrix}
+\end{pmatrix}
 \text{, }
 \mathbf{B} =
-\begin{bmatrix}
+\begin{pmatrix}
 7  & 1 & 3\\
 -2 & 4 & 1
-\end{bmatrix}\\
-\begin{align}
+\end{pmatrix}
+$$
+</div>
+<div>
+$$
+\begin{aligned}
 \mathbf{AB}
 &=
-\begin{bmatrix}
-4\text{×}7+3\text{×}\left(-2\right)               & 4\text{×}1+3\text{×}4               & 4\text{×}3+3\text{×}1\\
-0\text{×}7+\left(-5\right)\text{×}\left(-2\right) & 0\text{×}1+\left(-5\right)\text{×}4 & 0\text{×}3+\left(-5\right)\text{×}1\\
-2\text{×}7+1\text{×}\left(-2\right)               & 2\text{×}1+1\text{×}4               & 2\text{×}3+1\text{×}1\\
-\left(-6\right)\text{×}7+8\text{×}\left(-2\right) & \left(-6\right)\text{×}1+8\text{×}4 & \left(-6\right)\text{×}3+8\text{×}1
-\end{bmatrix}\\
-\mathbf{AB}
+\begin{pmatrix}
+4\times7+3\times\left(-2\right)               & 4\times1+3\times4               & 4\times3+3\times1\\
+0\times7+\left(-5\right)\times\left(-2\right) & 0\times1+\left(-5\right)\times4 & 0\times3+\left(-5\right)\times1\\
+2\times7+1\times\left(-2\right)               & 2\times1+1\times4               & 2\times3+1\times1\\
+\left(-6\right)\times7+8\times\left(-2\right) & \left(-6\right)\times1+8\times4 & \left(-6\right)\times3+8\times1
+\end{pmatrix}\\\\
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 28-6   & 4+12  & 12+3\\
 0+10   & 0-20  & 0-5\\
 14-2   & 2+4   & 6+1\\
 -42-16 & -6+32 & -18+8
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 \mathbf{AB}
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 22  & 16  & 15\\
 10  & -20 & -5\\
 12  & 6   & 7\\
 -58 & 26  & -10
-\end{bmatrix}
-\end{align}
+\end{pmatrix}
+\end{aligned}
 $$
+</div>
 </div>
 </div>
 
@@ -678,8 +715,10 @@ linear equations. Suppose I give you this system:</p>
 
 <div>
 $$
-2x+y=5\\
--x+2y=0
+\begin{aligned}
+2x+y &= 5\\
+-x+2y &= 0
+\end{aligned}
 $$
 </div>
 
@@ -689,27 +728,27 @@ matrix multiplication:</p>
 
 <div>
 $$
-\begin{bmatrix}
+\begin{pmatrix}
 2  & 1\\
 -1 & 2
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 x\\y
-\end{bmatrix}
+\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 5\\0
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
-<p>If we go a little farther, we can see something else based on the matrices
-<code>$\begin{bmatrix}x\\y\end{bmatrix}$</code> and
-<code>$\begin{bmatrix}5\\0\end{bmatrix}$</code>.<br />
+<p>If we go a little further, we can see something else based on the matrices
+$\begin{pmatrix}x\\y\end{pmatrix}$ and
+$\begin{pmatrix}5\\0\end{pmatrix}$.<br />
 We can see that they can be used to reprensent <strong><em>points</em></strong> in the Cartesian
 plane, right? A point can be represented by a vector originating from origin,
-and a vector is just a <code>$2\text{×}1$</code> matrix.</p>
+and a vector is just a $2 \times 1$ matrix.</p>
 
 <p>What we have here, is a matrix multiplication that represents the
 transformation of a point into another point. We don&rsquo;t know what the first
@@ -717,45 +756,47 @@ point&rsquo;s coordinates are yet, and it doesn&rsquo;t matter. What I wanted to
 that, given a position vector, we are able to <em>transform</em> it into another via
 a matrix multiplication operation.</p>
 
-<p>Given a point <code>$P$</code>, whose coordinates are represented by the position vector,
-<code>$\begin{bmatrix}x\\y\end{bmatrix}$</code>, we can obtain a new point <code>$P'$</code> whose
-coordinates are represented by the position vector
-<code>$\begin{bmatrix}x'\\y'\end{bmatrix}$</code> by multiplying it by a matrix.</p>
+<p>Given a point $P$, whose coordinates are represented by the position vector,
+$\begin{pmatrix}x\\y\end{pmatrix}$, we can obtain a new point $P^{\prime}$
+whose coordinates are represented by the position vector
+$\begin{pmatrix}x^{\prime}\\y^{\prime}\end{pmatrix}$ by multiplying it by a
+matrix.</p>
 
 <p>One important thing is that this
 <em><a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-matrices-as-transformations/v/transforming-position-vector">transformation matrix</a></em> has to have specific
 dimensions, in order to fulfill the rule of matrix multiplication: because
-<code>$\begin{bmatrix}x\\y\end{bmatrix}$</code> is a <code>$2\text{×}1$</code> matrix, and
-<code>$\begin{bmatrix}x'\\y'\end{bmatrix}$</code> is also a <code>$2\text{×}1$</code> matrix, then the
-transformation matrix has to be a <code>$2\text{×}2$</code> matrix in order to have:</p>
+$\begin{pmatrix}x\\y\end{pmatrix}$ is a $2 \times 1$ matrix, and
+$\begin{pmatrix}x^{\prime}\\y^{\prime}\end{pmatrix}$ is also a $2 \times 1$
+matrix, then the transformation matrix has to be a $2 \times 2$ matrix in
+order to have:</p>
 
 <div>
 $$
 \mathbf{A}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 x\\y
-\end{bmatrix}
+\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 a_{11} & a_{12}\\
 a_{21} & a_{22}
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 x\\y
-\end{bmatrix}
+\end{pmatrix}
 =
-\begin{bmatrix}
-x'\\y'
-\end{bmatrix}
+\begin{pmatrix}
+x^{\prime}\\y^{\prime}
+\end{pmatrix}
 $$
 </div>
 
 <blockquote>
 <p><strong>Note:</strong> The order here is important as we will see later, but you can
-already see that switching <code>$\mathbf{A}$</code> and
-<code>$\begin{bmatrix}x\\y\end{bmatrix}$</code> would lead to an <code>$undefined$</code> result
+already see that switching $\mathbf{A}$ and
+$\begin{pmatrix}x\\y\end{pmatrix}$ would lead to an $undefined$ result
 (if you don&rsquo;t get it, re-read the part on matrix multiplication and their
 dimensions).</p>
 </blockquote>
@@ -797,50 +838,48 @@ transformations</em> (which is full of fancy plots and
 animations)</a> and particularly its last part:
 <strong><em>Representing two dimensional linear transforms with matrices</em></strong>.</p>
 
-<p>Come back here once you&rsquo;ve read it, or it&rsquo;s gonna hurt 😅</p>
+<p>Come back here once you&rsquo;ve read it, or it&rsquo;s goind to hurt
+<span class="emoji">:sweat_smile:</span>
+</p>
 
 <hr />
 
-<p>Ok I suppose you&rsquo;ve read the course I linked to above, but just in case, here
+<p>Ok I suppose you&rsquo;ve read the course above, but just in case, here
 is a reminder</p>
 
 <ul>
-<li>a position vector <code>$ \begin{bmatrix} x\\ y \end{bmatrix} $</code> can be broken
+<li>a position vector $\begin{pmatrix}x\\y\end{pmatrix}$ can be broken
 down as
-<code>$
-\begin{bmatrix} x\\y \end{bmatrix} =
-x \begin{bmatrix} \color{Green} 1\\ \color{Green} 0 \end{bmatrix}
+$\begin{pmatrix}x\\y\end{pmatrix} =
+x.\begin{pmatrix}\color{Green} 1\\ \color{Green} 0\end{pmatrix}
 +
-y \begin{bmatrix} \color{Red} 0\\ \color{Red} 1 \end{bmatrix}
-$</code>.</li>
+y.\begin{pmatrix}\color{Red} 0\\ \color{Red} 1\end{pmatrix}$.</li>
 </ul>
 
 <a class="fold title" onclick="$('#transform-matrix-reminder-1').toggleClass('hidden');">[Show explanation]</a>
 <div id="transform-matrix-reminder-1" class="fold content hidden">
-  <p>If you decompose <code>$\begin{bmatrix}x\\y\end{bmatrix}$</code> into a matrix addition
+  <p>If you decompose $\begin{pmatrix}x\\y\end{pmatrix}$ into a matrix addition
 operation, you find
-<code>$
-\begin{bmatrix}x\\y\end{bmatrix} =
-\begin{bmatrix}x\\0\end{bmatrix} + \begin{bmatrix}0\\y\end{bmatrix}$</code>.</p>
+$\begin{pmatrix}x\\y\end{pmatrix} =
+\begin{pmatrix}x\\0\end{pmatrix} + \begin{pmatrix}0\\y\end{pmatrix}$.</p>
 
 <p>And if you decompose a little bit more you can express each operand of
 this addition as the multiplication of a scalar and a matrix:</p>
 
 <ul>
-<li><code>$\begin{bmatrix}x\\0\end{bmatrix} = x . \begin{bmatrix}1\\0\end{bmatrix}$</code></li>
-<li><code>$\begin{bmatrix}0\\y\end{bmatrix} = y . \begin{bmatrix}0\\1\end{bmatrix}$</code></li>
+<li>$\begin{pmatrix}x\\0\end{pmatrix} = x.\begin{pmatrix}1\\0\end{pmatrix}$</li>
+<li>$\begin{pmatrix}0\\y\end{pmatrix} = y.\begin{pmatrix}0\\1\end{pmatrix}$</li>
 </ul>
 
-<p>Now look at the the matrices <code>$\begin{bmatrix}1\\0\end{bmatrix}$</code> and
-<code>$\begin{bmatrix}0\\1\end{bmatrix}$</code>, they are the Cartesian unit vectors.</p>
+<p>Now look at the the matrices $\begin{pmatrix}1\\0\end{pmatrix}$ and
+$\begin{pmatrix}0\\1\end{pmatrix}$, they are the Cartesian unit vectors.</p>
 
 <p>So
-<code>$
-\begin{bmatrix} x\\y \end{bmatrix} =
-x \begin{bmatrix} \color{Green} 1\\ \color{Green} 0 \end{bmatrix}
+$\begin{pmatrix} x\\y \end{pmatrix} =
+x.\begin{pmatrix}\color{Green} 1\\ \color{Green} 0\end{pmatrix}
 +
-y \begin{bmatrix} \color{Red} 0\\ \color{Red} 1 \end{bmatrix} $</code> is just another
-way to write that the position vector <code>$\begin{bmatrix} x\\ y \end{bmatrix}$</code>
+y.\begin{pmatrix}\color{Red} 0\\ \color{Red} 1\end{pmatrix}$ is just another
+way to write that the position vector $\begin{pmatrix}x\\y\end{pmatrix}$
 represents a point given by a transformation of the <em>unit vectors</em> of our
 Cartesian plane.</p>
 
@@ -848,70 +887,52 @@ Cartesian plane.</p>
 
 
 <ul>
-<li><code>$ \begin{bmatrix} \color{Green} a\\ \color{Green} c \end{bmatrix} $</code> and
-<code>$ \begin{bmatrix} \color{Red} b\\ \color{Red} d \end{bmatrix} $</code> are the
+<li>$\begin{pmatrix}\color{Green} a\\ \color{Green} c\end{pmatrix}$ and
+$\begin{pmatrix}\color{Red} b\\ \color{Red} d\end{pmatrix}$ are the
 position vectors where
-<code>$ \begin{bmatrix} \color{Green} 0\\ \color{Green} 1 \end{bmatrix} $</code> and
-<code>$ \begin{bmatrix} \color{Red} 1\\ \color{Red} 0 \end{bmatrix} $</code> will land
+$\begin{pmatrix} \color{Green} 0\\ \color{Green} 1\end{pmatrix}$ and
+$\begin{pmatrix} \color{Red} 1\\ \color{Red} 0\end{pmatrix}$ will land
 respectively after the transformation matrix
-<code>$
-\mathbf{A} =
-\begin{bmatrix}
-\color{Green} a &amp; \color{Red} b\\
-\color{Green} c &amp; \color{Red} d
-\end{bmatrix}
-$</code> has been applied.</li>
+$\mathbf{A} = \begin{pmatrix} \color{Green} a &amp; \color{Red} b\\ \color{Green} c &amp; \color{Red} d \end{pmatrix}$ has been applied.</li>
 </ul>
 
 <a class="fold title" onclick="$('#transform-matrix-reminder-2').toggleClass('hidden');">[Show explanation]</a>
 <div id="transform-matrix-reminder-2" class="fold content hidden">
   <p>Let&rsquo;s start again from our unit vectors
-<code>$ \begin{bmatrix} \color{Green} 1\\ \color{Green} 0 \end{bmatrix} $</code>
+$\begin{pmatrix} \color{Green} 1\\ \color{Green} 0\end{pmatrix}$
 and
-<code>$ \begin{bmatrix} \color{Red} 0\\ \color{Red} 1 \end{bmatrix} $</code>.</p>
+$\begin{pmatrix} \color{Red} 0\\ \color{Red} 1\end{pmatrix}$.</p>
 
 <p>We know that
-<code>$
-\begin{bmatrix} x\\y \end{bmatrix} =
-x \begin{bmatrix} \color{Green} 1\\ \color{Green} 0 \end{bmatrix}
+$\begin{pmatrix} x\\y \end{pmatrix} =
+x.\begin{pmatrix} \color{Green} 1\\ \color{Green} 0\end{pmatrix}
 +
-y \begin{bmatrix} \color{Red} 0\\ \color{Red} 1 \end{bmatrix}
-$</code>, so now imagine we apply a transformation to our plane.</p>
+y.\begin{pmatrix} \color{Red} 0\\ \color{Red} 1\end{pmatrix}$, so now
+imagine we apply a transformation to our plane.</p>
 
 <p>Our unit vectors will be transformed too, right?</p>
 
 <p>If we assume that
-<code>$ \begin{bmatrix} \color{Green} 1\\ \color{Green} 0 \end{bmatrix} $</code>
+$\begin{pmatrix} \color{Green} 1\\ \color{Green} 0 \end{pmatrix}$
 <em>&ldquo;lands on&rdquo;</em>
-<code>$ \begin{bmatrix} \color{Green} a\\ \color{Green} c \end{bmatrix} $</code>
+$\begin{pmatrix} \color{Green} a\\ \color{Green} c \end{pmatrix}$
 and that
-<code>$ \begin{bmatrix} \color{Red} 0\\ \color{Red} 1 \end{bmatrix} $</code>
+$\begin{pmatrix} \color{Red} 0\\ \color{Red} 1 \end{pmatrix}$
 <em>&ldquo;lands on&rdquo;</em>
-<code>$ \begin{bmatrix} \color{Red} b\\ \color{Red} d \end{bmatrix} $</code>,<br />
-then we have our position vector <code>$ \begin{bmatrix} x\\y \end{bmatrix} $</code>
+$\begin{pmatrix} \color{Red} b\\ \color{Red} d \end{pmatrix}$,<br />
+then we have our position vector $\begin{pmatrix} x\\y \end{pmatrix}$
 landing on
-<code>$
-x \begin{bmatrix} \color{Green} a\\ \color{Green} c \end{bmatrix}
-+ y \begin{bmatrix} \color{Red} b\\ \color{Red} d \end{bmatrix}
- =
-\begin{bmatrix}
-\color{Green} a x + \color{Red} b y\\
-\color{Green} c x + \color{Red} d y
-\end{bmatrix}
-$</code>.</p>
+$x.\begin{pmatrix} \color{Green} a\\ \color{Green} c \end{pmatrix} +
+y.\begin{pmatrix} \color{Red} b\\ \color{Red} d \end{pmatrix} =
+\begin{pmatrix}\color{Green} a.x + \color{Red} b.y\\ \color{Green} c.x + \color{Red} d.y \end{pmatrix}$.</p>
 
 </div>
 
 
 <ul>
 <li>given the previous transformation,
-<code>$ \begin{bmatrix} x\\ y \end{bmatrix} $</code> will land on
-<code>$
-\begin{bmatrix}
-\color{Green} a x + \color{Red} b y\\
-\color{Green} c x + \color{Red} d y
-\end{bmatrix}
-$</code>.</li>
+$\begin{pmatrix} x\\ y \end{pmatrix}$ will land on
+$\begin{pmatrix} \color{Green} a.x + \color{Red} b.y\\ \color{Green} c.x + \color{Red} d.y \end{pmatrix}$.</li>
 </ul>
 
 <p>If you don&rsquo;t understand this conclusion, read again, read the course, take
@@ -919,21 +940,53 @@ your time.</p>
 
 <hr />
 
-<p>Now remember, our goal is to determine what <code>$ \mathbf{A} $</code> is, because we
+<p>Now remember, our goal is to determine what $ \mathbf{A} $ is, because we
 know the transformation we want to apply but we&rsquo;re searching for the matrix we
 should apply to our position vector(s) in order to transform our graphics.</p>
 
 <p>Let&rsquo;s take the example of the transformation of a series of points: we know
-where the position vectors will land, but we&rsquo;re looking for <code>$ \mathbf{A} $</code>.</p>
+where the position vectors will land, but we&rsquo;re looking for $ \mathbf{A} $.<br />
+We have our cartesian plane with a triangle formed by the three points
+$P_{(2,1)}$, $Q_{(-2,0)}$, $R_{(0,2)}$, and another triangle which
+represents a transformed version of the first one: $P^{\prime}_{(5, 0)}$
+and $Q^{\prime}_{(-4, 2)}$ and $R^{\prime}_{(2,4)}$.</p>
 
-<p><code>TODO</code> Insert 2D plane with <code>$P_{(2,1)}$</code>, <code>$Q_{(-2,0)}$</code>, <code>$P'_{(5, 0)}$</code>
-and <code>$Q'_{(-4, 2)}$</code>.</p>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
-<p>We know that:</p>
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/2D-transformed-triangle.png" itemprop="contentUrl" data-size="1215x725">
+      <img src="/img/matrices-for-developers/2D-transformed-triangle.png" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Cartesian plane containing two triangles
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Example transformation of a triangle</div>
+</div>
+
+
+<p>We just need two points for this example, let&rsquo;s take $P$ and $Q$. We know that:</p>
 
 <div class="row row-same-height">
-    <div class="col-md-6">$$ \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} 5\\ 0 \end{bmatrix} $$</div>
-    <div class="col-md-6">$$ \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} -4\\ 2 \end{bmatrix} $$</div>
+    <div class="col-md-6">$$
+    \begin{pmatrix} 2\\ 1 \end{pmatrix}
+    \text{ lands on }
+    \begin{pmatrix} 5\\ 0 \end{pmatrix}
+    $$</div>
+    <div class="col-md-6">$$
+    \begin{pmatrix} -2\\ 0 \end{pmatrix}
+    \text{ lands on }
+    \begin{pmatrix} -4\\ 2 \end{pmatrix}
+    $$</div>
 </div>
 
 <p><br></p>
@@ -941,8 +994,20 @@ and <code>$Q'_{(-4, 2)}$</code>.</p>
 <p>Which means:</p>
 
 <div class="row row-same-height">
-    <div class="col-md-6">$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} 2\\ 1 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$</div>
-    <div class="col-md-6">$$ \begin{bmatrix} x\\ y \end{bmatrix} = \begin{bmatrix} -2\\ 0 \end{bmatrix} \text{ lands on } \begin{bmatrix} a.x+b.y\\ c.x+d.y \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$</div>
+    <div class="col-md-6">$$
+    \begin{pmatrix} x\\ y \end{pmatrix} =
+    \begin{pmatrix} 2\\ 1 \end{pmatrix}
+    \text{ lands on }
+    \begin{pmatrix} a.x+b.y\\ c.x+d.y \end{pmatrix} =
+    \begin{pmatrix} 5\\ 0 \end{pmatrix}
+    $$</div>
+    <div class="col-md-6">$$
+    \begin{pmatrix} x\\ y \end{pmatrix} =
+    \begin{pmatrix} -2\\ 0 \end{pmatrix}
+    \text{ lands on }
+    \begin{pmatrix} a.x+b.y\\ c.x+d.y \end{pmatrix} =
+    \begin{pmatrix} -4\\ 2 \end{pmatrix}
+    $$</div>
 </div>
 
 <p><br></p>
@@ -950,46 +1015,46 @@ and <code>$Q'_{(-4, 2)}$</code>.</p>
 <p>From which we can deduce:</p>
 
 <div class="row row-same-height">
-    <div class="col-md-6">$$ \begin{bmatrix} 2.a+1.b\\ 2.c+1.d \end{bmatrix} = \begin{bmatrix} 5\\ 0 \end{bmatrix} $$</div>
-    <div class="col-md-6">$$ \begin{bmatrix} -2.a+0.b\\ -2.c+0.d \end{bmatrix} = \begin{bmatrix} -4\\ 2 \end{bmatrix} $$</div>
+    <div class="col-md-6">$$
+    \begin{pmatrix} 2.a+1.b\\ 2.c+1.d \end{pmatrix} =
+    \begin{pmatrix} 5\\ 0 \end{pmatrix}
+    $$</div>
+    <div class="col-md-6">$$
+    \begin{pmatrix} -2.a+0.b\\ -2.c+0.d \end{pmatrix} =
+    \begin{pmatrix} -4\\ 2 \end{pmatrix}
+    $$</div>
 </div>
 
 <p><br></p>
 
-<p>The right side gives us <code>$ a=2 $</code> and <code>$ c = -1 $</code>, with which we can deduce
-<code>$ b=1 $</code> and <code>$ d=2 $</code> from the left side.</p>
+<p>The right side gives us $ a=2 $ and $ c = -1 $, with which we can deduce
+$ b=1 $ and $ d=2 $ from the left side.</p>
 
 <p><strong>And this, is our transformation matrix</strong>:</p>
 
-<div>$$ \mathbf{A} = \begin{bmatrix} \color{Green} 2 & \color{Red} 1\\ \color{Green} -\color{Green} 1 & \color{Red} 2 \end{bmatrix} $$</div>
+<div>$$ \mathbf{A} = \begin{pmatrix} \color{Green} 2 & \color{Red} 1\\ \color{Green} -\color{Green} 1 & \color{Red} 2 \end{pmatrix} $$</div>
+
+<p>Try that same exercise with $P$ and $R$, or with $Q$ and $R$ and you should
+end up to the same result.</p>
 
 <h3 id="the-identity-matrix">The identity matrix</h3>
 
 <p>We don&rsquo;t know how to define a transformation matrix yet, but we know its form.<br />
 So what do we do next? Remember the last section where we&rsquo;ve seen that
-a position vector <code>$ \begin{bmatrix} x\\  y \end{bmatrix} $</code> can be
-broken down as <code>$
-\begin{bmatrix}
-x\\
-y
-\end{bmatrix}
-= x \begin{bmatrix}
-\color{Green} 1\\
-\color{Green} 0
-\end{bmatrix}
-+ y \begin{bmatrix}
-\color{Red} 0\\
-\color{Red} 1
-\end{bmatrix} $</code> ?</p>
+a position vector $\begin{pmatrix} x\\ y \end{pmatrix}$ can be
+broken down as $\begin{pmatrix} x\\y \end{pmatrix} =
+x.\begin{pmatrix} \color{Green} 1\\ \color{Green} 0 \end{pmatrix} +
+y.\begin{pmatrix} \color{Red} 0\\ \color{Red} 1 \end{pmatrix} $
+?</p>
 
 <p>That&rsquo;s a pretty good starting point, we just laid out our &ldquo;base&rdquo; matrix:</p>
 
 <div>
 $$
-\begin{bmatrix}
+\begin{pmatrix}
 \color{Green} 1 & \color{Red} 0\\
 \color{Green} 0 & \color{Red} 1
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
@@ -1023,7 +1088,7 @@ multiplication:</p>
 
 <ul>
 <li>Matrix multiplication is associative
-<code>$\left(\mathbf{A}.\mathbf{B}\right).\mathbf{C} = \mathbf{A}.\left(\mathbf{B}.\mathbf{C}\right)$</code></li>
+$\left(\mathbf{A}.\mathbf{B}\right).\mathbf{C} = \mathbf{A}.\left(\mathbf{B}.\mathbf{C}\right)$</li>
 </ul>
 
 <a class="fold title" onclick="$('#matrix-properties-1').toggleClass('hidden');">[Show explanation]</a>
@@ -1042,7 +1107,7 @@ width (I&rsquo;ve tried and it didn&rsquo;t render very well), so check out this
 
 <ul>
 <li>Matrix multiplication is non-commutative
-<code>$\mathbf{A}.\mathbf{B} \neq \mathbf{B}.\mathbf{A}$</code></li>
+$\mathbf{A}.\mathbf{B} \neq \mathbf{B}.\mathbf{A}$</li>
 </ul>
 
 <a class="fold title" onclick="$('#matrix-properties-2').toggleClass('hidden');">[Show explanation]</a>
@@ -1050,84 +1115,90 @@ width (I&rsquo;ve tried and it didn&rsquo;t render very well), so check out this
   <p>In order to affirm this we just have to prove commutativity wrong, which is
 easy!</p>
 
-<p>Imagine <code>$\mathbf{A}$</code> is a <code>$5\text{×}2$</code> matrix, and <code>$\mathbf{B}$</code> is a
-<code>$2\text{×}3$</code> matrix:</p>
+<p>Imagine $\mathbf{A}$ is a $5 \times 2$ matrix, and $\mathbf{B}$ is a
+$2 \times 3$ matrix:</p>
 
 <ul>
-<li><code>$\underset{5\text{×}2}{\mathbf{A}}.\underset{2\text{×}3}{\mathbf{B}}=\underset{5\text{×}3}{\mathbf{C}}$</code></li>
-<li><code>$\underset{2\text{×}3}{\mathbf{B}}.\underset{5\text{×}2}{\mathbf{A}}=undefined$</code></li>
+<li>$
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{A} \\ ^{\scriptsize 5 \times 2}\end{matrix} }
+\times
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{B} \\ ^{\scriptsize 2 \times 3}\end{matrix} } =
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{AB} \\ ^{\scriptsize 5 \times 3}\end{matrix} }
+$</li>
+<li>$
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{B} \\ ^{\scriptsize 2 \times 3}\end{matrix} }
+\times
+{\tiny\begin{matrix}^{\scriptsize }\\ \normalsize \mathbf{A} \\ ^{\scriptsize 5 \times 2}\end{matrix} } =
+undefined
+$</li>
 </ul>
 
 <p>And that&rsquo;s it. But we can also see commutativity does not hold even for
 matrices of same dimensions:</p>
 
 <div class="row row-same-height">
-  <div class="col-md-6">
-$$
-\mathbf{A}.\mathbf{B}\\
-=
-\begin{bmatrix}
-a_{11} & a_{12}\\
-a_{21} & a_{22}
-\end{bmatrix}
-.
-\begin{bmatrix}
-b_{11} & b_{12}\\
-b_{21} & b_{22}
-\end{bmatrix}\\
-=
-\begin{bmatrix}
-a_{11}.b_{11}+a_{12}.b_{21} & a_{11}.b_{12}+a_{12}.b_{22}\\
-a_{21}.b_{11}+a_{22}.b_{21} & a_{11}.b_{22}+a_{22}.b_{22}
-\end{bmatrix}
-$$
-  </div>
-  <div class="col-md-6">
-$$
-\mathbf{B}.\mathbf{A}\\
-=
-\begin{bmatrix}
-b_{11} & b_{12}\\
-b_{21} & b_{22}
-\end{bmatrix}
-.
-\begin{bmatrix}
-a_{11} & a_{12}\\
-a_{21} & a_{22}
-\end{bmatrix}\\
-=
-\begin{bmatrix}
-b_{11}.a_{11}+b_{12}.a_{21} & b_{11}.a_{12}+b_{12}.a_{22}\\
-b_{21}.a_{11}+b_{22}.a_{21} & b_{21}.a_{12}+b_{22}.a_{22}
-\end{bmatrix}
-$$
-  </div>
+  <div class="col-md-6">$$
+  \begin{aligned}
+  \mathbf{A}.\mathbf{B} &=
+  \begin{pmatrix}
+  a_{11} & a_{12}\\
+  a_{21} & a_{22}
+  \end{pmatrix} .
+  \begin{pmatrix}
+  b_{11} & b_{12}\\
+  b_{21} & b_{22}
+  \end{pmatrix}\\\\
+  &=
+  \begin{pmatrix}
+  a_{11}.b_{11}+a_{12}.b_{21} & a_{11}.b_{12}+a_{12}.b_{22}\\
+  a_{21}.b_{11}+a_{22}.b_{21} & a_{11}.b_{22}+a_{22}.b_{22}
+  \end{pmatrix}
+  \end{aligned}
+  $$</div>
+  <div class="col-md-6">$$
+  \begin{aligned}
+  \mathbf{B}.\mathbf{A} &=
+  \begin{pmatrix}
+  b_{11} & b_{12}\\
+  b_{21} & b_{22}
+  \end{pmatrix} .
+  \begin{pmatrix}
+  a_{11} & a_{12}\\
+  a_{21} & a_{22}
+  \end{pmatrix}\\\\
+  &=
+  \begin{pmatrix}
+  b_{11}.a_{11}+b_{12}.a_{21} & b_{11}.a_{12}+b_{12}.a_{22}\\
+  b_{21}.a_{11}+b_{22}.a_{21} & b_{21}.a_{12}+b_{22}.a_{22}
+  \end{pmatrix}
+  \end{aligned}
+  $$</div>
 </div>
 
 <p>Grab a pen and paper and try it for yourself with the following matrices
-<code>$\mathbf{A}=\begin{bmatrix}1 &amp; 2\\-3 &amp; -4\end{bmatrix}$</code> and
-<code>$\mathbf{B}=\begin{bmatrix}-2 &amp; 0\\0 &amp; -3\end{bmatrix}$</code>.</p>
+$\mathbf{A}=\begin{pmatrix}1 &amp; 2\\-3 &amp; -4\end{pmatrix}$ and
+$\mathbf{B}=\begin{pmatrix}-2 &amp; 0\\0 &amp; -3\end{pmatrix}$.</p>
 
 </div>
 
 
 <p>Back to our transformations.<br />
-Imagine we want to apply transformation <code>$ \mathbf{B} $</code>, then transformation
-<code>$ \mathbf{A} $</code> to our position vector <code>$ \vec{v} $</code>.</p>
+Imagine we want to apply transformation $ \mathbf{B} $, then transformation
+$ \mathbf{A} $ to our position vector $ \vec{v} $.</p>
 
 <p>We have
-<code>$
-\vec{v'} = \mathbf{B} . \vec{v}
-$</code>
+$
+\vec{v^{\prime}} = \mathbf{B} . \vec{v}
+$
 and
-<code>$
-\vec{v''} = \mathbf{A} . \vec{v'}
-$</code>,
+$
+\vec{v^{\prime\prime}} = \mathbf{A} . \vec{v^{\prime}}
+$,
 which leads us to:</p>
 
 <div>
 $$
-\vec{v''} = \mathbf{A} . \left( \mathbf{B} . \vec{v} \right)
+\vec{v^{\prime\prime}} = \mathbf{A} . \left( \mathbf{B} . \vec{v} \right)
 $$
 </div>
 
@@ -1135,9 +1206,9 @@ $$
 
 <div>
 $$
-\vec{v''} = \mathbf{A} . \left( \mathbf{B} . \vec{v} \right)
+\vec{v^{\prime\prime}} = \mathbf{A} . \left( \mathbf{B} . \vec{v} \right)
 \Leftrightarrow
-\vec{v''} = \left( \mathbf{A} . \mathbf{B} \right) . \vec{v}
+\vec{v^{\prime\prime}} = \left( \mathbf{A} . \mathbf{B} \right) . \vec{v}
 $$
 </div>
 
@@ -1147,14 +1218,14 @@ matrix to our vector(s).</p>
 
 <p>We also know that matrix multiplication is <code>not commutative</code>, so the order
 in which we multiply our transformation matrices
-(<code>$ \mathbf{A} . \mathbf{B} $</code> or <code>$ \mathbf{B} . \mathbf{A} $</code>) will have
+($ \mathbf{A} . \mathbf{B} $ or $ \mathbf{B} . \mathbf{A} $) will have
 an impact on our final matrix and will lead to different results, different
 transformations.</p>
 
 <h2 id="types-of-transformations">Types of transformations</h2>
 
 <p>There are several types of 2D transformations we are able to define using
-<code>$2\text{×}2$</code> dimensions matrices, and you&rsquo;ve had a preview of most of them
+$2 \times 2$ dimensions matrices, and you&rsquo;ve had a preview of most of them
 in this course on <a href="https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-matrices-as-transformations/a/matrices-as-transformations">matrices as transformations</a>.<br />
 Namely:</p>
 
@@ -1166,37 +1237,39 @@ Namely:</p>
 </ul>
 
 <p>For the rest of this section imagine we have the point
-<code>$ P_{\left(x, y\right)} $</code>, which represents any point of
+$ P_{\left(x, y\right)} $, which represents any point of
 an object on the plane, and we want to find the matrix to transform it into
-<code>$ P'_{\left(x', y'\right)}$</code> such that</p>
+$ P^{\prime}_{\left(x^{\prime}, y^{\prime}\right)}$ such that</p>
 
 <div>
 $$
-\begin{bmatrix} x'\\y' \end{bmatrix} =
-\mathbf{A} . \begin{bmatrix} x\\y \end{bmatrix} =
-\begin{bmatrix} a & b\\c & d \end{bmatrix}
+\begin{pmatrix} x^{\prime}\\y^{\prime} \end{pmatrix} =
+\mathbf{A} . \begin{pmatrix} x\\y \end{pmatrix} =
+\begin{pmatrix} a & b\\c & d \end{pmatrix}
 .
-\begin{bmatrix} x\\y \end{bmatrix}
+\begin{pmatrix} x\\y \end{pmatrix}
 $$
 </div>
 
 <h3 id="scaling">Scaling</h3>
 
 <p>Scaling (like zooming in by a factor of 2 for instance) might seem
-straightforward to represent at the time of pinch-zoom/digital devices, right?
+straightforward to represent, right?
 <em>&ldquo;Simply multiply the coordinates by the scaling factor and you&rsquo;re done.&rdquo;</em><br />
 But the pitfall here is that you <em>might</em> want to have different horizontal and
 vertical scaling factors for your transformation, I mean it&rsquo;s possible!</p>
 
-<p>So we must differentiate between <code>$ s_{x} $</code> and <code>$ s_{y} $</code> which represent
+<p>So we must differentiate between $ s_{x} $ and $ s_{y} $ which represent
 the horizontal and vertical scaling factors, respectively.</p>
 
 <p>The two equations this gives us are:</p>
 
 <div>
 $$
-x' = s_{x} . x \\
-y' = s_{y} . y
+\begin{aligned}
+x' &= s_{x} . x \\
+y' &= s_{y} . y
+\end{aligned}
 $$
 </div>
 
@@ -1204,53 +1277,59 @@ $$
 
 <div>
 $$
-\begin{bmatrix} x'\\y' \end{bmatrix} =
-\begin{bmatrix} a & b\\c & d \end{bmatrix}
+\begin{pmatrix} x^{\prime}\\y^{\prime} \end{pmatrix} =
+\begin{pmatrix} a & b\\c & d \end{pmatrix}
 .
-\begin{bmatrix} x'\\y' \end{bmatrix}
+\begin{pmatrix} x\\y \end{pmatrix}
 $$
 </div>
 
-<p>We can find <code>$a$</code>, <code>$b$</code>, <code>$c$</code> and <code>$d$</code>:</p>
+<p>We can find $a$, $b$, $c$ and $d$:</p>
 
 <div class="row row-same-height">
     <div class="col-md-6">
 $$
-s_{x} . x = a . x + b . y\\
+\begin{aligned}
+s_{x} . x &= a . x + b . y\\\\
 \Rightarrow
-a = s_{x} \text{ and } b = 0
+a &= s_{x} \text{ and }\\
+b &= 0
+\end{aligned}
 $$
 </div>
     <div class="col-md-6">
 $$
-s_{y} . y = c . x + d . y\\
+\begin{aligned}
+s_{y} . y &= c . x + d . y\\\\
 \Rightarrow
-c = s_{y} \text{ and } d = 0
+c &= s_{y} \text{ and }\\
+d &= 0
+\end{aligned}
 $$
 </div>
 </div>
 
 <p><br></p>
 
-<p>In conclusion, the <code>$2\text{×}2$</code> scaling matrix for the factors
-<code>$ \left(s_{x}, s_{y}\right) $</code> is</p>
+<p>In conclusion, the $2 \times 2$ scaling matrix for the factors
+$\left(s_{x}, s_{y}\right)$ is:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b\\c & d \end{bmatrix}
+\begin{pmatrix} a & b\\c & d \end{pmatrix}
 =
-\begin{bmatrix} s_{x} & 0\\0 & s_{y} \end{bmatrix}
+\begin{pmatrix} s_{x} & 0\\0 & s_{y} \end{pmatrix}
 $$
 </div>
 
-<p>Which makes sense, right? I mean, scaling by a factor of <code>$1$</code> both on the
-<code>$x$</code> and <code>$y$</code> axises will give:</p>
+<p>Which makes sense, right? I mean, scaling by a factor of $1$ both on the
+$x$ and $y$ axises will give:</p>
 
 <div>
 $$
-\begin{bmatrix} s_{x} & 0\\0 & s_{y} \end{bmatrix}
+\begin{pmatrix} s_{x} & 0\\0 & s_{y} \end{pmatrix}
 =
-\begin{bmatrix} 1 & 0\\0 & 1 \end{bmatrix}
+\begin{pmatrix} 1 & 0\\0 & 1 \end{pmatrix}
 $$
 </div>
 
@@ -1260,84 +1339,91 @@ $$
 
 <p>There are 2 types of reflexions we can think about right ahead: reflexion around
 an axis, or around a point.<br />
-To keep things simple we&rsquo;ll focus on reflexions around the <code>$x$</code> and <code>$y$</code>
+To keep things simple we&rsquo;ll focus on reflexions around the $x$ and $y$
 axises (reflexion around the origin is the equivalent of applying a reflexion on
-the <code>$x$</code> and <code>$y$</code> axises successively).</p>
+the $x$ and $y$ axises successively).</p>
 
-<p>Reflexion around the <code>$x$</code> axis gives us:</p>
+<p>Reflexion around the $x$ axis gives us:</p>
 
 <div class="row row-same-height">
     <div class="col-md-6">
 $$
-x' = x\\
+\begin{aligned}
+x^{\prime} &= x\\
+x &= a . x + b . y\\\\
 \Rightarrow
-x = a . x + b . y\\
-\Rightarrow
-a = 1 \text{ and } b = 0
+a &= 1 \text{ and }\\
+b &= 0
+\end{aligned}
 $$
 </div>
     <div class="col-md-6">
 $$
-y' = -y\\
+\begin{aligned}
+y^{\prime} &= -y\\
+-y &= c . x + d . y\\\\
 \Rightarrow
--y = c . x + d . y\\
-\Rightarrow
-c = 0 \text{ and } d = -1
+c &= 0 \text{ and }\\
+d &= -1
+\end{aligned}
 $$
 </div>
 </div>
 
 <p><br></p>
 
-<p>Funny, reflecting around the <code>$x$</code> axis is the same transformation as scaling
-<code>$x$</code> by a factor of <code>$-1$</code> and <code>$y$</code> by a factor of <code>$1$</code>:</p>
+<p>Funny, reflecting around the $x$ axis is the same transformation as scaling
+$x$ by a factor of $-1$ and $y$ by a factor of $1$:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b\\c & d \end{bmatrix}
-=
-\begin{bmatrix}
+\begin{pmatrix} a & b\\c & d \end{pmatrix} =
+\begin{pmatrix}
 1 & 0\\
 0 & -1
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
-<p>And reflexion around the <code>$y$</code> axis gives us:</p>
+<p>And reflexion around the $y$ axis gives us:</p>
 
 <div class="row row-same-height">
     <div class="col-md-6">
 $$
-x' = -x\\
+\begin{aligned}
+x^{\prime} &= -x\\
+-x &= a . x + b . y\\\\
 \Rightarrow
--x = a . x + b . y\\
-\Rightarrow
-a = -1 \text{ and } b = 0
+a &= -1 \text{ and }\\
+b &= 0
+\end{aligned}
 $$
 </div>
     <div class="col-md-6">
 $$
-y' = y\\
+\begin{aligned}
+y^{\prime} &= y\\
+y &= c . x + d . y\\\\
 \Rightarrow
-y = c . x + d . y\\
-\Rightarrow
-c = 0 \text{ and } d = 1
+c &= 0 \text{ and }\\
+d &= 1
+\end{aligned}
 $$
 </div>
 </div>
 
 <p><br></p>
 
-<p>The transformation matrix to reflect around the <code>$y$</code> axis is:</p>
+<p>The transformation matrix to reflect around the $y$ axis is:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b\\c & d \end{bmatrix}
+\begin{pmatrix} a & b\\c & d \end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 -1 & 0\\
 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
@@ -1347,14 +1433,136 @@ $$
 
 <p>In most examples I&rsquo;ve found, shearing is explained by saying the coordinates
 are changed by adding a constant that measures the degree of shearing.<br />
-For instance, a shear along the <code>$x$</code> axis is often represented showing a
-rectangle with a vertex at <code>$\left(0, 1\right)$</code> is transformed into a
-parallelogram with a vertex at <code>$\left(1, 1\right)$</code>.</p>
+For instance, a shear along the $x$ axis is often represented showing a
+rectangle with a vertex at $\left(0, 1\right)$ is transformed into a
+parallelogram with a vertex at $\left(1, 1\right)$.</p>
 
-<p><code>TODO</code>: (insert image of a plane with a shearing of alpha)</p>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/2D-constant-shearing.png" itemprop="contentUrl" data-size="1084x769">
+      <img src="/img/matrices-for-developers/2D-constant-shearing.png" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Cartesian plane shearing
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Shearing along $\underline{x}$ axis by a constant $\underline{k_{x}=1}$</div>
+</div>
+
 
 <p>In this article, I want to explain it using the shearing angle, the angle
-through which the axis is sheared. Let&rsquo;s call it <code>$\alpha$</code> (alpha).</p>
+through which the axis is sheared. Let&rsquo;s call it $\alpha$ (alpha).</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/2D-angle-shearing.gif" itemprop="contentUrl" data-size="1083x691">
+      <img src="/img/matrices-for-developers/2D-angle-shearing.gif" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Cartesian plane shearing
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Shearing along $\underline{x}$ axis by an angle $\underline{\alpha}$</div>
+</div>
+
+
+<p>If we look at the plane above, we can see that the new abscissa $x^{\prime}$ is
+equal to $x$ plus/minus the opposite side of the triangle formed
+by the $y$ axis, the sheared version of the $y$ axis and the segment
+between the top left vertex of the rectangle and the top left vertex of the
+parallelogram. In other words, $x^{\prime}$ is equal to $x$ plus/minus the
+opposite side of the green triangle, see:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/2D-angle-shearing-triangles-1.png" itemprop="contentUrl" data-size="1434x882">
+      <img src="/img/matrices-for-developers/2D-angle-shearing-triangles-1.png" itemprop="thumbnail"
+        
+        title="Shearing by negative alpha=-30 degrees when y(P)&gt;0"
+        width="395px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Shearing by negative $\alpha=-30^{\circ}$ when $y\left(P\right)&gt;0$
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/2D-angle-shearing-triangles-2.png" itemprop="contentUrl" data-size="1434x882">
+      <img src="/img/matrices-for-developers/2D-angle-shearing-triangles-2.png" itemprop="thumbnail"
+        
+        title="Shearing by positive alpha=30 degrees when y(P)&gt;0"
+        width="395px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Shearing by positive $\alpha=30^{\circ}$ when $y\left(P\right)&gt;0$
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/2D-angle-shearing-triangles-3.png" itemprop="contentUrl" data-size="1434x882">
+      <img src="/img/matrices-for-developers/2D-angle-shearing-triangles-3.png" itemprop="thumbnail"
+        
+        title="Shearing by negative alpha=-30 degrees when y(P)&lt;0"
+        width="395px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Shearing by negative $\alpha=-30^{\circ}$ when $y\left(P\right)&lt;0$
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/2D-angle-shearing-triangles-4.png" itemprop="contentUrl" data-size="1434x882">
+      <img src="/img/matrices-for-developers/2D-angle-shearing-triangles-4.png" itemprop="thumbnail"
+        
+        title="Shearing by positive alpha=30 degrees when y(P)&lt;0"
+        width="395px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Shearing by positive $\alpha=30^{\circ}$ when $y\left(P\right)&lt;0$
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Triangles formed by shearing along $\underline{x}$ axis by an angle $\underline{\alpha=-30^{\circ}}$ or $\underline{\alpha=30^{\circ}}$ when $\underline{y\left(P\right)&gt;0}$ and $\underline{y\left(P\right)&lt;0}$</div>
+</div>
+
 
 <p>Remember your <a href="http://www.mathsisfun.com/algebra/trigonometry.html">trigonometry</a> class?</p>
 
@@ -1363,90 +1571,131 @@ through which the axis is sheared. Let&rsquo;s call it <code>$\alpha$</code> (al
 
 <ul>
 <li>the hypotenuse is the longest side</li>
-<li>the the opposite side is the one at the opposite of a given angle</li>
+<li>the opposite side is the one at the opposite of a given angle</li>
 <li>the adjacent side is the next to a given angle</li>
 </ul>
 </blockquote>
 
-<p>If we look at the plane above, we can see that the new abscissa <code>$x'$</code> is
-equals to the addition of <code>$x$</code> plus the opposite side of the triangle formed
-by the <code>$y$</code> axis, the sheared version of the <code>$y$</code> axis and the segment
-between the top left vertex of the rectangle and the top left vertex of the
-parallelogram.</p>
+<ul>
+<li>$PP^{\prime}$ is the opposite side, we need to find its length ($k$), in
+order to calculate $x^{\prime}$ from $x$</li>
+<li>the adjacent side is $P$&rsquo;s ordinate: $y$</li>
+<li>we don&rsquo;t know the hypotenuse&rsquo;s length</li>
+</ul>
 
 <p>From our trigonometry class, we know that:</p>
 
 <div>
 $$
-\cos \left( \alpha \right) = \frac{adjacent}{hypotenuse}\\
-\sin \left( \alpha \right) = \frac{opposite}{hypotenuse}\\
-\tan \left( \alpha \right) = \frac{opposite}{adjacent}
+\begin{aligned}
+\cos \left( \alpha \right) &= \frac{adjacent}{hypotenuse}\\\\
+\sin \left( \alpha \right) &= \frac{opposite}{hypotenuse}\\\\
+\tan \left( \alpha \right) &= \frac{opposite}{adjacent}
+\end{aligned}
 $$
 </div>
 
-<p>We know <code>$\alpha$</code>, but we don&rsquo;t know the length of the hypotenuse, so we
+<p>We know $\alpha$, but we don&rsquo;t know the length of the hypotenuse, so we
 can&rsquo;t use the cosine function.<br />
-But we know the adjacent side&rsquo;s length: it&rsquo;s <code>$y$</code>, so we can use the tangent
-function to find the opposite side&rsquo;s length.</p>
+On the other hand, we know the adjacent side&rsquo;s length: it&rsquo;s $y$, so we can use
+the tangent function to find the opposite side&rsquo;s length:</p>
+
+<div>
+$$
+\begin{aligned}
+\tan \left( \alpha \right) &= \frac{opposite}{adjacent}\\\\
+opposite &= adjacent \times \tan \left( \alpha \right)
+\end{aligned}
+$$
+</div>
+
+<p>We can start solving our system of equations in order to find
+our matrix with the following:</p>
 
 <div class="row row-same-height">
     <div class="col-md-6">
 $$
-x' = x + y . \tan \left( -\alpha \right) \\
-\Rightarrow
-x + y . \tan \left( -\alpha \right) = a . x + b . y\\
-\Rightarrow
-a = 1 \text{ and } b = \tan \left( -\alpha \right)
+x^{\prime} = x + k = x + y . \tan \left( \alpha \right)
 $$
 </div>
     <div class="col-md-6">
 $$
-y' = y\\
-\Rightarrow
-y = c . x + d . y\\
-\Rightarrow
-c = 0 \text{ and } d = 1
+y^{\prime} = y
 $$
 </div>
 </div>
 
-<p><br></p>
+<p>However, we can see that when $\alpha &gt; 0$, $\tan \left( \alpha \right) &lt; 0$ and
+when $\alpha &lt; 0$, $\tan \left( \alpha \right) &gt; 0$. This multiplied by $y$
+which can itself be positive or negative will give very different results
+for $x^{\prime} = x + k = x + y . \tan \left( \alpha \right)$.<br />
+So don&rsquo;t forget that $\alpha &gt; 0$ is counterclockwise rotation/shearing angle,
+while $\alpha &lt; 0$ is clockwise rotation/shearing angle.</p>
 
-<p>The transformation matrix to shear along the <code>$x$</code> direction is:</p>
+<div class="row row-same-height">
+    <div class="col-md-6">
+$$
+\begin{aligned}
+x^{\prime} &= x + y . \tan \left( \alpha \right) \\
+x + y . \tan \left( \alpha \right) &= a . x + b . y\\\\
+\Rightarrow
+a &= 1 \text{ and }\\
+b &= \tan \left( \alpha \right)
+\end{aligned}
+$$
+</div>
+    <div class="col-md-6">
+$$
+\begin{aligned}
+y^{\prime} &= y\\
+y &= c . x + d . y\\\\
+\Rightarrow
+c &= 0 \text{ and }\\
+d &= 1
+\end{aligned}
+$$
+</div>
+</div>
+
+<p>The transformation matrix to shear along the $x$ direction is:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b\\c & d \end{bmatrix}
+\begin{aligned}
+\begin{pmatrix} a & b\\c & d \end{pmatrix}
 =
-\begin{bmatrix}
-1 & \tan \left( -\alpha \right)\\
+\begin{pmatrix}
+1 & \tan \alpha \\
 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 1 & k_{x}\\
 0 & 1
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 \text{where } k_{x} \text{ is the shearing constant}
+\end{aligned}
 $$
 </div>
 
-<p>Similarly, the transformation matrix to shear along the <code>$y$</code> direction is:</p>
+<p>Similarly, the transformation matrix to shear along the $y$ direction is:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b\\c & d \end{bmatrix}
+\begin{aligned}
+\begin{pmatrix} a & b\\c & d \end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0\\
-\tan \left( -\beta \right) & 1
-\end{bmatrix}
+\tan \beta & 1
+\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0\\
 k_{y} & 1
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 \text{where } k_{y} \text{ is the shearing constant}
+\end{aligned}
 $$
 </div>
 
@@ -1455,48 +1704,96 @@ $$
 <p>Rotations are yet a little bit more complex.</p>
 
 <p>Let&rsquo;s take a closer look at it with an example of rotating (around the origin)
-from a angle <code>$ \theta $</code> (theta).</p>
+from a angle $ \theta $ (theta).</p>
 
-<p><a title="By Nick Berry" href="http://datagenetics.com/blog/august32013/"><img style="background-color: #333;"
-src="/img/matrices-for-developers/g22.png"></a></p>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
-<p>This image shows a point <code>$ P $</code> before and after a rotation: <code>$ P $</code>
-in the starting and ending planes respectively.</p>
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/2D-rotation.gif" itemprop="contentUrl" data-size="1083x740">
+      <img src="/img/matrices-for-developers/2D-rotation.gif" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
 
-<p>Notice how the coordinates of <code>$ P $</code> in each plane are the same:
-<code>$ P $</code> has the same set of coordinates <code>$ \left( x, y\right) $</code> in both
-planes.<br />
-But now <code>$ P $</code> has <strong><em>new coordinates</em></strong> <code>$ \left( x, y\right) $</code> <strong><em>in the
-first plane</em></strong>.</p>
+  <figcaption itemprop="caption description">
+    Cartesian plane rotation
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
 
-<p>Let&rsquo;s rename the coordinates of <code>$ P $</code> in the second plane as
-<code>$ \left( x', y'\right) $</code>.
-At this point we know <code>$ x' $</code> and <code>$ y' $</code>, because they are the same as the
-original <code>$ x $</code> and <code>$ y $</code>. But we don&rsquo;t know the new <code>$ x $</code> and <code>$ y $</code>.<br />
-On the other hand, we can now define the <strong><em>relationship</em></strong> between the new
-coordinates <code>$ \left(x, y\right) $</code> and the coordinates in the rotated plane
-<code>$ \left(x', y'\right) $</code>, right?</p>
 
-<p>This is where <a href="http://www.mathsisfun.com/algebra/trigonometry.html">trigonometry</a> helps again, along with
-<a href="http://datagenetics.com/blog/august32013/">this post</a> and <a href="https://www.youtube.com/watch?v=h11ljFJeaLo">this video</a>.</p>
+<div class="title">Rotate by an angle $\underline{\theta}$</div>
+</div>
 
-<p><a title="By Nick Berry" href="http://datagenetics.com/blog/august32013/"><img style="background-color: #333;"
-src="/img/matrices-for-developers/g32.png"></a></p>
 
-<p>Here we see that <code>$ x' $</code> (the blue line) can be expressed as the addition of
-the
+<p>Notice how the coordinates of $P$ and $P^{\prime}$ are the same in their
+respective planes:
+$P$ and $P^{\prime}$ have the same set of coordinates $ \left( x, y\right) $
+in each planes.<br />
+But $P^{\prime}$ has <strong><em>new coordinates</em></strong>
+$ \left( x^{\prime}, y^{\prime}\right) $ <strong><em>in the first plane</em></strong>, the one that
+has not been rotated.</p>
+
+<p>We can now define the <strong><em>relationship</em></strong> between the
+coordinates $ \left(x, y\right) $ and the new coordinates
+$ \left(x^{\prime}, y^{\prime}\right) $, right?</p>
+
+<p>This is where <a href="http://www.mathsisfun.com/algebra/trigonometry.html">trigonometry</a> helps again.</p>
+
+<p>While searching for the demonstration of this, I stumbled upon this
+geometry based explanation
+by <a href="http://datagenetics.com/blog/august32013/">Nick Berry</a> and <a href="https://www.youtube.com/watch?v=h11ljFJeaLo">this video</a>.</p>
+
+<p>To be honest, I&rsquo;m not 100% comfortable with this solution which means I didn&rsquo;t
+fully understand it. And also Hadrien (one of by reviewers who&rsquo;s way more
+skilled at math than I am), found it awkward.<br />
+So I&rsquo;m leaving it here in case you&rsquo;re interested, but I suggest you
+don&rsquo;t bother unless you&rsquo;re very curious and don&rsquo;t mind a little confusion.</p>
+
+<a class="fold title" onclick="$('#rotation-matrix-explanation').toggleClass('hidden');">[Show fuzzy explanation]</a>
+<div id="rotation-matrix-explanation" class="fold content hidden">
+  <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/2D-rotation.png" itemprop="contentUrl" data-size="1434x980">
+      <img src="/img/matrices-for-developers/2D-rotation.png" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Trigonometry triangles based on $\underline{\theta}$
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Trigonometry triangles based on $\underline{\theta}$</div>
+</div>
+
+<p>On this plane we see that $x$ (the blue line) can be expressed as the
+<strong>addition</strong> of the
 <span class="green-text">adjacent side of the green triangle</span>
-plus
+<strong>plus</strong>
 <span class="red-text">the opposite side of the red triangle.</span><br />
-And <code>$ y' $</code> as the subtraction of
+And $y$ as the <strong>subtraction</strong> of
 <span class="green-text">the opposite side of the green triangle</span>
-from
-<span class="red-text">the adjacent side of the red triangle</span>.</p>
+<strong>from</strong>
+<span class="red-text">the adjacent side of the red triangle</span>.<br />
+We know that:</p>
 
 <div>
 $$
-\cos \left( \theta \right) = \frac{adjacent}{hypotenuse} \Rightarrow adjacent = hypotenuse . \cos \left( \theta \right)\\
-\sin \left( \theta \right) = \frac{opposite}{hypotenuse} \Rightarrow opposite = hypotenuse . \sin \left( \theta \right)
+\begin{aligned}
+\cos \left( \theta \right) &= \frac{adjacent}{hypotenuse} \Rightarrow adjacent = hypotenuse \times \cos \left( \theta \right)\\\\
+\sin \left( \theta \right) &= \frac{opposite}{hypotenuse} \Rightarrow opposite = hypotenuse \times \sin \left( \theta \right)
+\end{aligned}
 $$
 </div>
 
@@ -1505,64 +1802,67 @@ $$
 <div class="row row-same-height">
 <div class="col-md-6">
 $$
-\begin{align}
-x' & = \color{Green}a\color{Green}d\color{Green}j\color{Green}a\color{Green}c\color{Green}e\color{Green}n\color{Green}t + \color{Red}o\color{Red}p\color{Red}p\color{Red}o\color{Red}s\color{Red}i\color{Red}t\color{Red}e\\
+\begin{aligned}
+x & = \color{Green}a\color{Green}d\color{Green}j\color{Green}a\color{Green}c\color{Green}e\color{Green}n\color{Green}t + \color{Red}o\color{Red}p\color{Red}p\color{Red}o\color{Red}s\color{Red}i\color{Red}t\color{Red}e\\
 & = \color{Green}h\color{Green}y\color{Green}p\color{Green}o\color{Green}t\color{Green}e\color{Green}n\color{Green}u\color{Green}s\color{Green}e . \cos \left( \theta \right) + \color{Red}h\color{Red}y\color{Red}p\color{Red}o\color{Red}t\color{Red}e\color{Red}n\color{Red}u\color{Red}s\color{Red}e . \sin \left( \theta \right)\\
-& = x . \cos \left( \theta \right) + y . \sin \left( \theta \right)
-\end{align}
+& = x^{\prime} . \cos \left( \theta \right) + y^{\prime} . \sin \left( \theta \right)
+\end{aligned}
 $$
 </div>
 <div class="col-md-6">
 $$
-\begin{align}
-y' & = \color{Red}a\color{Red}d\color{Red}j\color{Red}a\color{Red}c\color{Red}e\color{Red}n\color{Red}t - \color{Green}o\color{Green}p\color{Green}p\color{Green}o\color{Green}s\color{Green}i\color{Green}t\color{Green}e\\
+\begin{aligned}
+y & = \color{Red}a\color{Red}d\color{Red}j\color{Red}a\color{Red}c\color{Red}e\color{Red}n\color{Red}t - \color{Green}o\color{Green}p\color{Green}p\color{Green}o\color{Green}s\color{Green}i\color{Green}t\color{Green}e\\
 & = \color{Red}h\color{Red}y\color{Red}p\color{Red}o\color{Red}t\color{Red}e\color{Red}n\color{Red}u\color{Red}s\color{Red}e . \cos \left( \theta \right) - \color{Green}h\color{Green}y\color{Green}p\color{Green}o\color{Green}t\color{Green}e\color{Green}n\color{Green}u\color{Green}s\color{Green}e . \sin \left( \theta \right)\\
-& = y . \cos \left( \theta \right) - x . \sin \left( \theta \right)\\
-& = -x . \sin \left( \theta \right) + y . \cos \left( \theta \right)
-\end{align}
+& = y^{\prime} . \cos \left( \theta \right) - x^{\prime} . \sin \left( \theta \right)\\
+& = -x^{\prime} . \sin \left( \theta \right) + y^{\prime} . \cos \left( \theta \right)
+\end{aligned}
 $$
 </div>
 </div>
 
 <p>In the end what we really have here is a system of equations that we can
-represent as a <code>$2\text{×}2$</code> matrix:</p>
+represent as a $2 \times 2$ matrix:</p>
 
 <div>
 $$
-\begin{bmatrix}
-x'\\
-y'
-\end{bmatrix}
-=
-\begin{bmatrix}
-\cos \left( \theta \right) & \sin \left( \theta \right)\\
--\sin \left( \theta \right) & \cos \left( \theta \right)
-\end{bmatrix}
-.
-\begin{bmatrix}
+\begin{pmatrix}
 x\\
 y
-\end{bmatrix}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\cos \theta & \sin \theta\\
+-\sin \theta & \cos \theta
+\end{pmatrix}
+.
+\begin{pmatrix}
+x^{\prime}\\
+y^{\prime}
+\end{pmatrix}
 $$
 </div>
 
 <p>But this is not <em>exactly</em> what we are looking for, right?<br />
 This defines the relationship to convert from the <em>new</em> coordinates in the
 original plane
-<code>$ \left(x, y\right) $</code>
-what are the coordinates <code>$ \left(x', y'\right) $</code> in the rotated plane.<br />
+$ \left(x^{\prime}, y^{\prime}\right) $
+what are the coordinates $ \left(x, y\right) $ in the rotated
+plane.<br />
 Whereas what we want to define is how to convert from the rotated plane
 (the coordinates that we know) to the original plane.</p>
 
 <p>In order to do what we want, we need to take the same matrix, but define a
-rotation of <code>$ - \theta $</code>.</p>
+rotation of $ - \theta $.</p>
 
 <p>We know that:</p>
 
 <div>
 $$
-\cos \left( -\theta \right) = cos \left( \theta \right)\\
-\sin \left( -\theta \right) = - sin \left( \theta \right)
+\begin{aligned}
+\cos \left( -\theta \right) &= cos \left( \theta \right)\\
+\sin \left( -\theta \right) &= - sin \left( \theta \right)
+\end{aligned}
 $$
 </div>
 
@@ -1570,12 +1870,113 @@ $$
 
 <div>
 $$
-\begin{bmatrix} a & b\\c & d \end{bmatrix}
+\begin{pmatrix} a & b\\c & d \end{pmatrix}
 =
-\begin{bmatrix}
-\cos \left( \theta \right) & -\sin \left( \theta \right)\\
-\sin \left( \theta \right) & \cos \left( \theta \right)
-\end{bmatrix}
+\begin{pmatrix}
+\cos \theta & -\sin \theta\\
+\sin \theta & \cos \theta
+\end{pmatrix}
+$$
+</div>
+
+</div>
+
+
+<p>Now for the simple demonstration I&rsquo;m going to go with the *&ldquo;This position
+vector <em>lands on</em> this position vector&rdquo;* route.</p>
+
+<p>Suppose you are zooming on the unit vectors like so:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/2D-rotation-unit.png" itemprop="contentUrl" data-size="1494x1020">
+      <img src="/img/matrices-for-developers/2D-rotation-unit.png" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Unit vectors under rotation by $\underline{\theta}$
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Trigonometry triangles based on $\underline{\theta}$</div>
+</div>
+
+
+<p>Based on the rules of trigonometry we&rsquo;ve already seen, we have:</p>
+
+<div class="row row-same-height">
+    <div class="col-md-6">$$
+    \begin{pmatrix} 0\\ 1 \end{pmatrix}
+    \text{ lands on }
+    \begin{pmatrix} \cos \theta \\ \sin \theta \end{pmatrix}
+    $$</div>
+    <div class="col-md-6">$$
+    \begin{pmatrix} 1\\ 0 \end{pmatrix}
+    \text{ lands on }
+    \begin{pmatrix} - \sin \theta \\ \cos \theta \end{pmatrix}
+    $$</div>
+</div>
+
+<p><br></p>
+
+<p>Which means:</p>
+
+<div class="row row-same-height">
+    <div class="col-md-6">$$
+    \begin{pmatrix} x\\ y \end{pmatrix} =
+    \begin{pmatrix} 1\\ 0 \end{pmatrix}
+    \text{ lands on }
+    \begin{pmatrix} a.x+b.y\\ c.x+d.y \end{pmatrix} =
+    \begin{pmatrix} \cos \theta \\ \sin \theta \end{pmatrix}
+    $$</div>
+    <div class="col-md-6">$$
+    \begin{pmatrix} x\\ y \end{pmatrix} =
+    \begin{pmatrix} 0\\ 1 \end{pmatrix}
+    \text{ lands on }
+    \begin{pmatrix} a.x+b.y\\ c.x+d.y \end{pmatrix} =
+    \begin{pmatrix} - \sin \theta \\ \cos \theta \end{pmatrix}
+    $$</div>
+</div>
+
+<p><br></p>
+
+<p>From which we can deduce:</p>
+
+<div class="row row-same-height">
+    <div class="col-md-6">$$
+    \begin{pmatrix} 1.a+0.b\\ 1.c+0.d \end{pmatrix} =
+    \begin{pmatrix} \cos \theta \\ \sin \theta \end{pmatrix}
+    $$</div>
+    <div class="col-md-6">$$
+    \begin{pmatrix} 0.a+1.b\\ 0.c+1.d \end{pmatrix} =
+    \begin{pmatrix} - \sin \theta \\ \cos \theta \end{pmatrix}
+    $$</div>
+</div>
+
+<p><br></p>
+
+<p>Easy to deduce $ a = \cos \left( \theta \right) $,
+$ b = - \sin \left( \theta \right) $,
+$ c = \sin \left( \theta \right) $ and $ d = \cos \left( \theta \right) $.</p>
+
+<p>Which gives us our desired rotation matrix:</p>
+
+<div>
+$$
+\begin{pmatrix} a & b\\c & d \end{pmatrix}
+=
+\begin{pmatrix}
+\cos \theta & -\sin \theta\\
+\sin \theta & \cos \theta
+\end{pmatrix}
 $$
 </div>
 
@@ -1586,15 +1987,17 @@ transformation matrices. So what is missing?</p>
 
 <p>If you&rsquo;re still with me at this point, maybe you&rsquo;re wondering why any of this
 is useful. If it&rsquo;s the case, you missed the point of this article, which is to
-<strong><em>understand</em></strong> affine transformations in order to apply them in code.</p>
+<strong><em>understand</em></strong> affine transformations in order to apply them in code
+<span class="emoji">:mortar_board:</span>
+.</p>
 
 <p>This is useful because at this point you know what a transformation matrix
 looks like, and you know how to compute one given a few position vectors,
 and it is also a great accomplishment by itself.</p>
 
-<p>But here&rsquo;s the thing: <code>$2\text{×}2$</code> matrices are limiting us in the number of operations
-we can perform. With a <code>$2\text{×}2$</code> matrix, the only transformations we can do are the
-ones we&rsquo;ve seen in the previous section:</p>
+<p>But here&rsquo;s the thing: $2 \times 2$ matrices are limited in the number of
+operations we can perform. With a $2 \times 2$ matrix, the only transformations
+we can do are the ones we&rsquo;ve seen in the previous section:</p>
 
 <ul>
 <li>Scaling</li>
@@ -1603,27 +2006,27 @@ ones we&rsquo;ve seen in the previous section:</p>
 <li>Rotation</li>
 </ul>
 
-<p>So what are we missing? Answer: translations!<br />
+<p>So what are we missing? Answer: <strong>translations</strong>!<br />
 And this is unfortunate, as translations are really useful, like when the user
 pans and the image has to behave accordingly (aka. <em>follow the finger</em>).<br />
 Translations are defined by the addition of two matrices :</p>
 
 <div>
 $$
-\begin{bmatrix}
+\begin{pmatrix}
 x'\\
 y'
-\end{bmatrix}
+\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 x\\
 y
-\end{bmatrix}
+\end{pmatrix}
 +
-\begin{bmatrix}
+\begin{pmatrix}
 t_{x}\\
 t_{y}
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
@@ -1639,107 +2042,138 @@ way to express translations as matrices multiplications too.</p>
 
 <ul>
 <li>the Cartesian plane you&rsquo;re used to, is really just one of many
-planes that exist in the 3D space, and is at <code>$ z = 1 $</code></li>
-<li>for any point <code>$ \left(x, y, z\right)$</code> in the 3D space, the line in
+planes that exist in the 3D space, and is at $ z = 1 $</li>
+<li>for any point $ \left(x, y, z\right)$ in the 3D space, the line in
 the projecting space that is going through this point and the origin is
 also passing through any point that is obtained by scaling
-<code>$x$</code>, <code>$y$</code> and <code>$z$</code> by the same factor</li>
+$x$, $y$ and $z$ by the same factor</li>
 <li>the coordinates of any of these points on the line is
-<code>$ \left(\frac{x}{z}, \frac{y}{z}, z\right)$</code>.</li>
+$ \left(\frac{x}{z}, \frac{y}{z}, z\right)$.</li>
 </ul>
 
-<p><code>TODO</code> Insert projective geometry/homogeneous coordinates 3D plot here</p>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/homogeneous-coordinates.png" itemprop="contentUrl" data-size="1433x1346">
+      <img src="/img/matrices-for-developers/homogeneous-coordinates.png" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Homogeneous coordinates
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Homogeneous coordinates graphics</div>
+</div>
+
 
 <p>I&rsquo;ve collected a list of blog posts, articles and videos links at the end of
 this post if you&rsquo;re interested.</p>
 
 <p>Without further dig in, this is helping, because it says that we
-can now represent any point in our Cartesian plane (<code>$ z = 1 $</code>) not only as
-a <code>$2\text{×}1$</code> matrix, but also as a <code>$3\text{×}1$</code> matrix:</p>
+can now represent any point in our Cartesian plane ($ z = 1 $) not only as
+a $2 \times 1$ matrix, but also as a $3 \times 1$ matrix:</p>
 
 <div>
 $$
-\begin{bmatrix}
+\begin{pmatrix}
 x\\
 y
-\end{bmatrix}
+\end{pmatrix}
 \Leftrightarrow
-\begin{bmatrix}
+\begin{pmatrix}
 x\\
 y\\
 1
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
 <p>Which means we have to redefine all our previous transformation matrices,
-because the product of a <code>$3\text{×}1$</code> matrix (position vector) by a
-<code>$2\text{×}2$</code> matrix (transformation) is <em><code>undefined</code></em>.</p>
+because the product of a $3 \times 1$ matrix (position vector) by a
+$2 \times 2$ matrix (transformation) is <em><code>undefined</code></em>.</p>
 
-<p><strong>Don&rsquo;t rage quit! It&rsquo;s straightforward: <code>$\mathbf{z'=z}$</code>!</strong></p>
+<p><strong>Don&rsquo;t rage quit! It&rsquo;s straightforward: $\mathbf{z^{\prime}=z}$!</strong></p>
 
-<p>We have to find the transformation matrix <code>$
+<p>We have to find the transformation matrix $
 \mathbf{A} =
-\begin{bmatrix} a &amp; b &amp; c\\ d &amp; e &amp; f\\ g &amp; h &amp; i \end{bmatrix}
-$</code></p>
+\begin{pmatrix} a &amp; b &amp; c\\ d &amp; e &amp; f\\ g &amp; h &amp; i \end{pmatrix}
+$</p>
 
 <p>If, like in the previous section, we imagine that we have the point
-<code>$ P_{\left(x, y, z\right)} $</code>, which represents any point of
+$ P_{\left(x, y, z\right)} $, which represents any point of
 an object on the cartesian plane, then we want to find the matrix to transform
-it into <code>$ P'_{\left(x', y', z'\right)}$</code> such that</p>
+it into $ P^{\prime}_{\left(x^{\prime}, y^{\prime}, z^{\prime}\right)}$ such that</p>
 
 <div>
 $$
-\begin{bmatrix} x'\\y'\\z' \end{bmatrix} =
-\mathbf{A} . \begin{bmatrix} x\\y\\z \end{bmatrix} =
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+\begin{pmatrix} x^{\prime}\\y^{\prime}\\z^{\prime} \end{pmatrix} =
+\mathbf{A} . \begin{pmatrix} x\\y\\z \end{pmatrix} =
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
 .
-\begin{bmatrix} x\\y\\z \end{bmatrix}
+\begin{pmatrix} x\\y\\z \end{pmatrix}
 $$
 </div>
 
 <h3 id="scaling-1">Scaling</h3>
 
-<p>We are looking for <code>$\mathbf{A}$</code> such that:</p>
+<p>We are looking for $\mathbf{A}$ such that:</p>
 
 <div>
 $$
-\begin{bmatrix} x'\\y'\\z' \end{bmatrix} =
-\begin{bmatrix} s_{x}.x\\s_{y}.y\\z \end{bmatrix} =
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+\begin{pmatrix} x^{\prime}\\y^{\prime}\\z^{\prime} \end{pmatrix} =
+\begin{pmatrix} s_{x}.x\\s_{y}.y\\z \end{pmatrix} =
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
 .
-\begin{bmatrix} x\\y\\z \end{bmatrix}
+\begin{pmatrix} x\\y\\z \end{pmatrix}
 $$
 </div>
 
-<p>We can solve the following system of equation in order to find <code>$\mathbf{A}$</code>:</p>
+<p>We can solve the following system of equation in order to find $\mathbf{A}$:</p>
 
 <div class="row row-same-height">
     <div class="col-md-4">
 $$
-x' = s_{x} . x\\
+\begin{aligned}
+x^{\prime} &= s_{x} . x\\
+s_{x} . x &= a . x + b . y + c . z\\\\
 \Rightarrow
-s_{x} . x = a . x + b . y + c . z\\
-\Rightarrow
-a = s_{x} \text{ and } b = 0 \text{ and } c = 0
+a &= s_{x} \text{ and }\\
+b &= 0 \text{ and }\\
+c &= 0
+\end{aligned}
 $$
     </div>
     <div class="col-md-4">
 $$
-y' = s_{y} . y\\
+\begin{aligned}
+y^{\prime} &= s_{y} . y\\
+s_{y} . y &= d . x + e . y + f + z\\\\
 \Rightarrow
-s_{y} . y = d . x + e . y + f + z\\
-\Rightarrow
-d = s_{y} \text{ and } e = 0 \text{ and } f = 0
+d &= s_{y} \text{ and }\\
+e &= 0 \text{ and }\\
+f &= 0
+\end{aligned}
 $$
     </div>
     <div class="col-md-4">
 $$
-z' = z\\
+\begin{aligned}
+z^{\prime} &= z\\
 \Rightarrow
-z = g . x + h . y + i + z\\
+z &= g . x + h . y + i + z\\
 \Rightarrow
-g = 0 \text{ and } h = 0 \text{ and } i = 1
+g &= 0 \text{ and }\\
+h &= 0 \text{ and }\\
+i &= 1
+\end{aligned}
 $$
     </div>
 </div>
@@ -1747,262 +2181,298 @@ $$
 <p><br></p>
 
 <p>The 3x3 scaling matrix for the factors
-<code>$ \left(s_{x}, s_{y}\right) $</code> is:</p>
+$ \left(s_{x}, s_{y}\right) $ is:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
 =
-\begin{bmatrix} s_{x} & 0 &0\\0 & s_{y} & 0\\0 & 0 & 1\end{bmatrix}
+\begin{pmatrix} s_{x} & 0 &0\\0 & s_{y} & 0\\0 & 0 & 1\end{pmatrix}
 $$
 </div>
 
 <h3 id="reflexion-1">Reflexion</h3>
 
-<p>For a reflexion around the <code>$x$</code> axis we are looking for <code>$\mathbf{A}$</code> such
+<p>For a reflexion around the $x$ axis we are looking for $\mathbf{A}$ such
 that:</p>
 
 <div>
 $$
-\begin{bmatrix} x'\\y'\\z' \end{bmatrix} =
-\begin{bmatrix} x\\-y\\z \end{bmatrix} =
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+\begin{pmatrix} x^{\prime}\\y^{\prime}\\z^{\prime} \end{pmatrix} =
+\begin{pmatrix} x\\-y\\z \end{pmatrix} =
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
 .
-\begin{bmatrix} x\\y\\z \end{bmatrix}
+\begin{pmatrix} x\\y\\z \end{pmatrix}
 $$
 </div>
 
-<p>We can solve the following system of equation in order to find <code>$\mathbf{A}$</code>:</p>
+<p>We can solve the following system of equation in order to find $\mathbf{A}$:</p>
 
 <div class="row row-same-height">
     <div class="col-md-4">
 $$
-x' = x\\
+\begin{aligned}
+x^{\prime} &= x\\
+x &= a . x + b . y + c . z\\\\
 \Rightarrow
-x = a . x + b . y + c . z\\
-\Rightarrow
-a = 1 \text{ and } b = 0 \text{ and } c = 0
+a &= 1 \text{ and }\\
+b &= 0 \text{ and }\\
+c &= 0
+\end{aligned}
 $$
 </div>
     <div class="col-md-4">
 $$
-y' = -y\\
+\begin{aligned}
+y^{\prime} &= -y\\
+-y &= d . x + e . y + f . z\\\\
 \Rightarrow
--y = d . x + e . y + f . z\\
-\Rightarrow
-d = 0 \text{ and } e = -1 \text{ and } f = 0
+d &= 0 \text{ and }\\
+e &= -1 \text{ and }\\
+f &= 0
+\end{aligned}
 $$
 </div>
     <div class="col-md-4">
 $$
-z' = z\\
+\begin{aligned}
+z^{\prime} &= z\\
+z &= g . x + h . y + i . z\\\\
 \Rightarrow
-z = g . x + h . y + i . z\\
-\Rightarrow
-g = 0 \text{ and } h = 0 \text{ and } i = 1
+g &= 0 \text{ and }\\
+h &= 0 \text{ and }\\
+i &= 1
+\end{aligned}
 $$
 </div>
 </div>
 
 <p><br></p>
 
-<p>The transformation matrix to reflect around the <code>$x$</code> axis is:</p>
+<p>The transformation matrix to reflect around the $x$ axis is:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & 0\\
 0 & -1 & 0\\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
-<p>For the reflexion around the <code>$y$</code> axis we are looking for <code>$\mathbf{A}$</code> such
+<p>For the reflexion around the $y$ axis we are looking for $\mathbf{A}$ such
 that:</p>
 
 <div>
 $$
-\begin{bmatrix} x'\\y'\\z' \end{bmatrix} =
-\begin{bmatrix} x\\-y\\z \end{bmatrix} =
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+\begin{pmatrix} x^{\prime}\\y^{\prime}\\z^{\prime} \end{pmatrix} =
+\begin{pmatrix} x\\-y\\z \end{pmatrix} =
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
 .
-\begin{bmatrix} x\\y\\z \end{bmatrix}
+\begin{pmatrix} x\\y\\z \end{pmatrix}
 $$
 </div>
 
-<p>We can solve the following system of equation in order to find <code>$\mathbf{A}$</code>:</p>
+<p>We can solve the following system of equation in order to find $\mathbf{A}$:</p>
 
 <div class="row row-same-height">
     <div class="col-md-4">
 $$
-x' = -x\\
+\begin{aligned}
+x^{\prime} &= -x\\
+-x &= a . x + b . y + c . z\\\\
 \Rightarrow
--x = a . x + b . y + c . z\\
-\Rightarrow
-a = -1 \text{ and } b = 0 \text{ and } c = 0
+a &= -1 \text{ and }\\
+b &= 0 \text{ and }\\
+c &= 0
+\end{aligned}
 $$
 </div>
     <div class="col-md-4">
 $$
-y' = y\\
+\begin{aligned}
+y^{\prime} &= y\\
+y &= d . x + e . y + f . z\\\\
 \Rightarrow
-y = d . x + e . y + f . z\\
-\Rightarrow
-d = 0 \text{ and } e = 1 \text{ and } f = 0
+d &= 0 \text{ and }\\
+e &= 1 \text{ and }\\
+f &= 0
+\end{aligned}
 $$
 </div>
     <div class="col-md-4">
 $$
-z' = z\\
+\begin{aligned}
+z^{\prime} &= z\\
+z &= g . x + h . y + i . z\\\\
 \Rightarrow
-z = g . x + h . y + i . z\\
-\Rightarrow
-g = 0 \text{ and } h = 0 \text{ and } i = 1
+g &= 0 \text{ and }\\
+h &= 0 \text{ and }\\
+i &= 1
+\end{aligned}
 $$
 </div>
 </div>
 
 <p><br></p>
 
-<p>The transformation matrix to reflect around the <code>$y$</code> axis is:</p>
+<p>The transformation matrix to reflect around the $y$ axis is:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
 =
-\begin{bmatrix}
+\begin{pmatrix}
 -1 & 0 & 0\\
 0 & 1 & 0\\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
 <h3 id="shearing-1">Shearing</h3>
 
-<p>Well, I&rsquo;m a bit lazy here 🤗<br />
+<p>Well, I&rsquo;m a bit lazy here <span class="emoji">:hugging:</span>
+<br />
 You see the pattern, right? Third line always the same, third column always the
 same.</p>
 
-<p>The transformation matrix to shear along the <code>$x$</code> direction is:</p>
+<p>The transformation matrix to shear along the $x$ direction is:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
-=
-\begin{bmatrix}
-1 & \tan \left( -\alpha \right) & 0\\
+\begin{aligned}
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
+&=
+\begin{pmatrix}
+1 & \tan \alpha & 0\\
 0 & 1 & 0\\
 0 & 0 & 1
-\end{bmatrix}
-=
-\begin{bmatrix}
+\end{pmatrix}\\\\
+&=
+\begin{pmatrix}
 1 & k_{x} & 0\\
 0 & 1 & 0\\
 0 & 0 & 1
-\end{bmatrix}\\
-\text{where } k \text{ is the shearing constant}
+\end{pmatrix}\\\\
+& \text{where } k \text{ is the shearing constant}
+\end{aligned}
 $$
 </div>
 
-<p>Similarly, the transformation matrix to shear along the <code>$y$</code> direction is:</p>
+<p>Similarly, the transformation matrix to shear along the $y$ direction is:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
-=
-\begin{bmatrix}
+\begin{aligned}
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
+&=
+\begin{pmatrix}
 1 & 0 & 0\\
-\tan \left( -\beta \right) & 1 & 0\\
+\tan \beta & 1 & 0\\
 0 & 0 & 1
-\end{bmatrix}
-=
-\begin{bmatrix}
+\end{pmatrix}\\\\
+&=
+\begin{pmatrix}
 1 & 0 & 0\\
 k_{y} & 1 & 0\\
 0 & 0 & 1
-\end{bmatrix}\\
-\text{where } k \text{ is the shearing constant}
+\end{pmatrix}\\\\
+& \text{where } k \text{ is the shearing constant}
+\end{aligned}
 $$
 </div>
 
 <h3 id="rotating">Rotating</h3>
 
-<p>Same pattern, basically we just take the <code>$2\text{×}2$</code> rotation matrix
-and add one row and one column whose entries are <code>$0$</code>, <code>$0$</code> and <code>$1$</code>.</p>
+<p>Same pattern, basically we just take the $2 \times 2$ rotation matrix
+and add one row and one column whose entries are $0$, $0$ and $1$.</p>
 
 <div>
 $$
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
 =
-\begin{bmatrix}
-\cos \left( \theta \right) & -\sin \left( \theta \right) & 0\\
-\sin \left( \theta \right) & \cos \left( \theta \right) & 0\\
+\begin{pmatrix}
+\cos \theta & -\sin \theta & 0\\
+\sin \theta & \cos \theta & 0\\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
+
+<p>But you can do the math, if you want
+<span class="emoji">:stuck_out_tongue_winking_eye:</span>
+</p>
 
 <h3 id="translation">Translation</h3>
 
 <p>And now it gets interesting, because we can define translations as
-<code>$3\text{×}3$</code> matrices multiplication!</p>
+$3 \times 3$ matrices multiplication!</p>
 
-<p>We are looking for <code>$\mathbf{A}$</code> such that:</p>
+<p>We are looking for $\mathbf{A}$ such that:</p>
 
 <div>
 $$
-\begin{bmatrix} x'\\y'\\z' \end{bmatrix} =
-\begin{bmatrix} x+t_{x}\\y+t_{y}\\z \end{bmatrix} =
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+\begin{pmatrix} x^{\prime}\\y^{\prime}\\z^{\prime} \end{pmatrix} =
+\begin{pmatrix} x+t_{x}\\y+t_{y}\\z \end{pmatrix} =
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
 .
-\begin{bmatrix} x\\y\\z \end{bmatrix}
+\begin{pmatrix} x\\y\\z \end{pmatrix}
 $$
 </div>
 
-<p>We can solve the following system of equation in order to find <code>$\mathbf{A}$</code>:</p>
+<p>We can solve the following system of equation in order to find $\mathbf{A}$:</p>
 
 <div class="row row-same-height">
     <div class="col-md-4">
 $$
-x' = x + t_{x} \\
+\begin{aligned}
+x^{\prime} &= x + t_{x} \\
+x + t_{x} &= a . x + b . y + c . z\\\\
 \Rightarrow
-x + t_{x} = a . x + b . y + c . z\\
-\Rightarrow
-a = 1 \text{ and } b = 0 \text{ and } c = t_{x}
+a &= 1 \text{ and }\\
+b &= 0 \text{ and }\\
+c &= t_{x}
+\end{aligned}
 $$
 </div>
     <div class="col-md-4">
 $$
-y' = y + t_{y}\\
+\begin{aligned}
+y^{\prime} &= y + t_{y}\\
+y + t_{y} &= d . x + e . y + f . z\\\\
 \Rightarrow
-y + t_{y} = d . x + e . y + f . z\\
-\Rightarrow
-d = 0 \text{ and } e = 1 \text{ and } f = t_{y}
+d &= 0 \text{ and }\\
+e &= 1 \text{ and }\\
+f &= t_{y}
+\end{aligned}
 $$
 </div>
     <div class="col-md-4">
 $$
-z' = z\\
+\begin{aligned}
+z^{\prime} &= z\\
+z &= g . x + h . y + i . z\\\\
 \Rightarrow
-z = g . x + h . y + i . z\\
-\Rightarrow
-g = 0 \text{ and } h = 0 \text{ and } i = 1
+g &= 0 \text{ and }\\
+h &= 0 \text{ and }\\
+i &= 1
+\end{aligned}
 $$
 </div>
 </div>
 
-<p>The <code>$3\text{×}3$</code> translation matrix for the translation
-<code>$ \left(t_{x}, t_{y}\right) $</code> is:</p>
+<p>The $3 \times 3$ translation matrix for the translation
+$ \left(t_{x}, t_{y}\right) $ is:</p>
 
 <div>
 $$
-\begin{bmatrix} a & b & c\\d & e & f\\g & h & i\end{bmatrix}
+\begin{pmatrix} a & b & c\\d & e & f\\g & h & i\end{pmatrix}
 =
-\begin{bmatrix} 1 & 0 & t_{x}\\0 & 1 & t_{y}\\0 & 0 & 1\end{bmatrix}
+\begin{pmatrix} 1 & 0 & t_{x}\\0 & 1 & t_{y}\\0 & 0 & 1\end{pmatrix}
 $$
 </div>
 
@@ -2017,46 +2487,17 @@ your transformations.</p>
 <h3 id="reminder">Reminder</h3>
 
 <p>Translation matrix:
-<code>$
-\begin{bmatrix}
-1 &amp; 0 &amp; t_{x}\\
-0 &amp; 1 &amp; t_{y}\\
-0 &amp; 0 &amp; 1
-\end{bmatrix}
-$</code></p>
+$\begin{pmatrix}1 &amp; 0 &amp; t_{x}\\0 &amp; 1 &amp; t_{y}\\0 &amp; 0 &amp; 1\end{pmatrix}$</p>
 
 <p>Scaling matrix:
-<code>$
-\begin{bmatrix}
-s_{x} &amp; 0 &amp; 0\\
-0 &amp; s_{y} &amp; 0\\
-0 &amp; 0 &amp; 1
-\end{bmatrix}
-$</code></p>
+$\begin{pmatrix}s_{x} &amp; 0 &amp; 0\\0 &amp; s_{y} &amp; 0\\0 &amp; 0 &amp; 1\end{pmatrix}$</p>
 
 <p>Shear matrix:
-<code>$
-\begin{bmatrix}
-1 &amp; \tan \left( - \alpha \right) &amp; 0\\
-\tan \left( - \beta \right) &amp; 1 &amp; 0\\
-0 &amp; 0 &amp; 1
-\end{bmatrix}
-\text{ = }
-\begin{bmatrix}
-1 &amp; k_{x} &amp; 0\\
-k_{y} &amp; 1 &amp; 0\\
-0 &amp; 0 &amp; 1
-\end{bmatrix}
-$</code></p>
+$\begin{pmatrix}1 &amp; \tan \alpha &amp; 0\\\tan \beta &amp; 1 &amp; 0\\0 &amp; 0 &amp; 1\end{pmatrix} =
+\begin{pmatrix}1 &amp; k_{x} &amp; 0\\k_{y} &amp; 1 &amp; 0\\0 &amp; 0 &amp; 1\end{pmatrix}$</p>
 
 <p>Rotation matrix:
-<code>$
-\begin{bmatrix}
-\cos \left( \theta \right) &amp; -\sin \left( \theta \right) &amp; 0\\
-\sin \left( \theta \right) &amp; \cos \left( \theta \right) &amp; 0\\
-0 &amp; 0 &amp; 1
-\end{bmatrix}
-$</code></p>
+$\begin{pmatrix}\cos \theta &amp; -\sin \theta &amp; 0\\\sin \theta &amp; \cos \theta &amp; 0\\0 &amp; 0 &amp; 1\end{pmatrix}$</p>
 
 <p>That&rsquo;s neat! Now you can define your matrices easily, plus you know how it
 works.</p>
@@ -2073,44 +2514,46 @@ several other transformations.</p>
 <h3 id="combination-use-case-pinch-zoom">Combination use-case: pinch-zoom</h3>
 
 <p>Imagine you have a shape, like a square for instance, and you want to zoom in
-at the center of the square, to mimic a pinch-zoom behaviour.<br />
+at the center of the square, to mimic a pinch-zoom behaviour
+<span class="emoji">:mag:</span>
+<br />
 This transformation is composed of the following sequence:</p>
 
 <ul>
-<li>move anchor point to origin: <code>$ \left( -t_{x}, -t_{y} \right) $</code></li>
-<li>scale by <code>$ \left( s_{x}, s_{y} \right) $</code></li>
-<li>move back anchor point: <code>$ \left( t_{x}, t_{y} \right) $</code></li>
+<li>move anchor point to origin: $ \left( -t_{x}, -t_{y} \right) $</li>
+<li>scale by $ \left( s_{x}, s_{y} \right) $</li>
+<li>move back anchor point: $ \left( t_{x}, t_{y} \right) $</li>
 </ul>
 
-<p>Where <code>$t$</code> is the anchor point of our scaling transformation (the center of
+<p>Where $t$ is the anchor point of our scaling transformation (the center of
 the square).</p>
 
 <p>Our transformations are defined by the first translation matrix
-<code>$ \mathbf{C} $</code>, the scaling matrix <code>$ \mathbf{B} $</code>, and the last
-translation matrix <code>$ \mathbf{A} $</code>.</p>
+$ \mathbf{C} $, the scaling matrix $ \mathbf{B} $, and the last
+translation matrix $ \mathbf{A} $.</p>
 
 <div>
 $$
 \mathbf{C} =
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & -t_{x} \\
 0 & 1 & -t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 \text{ , }
 \mathbf{B} =
-\begin{bmatrix}
+\begin{pmatrix}
 s_{x} & 0 & 0 \\
 0 & s_{y} & 0 \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 \text{ and }
 \mathbf{A} =
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & t_{x} \\
 0 & 1 & t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
@@ -2120,171 +2563,204 @@ The composition of these transformations gives us the following product:</p>
 
 <div>
 $$
-\begin{align}
+\begin{aligned}
 \mathbf{A} . \mathbf{B} . \mathbf{C}
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & t_{x} \\
 0 & 1 & t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 s_{x} & 0 & 0 \\
 0 & s_{y} & 0 \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & -t_{x} \\
 0 & 1 & -t_{y} \\
 0 & 0 & 1
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & t_{x} \\
 0 & 1 & t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
-s_{x} & 0 & s_{x} . -t_{x} \\
-0 & s_{y} & s_{y} . -t_{y} \\
+\begin{pmatrix}
+s_{x} & 0 & -s_{x}.t_{x} \\
+0 & s_{y} & -s_{y}.t_{y} \\
 0 & 0 & 1
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 \mathbf{A} . \mathbf{B} . \mathbf{C}
 &=
-\begin{bmatrix}
-s_{x} & 0 & s_{x} . -t_{x} + t_{x} \\
-0 & s_{y} & s_{y} . -t_{y} + t_{y} \\
+\begin{pmatrix}
+s_{x} & 0 & -s_{x}.t_{x} + t_{x} \\
+0 & s_{y} & -s_{y}.t_{y} + t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
-\end{align}
+\end{pmatrix}
+\end{aligned}
 $$
 </div>
 
 <p>Suppose we have the following points representing a square:
-<code>$
-\begin{bmatrix}
-x_{1} &amp; x_{2} &amp; x_{3} &amp; x_{4}\\
-y_{1} &amp; y_{2} &amp; y_{3} &amp; y_{4}\\
-1 &amp; 1 &amp; 1 &amp; 1
-\end{bmatrix}
-\text{ = }
-\begin{bmatrix}
-2 &amp; 4 &amp; 4 &amp; 2\\
-1 &amp; 1 &amp; 3 &amp; 3\\
-1 &amp; 1 &amp; 1 &amp; 1
-\end{bmatrix}
-$</code></p>
+$\begin{pmatrix}x_{1} &amp; x_{2} &amp; x_{3} &amp; x_{4}\\y_{1} &amp; y_{2} &amp; y_{3} &amp; y_{4}\\1 &amp; 1 &amp; 1 &amp; 1\end{pmatrix} =
+\begin{pmatrix}2 &amp; 4 &amp; 4 &amp; 2\\1 &amp; 1 &amp; 3 &amp; 3\\1 &amp; 1 &amp; 1 &amp; 1\end{pmatrix}$</p>
 
-<p><code>TODO</code> Insert 2D plot with those 4 points</p>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/pinch-zoom-init.png" itemprop="contentUrl" data-size="1032x587">
+      <img src="/img/matrices-for-developers/pinch-zoom-init.png" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Pinch-zoom four points demo
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Pinch-zoom four points demo</div>
+</div>
+
 
 <p>And we want to apply a 2x zoom focusing on its center.<br />
 The new coordinates will be:</p>
 
 <div>
 $$
-\begin{align}
-\begin{bmatrix}
-x_{1}' & x_{2}' & x_{3}' & x_{4}'\\
-y_{1}' & y_{2}' & y_{3}' & y_{4}'\\
+\begin{aligned}
+\begin{pmatrix}
+x_{1}^{\prime} & x_{2}^{\prime} & x_{3}^{\prime} & x_{4}^{\prime}\\
+y_{1}^{\prime} & y_{2}^{\prime} & y_{3}^{\prime} & y_{4}^{\prime}\\
 1 & 1 & 1 & 1
-\end{bmatrix}
+\end{pmatrix}
 &=
-\begin{bmatrix}
-s_{x} & 0 & s_{x} . -t_{x} + t_{x} \\
-0 & s_{y} & s_{y} . -t_{y} + t_{y} \\
+\begin{pmatrix}
+s_{x} & 0 & -s_{x}.t_{x} + t_{x} \\
+0 & s_{y} & -s_{y}.t_{y} + t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 x_{1} & x_{2} & x_{3} & x_{4}\\
 y_{1} & y_{2} & y_{3} & y_{4}\\
 1 & 1 & 1 & 1
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 &=
-\begin{bmatrix}
-2 & 0 & 2 . \left(-3\right) + 3 \\
-0 & 2 & 2 . \left(-2\right) + 2 \\
+\begin{pmatrix}
+2 & 0 & -2.3 + 3 \\
+0 & 2 & -2.2 + 2 \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 2 & 4 & 4 & 2\\
 1 & 1 & 3 & 3\\
 1 & 1 & 1 & 1
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 2 & 0 & -3 \\
 0 & 2 & -2 \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 2 & 4 & 4 & 2\\
 1 & 1 & 3 & 3\\
 1 & 1 & 1 & 1
-\end{bmatrix}\\
-\begin{bmatrix}
-x_{1}' & x_{2}' & x_{3}' & x_{4}'\\
-y_{1}' & y_{2}' & y_{3}' & y_{4}'\\
+\end{pmatrix}\\\\
+\begin{pmatrix}
+x_{1}^{\prime} & x_{2}^{\prime} & x_{3}^{\prime} & x_{4}^{\prime}\\
+y_{1}^{\prime} & y_{2}^{\prime} & y_{3}^{\prime} & y_{4}^{\prime}\\
 1 & 1 & 1 & 1
-\end{bmatrix}
+\end{pmatrix}
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 5 & 5 & 1\\
 0 & 0 & 4 & 4\\
 1 & 1 & 1 & 1
-\end{bmatrix}
-\end{align}
+\end{pmatrix}
+\end{aligned}
 $$
 </div>
 
-<p><code>TODO</code> Insert 2D plot with the 8 points</p>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/pinch-zoom.gif" itemprop="contentUrl" data-size="1214x691">
+      <img src="/img/matrices-for-developers/pinch-zoom.gif" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Pinch-zoom four points demo
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Pinch-zoom four points demo</div>
+</div>
+
 
 <h3 id="combination-use-case-rotate-image">Combination use-case: rotate image</h3>
 
 <p>Now imagine you have an image in a view, the origin is not a the center of the
 view, it is probably at the top-left corner (implementations may vary),
-but you want to rotate the image at the center of the view.<br />
+but you want to rotate the image at the center of the view
+<span class="emoji">:upside_down:</span>
+<br />
 This transformation is composed of the following sequence:</p>
 
 <ul>
-<li>move anchor point to origin: <code>$ \left( -t_{x}, -t_{y} \right) $</code></li>
-<li>rotate by <code>$ \theta $</code></li>
-<li>move back anchor point: <code>$ \left( t_{x}, t_{y} \right) $</code></li>
+<li>move anchor point to origin: $ \left( -t_{x}, -t_{y} \right) $</li>
+<li>rotate by $ \theta $</li>
+<li>move back anchor point: $ \left( t_{x}, t_{y} \right) $</li>
 </ul>
 
-<p>Where <code>$t$</code> is the anchor point of our rotation transformation.</p>
+<p>Where $t$ is the anchor point of our rotation transformation.</p>
 
 <p>Our transformations are defined by the first translation matrix
-<code>$ \mathbf{C} $</code>, the rotation matrix <code>$ \mathbf{B} $</code>, and the last
-translation matrix <code>$ \mathbf{A} $</code>.</p>
+$ \mathbf{C} $, the rotation matrix $ \mathbf{B} $, and the last
+translation matrix $ \mathbf{A} $.</p>
 
 <div>
 $$
 \mathbf{C} =
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & -t_{x} \\
 0 & 1 & -t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 \text{ , }
 \mathbf{B} =
-\begin{bmatrix}
-\cos \left( \theta \right) & -\sin \left( \theta \right) & 0 \\
-\sin \left( \theta \right) & \cos \left( \theta \right) & 0 \\
+\begin{pmatrix}
+\cos \theta & -\sin \theta & 0 \\
+\sin \theta & \cos \theta & 0 \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 \text{ and }
 \mathbf{A} =
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & t_{x} \\
 0 & 1 & t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 $$
 </div>
 
@@ -2292,129 +2768,160 @@ $$
 
 <div>
 $$
-\begin{align}
+\begin{aligned}
 \mathbf{A} . \mathbf{B} . \mathbf{C}
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & t_{x} \\
 0 & 1 & t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
-\cos \left( \theta \right) & -\sin \left( \theta \right) & 0 \\
-\sin \left( \theta \right) & \cos \left( \theta \right) & 0 \\
+\begin{pmatrix}
+\cos \theta & -\sin \theta & 0 \\
+\sin \theta & \cos \theta & 0 \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & -t_{x} \\
 0 & 1 & -t_{y} \\
 0 & 0 & 1
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & t_{x} \\
 0 & 1 & t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
-\cos \left( \theta \right) & -\sin \left( \theta \right) & \cos \left( \theta \right) . -t_{x} + \sin \left( \theta \right) . -t_{y} \\
-\sin \left( \theta \right) & \cos \left( \theta \right) & \sin \left( \theta \right) . -t_{x} + \cos \left( \theta \right) . -t_{y} \\
+\begin{pmatrix}
+\cos \theta & -\sin \theta & -\cos \theta.t_{x} +\sin \theta.t_{y} \\
+\sin \theta & \cos \theta & -\sin \theta.t_{x} -\cos \theta.t_{y} \\
 0 & 0 & 1
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 \mathbf{A} . \mathbf{B} . \mathbf{C}
 &=
-\begin{bmatrix}
-\cos \left( \theta \right) & -\sin \left( \theta \right) & \cos \left( \theta \right) . -t_{x} - \sin \left( \theta \right) . -t_{y} + t_{x} \\
-\sin \left( \theta \right) & \cos \left( \theta \right) & \sin \left( \theta \right) . -t_{x} + \cos \left( \theta \right) . -t_{y} + t_{y} \\
+\begin{pmatrix}
+\cos \theta & -\sin \theta & -\cos \theta.t_{x} +\sin \theta.t_{y} + t_{x} \\
+\sin \theta & \cos \theta & -\sin \theta.t_{x} -\cos \theta.t_{y} + t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
-\end{align}
+\end{pmatrix}
+\end{aligned}
 $$
 </div>
 
 <p>Suppose we have the following points representing a square:
-<code>$
-\begin{bmatrix}
-x_{1} &amp; x_{2} &amp; x_{3} &amp; x_{4}\\
-y_{1} &amp; y_{2} &amp; y_{3} &amp; y_{4}\\
-1 &amp; 1 &amp; 1 &amp; 1
-\end{bmatrix}
-\text{ = }
-\begin{bmatrix}
-2 &amp; 4 &amp; 4 &amp; 2\\
-1 &amp; 1 &amp; 3 &amp; 3\\
-1 &amp; 1 &amp; 1 &amp; 1
-\end{bmatrix}
-$</code></p>
+$\begin{pmatrix}x_{1} &amp; x_{2} &amp; x_{3} &amp; x_{4}\\y_{1} &amp; y_{2} &amp; y_{3} &amp; y_{4}\\1 &amp; 1 &amp; 1 &amp; 1\end{pmatrix} =
+\begin{pmatrix}2 &amp; 4 &amp; 4 &amp; 2\\1 &amp; 1 &amp; 3 &amp; 3\\1 &amp; 1 &amp; 1 &amp; 1\end{pmatrix}$</p>
 
-<p><code>TODO</code> Insert 2D plot with those 4 points</p>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
-<p>And we want to apply a rotation of <code>$ \theta = 90° $</code> focusing on its center.<br />
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/rotate-image-init.png" itemprop="contentUrl" data-size="1032x587">
+      <img src="/img/matrices-for-developers/rotate-image-init.png" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Rotate image (four points demo)
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Rotate image (four points demo)</div>
+</div>
+
+
+<p>And we want to apply a rotation of $ \theta = 90^{\circ} $ focusing on its center.<br />
 The new coordinates will be:</p>
 
 <div>
 $$
-\begin{align}
-\begin{bmatrix}
-x_{1}' & x_{2}' & x_{3}' & x_{4}'\\
-y_{1}' & y_{2}' & y_{3}' & y_{4}'\\
+\begin{aligned}
+\begin{pmatrix}
+x_{1}^{\prime} & x_{2}^{\prime} & x_{3}^{\prime} & x_{4}^{\prime}\\
+y_{1}^{\prime} & y_{2}^{\prime} & y_{3}^{\prime} & y_{4}^{\prime}\\
 1 & 1 & 1 & 1
-\end{bmatrix}
+\end{pmatrix}
 &=
-\begin{bmatrix}
-\cos \left( \theta \right) & -\sin \left( \theta \right) & \cos \left( \theta \right) . -t_{x} - \sin \left( \theta \right) . -t_{y} + t_{x} \\
-\sin \left( \theta \right) & \cos \left( \theta \right) & \sin \left( \theta \right) . -t_{x} + \cos \left( \theta \right) . -t_{y} + t_{y} \\
+\begin{pmatrix}
+\cos \theta & -\sin \theta & -\cos \theta.t_{x} +\sin \theta.t_{y} + t_{x} \\
+\sin \theta & \cos \theta & -\sin \theta.t_{x} -\cos \theta.t_{y} + t_{y} \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 x_{1} & x_{2} & x_{3} & x_{4}\\
 y_{1} & y_{2} & y_{3} & y_{4}\\
 1 & 1 & 1 & 1
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 &=
-\begin{bmatrix}
-0 & -1 & 0 . \left(-3\right) - 1 . \left(-2\right) + 3 \\
-1 & 0 & 1 . \left(-3\right) + 0 . \left(-2\right) + 2 \\
-0 & 0 & 1
-\end{bmatrix}
+\begin{pmatrix}
+0 & -1 & -0.3+1.2+3 \\
+1 & 0  & -1.3-0.2+2 \\
+0 & 0  & 1
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 2 & 4 & 4 & 2\\
 1 & 1 & 3 & 3\\
 1 & 1 & 1 & 1
-\end{bmatrix}\\
+\end{pmatrix}\\\\
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 0 & -1 & 5 \\
 1 & 0 & -1 \\
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 .
-\begin{bmatrix}
+\begin{pmatrix}
 2 & 4 & 4 & 2\\
 1 & 1 & 3 & 3\\
 1 & 1 & 1 & 1
-\end{bmatrix}\\
-\begin{bmatrix}
-x_{1}' & x_{2}' & x_{3}' & x_{4}'\\
-y_{1}' & y_{2}' & y_{3}' & y_{4}'\\
+\end{pmatrix}\\\\
+\begin{pmatrix}
+x_{1}^{\prime} & x_{2}^{\prime} & x_{3}^{\prime} & x_{4}^{\prime}\\
+y_{1}^{\prime} & y_{2}^{\prime} & y_{3}^{\prime} & y_{4}^{\prime}\\
 1 & 1 & 1 & 1
-\end{bmatrix}
+\end{pmatrix}
 &=
-\begin{bmatrix}
+\begin{pmatrix}
 4 & 4 & 2 & 2\\
 1 & 3 & 3 & 1\\
 1 & 1 & 1 & 1
-\end{bmatrix}
-\end{align}
+\end{pmatrix}
+\end{aligned}
 $$
 </div>
 
-<p><code>TODO</code> Insert 2D plot with those 8 points</p>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/matrices-for-developers/rotate-image.gif" itemprop="contentUrl" data-size="1032x587">
+      <img src="/img/matrices-for-developers/rotate-image.gif" itemprop="thumbnail"
+        
+        
+        width="80%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Rotate image (four points demo)
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Rotate image (four points demo)</div>
+</div>
+
 
 <h2 id="acknowledgements">Acknowledgements</h2>
 
@@ -2427,9 +2934,16 @@ advices:</p>
 <li>Hadrien Toma</li>
 </ul>
 
+<h2 id="resources">Resources</h2>
+
+<ul>
+<li><a href="https://github.com/arnaudbos/i-rant/tree/develop/static/code/matrices-for-developers">All the Geogebra files I&rsquo;ve used to generate the graphics and gifs</a></li>
+</ul>
+
 <h2 id="links">Links</h2>
 
 <ul>
+<li><a href="https://www.khanacademy.org/math/algebra-home/alg-matrices">Khan Academy algebra course on matrices</a></li>
 <li><a href="https://www.cs.utexas.edu/~fussell/courses/cs384g/lectures/lecture07-Affine.pdf">A course on &ldquo;Affine Transformation&rdquo; at The University of Texas at Austin</a></li>
 <li><a href="http://web.cse.ohio-state.edu/~whmin/courses/cse5542-2013-spring/6-Transformation_II.pdf">A course on &ldquo;Composing Transformations&rdquo; at The Ohio State University</a></li>
 <li><a href="http://datagenetics.com/blog/august32013/">A blogpost on &ldquo;Rotating images&rdquo; by Nick Berry</a></li>
@@ -2452,7 +2966,7 @@ advices:</p>
                     </div>
                     <div class="col-sm-8 col-md-8 col-lg-8">
                       <h6 style="text-align: left">
-                        <strong><a href="/2d-transformations-android/">2D Transformations with Android</a></strong>
+                        <strong><a href="/2d-transformations-android-java/">2D Transformations with Android and Java</a></strong>
                       </h6>
                     </div>
                   </div>
@@ -2515,6 +3029,20 @@ advices:</p>
 <script src="http://www.arnaudbos.com/js/main.js"></script>
 
 <script src="http://www.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- EmojiOne -->
+<script src="https://cdn.jsdelivr.net/emojione/2.2.7/lib/js/emojione.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/2.2.7/assets/css/emojione.min.css"/>
+
+<script>
+(function (){
+  var emojis = document.getElementsByClassName('emoji');
+  for(var i=0; i<emojis.length; i++){
+	  var content = emojis[i].textContent;
+    emojis[i].innerHTML = emojione.shortnameToImage(content);
+  }
+})();
+</script>
 
 <!-- Syntax highlighting -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
@@ -2583,43 +3111,28 @@ advices:</p>
 </div>
 
 <style>
-    .gallery { float: right; }
-    .gallery img { width: 100%; height: auto; }
-    .gallery figure { display: block; float: left; margin: 0 5px 5px 0; width: 80px; }
+    .gallery { float: right; margin-bottom: 10px; text-align: center; }
+    .gallery img { height: auto; }
+    .gallery .title { text-align: center; text-decoration: underline; }
+    .gallery figure { display: block; float: left; margin: 0 5px 5px 0; }
     .gallery figcaption { display: none; }
 </style>
 
 <script>initPhotoSwipeFromDOM('.gallery');</script>
 
 
-<!-- Math syntax -->
-<script type="text/javascript"
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-});
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/contrib/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      
+      
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ]
+  });
 </script>
 
 
