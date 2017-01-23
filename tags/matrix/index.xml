@@ -1205,7 +1205,7 @@ representation of the matrix multiplication process and an example:&lt;/p&gt;
 
 &lt;div class=&#34;row row-same-height&#34;&gt;
 &lt;div class=&#34;col-md-4&#34;&gt;
-&lt;a title=&#34;By File:Matrix multiplication diagram.svg:User:Bilou See below. [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons&#34; href=&#34;https://commons.wikimedia.org/wiki/File%3AMatrix_multiplication_diagram_2.svg&#34; style=&#34;position: absolute; top: 50%; transform: translateY(-50%);&#34;&gt;&lt;img width=&#34;256&#34; alt=&#34;Matrix multiplication diagram 2&#34; src=&#34;https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Matrix_multiplication_diagram_2.svg/256px-Matrix_multiplication_diagram_2.svg.png&#34;/&gt;&lt;/a&gt;
+&lt;a title=&#34;By File:Matrix multiplication diagram.svg:User:Bilou See below. [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons&#34; href=&#34;https://commons.wikimedia.org/wiki/File%3AMatrix_multiplication_diagram_2.svg&#34;&gt;&lt;img width=&#34;256&#34; alt=&#34;Matrix multiplication diagram 2&#34; src=&#34;https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Matrix_multiplication_diagram_2.svg/256px-Matrix_multiplication_diagram_2.svg.png&#34;/&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;div class=&#34;col-md-8&#34;&gt;
 &lt;div&gt;
@@ -1627,7 +1627,7 @@ $$
 &lt;p&gt;This matrix represents the base state of your plane, the matrix applied
 to your plane when you have just loaded your image for example (granted
 your image is the same size as its receiving container view).&lt;br /&gt;
-In other words, &lt;strong&gt;&lt;em&gt;this is the matrix that, applied to a position vector will
+In other words, &lt;strong&gt;&lt;em&gt;this is the matrix that, applied to any position vector will
 return that same position vector&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;This matrix is called the &lt;a href=&#34;https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/a/intro-to-identity-matrices&#34;&gt;identity matrix&lt;/a&gt;.&lt;/p&gt;
@@ -2022,7 +2022,7 @@ parallelogram with a vertex at $\left(1, 1\right)$.&lt;/p&gt;
 &lt;/figure&gt;
 
 
-&lt;div class=&#34;title&#34;&gt;Shearing along $\underline{x}$ axis by a constant $\underline{k_{x}=1}$&lt;/div&gt;
+&lt;div class=&#34;title&#34;&gt;$\underline{\text{Shearing along } x \text{ axis by a constant } k_{x}=1}$&lt;/div&gt;
 &lt;/div&gt;
 
 
@@ -2048,7 +2048,7 @@ through which the axis is sheared. Let&amp;rsquo;s call it $\alpha$ (alpha).&lt;
 &lt;/figure&gt;
 
 
-&lt;div class=&#34;title&#34;&gt;Shearing along $\underline{x}$ axis by an angle $\underline{\alpha}$&lt;/div&gt;
+&lt;div class=&#34;title&#34;&gt;$\underline{\text{Shearing along } x \text{ axis by an angle } \alpha}$&lt;/div&gt;
 &lt;/div&gt;
 
 
@@ -2126,7 +2126,7 @@ opposite side of the green triangle, see:&lt;/p&gt;
 &lt;/figure&gt;
 
 
-&lt;div class=&#34;title&#34;&gt;Triangles formed by shearing along $\underline{x}$ axis by an angle $\underline{\alpha=-30^{\circ}}$ or $\underline{\alpha=30^{\circ}}$ when $\underline{y\left(P\right)&amp;gt;0}$ and $\underline{y\left(P\right)&amp;lt;0}$&lt;/div&gt;
+&lt;div class=&#34;title&#34;&gt;$\underline{\text{Triangles formed by shearing along } x \text{ axis by an angle } \alpha}$&lt;/div&gt;
 &lt;/div&gt;
 
 
@@ -2291,7 +2291,7 @@ from a angle $ \theta $ (theta).&lt;/p&gt;
 &lt;/figure&gt;
 
 
-&lt;div class=&#34;title&#34;&gt;Rotate by an angle $\underline{\theta}$&lt;/div&gt;
+&lt;div class=&#34;title&#34;&gt;$\underline{\text{Rotate by an angle } \theta}$&lt;/div&gt;
 &lt;/div&gt;
 
 
@@ -2313,9 +2313,10 @@ $ \left(x^{\prime}, y^{\prime}\right) $, right?&lt;/p&gt;
 geometry based explanation
 by &lt;a href=&#34;http://datagenetics.com/blog/august32013/&#34;&gt;Nick Berry&lt;/a&gt; and &lt;a href=&#34;https://www.youtube.com/watch?v=h11ljFJeaLo&#34;&gt;this video&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;To be honest, I&amp;rsquo;m not 100% comfortable with this solution which means I didn&amp;rsquo;t
-fully understand it. And also Hadrien (one of by reviewers who&amp;rsquo;s way more
-skilled at math than I am), found it awkward.&lt;br /&gt;
+&lt;p&gt;To be honest, I&amp;rsquo;m not 100% comfortable with this solution, which means I didn&amp;rsquo;t
+fully understand it. And also after re-reading what I&amp;rsquo;ve written, Hadrien
+(one of the reviewers) and I have found &lt;strong&gt;my&lt;/strong&gt; explanation to be a bit
+&lt;em&gt;awkward&lt;/em&gt;.&lt;br /&gt;
 So I&amp;rsquo;m leaving it here in case you&amp;rsquo;re interested, but I suggest you
 don&amp;rsquo;t bother unless you&amp;rsquo;re very curious and don&amp;rsquo;t mind a little confusion.&lt;/p&gt;
 
@@ -2334,13 +2335,13 @@ don&amp;rsquo;t bother unless you&amp;rsquo;re very curious and don&amp;rsquo;t 
   &lt;/a&gt;
 
   &lt;figcaption itemprop=&#34;caption description&#34;&gt;
-    Trigonometry triangles based on $\underline{\theta}$
+    Trigonometry triangles based on $\theta$
     &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
   &lt;/figcaption&gt;
 &lt;/figure&gt;
 
 
-&lt;div class=&#34;title&#34;&gt;Trigonometry triangles based on $\underline{\theta}$&lt;/div&gt;
+&lt;div class=&#34;title&#34;&gt;$\underline{\text{Trigonometry triangles based on } \theta}$&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;On this plane we see that $x$ (the blue line) can be expressed as the
@@ -3510,7 +3511,7 @@ advices:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.khanacademy.org/math/algebra-home/alg-matrices&#34;&gt;Khan Academy algebra course on matrices&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.cs.utexas.edu/~fussell/courses/cs384g/lectures/lecture07-Affine.pdf&#34;&gt;A course on &amp;ldquo;Affine Transformation&amp;rdquo; at The University of Texas at Austin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.cs.utexas.edu/~fussell/courses/cs384g-fall2010/lectures/lecture07-Affine.pdf&#34;&gt;A course on &amp;ldquo;Affine Transformation&amp;rdquo; at The University of Texas at Austin&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://web.cse.ohio-state.edu/~whmin/courses/cse5542-2013-spring/6-Transformation_II.pdf&#34;&gt;A course on &amp;ldquo;Composing Transformations&amp;rdquo; at The Ohio State University&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://datagenetics.com/blog/august32013/&#34;&gt;A blogpost on &amp;ldquo;Rotating images&amp;rdquo; by Nick Berry&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=h11ljFJeaLo&#34;&gt;A Youtube video course on &amp;ldquo;The Rotation Matrix&amp;rdquo; by Michael J. Ruiz&lt;/a&gt;&lt;/li&gt;
