@@ -6,8 +6,740 @@
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 23 Jan 2017 13:23:08 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 07 Feb 2017 02:30:04 +0100</lastBuildDate>
     <atom:link href="http://www.arnaudbos.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>2D Transformations with Android and Java</title>
+      <link>http://www.arnaudbos.com/2d-transformations-android-java/</link>
+      <pubDate>Tue, 07 Feb 2017 02:30:04 +0100</pubDate>
+      
+      <guid>http://www.arnaudbos.com/2d-transformations-android-java/</guid>
+      <description>
+
+&lt;p&gt;I my previous post, &lt;a href=&#34;../matrices-for-developers&#34;&gt;&amp;ldquo;Matrices for developers&amp;rdquo;&lt;/a&gt;, I&amp;rsquo;ve
+talked about matrices and how they can be used to compute 2D transformations.&lt;/p&gt;
+
+&lt;p&gt;In this post, I want to talk about how to apply what we know about matrices
+in order to perform 2D transformations, first using Java AWT and then with the
+Android SDK.&lt;/p&gt;
+
+&lt;h2 id=&#34;table-of-contents&#34;&gt;Table of contents&lt;/h2&gt;
+
+&lt;div id=&#34;toc&#34; class=&#34;well col-md-12&#34;&gt;
+  &lt;!-- toc --&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;affine-transformations-with-java&#34;&gt;Affine transformations with Java&lt;/h2&gt;
+
+&lt;p&gt;When I was working on the project I mentioned at the beginning of the previous
+article, I was constantly moving back and forth between the
+&lt;a href=&#34;https://docs.oracle.com/javase/7/docs/api/java/awt/geom/AffineTransform.html&#34;&gt;JDK&amp;rsquo;s implementation of affine transformations&lt;/a&gt; and the
+&lt;a href=&#34;https://developer.android.com/reference/android/graphics/Matrix.html&#34;&gt;Android SDK&amp;rsquo;s implementation of matrices&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I find the &lt;code&gt;java.awt.geom.AffineTransform&lt;/code&gt; class fairly well featured,
+but it is a bit ambiguous. Fortunately, the documentation is
+good, it&amp;rsquo;s not perfect but at least it&amp;rsquo;s better than Android&amp;rsquo;s one on this
+topic as we shall see later.&lt;/p&gt;
+
+&lt;p&gt;The Javadoc starts with a reminder of what are 2D affine transformations and a
+matrix multiplication pattern to transform coordinates.&lt;/p&gt;
+
+&lt;div&gt;
+$$
+\begin{bmatrix}
+x^{\prime}\\
+y^{\prime}\\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+m_{00} &amp; m_{01} &amp; m_{02}\\
+m_{10} &amp; m_{11} &amp; m_{12}\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+x\\
+y\\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+m_{00} . x + m_{01} . y + m_{02}\\
+m_{10} . x + m_{11} . y + m_{12}\\
+1
+\end{bmatrix}
+$$
+&lt;/div&gt;
+
+&lt;p&gt;That&amp;rsquo;s neat, you have to appreciate the effort there (I mean, is your
+Javadoc that great? &lt;span class=&#34;emoji&#34;&gt;:innocent:&lt;/span&gt;
+),
+and Android&amp;rsquo;s Javadoc doesn&amp;rsquo;t have it so&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;The way this pattern is written lets us see a glimpse of implementation details,
+right? Those $m_{00}$, $m_{01}$ and etc, they (not so) strangely resemble
+stringified versions of indexes in a two-dimensional array.&lt;/p&gt;
+
+&lt;h3 id=&#34;ambiguous-part-1&#34;&gt;Ambiguous — Part 1&lt;/h3&gt;
+
+&lt;p&gt;So what is &lt;em&gt;&amp;ldquo;ambiguous&amp;rdquo;&lt;/em&gt; with this class? Granted it might be a matter of taste,
+but if you look at the constructor
+&lt;code&gt;AffineTransform(m00, m10, m01, m11, m02, m12)&lt;/code&gt; and the method
+&lt;code&gt;setTransform(m00, m10, m01, m11, m02, m12)&lt;/code&gt;, they only take 6 input
+parameters although the transformation matrices are $3 \times 3$ dimensions
+matrices: they have 9 entries.&lt;/p&gt;
+
+&lt;p&gt;While it makes perfectly sense to not take as inputs parameters that are fixed
+in the context of 2D affine transformations (&lt;code&gt;0, 0, 1&lt;/code&gt;), I find it disturbing.&lt;/p&gt;
+
+&lt;p&gt;More disturbing perhaps, is the ordering of those parameters.&lt;/p&gt;
+
+&lt;p&gt;If you make the parallel between those and our $a_{11}$, $a_{12}$, etc. from
+the previous post, you can notice that the reading direction is not the same.&lt;br /&gt;
+With $a_{11}$, $a_{12}$, etc., we used to read more &lt;em&gt;&amp;ldquo;naturally&amp;rdquo;&lt;/em&gt; I would say,
+like normal english written text: line by line.&lt;br /&gt;
+Whereas $m_{00}$, $m_{10}$, etc. is reading the matrix column by column.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m not saying one is better than the other, just that I&amp;rsquo;m more familiar with
+the first one, and that it&amp;rsquo;s worth pointing at it to clarify the use of this
+class. Because the &lt;code&gt;getMatrix(flatmatrix)&lt;/code&gt; method will fill in an
+array containing the entries of the matrix in that specific order.&lt;br /&gt;
+Also, &lt;code&gt;getMatrix&lt;/code&gt; &lt;em&gt;&amp;ldquo;Retrieves the 6 specifiable values in the $3 \times 3$
+affine transformation matrix&amp;rdquo;&lt;/em&gt;, which means it will only give you those
+$m_{00}$, $m_{10}$, etc., entries, not the ones from the third row.&lt;/p&gt;
+
+&lt;h3 id=&#34;well-featured-but-not-that-much&#34;&gt;Well featured but not that much&lt;/h3&gt;
+
+&lt;p&gt;To understand what I mean, let&amp;rsquo;s try to execute the kind of transformations we
+have seen throughout the first part of this series.&lt;/p&gt;
+
+&lt;h5&gt;1. Can we translate?&lt;/h5&gt;
+
+&lt;p&gt;Yes! We have &lt;code&gt;translate(tx, ty)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Concatenates this transform with a translation transformation.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;We&amp;rsquo;ll see what &amp;ldquo;concatenates&amp;rdquo; means in this context in a moment, for now what
+we understand is that we have a method to apply a translation transformation.&lt;/p&gt;
+
+&lt;h5&gt;2. Can we shear?&lt;/h5&gt;
+
+&lt;p&gt;Yes, but only by constants, not by angles, we have &lt;code&gt;shear(shx, shy)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Concatenates this transform with a shearing transformation.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5&gt;3. Can we scale?&lt;/h5&gt;
+
+&lt;p&gt;Yes! We have &lt;code&gt;scale(sx, sy)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Concatenates this transform with a scaling transformation.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5&gt;4. Can we reflect?&lt;/h5&gt;
+
+&lt;p&gt;Not directly, at least I don&amp;rsquo;t see anything doing a reflexion directly, so we
+either have to scale by negative values, or to use
+&lt;code&gt;setTransform(-1, 0, 0, -1, 0, 0)&lt;/code&gt; (for example) manually and then
+&lt;code&gt;concatenate&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h5&gt;5. Can we rotate?&lt;/h5&gt;
+
+&lt;p&gt;Yes! We have &lt;code&gt;rotate(theta)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Concatenates this transform with a rotation transformation.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Beware: &lt;code&gt;theta&lt;/code&gt; here is in radians, not in degrees.&lt;/p&gt;
+
+&lt;h5&gt;6. Can we scale on an anchor point?&lt;/h5&gt;
+
+&lt;p&gt;No. You will have to compose your transformation as we&amp;rsquo;ve done it &amp;ldquo;by hand&amp;rdquo;
+above, with a combination of &lt;code&gt;scale(sx, sy)&lt;/code&gt; and &lt;code&gt;translate(tx, ty)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h5&gt;7. Can we rotate around an anchor point?&lt;/h5&gt;
+
+&lt;p&gt;Yes! We have &lt;code&gt;rotate(theta, anchorx, anchory)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Concatenates this transform with a transform that rotates coordinates around
+an anchor point.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5&gt;8. Can we transform points?&lt;/h5&gt;
+
+&lt;p&gt;Yes! We have several methods available in order to transform points (even
+shapes) from their original position to their new coordinates after the
+transformation has been applied.&lt;/p&gt;
+
+&lt;h5&gt;Why am I not happy with this?&lt;/h5&gt;
+
+&lt;p&gt;I am, actually, and there are more methods that allow you to do interesting
+stuff with this class.&lt;br /&gt;
+I&amp;rsquo;m just wondering why they decided to implement
+&lt;code&gt;rotate(theta, anchorx, anchory)&lt;/code&gt; but not
+&lt;code&gt;scale(sx, sy, anchorx, anchory)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;On the other hand, all the methods I&amp;rsquo;ve outlined above are quite opinionated.
+Why? Because they assume that what you want to do is:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Concatenates this transform with a transformation&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;An that&amp;rsquo;s where bad stuff happen.&lt;/p&gt;
+
+&lt;h3 id=&#34;ambiguous-part-2&#34;&gt;Ambiguous — Part 2&lt;/h3&gt;
+
+&lt;p&gt;All the transformations we&amp;rsquo;ve seen in my previous post about matrices are
+defined this way:&lt;/p&gt;
+
+&lt;div&gt;
+$$
+P^{\prime} = \mathbf{T}.P
+$$
+&lt;/div&gt;
+
+&lt;p&gt;Where:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;$P$ is a point&lt;/li&gt;
+&lt;li&gt;$P^{\prime}$ is the point where $P$ will land after the transformation
+has been applied&lt;/li&gt;
+&lt;li&gt;$\mathbf{T}$ is a transformation matrix&lt;/li&gt;
+&lt;li&gt;$\mathbf{T}$ is the product of many transformation matrices, applied
+in the reverse order: that is for transforming by $\mathbf{A}$, then
+$\mathbf{B}$, then $\mathbf{C}$ we have
+$\mathbf{T} = \mathbf{C} . \mathbf{B} . \mathbf{A} $, and reciprocally.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now, look at the definition of the
+&lt;code&gt;concatenate(AffineTransform Tx)&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Concatenates an AffineTransform Tx to this AffineTransform Cx in the most commonly useful way to provide a new user space that is mapped to the former user space by Tx. Cx is updated to perform the combined transformation. Transforming a point p by the updated transform Cx&amp;rsquo; is equivalent to first transforming p by Tx and then transforming the result by the original transform Cx like this: Cx&amp;rsquo;(p) = Cx(Tx(p)) In matrix notation, if this transform Cx is represented by the matrix &lt;strong&gt;[this&lt;/strong&gt;] and Tx is represented by the matrix &lt;strong&gt;[Tx&lt;/strong&gt;] then this method does the following:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;[this&lt;/strong&gt;] = &lt;strong&gt;[this&lt;/strong&gt;] x &lt;strong&gt;[Tx&lt;/strong&gt;]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In our notation this gives that for transforming by $\mathbf{A}$, then
+$\mathbf{B}$, then $\mathbf{C}$ we have:&lt;/p&gt;
+
+&lt;div&gt;
+$$
+\begin{aligned}
+\mathbf{this} &amp;=
+\left( \left( \mathbf{this} . \mathbf{A} \right) . \mathbf{B} \right) . \mathbf{C}\\\\
+\Leftrightarrow
+\mathbf{this} &amp;= \mathbf{this} . \mathbf{Tx}
+\text{ where }
+\mathbf{Tx} = \mathbf{A} . \mathbf{B} . \mathbf{C}
+\end{aligned}
+$$
+&lt;/div&gt;
+
+&lt;p&gt;This is very different than:&lt;/p&gt;
+
+&lt;div&gt;
+$$
+\mathbf{this} = \mathbf{Tx} . \mathbf{this}
+\text{ where }
+\mathbf{Tx} = \mathbf{A} . \mathbf{B} . \mathbf{C}
+$$
+&lt;/div&gt;
+
+&lt;p&gt;Because matrix multiplication is &lt;code&gt;associative&lt;/code&gt;,
+&lt;a href=&#34;../matrices-for-developers&#34;&gt;remember&lt;/a&gt;?&lt;br /&gt;
+But matrix multiplication is &lt;em&gt;also&lt;/em&gt; &lt;code&gt;non-commutative&lt;/code&gt;, so this will lead to
+very different results than what you might expect!&lt;/p&gt;
+
+&lt;p&gt;The good news: there&amp;rsquo;s a method &lt;code&gt;preConcatenate(AffineTransform Tx)&lt;/code&gt; that does
+what we want:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;[this&lt;/strong&gt;] = &lt;strong&gt;[Tx&lt;/strong&gt;] x &lt;strong&gt;[this&lt;/strong&gt;]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The bad news: you won&amp;rsquo;t be able to represent your transformations with the
+built-in &lt;code&gt;translate&lt;/code&gt;, &lt;code&gt;scale&lt;/code&gt;, &lt;code&gt;rotate&lt;/code&gt; as is. Because they don&amp;rsquo;t behave the
+way you think: they all fall down to the &lt;code&gt;concatenate&lt;/code&gt; method.&lt;br /&gt;
+At least they don&amp;rsquo;t behave the way &lt;strong&gt;&lt;em&gt;I&lt;/em&gt;&lt;/strong&gt; think about transformations, which is
+the one I&amp;rsquo;ve described in my post about matrices.&lt;/p&gt;
+
+&lt;p&gt;Honestly, I don&amp;rsquo;t know what the Javadoc means by &lt;em&gt;&amp;ldquo;in the most commonly useful
+way to provide a new user space&amp;rdquo;&lt;/em&gt;. I&amp;rsquo;m sure it makes sense for some, but I
+don&amp;rsquo;t get it.&lt;/p&gt;
+
+&lt;p&gt;So how do we use the &lt;code&gt;AffineTransform&lt;/code&gt; class to chain our transformations the
+way we want?&lt;br /&gt;
+Fortunately, the class provides us with a bunch of useful static methods that
+return new matrices that are ready to use and can be combined by using the
+&lt;code&gt;preConcatenate&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;AffineTransform.getTranslateInstance(tx, ty)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AffineTransform.getRotateInstance(theta)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AffineTransform.getScaleInstance(sx, sy)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AffineTransform.getShearInstance(shx, shy)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;demo&#34;&gt;Demo&lt;/h3&gt;
+
+&lt;p&gt;Performance aside, here&amp;rsquo;s a class that will 2x zoom at the center of a
+rectangle:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;package com.arnaudbos.java2d;
+// imports stripped
+
+public class AffineTransformZoomExample {
+    // code stripped
+
+    private static class ZoomCanvas extends JComponent {
+
+        public void paint(Graphics g) {
+            Graphics2D ourGraphics = (Graphics2D) g;
+
+            // code stripped
+
+            // Draw initial object
+            ourGraphics.setColor(Color.black);
+            ourGraphics.drawRect(100, 100, 100, 100);
+
+            // Create matrix (set to identity by default)
+            AffineTransform tx = new AffineTransform();
+
+            // This is not the transformation you&#39;re looking for
+            tx.translate(-150, -150);
+            tx.scale(2, 2);
+            tx.translate(150, 150);
+            ourGraphics.setTransform(tx);
+            ourGraphics.setColor(Color.red);
+            ourGraphics.drawRect(100, 100, 100, 100);
+
+            // Reset matrix to identity to clear previous transformations
+            tx.setToIdentity();
+
+            // Apply our transformations in order to zoom-in the square
+            tx.preConcatenate(AffineTransform.getTranslateInstance(-150, -150));
+            tx.preConcatenate(AffineTransform.getScaleInstance(2, 2));
+            tx.preConcatenate(AffineTransform.getTranslateInstance(150, 150));
+            ourGraphics.setTransform(tx);
+            ourGraphics.setColor(Color.green);
+            ourGraphics.drawRect(100, 100, 100, 100);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+
+&lt;figure  style=&#34;text-align: center;&#34;&gt;
+    
+        &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/java-zoom-at-center.png&#34; alt=&#34;Demo of Java 2D zooming&#34;
+            width=&#34;80%&#34;
+            /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h6&gt;&lt;em&gt;Demo of Java 2D zooming: the original square (black), the unexpected transformation (red) and the desired transformation (green)&lt;/em&gt;&lt;/h6&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+
+&lt;p&gt;You can
+&lt;a href=&#34;http://hg.openjdk.java.net/jdk7/jdk7/jdk/file/9b8c96f96a0f/src/share/classes/java/awt/geom/AffineTransform.java&#34;&gt;browse the source of java.awt.geom.AffineTransform&lt;/a&gt;
+if you&amp;rsquo;re interested, you&amp;rsquo;ll see all the matrix multiplications performed
+the same way as we&amp;rsquo;ve seen in my previous post.&lt;/p&gt;
+
+&lt;p&gt;As you can see, &lt;code&gt;translate&lt;/code&gt; and &lt;code&gt;scale&lt;/code&gt; which use &lt;code&gt;concatenate&lt;/code&gt;
+(aka. &amp;ldquo;post&amp;rdquo;-concatenate) under the hood, don&amp;rsquo;t give the result we might
+expect.&lt;br /&gt;
+On the other hand, manually using &lt;code&gt;preConcatenate&lt;/code&gt; and &lt;code&gt;get...Instance&lt;/code&gt;, will.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s see how this works on Android.&lt;/p&gt;
+
+&lt;h2 id=&#34;affine-transformations-with-android&#34;&gt;Affine transformations with Android&lt;/h2&gt;
+
+&lt;p&gt;Unlike Oracle, Google&amp;rsquo;s &lt;code&gt;android.graphics.Matrix&lt;/code&gt; class assumes you already
+know your way around matrices. There&amp;rsquo;s no reminders, no details about matrices,
+no explanations. And the source code will help but is a little more tricky
+to unroll.&lt;/p&gt;
+
+&lt;p&gt;You can &lt;a href=&#34;https://android.googlesource.com/platform/frameworks/base/+/master/graphics/java/android/graphics/Matrix.java&#34;&gt;browse the source of android.graphics.Matrix&lt;/a&gt; and
+notice a lot of &lt;code&gt;oops();&lt;/code&gt; method calls and &lt;code&gt;native_&lt;/code&gt; invocations but nothing
+really helpful.&lt;br /&gt;
+The java &lt;code&gt;Matrix&lt;/code&gt; class is in fact a proxy to the underlying &lt;code&gt;JNI&lt;/code&gt;
+implementation of matrix operations. The real operations are done by the C++
+&lt;code&gt;Matrix&lt;/code&gt; class.&lt;/p&gt;
+
+&lt;p&gt;You can find the interface (&lt;code&gt;Matrix.h&lt;/code&gt;) &lt;a href=&#34;https://android.googlesource.com/platform/frameworks/base/+/master/core/jni/android/graphics/Matrix.h&#34;&gt;here&lt;/a&gt;
+and implementation (&lt;code&gt;Matrix.cpp&lt;/code&gt;) &lt;a href=&#34;https://android.googlesource.com/platform/frameworks/base/+/master/core/jni/android/graphics/Matrix.cpp&#34;&gt;here&lt;/a&gt;. But this is just
+another level of indirection because this class is just a facade on top of the
+&lt;code&gt;SkMatrix&lt;/code&gt; dependency which does all the real work on matrix operations. The
+interface (&lt;code&gt;SkMatrix.h&lt;/code&gt;) can be found &lt;a href=&#34;https://android.googlesource.com/platform/external/skia/+/master/include/core/SkMatrix.h&#34;&gt;here&lt;/a&gt; and the implementation
+(&lt;code&gt;SkMatrix.cpp&lt;/code&gt;) can be found &lt;a href=&#34;https://android.googlesource.com/platform/external/skia/+/master/src/core/SkMatrix.cpp&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Nonetheless, the API is good and well featured, as long as you understand a
+few things.&lt;/p&gt;
+
+&lt;h3 id=&#34;construction&#34;&gt;Construction&lt;/h3&gt;
+
+&lt;p&gt;Unlike Java, Android provides ways of building matrices that seem more
+explicit and straightforward to me.&lt;/p&gt;
+
+&lt;p&gt;The first thing we see in the Javadoc is a bunch of constants that are used to
+describe each entry in the matrix:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;int MPERSP_0 = 6&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPERSP_1 = 7&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPERSP_2 = 8&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MSCALE_X = 0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MSCALE_Y = 4&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MSKEW_X = 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MSKEW_Y = 3&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MTRANS_X = 2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MTRANS_Y = 5&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Put this back ordered by their value and now look at:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;setValues(values)&lt;/code&gt;: &lt;em&gt;&amp;ldquo;Copy 9 values from the array into the matrix.&amp;rdquo;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getValues(values)&lt;/code&gt;: &lt;em&gt;&amp;ldquo;Copy 9 values from the matrix into the array.&amp;rdquo;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;What we see here is, I think, a more explicit API than the Java one: you are
+dealing with a 3x3 dimensions matrix, so you specify/retrieve the 9 entries
+that this matrix is composed of.&lt;/p&gt;
+
+&lt;p&gt;Granted Java&amp;rsquo;s &lt;code&gt;AffineTransform&lt;/code&gt; class is named this way for a reason, that
+reason being you can only deal with &lt;strong&gt;affine transformations&lt;/strong&gt;. Whereas
+Android&amp;rsquo;s &lt;code&gt;Matrix&lt;/code&gt; class can be used to represent projections by playing with
+the &lt;code&gt;MPERSP_0&lt;/code&gt;, &lt;code&gt;MPERSP_1&lt;/code&gt; and &lt;code&gt;MPERSP_2&lt;/code&gt; entries (hence their names and the
+&lt;code&gt;isAffine()&lt;/code&gt; method).&lt;/p&gt;
+
+&lt;h3 id=&#34;well-featured&#34;&gt;Well featured&lt;/h3&gt;
+
+&lt;p&gt;Let&amp;rsquo;s do it again.&lt;/p&gt;
+
+&lt;h5&gt;1. Can we translate?&lt;/h5&gt;
+
+&lt;p&gt;Yes! We have &lt;code&gt;preTranslate(dx, dy)&lt;/code&gt; and &lt;code&gt;postTranslate(dx, dy)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Pre/Post-concats the matrix with the specified translation.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5&gt;2. Can we shear?&lt;/h5&gt;
+
+&lt;p&gt;Yes, but only by constants not by angles, and it&amp;rsquo;s named &amp;ldquo;skew&amp;rdquo;.&lt;br /&gt;
+We have &lt;code&gt;preSkew(kx, ky)&lt;/code&gt; and  &lt;code&gt;postSkew(kx, ky)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Pre/Post-concats the matrix with the specified skew.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;We also have &lt;code&gt;preSkew(kx, ky, px, py)&lt;/code&gt; and &lt;code&gt;postSkew(kx, ky, px, py)&lt;/code&gt; in order
+to skew not around the origin, by around a given anchor point. That&amp;rsquo;s nice.&lt;/p&gt;
+
+&lt;h5&gt;3. Can we scale?&lt;/h5&gt;
+
+&lt;p&gt;Yes! We have &lt;code&gt;preScale(sx, sy)&lt;/code&gt; and &lt;code&gt;postScale(sx, sy)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Pre/Post-concats the matrix with the specified scale.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5&gt;4. Can we reflect?&lt;/h5&gt;
+
+&lt;p&gt;Again, not directly, we can scale by negative values, or we can use
+&lt;code&gt;setValues({-1, 0, 0, 0, -1, 0, 0, 0, 1})&lt;/code&gt; (for example) and then
+&lt;code&gt;postConcat&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h5&gt;5. Can we rotate?&lt;/h5&gt;
+
+&lt;p&gt;Yes! We have &lt;code&gt;preRotate(degrees)&lt;/code&gt; and &lt;code&gt;postRotate(degrees)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Pre/Post-concats the matrix with the specified rotation.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5&gt;6. Can we scale on an anchor point?&lt;/h5&gt;
+
+&lt;p&gt;Yes! We have &lt;code&gt;preScale(sx, sy, px, py)&lt;/code&gt; and &lt;code&gt;postScale(sx, sy, px, py)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Pre/Post-concats the matrix with the specified scale.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5&gt;7. Can we rotate around an anchor point?&lt;/h5&gt;
+
+&lt;p&gt;Yes! We have &lt;code&gt;preRotate(degrees, px, py)&lt;/code&gt; and &lt;code&gt;postRotate(degrees, px, py)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Pre-Post-concats the matrix with the specified rotation.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5&gt;8. Can we transform points?&lt;/h5&gt;
+
+&lt;p&gt;Also yes! We have several methods available in order to transform points and
+shapes from their original position to their new coordinates after the
+transformation has been applied.&lt;/p&gt;
+
+&lt;h3 id=&#34;ambiguous&#34;&gt;Ambiguous&lt;/h3&gt;
+
+&lt;p&gt;Yes, I like this word&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;The API is undeniably well featured, provides &lt;code&gt;pre&lt;/code&gt; and &lt;code&gt;post&lt;/code&gt; methods for
+the most common transformations, a &lt;code&gt;setValues&lt;/code&gt; method to create matrices of
+any shape, and also &lt;code&gt;preConcat(Matrix other)&lt;/code&gt; and &lt;code&gt;postConcat(Matrix other)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;What do they do?&lt;/p&gt;
+
+&lt;h5&gt;preConcat&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Preconcats the matrix with the specified matrix. M&amp;rsquo; = M * other&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So, if I read correctly, this is equivalent to:&lt;/p&gt;
+
+&lt;div&gt;
+$$
+\mathbf{this} = \mathbf{this} . \mathbf{Tx}
+$$
+&lt;/div&gt;
+
+&lt;p&gt;Wait&amp;hellip; in Java&amp;rsquo;s &lt;code&gt;AffineTransform&lt;/code&gt;, this was the equivalent of the
+&lt;code&gt;concatenate&lt;/code&gt; method&amp;hellip;&lt;/p&gt;
+
+&lt;h5&gt;postConcat&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Postconcats the matrix with the specified matrix. M&amp;rsquo; = other * M&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Again, if I read correctly, this is equivalent to:&lt;/p&gt;
+
+&lt;div&gt;
+$$
+\mathbf{this} = \mathbf{Tx} . \mathbf{this}
+$$
+&lt;/div&gt;
+
+&lt;p&gt;Wait&amp;hellip; in Java&amp;rsquo;s &lt;code&gt;AffineTransform&lt;/code&gt;, this was the equivalent of the
+&lt;code&gt;preConcatenate&lt;/code&gt; method&amp;hellip;&lt;/p&gt;
+
+&lt;h5&gt;WTF dude?&lt;/h5&gt;
+
+&lt;p&gt;Exactly. If you don&amp;rsquo;t read the doc, &lt;strong&gt;you&amp;rsquo;re screwed&lt;/strong&gt;
+&lt;span class=&#34;emoji&#34;&gt;:poop:&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;So who&amp;rsquo;s right?&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve searched a few minutes on the Interwebs and here&amp;rsquo;s what I&amp;rsquo;ve found
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Matrix_multiplication&#34;&gt;from Wikipedia&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;pre-multiply (or left multiply) $\mathbf{A}$ by $\mathbf{B}$&amp;rdquo; means
+$\mathbf{B}.\mathbf{A}$,
+while &amp;ldquo;post-multiply (or right multiply) $\mathbf{A}$ by $\mathbf{C}$&amp;rdquo;
+means $\mathbf{A}.\mathbf{C}$&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And because two sources are better than one, from
+&lt;a href=&#34;http://web.cse.ohio-state.edu/~whmin/courses/cse5542-2013-spring/6-Transformation_II.pdf&#34;&gt;this &amp;ldquo;ohio-state&amp;rdquo; course&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Pre-multiplication is to multiply the new matrix $\mathbf{B}$ to the left
+of the existing matrix $\mathbf{A}$ to get the result
+$\mathbf{C} = \mathbf{B}.\mathbf{A}$&lt;/p&gt;
+
+&lt;p&gt;Post-multiplication is to multiply the new matrix $\mathbf{B}$ to the right
+of the existing matrix $\mathbf{A}$ to get the result
+$\mathbf{C} = \mathbf{A}.\mathbf{B}$&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So it seems like Sun/Oracle got it right, and Google got it backward. Which
+seems weird&amp;hellip;&lt;br /&gt;
+I&amp;rsquo;ve filled a bug report on the
+&lt;a href=&#34;https://code.google.com/p/android/issues/detail?id=229852&amp;amp;q=matrix&amp;amp;colspec=ID%20Status%20Priority%20Owner%20Summary%20Stars%20Reporter%20Opened&#34;&gt;Android Open Source Project Issue Tracker&lt;/a&gt; in order to know if
+&lt;strong&gt;I&lt;/strong&gt; missed something or if it&amp;rsquo;s a real issue.&lt;/p&gt;
+
+&lt;p&gt;But it doesn&amp;rsquo;t solve our problem: we have to be cautious when applying affine
+transformations, because the order matters!&lt;/p&gt;
+
+&lt;p&gt;And because of the way we want to apply our transformations, in Android we&amp;rsquo;re
+going to make use of the &lt;code&gt;post&lt;/code&gt; methods. But the &lt;code&gt;pre&lt;/code&gt; methods are here also
+and will simplify your like if you need this kind of operations.&lt;/p&gt;
+
+&lt;h3 id=&#34;demo-1&#34;&gt;Demo&lt;/h3&gt;
+
+&lt;p&gt;Again, performance aside, here’s a class that will rotate the Grumpy cat:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;package com.arnaudbos.android2d;
+// imports stripped
+
+public class MainActivity extends AppCompatActivity {
+    // code stripped
+
+    private enum MatrixConcatenation {
+        PRE, POST
+    }
+
+    private static final float THETA = 30;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Display Grumpy cat
+        Drawable d = getDrawable(R.drawable.grumpy);
+        view = new ImageView(this);
+        view.setImageDrawable(d);
+        setContentView(view);
+
+        // Center Grumpy cat
+        view.setScaleType(ImageView.ScaleType.MATRIX);
+        final float[] dimensions = getSize(this);
+        width = dimensions[0];
+        height = dimensions[1];
+        matrix = center(width, height, d);
+        view.setImageMatrix(matrix);
+    }
+
+    private static Matrix center(float width, float height, Drawable d) {
+        final float drawableWidth = d.getIntrinsicWidth();
+        final float drawableHeight = d.getIntrinsicHeight();
+        final float widthScale = width / drawableWidth;
+        final float heightScale = height / drawableHeight;
+        final float scale = Math.min(1.0f, Math.min(widthScale, heightScale));
+        Matrix m = new Matrix();
+        m.postScale(scale, scale);
+        m.postTranslate((width - drawableWidth * scale) / 2F,
+                (height - drawableHeight * scale) / 2F);
+        return m;
+    }
+
+    private static void rotateGrumpyCat(ImageView view, float x, float y,
+                                        Matrix matrix, MatrixConcatenation p) {
+        switch (p) {
+            case PRE:
+                matrix.preTranslate(-x, -y);
+                matrix.preRotate(THETA);
+                matrix.preTranslate(x, y);
+                break;
+            case POST:
+                matrix.postTranslate(-x, -y);
+                matrix.postRotate(THETA);
+                matrix.postTranslate(x, y);
+                break;
+        }
+        view.setImageMatrix(matrix);
+    }
+}    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;260px&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Initial state: Matrix is scaled so that Grumpy is centered
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;260px&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Post-concatenating the transformation matrices
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;260px&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Pre-concatenating the transformation matrices
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;div class=&#34;title&#34;&gt;Android rotation demo of pre and post rotate&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;This time you can see &lt;code&gt;postScale&lt;/code&gt; and &lt;code&gt;postTranslate&lt;/code&gt; being called inside
+&lt;code&gt;center&lt;/code&gt; in order to scale the image and have the Grumpy cat centered inside
+its view. This is just the initial phase.&lt;/p&gt;
+
+&lt;p&gt;The interesting part is the &lt;code&gt;rotateGrumpyCat&lt;/code&gt; method, which is supposed to
+rotate the Grumpy cat around a point, the center, but you see the different
+results:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;post&lt;/code&gt; rotate gives the expected result, the Grumpy cat is rotate
+&lt;em&gt;&amp;ldquo;in place&amp;rdquo;&lt;/em&gt; by 30 degrees&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pre&lt;/code&gt; rotate sends our little buddy out of the screen.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Well, it&amp;rsquo;s been fun writing those two articles. I definitely spent more time
+writing the first one, which is full of math, than this one.&lt;br /&gt;
+I hope you now have a better understanding of how matrices work and how to
+manipulate them in order to apply the transformations you want. I&amp;rsquo;ve
+kept the code examples really simple on purpose.&lt;/p&gt;
+
+&lt;p&gt;If you have questions or feedback, please leave a comment below.&lt;/p&gt;
+
+&lt;h2 id=&#34;links&#34;&gt;Links&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Source code for &lt;a href=&#34;https://github.com/arnaudbos/i-rant/tree/develop/static/code/2d-transformations-android-java/JavaAffineTransform&#34;&gt;the Java example on Github&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Source code for &lt;a href=&#34;https://github.com/arnaudbos/i-rant/tree/develop/static/code/2d-transformations-android-java/AndroidMatrix&#34;&gt;the Android example on Github&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>Klipse</title>
@@ -2877,738 +3609,6 @@ advices:&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.tomdalling.com/blog/modern-opengl/explaining-homogenous-coordinates-and-projective-geometry/&#34;&gt;A blogpost on &amp;ldquo;Explaining Homogeneous Coordinates &amp;amp; Projective Geometry&amp;rdquo; by Tom Dalling&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.songho.ca/math/homogeneous/homogeneous.html&#34;&gt;A blogpost on &amp;ldquo;Homogeneous Coordinates&amp;rdquo; by Song Ho Ahn&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=Xzu8_Fe3ImI&#34;&gt;A Youtube video course on &amp;ldquo;2D transformations and homogeneous coordinates&amp;rdquo; by Tarun Gehlot&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>2D Transformations with Android and Java</title>
-      <link>http://www.arnaudbos.com/2d-transformations-android-java/</link>
-      <pubDate>Mon, 19 Dec 2016 15:08:23 +0100</pubDate>
-      
-      <guid>http://www.arnaudbos.com/2d-transformations-android-java/</guid>
-      <description>
-
-&lt;p&gt;I my previous post, &lt;a href=&#34;../matrices-for-developers&#34;&gt;&amp;ldquo;Matrices for developers&amp;rdquo;&lt;/a&gt;, I&amp;rsquo;ve
-talked about matrices and how they can be used to compute 2D transformations.&lt;/p&gt;
-
-&lt;p&gt;In this post, I want to talk about how to apply what we know about matrices
-in order to perform 2D transformations, first using Java AWT and then with the
-Android SDK.&lt;/p&gt;
-
-&lt;h2 id=&#34;table-of-contents&#34;&gt;Table of contents&lt;/h2&gt;
-
-&lt;div id=&#34;toc&#34; class=&#34;well col-md-12&#34;&gt;
-  &lt;!-- toc --&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&#34;affine-transformations-with-java&#34;&gt;Affine transformations with Java&lt;/h2&gt;
-
-&lt;p&gt;When I was working on the project I mentioned at the beginning of the previous
-article, I was constantly moving back and forth between the
-&lt;a href=&#34;https://docs.oracle.com/javase/7/docs/api/java/awt/geom/AffineTransform.html&#34;&gt;JDK&amp;rsquo;s implementation of affine transformations&lt;/a&gt; and the
-&lt;a href=&#34;https://developer.android.com/reference/android/graphics/Matrix.html&#34;&gt;Android SDK&amp;rsquo;s implementation of matrices&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I find the &lt;code&gt;java.awt.geom.AffineTransform&lt;/code&gt; class fairly well featured,
-but it is a bit ambiguous. Fortunately, the documentation is
-good, it&amp;rsquo;s not perfect but at least it&amp;rsquo;s better than Android&amp;rsquo;s one on this
-topic as we shall see later.&lt;/p&gt;
-
-&lt;p&gt;The Javadoc starts with a reminder of what are 2D affine transformations and a
-matrix multiplication pattern to transform coordinates.&lt;/p&gt;
-
-&lt;div&gt;
-$$
-\begin{bmatrix}
-x^{\prime}\\
-y^{\prime}\\
-1
-\end{bmatrix}
-=
-\begin{bmatrix}
-m_{00} &amp; m_{01} &amp; m_{02}\\
-m_{10} &amp; m_{11} &amp; m_{12}\\
-0 &amp; 0 &amp; 1
-\end{bmatrix}
-.
-\begin{bmatrix}
-x\\
-y\\
-1
-\end{bmatrix}
-=
-\begin{bmatrix}
-m_{00} . x + m_{01} . y + m_{02}\\
-m_{10} . x + m_{11} . y + m_{12}\\
-1
-\end{bmatrix}
-$$
-&lt;/div&gt;
-
-&lt;p&gt;That&amp;rsquo;s neat, you have to appreciate the effort there (I mean, is your
-Javadoc that great? &lt;span class=&#34;emoji&#34;&gt;:innocent:&lt;/span&gt;
-),
-and Android&amp;rsquo;s Javadoc doesn&amp;rsquo;t have it so&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;The way this pattern is written lets us see a glimpse of implementation details,
-right? Those $m_{00}$, $m_{01}$ and etc, they (not so) strangely resemble
-stringified versions of indexes in a two-dimensional array.&lt;/p&gt;
-
-&lt;h3 id=&#34;ambiguous-part-1&#34;&gt;Ambiguous — Part 1&lt;/h3&gt;
-
-&lt;p&gt;So what is &lt;em&gt;&amp;ldquo;ambiguous&amp;rdquo;&lt;/em&gt; with this class? Granted it might be a matter of taste,
-but if you look at the constructor
-&lt;code&gt;AffineTransform(m00, m10, m01, m11, m02, m12)&lt;/code&gt; and the method
-&lt;code&gt;setTransform(m00, m10, m01, m11, m02, m12)&lt;/code&gt;, they only take 6 input
-parameters although the transformation matrices are $3 \times 3$ dimensions
-matrices: they have 9 entries.&lt;/p&gt;
-
-&lt;p&gt;While it makes perfectly sense to not take as inputs parameters that are fixed
-in the context of 2D affine transformations (&lt;code&gt;0, 0, 1&lt;/code&gt;), I find it disturbing.&lt;/p&gt;
-
-&lt;p&gt;More disturbing perhaps, is the ordering of those parameters.&lt;/p&gt;
-
-&lt;p&gt;If you make the parallel between those and our $a_{11}$, $a_{12}$, etc. from
-the previous post, you can notice that the reading direction is not the same.&lt;br /&gt;
-With $a_{11}$, $a_{12}$, etc., we used to read more &lt;em&gt;&amp;ldquo;naturally&amp;rdquo;&lt;/em&gt; I would say,
-like normal english written text: line by line.&lt;br /&gt;
-Whereas $m_{00}$, $m_{10}$, etc. is reading the matrix column by column.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m not saying one is better than the other, just that I&amp;rsquo;m more familiar with
-the first one, and that it&amp;rsquo;s worth pointing at it to clarify the use of this
-class. Because the &lt;code&gt;getMatrix(flatmatrix)&lt;/code&gt; method will fill in an
-array containing the entries of the matrix in that specific order.&lt;br /&gt;
-Also, &lt;code&gt;getMatrix&lt;/code&gt; &lt;em&gt;&amp;ldquo;Retrieves the 6 specifiable values in the $3 \times 3$
-affine transformation matrix&amp;rdquo;&lt;/em&gt;, which means it will only give you those
-$m_{00}$, $m_{10}$, etc., entries, not the ones from the third row.&lt;/p&gt;
-
-&lt;h3 id=&#34;well-featured-but-not-that-much&#34;&gt;Well featured but not that much&lt;/h3&gt;
-
-&lt;p&gt;To understand what I mean, let&amp;rsquo;s try to execute the kind of transformations we
-have seen throughout the first part of this series.&lt;/p&gt;
-
-&lt;h5&gt;1. Can we translate?&lt;/h5&gt;
-
-&lt;p&gt;Yes! We have &lt;code&gt;translate(tx, ty)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Concatenates this transform with a translation transformation.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;We&amp;rsquo;ll see what &amp;ldquo;concatenates&amp;rdquo; means in this context in a moment, for now what
-we understand is that we have a method to apply a translation transformation.&lt;/p&gt;
-
-&lt;h5&gt;2. Can we shear?&lt;/h5&gt;
-
-&lt;p&gt;Yes, but only by constants, not by angles, we have &lt;code&gt;shear(shx, shy)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Concatenates this transform with a shearing transformation.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5&gt;3. Can we scale?&lt;/h5&gt;
-
-&lt;p&gt;Yes! We have &lt;code&gt;scale(sx, sy)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Concatenates this transform with a scaling transformation.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5&gt;4. Can we reflect?&lt;/h5&gt;
-
-&lt;p&gt;Not directly, at least I don&amp;rsquo;t see anything doing a reflexion directly, so we
-either have to scale by negative values, or to use
-&lt;code&gt;setTransform(-1, 0, 0, -1, 0, 0)&lt;/code&gt; (for example) manually and then
-&lt;code&gt;concatenate&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h5&gt;5. Can we rotate?&lt;/h5&gt;
-
-&lt;p&gt;Yes! We have &lt;code&gt;rotate(theta)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Concatenates this transform with a rotation transformation.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Beware: &lt;code&gt;theta&lt;/code&gt; here is in radians, not in degrees.&lt;/p&gt;
-
-&lt;h5&gt;6. Can we scale on an anchor point?&lt;/h5&gt;
-
-&lt;p&gt;No. You will have to compose your transformation as we&amp;rsquo;ve done it &amp;ldquo;by hand&amp;rdquo;
-above, with a combination of &lt;code&gt;scale(sx, sy)&lt;/code&gt; and &lt;code&gt;translate(tx, ty)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h5&gt;7. Can we rotate around an anchor point?&lt;/h5&gt;
-
-&lt;p&gt;Yes! We have &lt;code&gt;rotate(theta, anchorx, anchory)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Concatenates this transform with a transform that rotates coordinates around
-an anchor point.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5&gt;8. Can we transform points?&lt;/h5&gt;
-
-&lt;p&gt;Yes! We have several methods available in order to transform points (even
-shapes) from their original position to their new coordinates after the
-transformation has been applied.&lt;/p&gt;
-
-&lt;h5&gt;Why am I not happy with this?&lt;/h5&gt;
-
-&lt;p&gt;I am, actually, and there are more methods that allow you to do interesting
-stuff with this class.&lt;br /&gt;
-I&amp;rsquo;m just wondering why they decided to implement
-&lt;code&gt;rotate(theta, anchorx, anchory)&lt;/code&gt; but not
-&lt;code&gt;scale(sx, sy, anchorx, anchory)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;On the other hand, all the methods I&amp;rsquo;ve outlined above are quite opinionated.
-Why? Because they assume that what you want to do is:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Concatenates this transform with a transformation&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;An that&amp;rsquo;s where bad stuff happen.&lt;/p&gt;
-
-&lt;h3 id=&#34;ambiguous-part-2&#34;&gt;Ambiguous — Part 2&lt;/h3&gt;
-
-&lt;p&gt;All the transformations we&amp;rsquo;ve seen in my previous post about matrices are
-defined this way:&lt;/p&gt;
-
-&lt;div&gt;
-$$
-P^{\prime} = \mathbf{T}.P
-$$
-&lt;/div&gt;
-
-&lt;p&gt;Where:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;$P$ is a point&lt;/li&gt;
-&lt;li&gt;$P^{\prime}$ is the point where $P$ will land after the transformation
-has been applied&lt;/li&gt;
-&lt;li&gt;$\mathbf{T}$ is a transformation matrix&lt;/li&gt;
-&lt;li&gt;$\mathbf{T}$ is the product of many transformation matrices, applied
-in the reverse order: that is for transforming by $\mathbf{A}$, then
-$\mathbf{B}$, then $\mathbf{C}$ we have
-$\mathbf{T} = \mathbf{C} . \mathbf{B} . \mathbf{A} $, and reciprocally.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Now, look at the definition of the
-&lt;code&gt;concatenate(AffineTransform Tx)&lt;/code&gt; method:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Concatenates an AffineTransform Tx to this AffineTransform Cx in the most commonly useful way to provide a new user space that is mapped to the former user space by Tx. Cx is updated to perform the combined transformation. Transforming a point p by the updated transform Cx&amp;rsquo; is equivalent to first transforming p by Tx and then transforming the result by the original transform Cx like this: Cx&amp;rsquo;(p) = Cx(Tx(p)) In matrix notation, if this transform Cx is represented by the matrix &lt;strong&gt;[this&lt;/strong&gt;] and Tx is represented by the matrix &lt;strong&gt;[Tx&lt;/strong&gt;] then this method does the following:&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;[this&lt;/strong&gt;] = &lt;strong&gt;[this&lt;/strong&gt;] x &lt;strong&gt;[Tx&lt;/strong&gt;]&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;In our notation this gives that for transforming by $\mathbf{A}$, then
-$\mathbf{B}$, then $\mathbf{C}$ we have:&lt;/p&gt;
-
-&lt;div&gt;
-$$
-\begin{aligned}
-\mathbf{this} &amp;=
-\left( \left( \mathbf{this} . \mathbf{A} \right) . \mathbf{B} \right) . \mathbf{C}\\\\
-\Leftrightarrow
-\mathbf{this} &amp;= \mathbf{this} . \mathbf{Tx}
-\text{ where }
-\mathbf{Tx} = \mathbf{A} . \mathbf{B} . \mathbf{C}
-\end{aligned}
-$$
-&lt;/div&gt;
-
-&lt;p&gt;This is very different than:&lt;/p&gt;
-
-&lt;div&gt;
-$$
-\mathbf{this} = \mathbf{Tx} . \mathbf{this}
-\text{ where }
-\mathbf{Tx} = \mathbf{A} . \mathbf{B} . \mathbf{C}
-$$
-&lt;/div&gt;
-
-&lt;p&gt;Because matrix multiplication is &lt;code&gt;associative&lt;/code&gt;,
-&lt;a href=&#34;../matrices-for-developers&#34;&gt;remember&lt;/a&gt;?&lt;br /&gt;
-But matrix multiplication is &lt;em&gt;also&lt;/em&gt; &lt;code&gt;non-commutative&lt;/code&gt;, so this will lead to
-very different results than what you might expect!&lt;/p&gt;
-
-&lt;p&gt;The good news: there&amp;rsquo;s a method &lt;code&gt;preConcatenate(AffineTransform Tx)&lt;/code&gt; that does
-what we want:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;[this&lt;/strong&gt;] = &lt;strong&gt;[Tx&lt;/strong&gt;] x &lt;strong&gt;[this&lt;/strong&gt;]&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The bad news: you won&amp;rsquo;t be able to represent your transformations with the
-built-in &lt;code&gt;translate&lt;/code&gt;, &lt;code&gt;scale&lt;/code&gt;, &lt;code&gt;rotate&lt;/code&gt; as is. Because they don&amp;rsquo;t behave the
-way you think: they all fall down to the &lt;code&gt;concatenate&lt;/code&gt; method.&lt;br /&gt;
-At least they don&amp;rsquo;t behave the way &lt;strong&gt;&lt;em&gt;I&lt;/em&gt;&lt;/strong&gt; think about transformations, which is
-the one I&amp;rsquo;ve described in my post about matrices.&lt;/p&gt;
-
-&lt;p&gt;Honestly, I don&amp;rsquo;t know what the Javadoc means by &lt;em&gt;&amp;ldquo;in the most commonly useful
-way to provide a new user space&amp;rdquo;&lt;/em&gt;. I&amp;rsquo;m sure it makes sense for some, but I
-don&amp;rsquo;t get it.&lt;/p&gt;
-
-&lt;p&gt;So how do we use the &lt;code&gt;AffineTransform&lt;/code&gt; class to chain our transformations the
-way we want?&lt;br /&gt;
-Fortunately, the class provides us with a bunch of useful static methods that
-return new matrices that are ready to use and can be combined by using the
-&lt;code&gt;preConcatenate&lt;/code&gt; method:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;AffineTransform.getTranslateInstance(tx, ty)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;AffineTransform.getRotateInstance(theta)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;AffineTransform.getScaleInstance(sx, sy)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;AffineTransform.getShearInstance(shx, shy)&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;demo&#34;&gt;Demo&lt;/h3&gt;
-
-&lt;p&gt;Performance aside, here&amp;rsquo;s a class that will 2x zoom at the center of a
-rectangle:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;package com.arnaudbos.java2d;
-// imports stripped
-
-public class AffineTransformZoomExample {
-    // code stripped
-
-    private static class ZoomCanvas extends JComponent {
-
-        public void paint(Graphics g) {
-            Graphics2D ourGraphics = (Graphics2D) g;
-
-            // code stripped
-
-            // Draw initial object
-            ourGraphics.setColor(Color.black);
-            ourGraphics.drawRect(100, 100, 100, 100);
-
-            // Create matrix (set to identity by default)
-            AffineTransform tx = new AffineTransform();
-
-            // This is not the transformation you&#39;re looking for
-            tx.translate(-150, -150);
-            tx.scale(2, 2);
-            tx.translate(150, 150);
-            ourGraphics.setTransform(tx);
-            ourGraphics.setColor(Color.red);
-            ourGraphics.drawRect(100, 100, 100, 100);
-
-            // Reset matrix to identity to clear previous transformations
-            tx.setToIdentity();
-
-            // Apply our transformations in order to zoom-in the square
-            tx.preConcatenate(AffineTransform.getTranslateInstance(-150, -150));
-            tx.preConcatenate(AffineTransform.getScaleInstance(2, 2));
-            tx.preConcatenate(AffineTransform.getTranslateInstance(150, 150));
-            ourGraphics.setTransform(tx);
-            ourGraphics.setColor(Color.green);
-            ourGraphics.drawRect(100, 100, 100, 100);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-
-&lt;figure  style=&#34;text-align: center;&#34;&gt;
-    
-        &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/java-zoom-at-center.png&#34; alt=&#34;Demo of Java 2D zooming&#34;
-            width=&#34;80%&#34;
-            /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;h6&gt;&lt;em&gt;Demo of Java 2D zooming: the original square (black), the unexpected transformation (red) and the desired transformation (green)&lt;/em&gt;&lt;/h6&gt;
-        
-    &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-
-
-
-&lt;p&gt;You can
-&lt;a href=&#34;http://hg.openjdk.java.net/jdk7/jdk7/jdk/file/9b8c96f96a0f/src/share/classes/java/awt/geom/AffineTransform.java&#34;&gt;browse the source of java.awt.geom.AffineTransform&lt;/a&gt;
-if you&amp;rsquo;re interested, you&amp;rsquo;ll see all the matrix multiplications performed
-the same way as we&amp;rsquo;ve seen in my previous post.&lt;/p&gt;
-
-&lt;p&gt;As you can see, &lt;code&gt;translate&lt;/code&gt; and &lt;code&gt;scale&lt;/code&gt; which use &lt;code&gt;concatenate&lt;/code&gt;
-(aka. &amp;ldquo;post&amp;rdquo;-concatenate) under the hood, don&amp;rsquo;t give the result we might
-expect.&lt;br /&gt;
-On the other hand, manually using &lt;code&gt;preConcatenate&lt;/code&gt; and &lt;code&gt;get...Instance&lt;/code&gt;, will.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s see how this works on Android.&lt;/p&gt;
-
-&lt;h2 id=&#34;affine-transformations-with-android&#34;&gt;Affine transformations with Android&lt;/h2&gt;
-
-&lt;p&gt;Unlike Oracle, Google&amp;rsquo;s &lt;code&gt;android.graphics.Matrix&lt;/code&gt; class assumes you already
-know your way around matrices. There&amp;rsquo;s no reminders, no details about matrices,
-no explanations. And the source code will help but is a little more tricky
-to unroll.&lt;/p&gt;
-
-&lt;p&gt;You can &lt;a href=&#34;https://android.googlesource.com/platform/frameworks/base/+/master/graphics/java/android/graphics/Matrix.java&#34;&gt;browse the source of android.graphics.Matrix&lt;/a&gt; and
-notice a lot of &lt;code&gt;oops();&lt;/code&gt; method calls and &lt;code&gt;native_&lt;/code&gt; invocations but nothing
-really helpful.&lt;br /&gt;
-The java &lt;code&gt;Matrix&lt;/code&gt; class is in fact a proxy to the underlying &lt;code&gt;JNI&lt;/code&gt;
-implementation of matrix operations. The real operations are done by the C++
-&lt;code&gt;Matrix&lt;/code&gt; class.&lt;/p&gt;
-
-&lt;p&gt;You can find the interface (&lt;code&gt;Matrix.h&lt;/code&gt;) &lt;a href=&#34;https://android.googlesource.com/platform/frameworks/base/+/master/core/jni/android/graphics/Matrix.h&#34;&gt;here&lt;/a&gt;
-and implementation (&lt;code&gt;Matrix.cpp&lt;/code&gt;) &lt;a href=&#34;https://android.googlesource.com/platform/frameworks/base/+/master/core/jni/android/graphics/Matrix.cpp&#34;&gt;here&lt;/a&gt;. But this is just
-another level of indirection because this class is just a facade on top of the
-&lt;code&gt;SkMatrix&lt;/code&gt; dependency which does all the real work on matrix operations. The
-interface (&lt;code&gt;SkMatrix.h&lt;/code&gt;) can be found &lt;a href=&#34;https://android.googlesource.com/platform/external/skia/+/master/include/core/SkMatrix.h&#34;&gt;here&lt;/a&gt; and the implementation
-(&lt;code&gt;SkMatrix.cpp&lt;/code&gt;) can be found &lt;a href=&#34;https://android.googlesource.com/platform/external/skia/+/master/src/core/SkMatrix.cpp&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Nonetheless, the API is good and well featured, as long as you understand a
-few things.&lt;/p&gt;
-
-&lt;h3 id=&#34;construction&#34;&gt;Construction&lt;/h3&gt;
-
-&lt;p&gt;Unlike Java, Android provides ways of building matrices that seem more
-explicit and straightforward to me.&lt;/p&gt;
-
-&lt;p&gt;The first thing we see in the Javadoc is a bunch of constants that are used to
-describe each entry in the matrix:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;int MPERSP_0 = 6&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;int MPERSP_1 = 7&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;int MPERSP_2 = 8&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;int MSCALE_X = 0&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;int MSCALE_Y = 4&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;int MSKEW_X = 1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;int MSKEW_Y = 3&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;int MTRANS_X = 2&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;int MTRANS_Y = 5&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Put this back ordered by their value and now look at:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;setValues(values)&lt;/code&gt;: &lt;em&gt;&amp;ldquo;Copy 9 values from the array into the matrix.&amp;rdquo;&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;getValues(values)&lt;/code&gt;: &lt;em&gt;&amp;ldquo;Copy 9 values from the matrix into the array.&amp;rdquo;&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;What we see here is, I think, a more explicit API than the Java one: you are
-dealing with a 3x3 dimensions matrix, so you specify/retrieve the 9 entries
-that this matrix is composed of.&lt;/p&gt;
-
-&lt;p&gt;Granted Java&amp;rsquo;s &lt;code&gt;AffineTransform&lt;/code&gt; class is named this way for a reason, that
-reason being you can only deal with &lt;strong&gt;affine transformations&lt;/strong&gt;. Whereas
-Android&amp;rsquo;s &lt;code&gt;Matrix&lt;/code&gt; class can be used to represent projections by playing with
-the &lt;code&gt;MPERSP_0&lt;/code&gt;, &lt;code&gt;MPERSP_1&lt;/code&gt; and &lt;code&gt;MPERSP_2&lt;/code&gt; entries (hence their names and the
-&lt;code&gt;isAffine()&lt;/code&gt; method).&lt;/p&gt;
-
-&lt;h3 id=&#34;well-featured&#34;&gt;Well featured&lt;/h3&gt;
-
-&lt;p&gt;Let&amp;rsquo;s do it again.&lt;/p&gt;
-
-&lt;h5&gt;1. Can we translate?&lt;/h5&gt;
-
-&lt;p&gt;Yes! We have &lt;code&gt;preTranslate(dx, dy)&lt;/code&gt; and &lt;code&gt;postTranslate(dx, dy)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Pre/Post-concats the matrix with the specified translation.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5&gt;2. Can we shear?&lt;/h5&gt;
-
-&lt;p&gt;Yes, but only by constants not by angles, and it&amp;rsquo;s named &amp;ldquo;skew&amp;rdquo;.&lt;br /&gt;
-We have &lt;code&gt;preSkew(kx, ky)&lt;/code&gt; and  &lt;code&gt;postSkew(kx, ky)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Pre/Post-concats the matrix with the specified skew.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;We also have &lt;code&gt;preSkew(kx, ky, px, py)&lt;/code&gt; and &lt;code&gt;postSkew(kx, ky, px, py)&lt;/code&gt; in order
-to skew not around the origin, by around a given anchor point. That&amp;rsquo;s nice.&lt;/p&gt;
-
-&lt;h5&gt;3. Can we scale?&lt;/h5&gt;
-
-&lt;p&gt;Yes! We have &lt;code&gt;preScale(sx, sy)&lt;/code&gt; and &lt;code&gt;postScale(sx, sy)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Pre/Post-concats the matrix with the specified scale.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5&gt;4. Can we reflect?&lt;/h5&gt;
-
-&lt;p&gt;Again, not directly, we can scale by negative values, or we can use
-&lt;code&gt;setValues({-1, 0, 0, 0, -1, 0, 0, 0, 1})&lt;/code&gt; (for example) and then
-&lt;code&gt;postConcat&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h5&gt;5. Can we rotate?&lt;/h5&gt;
-
-&lt;p&gt;Yes! We have &lt;code&gt;preRotate(degrees)&lt;/code&gt; and &lt;code&gt;postRotate(degrees)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Pre/Post-concats the matrix with the specified rotation.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5&gt;6. Can we scale on an anchor point?&lt;/h5&gt;
-
-&lt;p&gt;Yes! We have &lt;code&gt;preScale(sx, sy, px, py)&lt;/code&gt; and &lt;code&gt;postScale(sx, sy, px, py)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Pre/Post-concats the matrix with the specified scale.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5&gt;7. Can we rotate around an anchor point?&lt;/h5&gt;
-
-&lt;p&gt;Yes! We have &lt;code&gt;preRotate(degrees, px, py)&lt;/code&gt; and &lt;code&gt;postRotate(degrees, px, py)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Pre-Post-concats the matrix with the specified rotation.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5&gt;8. Can we transform points?&lt;/h5&gt;
-
-&lt;p&gt;Also yes! We have several methods available in order to transform points and
-shapes from their original position to their new coordinates after the
-transformation has been applied.&lt;/p&gt;
-
-&lt;h3 id=&#34;ambiguous&#34;&gt;Ambiguous&lt;/h3&gt;
-
-&lt;p&gt;Yes, I like this word&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;The API is undeniably well featured, provides &lt;code&gt;pre&lt;/code&gt; and &lt;code&gt;post&lt;/code&gt; methods for
-the most common transformations, a &lt;code&gt;setValues&lt;/code&gt; method to create matrices of
-any shape, and also &lt;code&gt;preConcat(Matrix other)&lt;/code&gt; and &lt;code&gt;postConcat(Matrix other)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;What do they do?&lt;/p&gt;
-
-&lt;h5&gt;preConcat&lt;/h5&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Preconcats the matrix with the specified matrix. M&amp;rsquo; = M * other&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;So, if I read correctly, this is equivalent to:&lt;/p&gt;
-
-&lt;div&gt;
-$$
-\mathbf{this} = \mathbf{this} . \mathbf{Tx}
-$$
-&lt;/div&gt;
-
-&lt;p&gt;Wait&amp;hellip; in Java&amp;rsquo;s &lt;code&gt;AffineTransform&lt;/code&gt;, this was the equivalent of the
-&lt;code&gt;concatenate&lt;/code&gt; method&amp;hellip;&lt;/p&gt;
-
-&lt;h5&gt;postConcat&lt;/h5&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Postconcats the matrix with the specified matrix. M&amp;rsquo; = other * M&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Again, if I read correctly, this is equivalent to:&lt;/p&gt;
-
-&lt;div&gt;
-$$
-\mathbf{this} = \mathbf{Tx} . \mathbf{this}
-$$
-&lt;/div&gt;
-
-&lt;p&gt;Wait&amp;hellip; in Java&amp;rsquo;s &lt;code&gt;AffineTransform&lt;/code&gt;, this was the equivalent of the
-&lt;code&gt;preConcatenate&lt;/code&gt; method&amp;hellip;&lt;/p&gt;
-
-&lt;h5&gt;WTF dude?&lt;/h5&gt;
-
-&lt;p&gt;Exactly. If you don&amp;rsquo;t read the doc, &lt;strong&gt;you&amp;rsquo;re screwed&lt;/strong&gt;
-&lt;span class=&#34;emoji&#34;&gt;:poop:&lt;/span&gt;
-&lt;/p&gt;
-
-&lt;p&gt;So who&amp;rsquo;s right?&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve searched a few minutes on the Interwebs and here&amp;rsquo;s what I&amp;rsquo;ve found
-&lt;a href=&#34;https://en.wikipedia.org/wiki/Matrix_multiplication&#34;&gt;from Wikipedia&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&amp;ldquo;pre-multiply (or left multiply) $\mathbf{A}$ by $\mathbf{B}$&amp;rdquo; means
-$\mathbf{B}.\mathbf{A}$,
-while &amp;ldquo;post-multiply (or right multiply) $\mathbf{A}$ by $\mathbf{C}$&amp;rdquo;
-means $\mathbf{A}.\mathbf{C}$&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;And because two sources are better than one, from
-&lt;a href=&#34;http://web.cse.ohio-state.edu/~whmin/courses/cse5542-2013-spring/6-Transformation_II.pdf&#34;&gt;this &amp;ldquo;ohio-state&amp;rdquo; course&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Pre-multiplication is to multiply the new matrix $\mathbf{B}$ to the left
-of the existing matrix $\mathbf{A}$ to get the result
-$\mathbf{C} = \mathbf{B}.\mathbf{A}$&lt;/p&gt;
-
-&lt;p&gt;Post-multiplication is to multiply the new matrix $\mathbf{B}$ to the right
-of the existing matrix $\mathbf{A}$ to get the result
-$\mathbf{C} = \mathbf{A}.\mathbf{B}$&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;So it seems like Sun/Oracle got it right, and Google got it backward. Which
-seems weird&amp;hellip;&lt;br /&gt;
-I&amp;rsquo;ve filled a bug report on the
-&lt;a href=&#34;https://code.google.com/p/android/issues/detail?id=229852&amp;amp;q=matrix&amp;amp;colspec=ID%20Status%20Priority%20Owner%20Summary%20Stars%20Reporter%20Opened&#34;&gt;Android Open Source Project Issue Tracker&lt;/a&gt; in order to know if
-&lt;strong&gt;I&lt;/strong&gt; missed something or if it&amp;rsquo;s a real issue.&lt;/p&gt;
-
-&lt;p&gt;But it doesn&amp;rsquo;t solve our problem: we have to be cautious when applying affine
-transformations, because the order matters!&lt;/p&gt;
-
-&lt;p&gt;And because of the way we want to apply our transformations, in Android we&amp;rsquo;re
-going to make use of the &lt;code&gt;post&lt;/code&gt; methods. But the &lt;code&gt;pre&lt;/code&gt; methods are here also
-and will simplify your like if you need this kind of operations.&lt;/p&gt;
-
-&lt;h3 id=&#34;demo-1&#34;&gt;Demo&lt;/h3&gt;
-
-&lt;p&gt;Again, performance aside, here’s a class that will rotate the Grumpy cat:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;package com.arnaudbos.android2d;
-// imports stripped
-
-public class MainActivity extends AppCompatActivity {
-    // code stripped
-
-    private enum MatrixConcatenation {
-        PRE, POST
-    }
-
-    private static final float THETA = 30;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Display Grumpy cat
-        Drawable d = getDrawable(R.drawable.grumpy);
-        view = new ImageView(this);
-        view.setImageDrawable(d);
-        setContentView(view);
-
-        // Center Grumpy cat
-        view.setScaleType(ImageView.ScaleType.MATRIX);
-        final float[] dimensions = getSize(this);
-        width = dimensions[0];
-        height = dimensions[1];
-        matrix = center(width, height, d);
-        view.setImageMatrix(matrix);
-    }
-
-    private static Matrix center(float width, float height, Drawable d) {
-        final float drawableWidth = d.getIntrinsicWidth();
-        final float drawableHeight = d.getIntrinsicHeight();
-        final float widthScale = width / drawableWidth;
-        final float heightScale = height / drawableHeight;
-        final float scale = Math.min(1.0f, Math.min(widthScale, heightScale));
-        Matrix m = new Matrix();
-        m.postScale(scale, scale);
-        m.postTranslate((width - drawableWidth * scale) / 2F,
-                (height - drawableHeight * scale) / 2F);
-        return m;
-    }
-
-    private static void rotateGrumpyCat(ImageView view, float x, float y,
-                                        Matrix matrix, MatrixConcatenation p) {
-        switch (p) {
-            case PRE:
-                matrix.preTranslate(-x, -y);
-                matrix.preRotate(THETA);
-                matrix.preTranslate(x, y);
-                break;
-            case POST:
-                matrix.postTranslate(-x, -y);
-                matrix.postRotate(THETA);
-                matrix.postTranslate(x, y);
-                break;
-        }
-        view.setImageMatrix(matrix);
-    }
-}    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
-
-  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;thumbnail&#34;
-        
-        
-        width=&#34;260px&#34;
-        height=&#34;142&#34;
-        /&gt;
-  &lt;/a&gt;
-
-  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
-    Initial state: Matrix is scaled so that Grumpy is centered
-    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
-  &lt;/figcaption&gt;
-&lt;/figure&gt;
-
-  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;thumbnail&#34;
-        
-        
-        width=&#34;260px&#34;
-        height=&#34;142&#34;
-        /&gt;
-  &lt;/a&gt;
-
-  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
-    Post-concatenating the transformation matrices
-    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
-  &lt;/figcaption&gt;
-&lt;/figure&gt;
-
-  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;thumbnail&#34;
-        
-        
-        width=&#34;260px&#34;
-        height=&#34;142&#34;
-        /&gt;
-  &lt;/a&gt;
-
-  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
-    Pre-concatenating the transformation matrices
-    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
-  &lt;/figcaption&gt;
-&lt;/figure&gt;
-
-
-&lt;div class=&#34;title&#34;&gt;Android rotation demo of pre and post rotate&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;p&gt;This time you can see &lt;code&gt;postScale&lt;/code&gt; and &lt;code&gt;postTranslate&lt;/code&gt; being called inside
-&lt;code&gt;center&lt;/code&gt; in order to scale the image and have the Grumpy cat centered inside
-its view. This is just the initial phase.&lt;/p&gt;
-
-&lt;p&gt;The interesting part is the &lt;code&gt;rotateGrumpyCat&lt;/code&gt; method, which is supposed to
-rotate the Grumpy cat around a point, the center, but you see the different
-results:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;post&lt;/code&gt; rotate gives the expected result, the Grumpy cat is rotate
-&lt;em&gt;&amp;ldquo;in place&amp;rdquo;&lt;/em&gt; by 30 degrees&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pre&lt;/code&gt; rotate sends our little buddy out of the screen.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;Well, it&amp;rsquo;s been fun writing those two articles. I definitely spent more time
-writing the first one, which is full of math, than this one.&lt;br /&gt;
-I hope you now have a better understanding of how matrices work and how to
-manipulate them in order to apply the transformations you want. I&amp;rsquo;ve
-kept the code examples really simple on purpose.&lt;/p&gt;
-
-&lt;p&gt;If you have questions or feedback, please leave a comment below.&lt;/p&gt;
-
-&lt;h2 id=&#34;links&#34;&gt;Links&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Source code for &lt;a href=&#34;https://github.com/arnaudbos/i-rant/tree/develop/static/code/2d-transformations-android-java/JavaAffineTransform&#34;&gt;the Java example on Github&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Source code for &lt;a href=&#34;https://github.com/arnaudbos/i-rant/tree/develop/static/code/2d-transformations-android-java/AndroidMatrix&#34;&gt;the Android example on Github&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
