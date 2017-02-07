@@ -1,7 +1,6 @@
 ---
 title: 2D Transformations with Android and Java
 date: 2017-02-07T02:30:04+01:00
-description:
 tags: ["java","android","matrix"]
 categories: ["java","android"]
 draft: true

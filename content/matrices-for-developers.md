@@ -1,7 +1,6 @@
 ---
 title: Matrices for developers
 date: 2017-01-23T13:11:45+01:00
-description:
 tags: ["math","matrix"]
 categories: ["math"]
 highlight: true
