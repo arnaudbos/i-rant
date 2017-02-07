@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Arnaud Bos</title>
-    <link>http://www.arnaudbos.com/tags/blog/index.xml</link>
+    <link>http://www.arnaudbos.com/categories/clojure/index.xml</link>
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <atom:link href="http://www.arnaudbos.com/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.arnaudbos.com/categories/clojure/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Klipse</title>
@@ -30,24 +30,6 @@
 
 
 
-</description>
-    </item>
-    
-    <item>
-      <title>I blog</title>
-      <link>http://www.arnaudbos.com/start-blog/</link>
-      <pubDate>Mon, 07 Nov 2016 12:55:28 +0100</pubDate>
-      
-      <guid>http://www.arnaudbos.com/start-blog/</guid>
-      <description>
-
-&lt;h2 id=&#34;what-s-this-post-about&#34;&gt;What&amp;rsquo;s this post about?&lt;/h2&gt;
-
-&lt;p&gt;Publishing all my drafts in the open, because I want to be loved, yay narcissism.&lt;/p&gt;
-
-&lt;h5 id=&#34;is-it-any-good&#34;&gt;Is it any good?&lt;/h5&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://news.ycombinator.com/item?id=3067434&#34;&gt;Yes&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     

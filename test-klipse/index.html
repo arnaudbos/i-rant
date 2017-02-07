@@ -7,7 +7,7 @@
     <meta name="author" content="map[]" />
     <meta name="description" content="My corner of the interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="http://www.arnaudbos.com/img/favicon.ico">
-    <title>Arnaud Bos</title>
+    <title>Klipse</title>
     <meta name="generator" content="Hugo 0.17" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
@@ -24,6 +24,7 @@
 
   <body>
     <div id="wrap">
+
       
       <nav class="navbar navbar-default">
   <div class="container">
@@ -47,95 +48,97 @@
 </nav>
 
       <div class="container">
-        <h3>I rant</h3>
-          <div class="panel panel-default">
-            <div class="panel-body">
-              <div class="list">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="/test-klipse/">Klipse</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 23, 2017
+          &nbsp;&nbsp;
+          —
+          &nbsp;&nbsp;
+          1 minutes read
+          </h4>
+        </div>
+        <div>
+          <h4>
+            
+            <span class="label label-success">blog</span>
+            
+            <span class="label label-success">clojure</span>
+            
+            <span class="label label-success">klipse</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <code class="language-klipse"
+  data-external-libs="https://raw.githubusercontent.com/mikera/core.matrix/develop/src/main/clojure"
+  data-preamble="(ns toto.matrices-algebra (:require [clojure.core.matrix :refer [shape]]))">
+(shape [[1 2] [3 4]])
+</code>
+  
+
+
+  
+
+
+
+
+
+
+
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
                 
                 
-                
-                
-                <div class="row">
-                  <div class="col-sm-4 col-md-4 col-lg-4">
-                    <h5 style="text-align: right">
-                      January 23, 2017
-                    </h5>
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        November 7, 2016
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/start-blog/">I blog</a></strong>
+                      </h6>
+                    </div>
                   </div>
-                  <div class="col-sm-8 col-md-8 col-lg-8">
-                    <h5 style="text-align: left">
-                      <strong><a href="/matrices-for-developers/">Matrices for developers</a></strong>
-                    </h5>
-                  </div>
-                </div>
-                
-                
-                
-                
-                
-                <div class="row">
-                  <div class="col-sm-4 col-md-4 col-lg-4">
-                    <h5 style="text-align: right">
-                      November 7, 2016
-                    </h5>
-                  </div>
-                  <div class="col-sm-8 col-md-8 col-lg-8">
-                    <h5 style="text-align: left">
-                      <strong><a href="/start-blog/">I blog</a></strong>
-                    </h5>
-                  </div>
-                </div>
-                
-                
-                
-                <div class="row">
-                  <div class="col-sm-4 col-md-4 col-lg-4">
-                    <h5 style="text-align: right">
-                      July 13, 2016
-                    </h5>
-                  </div>
-                  <div class="col-sm-8 col-md-8 col-lg-8">
-                    <h5 style="text-align: left">
-                      <strong><a href="/eclipsecon-france-2016-review/">EclipseCon France 2016 — Review</a></strong>
-                    </h5>
-                  </div>
-                </div>
-                
-                
-                
-                <div class="row">
-                  <div class="col-sm-4 col-md-4 col-lg-4">
-                    <h5 style="text-align: right">
-                      June 6, 2016
-                    </h5>
-                  </div>
-                  <div class="col-sm-8 col-md-8 col-lg-8">
-                    <h5 style="text-align: left">
-                      <strong><a href="/nabaztagtag-internals/">Nabaztag/tag internals</a></strong>
-                    </h5>
-                  </div>
-                </div>
-                
-                
-                
-                <div class="row">
-                  <div class="col-sm-4 col-md-4 col-lg-4">
-                    <h5 style="text-align: right">
-                      June 5, 2016
-                    </h5>
-                  </div>
-                  <div class="col-sm-8 col-md-8 col-lg-8">
-                    <h5 style="text-align: left">
-                      <strong><a href="/mr-p-outline/">MR. P — Project outline</a></strong>
-                    </h5>
-                  </div>
-                </div>
                 
                 
               </div>
             </div>
           </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = 'i-rant';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
       </div>
     </div>
+
     
     <footer>
   <div id="footer">
@@ -183,6 +186,14 @@
 </script>
 
 
+
+<link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css">
+<script>
+    window.klipse_settings = {
+        selector: '.language-klipse'
+    };
+</script>
+<script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
 
 
 
