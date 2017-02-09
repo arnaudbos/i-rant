@@ -2443,7 +2443,7 @@ during the review process of this article, by providing helpful feedbacks and
 advices:
 
 * Igor Laborie ([@ilaborie][ilaborie])
-* Hadrien Toma
+* Hadrien Toma ([@HadrienToma][HadrienToma])
 
 ## Resources
 
@@ -2484,6 +2484,7 @@ advices:
 [khan-mult-properties]: https://www.khanacademy.org/math/algebra-home/alg-matrices/alg-properties-of-matrix-multiplication/a/properties-of-matrix-multiplication
 [trigonometry]: http://www.mathsisfun.com/algebra/trigonometry.html
 [ilaborie]: https://twitter.com/ilaborie
+[HadrienToma]: https://twitter.com/HadrienToma
 [matrices-texas]: https://www.cs.utexas.edu/~fussell/courses/cs384g-fall2010/lectures/lecture07-Affine.pdf
 [ohio-matrices]: http://web.cse.ohio-state.edu/~whmin/courses/cse5542-2013-spring/6-Transformation_II.pdf
 [datagenetics-rotation]: http://datagenetics.com/blog/august32013/

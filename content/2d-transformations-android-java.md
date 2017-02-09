@@ -623,6 +623,15 @@ kept the code examples really simple on purpose.
 
 If you have questions or feedback, please leave a comment below.
 
+## Acknowledgements
+
+I want to address my warmest thank you to the following people, who helped me
+during the review process of this article, by providing helpful feedbacks and
+advices:
+
+* Igor Laborie ([@ilaborie][ilaborie])
+* Hadrien Toma ([@HadrienToma][HadrienToma])
+
 ## Links
 
 * Source code for [the Java example on Github][java-source]
@@ -643,3 +652,4 @@ If you have questions or feedback, please leave a comment below.
 [android-source]: https://github.com/arnaudbos/i-rant/tree/develop/static/code/2d-transformations-android-java/AndroidMatrix
 [bug-report]: https://code.google.com/p/android/issues/detail?id=229852&q=matrix&colspec=ID%20Status%20Priority%20Owner%20Summary%20Stars%20Reporter%20Opened
 [ilaborie]: https://twitter.com/ilaborie
+[HadrienToma]: https://twitter.com/HadrienToma
