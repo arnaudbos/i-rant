@@ -1,9 +1,12 @@
 ---
 title: EclipseCon France 2016 — Review
 date: 2016-07-13T12:55:28+01:00
+description: This ear, I've been given the opportunity to attend the French edition of the EclipseCon. It's been the first time I could attend an event of this nature with Keynotes, workshops, talks and demos on various topics, informal talks with other attendees and speakers.
+parent: blog
 categories: ["conference"]
 tags: ["conference", "review"]
 draft: false
+seoimage: /img/eclipsecon-france-2016-review/eclipsecon.jpg
 ---
 
 {{< img src="/img/eclipsecon-france-2016-review/eclipsecon.jpg" title="Keynote" alt="Picture taken during the Keynote" width="100%">}}

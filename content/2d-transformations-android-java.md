@@ -3,8 +3,9 @@ title: 2D Transformations with Android and Java
 date: 2017-02-07T02:30:04+01:00
 description: I my previous post I've talked about matrices and how they can be used to compute 2D transformations. In this post, I want to talk about how to apply what we know about matrices in order to perform 2D transformations, first using Java AWT and then with the Android SDK.
 tags: ["java","android","matrix"]
+parent: blog
 categories: ["java","android"]
-seoimage: http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png
+seoimage: /img/2d-transformations-android-java/grumpy-rotate.png
 highlight: true
 math: true
 gallery: true

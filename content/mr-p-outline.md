@@ -1,9 +1,12 @@
 ---
 title: MR. P — Project outline
 date: 2016-06-05T00:22:34+01:00
+description: I outlined my Nabaztag resurection project.
+parent: blog
 categories: ["iot"]
 tags: ["iot", "nabaztag"]
 draft: false
+seoimage: /img/mr-p-outline/Pi-zero.png
 ---
 
 {{< img src="/img/mr-p-outline/nabaztags.png" title="Nabaztag/tags" alt="Photo of several Nabaztag rabbits" width="100%">}}
@@ -71,11 +74,11 @@ Without going into too much details, here are the capabilities and internals of 
 
 Mine is a [Model B Generation 1 revision 1.2][model-b]:
 
-{{< img src="/img/mr-p-outline/Pi-model-B.png" title="Nabaztag/tag" alt="Schema of a Raspberry Pi board">}}
+{{< img src="/img/mr-p-outline/Pi-model-B.png" title="Model B" alt="Schema of a Raspberry Pi board">}}
 
 I am planning to go for a [Raspberry Pi Zero][pi-zero] to reduce the real estate footprint inside the rabbit case eventually:
 
-{{< img src="/img/mr-p-outline/Pi-zero.png" title="Nabaztag/tag" alt="Design of a Raspberry Pi Zero">}}
+{{< img src="/img/mr-p-outline/Pi-zero.png" title="Pi Zero" alt="Design of a Raspberry Pi Zero">}}
 
 But in the mean time, a full sized Model B will be alright, especially for learning purposes.
 

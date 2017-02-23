@@ -13,9 +13,10 @@ theme = "hugo-sustain"
 [params]
   avatar = "profile.png"
   author = "Arnaud Bos"
-  description = "My corner of the interweb."
-  projects = "http://side-effects.arnaudbos.com/"
-  resume = "http://vitae.arnaudbos.com/"
+  description = "My corner of teh interweb."
+  blog = "http://i-rant.arnaudbos.com"
+  projects = "http://side-effects.arnaudbos.com"
+  resume = "http://vitae.arnaudbos.com"
 
   # Custom assets can be linked with their paths relative to static/
   custom_css = []

@@ -3,8 +3,9 @@ title: Matrices for developers
 date: 2017-01-23T13:11:45+01:00
 description: Back to basics on matrices, an article oriented toward developers in need of a practical explanation of what is a matrix? How can we use matrices for 2D transformations? And a follow-up on the Java and Android APIs to use them.
 tags: ["math","matrix"]
+parent: "blog"
 categories: ["math"]
-seoimage: http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation-unit.png
+seoimage: /img/matrices-for-developers/2D-rotation-unit.png
 highlight: true
 math: true
 klipse: true

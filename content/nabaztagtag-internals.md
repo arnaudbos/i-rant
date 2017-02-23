@@ -1,9 +1,12 @@
 ---
 title: Nabaztag/tag internals
 date: 2016-06-06T15:00:36+01:00
+description: I cracked open my Nabaztag/tag and took note of what I saw.
+parent: blog
 categories: ["iot"]
 tags: ["iot", "nabaztag"]
 draft: false
+seoimage: /img/nabaztagtag-internals/1-Front-view.jpg
 ---
 
 {{< img src="/img/nabaztagtag-internals/Nabaztag.jpg" title="Nabaztag/tag" alt="Photo of a dismantled Nabaztag/tag" width="100%">}}
