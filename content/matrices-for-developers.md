@@ -1,8 +1,10 @@
 ---
 title: Matrices for developers
 date: 2017-01-23T13:11:45+01:00
+description: Back to basics on matrices, an article oriented toward developers in need of a practical explanation of what is a matrix? How can we use matrices for 2D transformations? And a follow-up on the Java and Android APIs to use them.
 tags: ["math","matrix"]
 categories: ["math"]
+seoimage: /img/matrices-for-developers/2D-rotation-unit.png
 highlight: true
 math: true
 klipse: true
@@ -81,8 +83,9 @@ seems I was not the only one struggling with matrices, trying to make sense of
 it and using these skills with Android's Matrix class and methods,
 so I thought I'd write an article.
 
-The first part, this one, is about matrices. The upcoming second part will be
-about how to apply what you know about matrices in code, with Java and
+The first part, this one, is about matrices. The second part,
+["2D Transformations with Android and Java"][2d-transformations-android-java],
+is about how to apply what you know about matrices in code, with Java and
 on Android.
 
 ## Table of contents
@@ -2461,6 +2464,7 @@ advices:
 * [A blogpost on "Homogeneous Coordinates" by Song Ho Ahn][homogeneous-coordinates-blogpost]
 * [A Youtube video course on "2D transformations and homogeneous coordinates" by Tarun Gehlot][homogeneous-coordinates-video]
 
+[2d-transformations-android-java]: ../2d-transformations-android-java
 [github-this]: https://github.com/arnaudbos/i-rant/tree/develop/static/code/matrices-for-developers
 [Matrix.postScale]: https://developer.android.com/reference/android/graphics/Matrix.html#postScale(float,%20float,%20float,%20float)
 [climbing-away]: https://play.google.com/store/apps/details?id=fr.climbingaway
