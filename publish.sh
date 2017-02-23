@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm -rf img/
 (cd ..; hugo --buildDrafts)
 rm -rf code/
 git add --all
