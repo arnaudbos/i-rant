@@ -45,3 +45,8 @@ theme = "hugo-sustain"
   identifier = "resume"
   weight = 300
   url = "http://vitae.arnaudbos.com/"
+[[menu.main]]
+  name = "level-up"
+  identifier = "level-up"
+  weight = 400
+  url = "http://level-up.arnaudbos.com/"
