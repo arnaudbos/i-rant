@@ -4609,5 +4609,46 @@ a proper modern IoT device.
 </description>
     </item>
     
+    <item>
+      <title></title>
+      <link>http://www.arnaudbos.com/architecture-decision-records/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.arnaudbos.com/architecture-decision-records/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://www.arnaudbos.com/automated-diagrams-in-documentation-with-boot/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.arnaudbos.com/automated-diagrams-in-documentation-with-boot/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/boot-clj/boot&#34;&gt;https://github.com/boot-clj/boot&lt;/a&gt;
+&lt;a href=&#34;https://github.com/ztellman/rhizome&#34;&gt;https://github.com/ztellman/rhizome&lt;/a&gt;
+&lt;a href=&#34;https://github.com/drcode/vijual&#34;&gt;https://github.com/drcode/vijual&lt;/a&gt;
+&lt;a href=&#34;https://github.com/daveray/dorothy&#34;&gt;https://github.com/daveray/dorothy&lt;/a&gt;
+&lt;a href=&#34;https://github.com/Macroz/tangle&#34;&gt;https://github.com/Macroz/tangle&lt;/a&gt;
+&lt;a href=&#34;http://www.graphviz.org/content/dot-language&#34;&gt;http://www.graphviz.org/content/dot-language&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://www.arnaudbos.com/local-docker-development-with-vagrant/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.arnaudbos.com/local-docker-development-with-vagrant/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://docs.docker.com/docker-for-mac/docker-toolbox/#the-docker-for-mac-environment&#34;&gt;https://docs.docker.com/docker-for-mac/docker-toolbox/#the-docker-for-mac-environment&lt;/a&gt;
+Part1: &lt;a href=&#34;http://activelamp.com/blog/devops/hashing-out-docker-workflow/&#34;&gt;http://activelamp.com/blog/devops/hashing-out-docker-workflow/&lt;/a&gt;
+Part2: &lt;a href=&#34;http://activelamp.com/blog/devops/docker-with-vagrant/&#34;&gt;http://activelamp.com/blog/devops/docker-with-vagrant/&lt;/a&gt;
+Part3: &lt;a href=&#34;http://activelamp.com/blog/devops/local-docker-development-with-vagrant/&#34;&gt;http://activelamp.com/blog/devops/local-docker-development-with-vagrant/&lt;/a&gt;
+Part4: &lt;a href=&#34;http://activelamp.com/blog/devops/jenkins-build-docker-images/&#34;&gt;http://activelamp.com/blog/devops/jenkins-build-docker-images/&lt;/a&gt;
+&lt;a href=&#34;https://martinfowler.com/bliki/ImmutableServer.html&#34;&gt;https://martinfowler.com/bliki/ImmutableServer.html&lt;/a&gt;
+&lt;a href=&#34;https://technologyconversations.com/2015/02/11/continuous-integration-delivery-or-deployment-with-jenkins-docker-and-ansible/&#34;&gt;https://technologyconversations.com/2015/02/11/continuous-integration-delivery-or-deployment-with-jenkins-docker-and-ansible/&lt;/a&gt;
+&lt;a href=&#34;http://trustmeiamadeveloper.com/2015/12/17/mesos-as-a-docker-containers-farm/&#34;&gt;http://trustmeiamadeveloper.com/2015/12/17/mesos-as-a-docker-containers-farm/&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>

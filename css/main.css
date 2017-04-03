@@ -7,6 +7,7 @@ body {
   font-family: 'Helvetica Neue', 'Source Sans Pro', sans-serif;
   /* The html and body elements cannot have any padding or margin. */
   border-top: 3px solid #27A822;
+  color: color: #6b6b6b;
 }
 /* Wrapper for page content to push down footer */
 #wrap {
@@ -17,6 +18,10 @@ body {
   margin: 0 auto -65px;
   /* Pad bottom by footer height */
   /*padding: 0 0 60px;*/
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  font-weight: initial;
 }
 
 /* Navbar
@@ -136,9 +141,6 @@ body {
   padding-top: 12px;
   word-spacing: 25px;
 }
-.social h4 > a {
-  color: #000000;
-}
 .avatar {
   padding-top: 5%;
 }
@@ -161,7 +163,7 @@ body {
 .blogpost {
   text-align: left;
   line-height: 1.42857143;
-  font-size: 15px;
+  font-size: 16px;
 }
 .blogpost a {
   cursor: pointer;
@@ -177,7 +179,18 @@ body {
   line-height: 0.4;
   font-size: 16px;
 }
-
+.list.level-up h3 {
+  color: #27A822;
+  margin-bottom: 20px;
+}
+.list.level-up ul {
+  list-style: none;
+  margin-top: 10px;
+}
+.list.level-up a {
+  color: #6b6b6b;
+  cursor: pointer;
+}
 .blogpost figure {
     margin: 1em 40px;
 }
@@ -229,17 +242,6 @@ body {
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
-}
-
-.has-jax {
-  font-size: 14px;
-}
-
-.blogpost code.has-jax {
-  font: inherit;
-  font-size: 14px;
-  background: inherit;
-  color: #333;
 }
 
 .blogpost blockquote {
@@ -350,9 +352,6 @@ body {
 
 .footer {
   text-decoration: none !important;
-}
-.text-muted {
-	color: #6b6b6b;
 }
 div.footer{
   border-bottom: 5px solid #27A822;;

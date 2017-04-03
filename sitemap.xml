@@ -41,4 +41,16 @@
     <lastmod>2016-06-05T00:22:34+01:00</lastmod>
   </url>
   
+  <url>
+    <loc>http://www.arnaudbos.com/architecture-decision-records/</loc>
+  </url>
+  
+  <url>
+    <loc>http://www.arnaudbos.com/automated-diagrams-in-documentation-with-boot/</loc>
+  </url>
+  
+  <url>
+    <loc>http://www.arnaudbos.com/local-docker-development-with-vagrant/</loc>
+  </url>
+  
 </urlset>
