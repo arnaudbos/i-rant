@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Arnaud Bos</title>
-    <link>http://www.arnaudbos.com/tags/nabaztag/index.xml</link>
+    <link>http://i-rant.arnaudbos.com/tags/nabaztag/index.xml</link>
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <atom:link href="http://www.arnaudbos.com/tags/nabaztag/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://i-rant.arnaudbos.com/tags/nabaztag/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Nabaztag/tag internals</title>
-      <link>http://www.arnaudbos.com/nabaztagtag-internals/</link>
+      <link>http://i-rant.arnaudbos.com/nabaztagtag-internals/</link>
       <pubDate>Mon, 06 Jun 2016 15:00:36 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/nabaztagtag-internals/</guid>
+      <guid>http://i-rant.arnaudbos.com/nabaztagtag-internals/</guid>
       <description>
 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/Nabaztag.jpg&#34; alt=&#34;Photo of a dismantled Nabaztag/tag&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/Nabaztag.jpg&#34; alt=&#34;Photo of a dismantled Nabaztag/tag&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -56,7 +56,7 @@
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/1-Front-view.jpg&#34; alt=&#34;Picture of Nabaztag/tag front view&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/1-Front-view.jpg&#34; alt=&#34;Picture of Nabaztag/tag front view&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -68,7 +68,7 @@
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/5-Inside-front.jpg&#34; alt=&#34;Picture of Nabaztag/tag opened front view&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/5-Inside-front.jpg&#34; alt=&#34;Picture of Nabaztag/tag opened front view&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -93,7 +93,7 @@
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/2-Back-view.jpg&#34; alt=&#34;Picture of Nabaztag/tag back view&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/2-Back-view.jpg&#34; alt=&#34;Picture of Nabaztag/tag back view&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -105,7 +105,7 @@
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/6-Inside-back.jpg&#34; alt=&#34;Picture of Nabaztag/tag opened back view&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/6-Inside-back.jpg&#34; alt=&#34;Picture of Nabaztag/tag opened back view&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -136,7 +136,7 @@
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/4-No-ears.jpg&#34; alt=&#34;Picture of Nabaztag/tag without its ears&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/4-No-ears.jpg&#34; alt=&#34;Picture of Nabaztag/tag without its ears&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -150,7 +150,7 @@
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/9-Ears-motors.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears mechanism&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/9-Ears-motors.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears mechanism&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -168,7 +168,7 @@
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/12-DC-motor.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears DC motors&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/12-DC-motor.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears DC motors&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -199,7 +199,7 @@ H-bridge - a hardware switch that reverses a motor&amp;rsquo;s polarity.&lt;/p&g
 &lt;p&gt;
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/10-IR-encoder.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears IR encoder&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/10-IR-encoder.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears IR encoder&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -210,7 +210,7 @@ H-bridge - a hardware switch that reverses a motor&amp;rsquo;s polarity.&lt;/p&g
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/11-Pulleys-belt.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s pulleys-belt and cogs mechanism&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/11-Pulleys-belt.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s pulleys-belt and cogs mechanism&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -249,7 +249,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/LEDs.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s LEDs and cones&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/LEDs.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s LEDs and cones&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -269,7 +269,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/RFID.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s RFID reader&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/RFID.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s RFID reader&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -287,7 +287,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/Microphone.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s Microphone&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/Microphone.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s Microphone&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -299,7 +299,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/16-Microphone.jpg&#34; alt=&#34;Detailed view of the microphone&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/16-Microphone.jpg&#34; alt=&#34;Detailed view of the microphone&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -321,7 +321,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 &lt;p&gt;
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/Wireless.png&#34; alt=&#34;Detailed view of the wireless module&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/Wireless.png&#34; alt=&#34;Detailed view of the wireless module&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -332,7 +332,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/WiFi-antenna.png&#34; alt=&#34;Detailed view of the WiFi antenna&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/WiFi-antenna.png&#34; alt=&#34;Detailed view of the WiFi antenna&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -348,7 +348,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/6-Inside-back.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s loudspeaker&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/6-Inside-back.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s loudspeaker&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -368,7 +368,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 &lt;p&gt;
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/13-Power-adapter-back.jpg&#34; alt=&#34;Detailed back view of the power supply&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/13-Power-adapter-back.jpg&#34; alt=&#34;Detailed back view of the power supply&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -379,7 +379,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/14-Power-adapter-front.jpg&#34; alt=&#34;Detailed front view of the power supply&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/14-Power-adapter-front.jpg&#34; alt=&#34;Detailed front view of the power supply&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -424,7 +424,7 @@ power supply, as it provided just the right amount of power.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/15-Wheel-and-Jack.jpg&#34; alt=&#34;Detailed front view of the volume wheel and jack entry&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/15-Wheel-and-Jack.jpg&#34; alt=&#34;Detailed front view of the volume wheel and jack entry&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -540,16 +540,16 @@ clearance.&lt;/p&gt;
     
     <item>
       <title>MR. P — Project outline</title>
-      <link>http://www.arnaudbos.com/mr-p-outline/</link>
+      <link>http://i-rant.arnaudbos.com/mr-p-outline/</link>
       <pubDate>Sun, 05 Jun 2016 00:22:34 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/mr-p-outline/</guid>
+      <guid>http://i-rant.arnaudbos.com/mr-p-outline/</guid>
       <description>
 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/mr-p-outline/nabaztags.png&#34; alt=&#34;Photo of several Nabaztag rabbits&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/mr-p-outline/nabaztags.png&#34; alt=&#34;Photo of several Nabaztag rabbits&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -586,7 +586,7 @@ clearance.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/mr-p-outline/Nabaztag.jpg&#34; alt=&#34;Photo of a dismantled Nabaztag/tag&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/mr-p-outline/Nabaztag.jpg&#34; alt=&#34;Photo of a dismantled Nabaztag/tag&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -652,7 +652,7 @@ a proper modern IoT device.
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/mr-p-outline/Pi-model-B.png&#34; alt=&#34;Schema of a Raspberry Pi board&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/mr-p-outline/Pi-model-B.png&#34; alt=&#34;Schema of a Raspberry Pi board&#34;
             
             /&gt;
     
@@ -671,7 +671,7 @@ a proper modern IoT device.
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/mr-p-outline/Pi-zero.png&#34; alt=&#34;Design of a Raspberry Pi Zero&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/mr-p-outline/Pi-zero.png&#34; alt=&#34;Design of a Raspberry Pi Zero&#34;
             
             /&gt;
     

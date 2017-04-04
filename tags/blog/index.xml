@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Arnaud Bos</title>
-    <link>http://www.arnaudbos.com/tags/blog/index.xml</link>
+    <link>http://i-rant.arnaudbos.com/tags/blog/index.xml</link>
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <atom:link href="http://www.arnaudbos.com/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://i-rant.arnaudbos.com/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Klipse</title>
-      <link>http://www.arnaudbos.com/test-klipse/</link>
+      <link>http://i-rant.arnaudbos.com/test-klipse/</link>
       <pubDate>Mon, 23 Jan 2017 13:23:08 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/test-klipse/</guid>
+      <guid>http://i-rant.arnaudbos.com/test-klipse/</guid>
       <description>&lt;code class=&#34;language-klipse&#34;
   data-external-libs=&#34;https://raw.githubusercontent.com/mikera/core.matrix/develop/src/main/clojure&#34;
   data-preamble=&#34;(ns toto.matrices-algebra (:require [clojure.core.matrix :refer [shape]]))&#34;&gt;
@@ -35,10 +35,10 @@
     
     <item>
       <title>I blog</title>
-      <link>http://www.arnaudbos.com/start-blog/</link>
+      <link>http://i-rant.arnaudbos.com/start-blog/</link>
       <pubDate>Mon, 07 Nov 2016 12:55:28 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/start-blog/</guid>
+      <guid>http://i-rant.arnaudbos.com/start-blog/</guid>
       <description>
 
 &lt;h2 id=&#34;what-s-this-post-about&#34;&gt;What&amp;rsquo;s this post about?&lt;/h2&gt;

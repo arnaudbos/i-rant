@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Arnaud Bos</title>
-    <link>http://www.arnaudbos.com/tags/math/index.xml</link>
+    <link>http://i-rant.arnaudbos.com/tags/math/index.xml</link>
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <atom:link href="http://www.arnaudbos.com/tags/math/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://i-rant.arnaudbos.com/tags/math/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Matrices for developers</title>
-      <link>http://www.arnaudbos.com/matrices-for-developers/</link>
+      <link>http://i-rant.arnaudbos.com/matrices-for-developers/</link>
       <pubDate>Mon, 23 Jan 2017 13:11:45 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/matrices-for-developers/</guid>
+      <guid>http://i-rant.arnaudbos.com/matrices-for-developers/</guid>
       <description>
 
 &lt;blockquote&gt;
@@ -32,8 +32,8 @@ an exciting feature:&lt;/p&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-1.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-1.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-1.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-1.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80&#34;
@@ -48,8 +48,8 @@ an exciting feature:&lt;/p&gt;
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-2.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-2.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-2.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-2.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80&#34;
@@ -64,8 +64,8 @@ an exciting feature:&lt;/p&gt;
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-3.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-3.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-3.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-3.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80&#34;
@@ -172,7 +172,7 @@ transformations are articles about &lt;em&gt;&amp;ldquo;Transformation matrix&am
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     &lt;a href=&#34;https://en.wikipedia.org/wiki/Chewbacca_defense&#34;&gt;
-        &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/chewbacca-defense.jpg&#34; alt=&#34;Chewbacca defense - It does not make sense&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/chewbacca-defense.jpg&#34; alt=&#34;Chewbacca defense - It does not make sense&#34;
             width=&#34;80%&#34;
             /&gt;
     &lt;/a&gt;
@@ -721,7 +721,7 @@ to a transformation matrix?&lt;/p&gt;
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/moar-math-stuff.jpg&#34; alt=&#34;Moar math stuff with smiling cat meme&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/moar-math-stuff.jpg&#34; alt=&#34;Moar math stuff with smiling cat meme&#34;
             width=&#34;60%&#34;
             /&gt;
     
@@ -853,8 +853,8 @@ and $Q^{\prime}_{(-4, 2)}$ and $R^{\prime}_{(2,4)}$.&lt;/p&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-transformed-triangle.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1215x725&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-transformed-triangle.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-transformed-triangle.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1215x725&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-transformed-triangle.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -1339,8 +1339,8 @@ parallelogram with a vertex at $\left(1, 1\right)$.&lt;/p&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-constant-shearing.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1084x769&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-constant-shearing.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-constant-shearing.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1084x769&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-constant-shearing.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -1365,8 +1365,8 @@ through which the axis is sheared. Let&amp;rsquo;s call it $\alpha$ (alpha).&lt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1083x691&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing.gif&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1083x691&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing.gif&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -1395,8 +1395,8 @@ opposite side of the green triangle, see:&lt;/p&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-1.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-1.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-1.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-1.png&#34; itemprop=&#34;thumbnail&#34;
         
         title=&#34;Shearing by negative alpha=-30 degrees when y(P)&amp;gt;0&#34;
         width=&#34;395px&#34;
@@ -1411,8 +1411,8 @@ opposite side of the green triangle, see:&lt;/p&gt;
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-2.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-2.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-2.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-2.png&#34; itemprop=&#34;thumbnail&#34;
         
         title=&#34;Shearing by positive alpha=30 degrees when y(P)&amp;gt;0&#34;
         width=&#34;395px&#34;
@@ -1427,8 +1427,8 @@ opposite side of the green triangle, see:&lt;/p&gt;
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-3.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-3.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-3.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-3.png&#34; itemprop=&#34;thumbnail&#34;
         
         title=&#34;Shearing by negative alpha=-30 degrees when y(P)&amp;lt;0&#34;
         width=&#34;395px&#34;
@@ -1443,8 +1443,8 @@ opposite side of the green triangle, see:&lt;/p&gt;
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-4.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-4.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-4.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-4.png&#34; itemprop=&#34;thumbnail&#34;
         
         title=&#34;Shearing by positive alpha=30 degrees when y(P)&amp;lt;0&#34;
         width=&#34;395px&#34;
@@ -1608,8 +1608,8 @@ from a angle $ \theta $ (theta).&lt;/p&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1083x740&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation.gif&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1083x740&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation.gif&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -1658,8 +1658,8 @@ don&amp;rsquo;t bother unless you&amp;rsquo;re very curious and don&amp;rsquo;t 
   &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x980&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x980&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -1790,8 +1790,8 @@ vector &lt;em&gt;lands on&lt;/em&gt; this position vector&amp;rdquo;* route.&lt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation-unit.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1494x1020&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation-unit.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation-unit.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1494x1020&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation-unit.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -1954,8 +1954,8 @@ $ \left(\frac{x}{z}, \frac{y}{z}, z\right)$.&lt;/li&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/homogeneous-coordinates.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1433x1346&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/homogeneous-coordinates.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/homogeneous-coordinates.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1433x1346&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/homogeneous-coordinates.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -2513,8 +2513,8 @@ $\begin{pmatrix}x_{1} &amp;amp; x_{2} &amp;amp; x_{3} &amp;amp; x_{4}\\y_{1} &am
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/pinch-zoom-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/pinch-zoom-init.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/pinch-zoom-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/pinch-zoom-init.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -2598,8 +2598,8 @@ $$
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/pinch-zoom.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1214x691&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/pinch-zoom.gif&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/pinch-zoom.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1214x691&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/pinch-zoom.gif&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -2718,8 +2718,8 @@ $\begin{pmatrix}x_{1} &amp;amp; x_{2} &amp;amp; x_{3} &amp;amp; x_{4}\\y_{1} &am
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/rotate-image-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/rotate-image-init.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/rotate-image-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/rotate-image-init.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -2803,8 +2803,8 @@ $$
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/rotate-image.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/rotate-image.gif&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/rotate-image.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/rotate-image.gif&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;

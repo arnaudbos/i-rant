@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Arnaud Bos</title>
-    <link>http://www.arnaudbos.com/tags/conference/index.xml</link>
+    <link>http://i-rant.arnaudbos.com/tags/conference/index.xml</link>
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <atom:link href="http://www.arnaudbos.com/tags/conference/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://i-rant.arnaudbos.com/tags/conference/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>EclipseCon France 2016 — Review</title>
-      <link>http://www.arnaudbos.com/eclipsecon-france-2016-review/</link>
+      <link>http://i-rant.arnaudbos.com/eclipsecon-france-2016-review/</link>
       <pubDate>Wed, 13 Jul 2016 12:55:28 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/eclipsecon-france-2016-review/</guid>
+      <guid>http://i-rant.arnaudbos.com/eclipsecon-france-2016-review/</guid>
       <description>
 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/eclipsecon.jpg&#34; alt=&#34;Picture taken during the Keynote&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/eclipsecon.jpg&#34; alt=&#34;Picture taken during the Keynote&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -48,7 +48,7 @@
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/iot.png&#34; alt=&#34;Eclipse IoT logo&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/iot.png&#34; alt=&#34;Eclipse IoT logo&#34;
             width=&#34;280px&#34;
             /&gt;
     
@@ -71,7 +71,7 @@ From my point of view, &lt;a href=&#34;http://iot.eclipse.org/&#34;&gt;IoT&lt;/a
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/lora.png&#34; alt=&#34;LoRaWan logo&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/lora.png&#34; alt=&#34;LoRaWan logo&#34;
             width=&#34;280px&#34;
             /&gt;
     
@@ -136,7 +136,7 @@ C) Device constantly listening for updates.
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/ttn.png&#34; alt=&#34;The Things Network logo&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/ttn.png&#34; alt=&#34;The Things Network logo&#34;
             width=&#34;280px&#34;
             /&gt;
     
@@ -162,7 +162,7 @@ C) Device constantly listening for updates.
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/angular.png&#34; alt=&#34;AngularJS logo&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/angular.png&#34; alt=&#34;AngularJS logo&#34;
             width=&#34;280px&#34;
             /&gt;
     
@@ -226,7 +226,7 @@ So thanks guys, and keep up the good work.&lt;/p&gt;
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/jenkins.png&#34; alt=&#34;Jenkins CI logo&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/jenkins.png&#34; alt=&#34;Jenkins CI logo&#34;
             width=&#34;280px&#34;
             /&gt;
     

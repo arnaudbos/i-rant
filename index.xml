@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Arnaud Bos</title>
-    <link>http://www.arnaudbos.com/index.xml</link>
+    <link>http://i-rant.arnaudbos.com/index.xml</link>
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Tue, 07 Feb 2017 02:30:04 +0100</lastBuildDate>
-    <atom:link href="http://www.arnaudbos.com/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://i-rant.arnaudbos.com/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>2D Transformations with Android and Java</title>
-      <link>http://www.arnaudbos.com/2d-transformations-android-java/</link>
+      <link>http://i-rant.arnaudbos.com/2d-transformations-android-java/</link>
       <pubDate>Tue, 07 Feb 2017 02:30:04 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/2d-transformations-android-java/</guid>
+      <guid>http://i-rant.arnaudbos.com/2d-transformations-android-java/</guid>
       <description>
 
 &lt;p&gt;I my previous post, &lt;a href=&#34;../matrices-for-developers&#34;&gt;&amp;ldquo;Matrices for developers&amp;rdquo;&lt;/a&gt;, I&amp;rsquo;ve
@@ -343,7 +343,7 @@ public class AffineTransformZoomExample {
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/java-zoom-at-center.png&#34; alt=&#34;Demo of Java 2D zooming&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/java-zoom-at-center.png&#34; alt=&#34;Demo of Java 2D zooming&#34;
             width=&#34;80%&#34;
             /&gt;
     
@@ -656,8 +656,8 @@ public class MainActivity extends AppCompatActivity {
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;260px&#34;
@@ -672,8 +672,8 @@ public class MainActivity extends AppCompatActivity {
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;260px&#34;
@@ -688,8 +688,8 @@ public class MainActivity extends AppCompatActivity {
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;260px&#34;
@@ -754,10 +754,10 @@ advices:&lt;/p&gt;
     
     <item>
       <title>Klipse</title>
-      <link>http://www.arnaudbos.com/test-klipse/</link>
+      <link>http://i-rant.arnaudbos.com/test-klipse/</link>
       <pubDate>Mon, 23 Jan 2017 13:23:08 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/test-klipse/</guid>
+      <guid>http://i-rant.arnaudbos.com/test-klipse/</guid>
       <description>&lt;code class=&#34;language-klipse&#34;
   data-external-libs=&#34;https://raw.githubusercontent.com/mikera/core.matrix/develop/src/main/clojure&#34;
   data-preamble=&#34;(ns toto.matrices-algebra (:require [clojure.core.matrix :refer [shape]]))&#34;&gt;
@@ -779,10 +779,10 @@ advices:&lt;/p&gt;
     
     <item>
       <title>Matrices for developers</title>
-      <link>http://www.arnaudbos.com/matrices-for-developers/</link>
+      <link>http://i-rant.arnaudbos.com/matrices-for-developers/</link>
       <pubDate>Mon, 23 Jan 2017 13:11:45 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/matrices-for-developers/</guid>
+      <guid>http://i-rant.arnaudbos.com/matrices-for-developers/</guid>
       <description>
 
 &lt;blockquote&gt;
@@ -801,8 +801,8 @@ an exciting feature:&lt;/p&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-1.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-1.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-1.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-1.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80&#34;
@@ -817,8 +817,8 @@ an exciting feature:&lt;/p&gt;
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-2.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-2.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-2.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-2.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80&#34;
@@ -833,8 +833,8 @@ an exciting feature:&lt;/p&gt;
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-3.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/ca-screenshot-3.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-3.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/ca-screenshot-3.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80&#34;
@@ -941,7 +941,7 @@ transformations are articles about &lt;em&gt;&amp;ldquo;Transformation matrix&am
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     &lt;a href=&#34;https://en.wikipedia.org/wiki/Chewbacca_defense&#34;&gt;
-        &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/chewbacca-defense.jpg&#34; alt=&#34;Chewbacca defense - It does not make sense&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/chewbacca-defense.jpg&#34; alt=&#34;Chewbacca defense - It does not make sense&#34;
             width=&#34;80%&#34;
             /&gt;
     &lt;/a&gt;
@@ -1490,7 +1490,7 @@ to a transformation matrix?&lt;/p&gt;
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/moar-math-stuff.jpg&#34; alt=&#34;Moar math stuff with smiling cat meme&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/moar-math-stuff.jpg&#34; alt=&#34;Moar math stuff with smiling cat meme&#34;
             width=&#34;60%&#34;
             /&gt;
     
@@ -1622,8 +1622,8 @@ and $Q^{\prime}_{(-4, 2)}$ and $R^{\prime}_{(2,4)}$.&lt;/p&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-transformed-triangle.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1215x725&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-transformed-triangle.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-transformed-triangle.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1215x725&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-transformed-triangle.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -2108,8 +2108,8 @@ parallelogram with a vertex at $\left(1, 1\right)$.&lt;/p&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-constant-shearing.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1084x769&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-constant-shearing.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-constant-shearing.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1084x769&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-constant-shearing.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -2134,8 +2134,8 @@ through which the axis is sheared. Let&amp;rsquo;s call it $\alpha$ (alpha).&lt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1083x691&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing.gif&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1083x691&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing.gif&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -2164,8 +2164,8 @@ opposite side of the green triangle, see:&lt;/p&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-1.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-1.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-1.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-1.png&#34; itemprop=&#34;thumbnail&#34;
         
         title=&#34;Shearing by negative alpha=-30 degrees when y(P)&amp;gt;0&#34;
         width=&#34;395px&#34;
@@ -2180,8 +2180,8 @@ opposite side of the green triangle, see:&lt;/p&gt;
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-2.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-2.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-2.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-2.png&#34; itemprop=&#34;thumbnail&#34;
         
         title=&#34;Shearing by positive alpha=30 degrees when y(P)&amp;gt;0&#34;
         width=&#34;395px&#34;
@@ -2196,8 +2196,8 @@ opposite side of the green triangle, see:&lt;/p&gt;
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-3.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-3.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-3.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-3.png&#34; itemprop=&#34;thumbnail&#34;
         
         title=&#34;Shearing by negative alpha=-30 degrees when y(P)&amp;lt;0&#34;
         width=&#34;395px&#34;
@@ -2212,8 +2212,8 @@ opposite side of the green triangle, see:&lt;/p&gt;
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-4.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-4.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-4.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x882&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-angle-shearing-triangles-4.png&#34; itemprop=&#34;thumbnail&#34;
         
         title=&#34;Shearing by positive alpha=30 degrees when y(P)&amp;lt;0&#34;
         width=&#34;395px&#34;
@@ -2377,8 +2377,8 @@ from a angle $ \theta $ (theta).&lt;/p&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1083x740&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation.gif&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1083x740&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation.gif&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -2427,8 +2427,8 @@ don&amp;rsquo;t bother unless you&amp;rsquo;re very curious and don&amp;rsquo;t 
   &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x980&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1434x980&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -2559,8 +2559,8 @@ vector &lt;em&gt;lands on&lt;/em&gt; this position vector&amp;rdquo;* route.&lt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation-unit.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1494x1020&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/2D-rotation-unit.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation-unit.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1494x1020&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/2D-rotation-unit.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -2723,8 +2723,8 @@ $ \left(\frac{x}{z}, \frac{y}{z}, z\right)$.&lt;/li&gt;
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/homogeneous-coordinates.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1433x1346&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/homogeneous-coordinates.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/homogeneous-coordinates.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1433x1346&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/homogeneous-coordinates.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -3282,8 +3282,8 @@ $\begin{pmatrix}x_{1} &amp;amp; x_{2} &amp;amp; x_{3} &amp;amp; x_{4}\\y_{1} &am
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/pinch-zoom-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/pinch-zoom-init.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/pinch-zoom-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/pinch-zoom-init.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -3367,8 +3367,8 @@ $$
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/pinch-zoom.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1214x691&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/pinch-zoom.gif&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/pinch-zoom.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1214x691&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/pinch-zoom.gif&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -3487,8 +3487,8 @@ $\begin{pmatrix}x_{1} &amp;amp; x_{2} &amp;amp; x_{3} &amp;amp; x_{4}\\y_{1} &am
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/rotate-image-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/rotate-image-init.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/rotate-image-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/rotate-image-init.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -3572,8 +3572,8 @@ $$
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/matrices-for-developers/rotate-image.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/matrices-for-developers/rotate-image.gif&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/rotate-image.gif&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1032x587&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/matrices-for-developers/rotate-image.gif&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;80%&#34;
@@ -3627,10 +3627,10 @@ advices:&lt;/p&gt;
     
     <item>
       <title>I blog</title>
-      <link>http://www.arnaudbos.com/start-blog/</link>
+      <link>http://i-rant.arnaudbos.com/start-blog/</link>
       <pubDate>Mon, 07 Nov 2016 12:55:28 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/start-blog/</guid>
+      <guid>http://i-rant.arnaudbos.com/start-blog/</guid>
       <description>
 
 &lt;h2 id=&#34;what-s-this-post-about&#34;&gt;What&amp;rsquo;s this post about?&lt;/h2&gt;
@@ -3645,16 +3645,16 @@ advices:&lt;/p&gt;
     
     <item>
       <title>EclipseCon France 2016 — Review</title>
-      <link>http://www.arnaudbos.com/eclipsecon-france-2016-review/</link>
+      <link>http://i-rant.arnaudbos.com/eclipsecon-france-2016-review/</link>
       <pubDate>Wed, 13 Jul 2016 12:55:28 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/eclipsecon-france-2016-review/</guid>
+      <guid>http://i-rant.arnaudbos.com/eclipsecon-france-2016-review/</guid>
       <description>
 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/eclipsecon.jpg&#34; alt=&#34;Picture taken during the Keynote&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/eclipsecon.jpg&#34; alt=&#34;Picture taken during the Keynote&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -3683,7 +3683,7 @@ advices:&lt;/p&gt;
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/iot.png&#34; alt=&#34;Eclipse IoT logo&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/iot.png&#34; alt=&#34;Eclipse IoT logo&#34;
             width=&#34;280px&#34;
             /&gt;
     
@@ -3706,7 +3706,7 @@ From my point of view, &lt;a href=&#34;http://iot.eclipse.org/&#34;&gt;IoT&lt;/a
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/lora.png&#34; alt=&#34;LoRaWan logo&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/lora.png&#34; alt=&#34;LoRaWan logo&#34;
             width=&#34;280px&#34;
             /&gt;
     
@@ -3771,7 +3771,7 @@ C) Device constantly listening for updates.
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/ttn.png&#34; alt=&#34;The Things Network logo&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/ttn.png&#34; alt=&#34;The Things Network logo&#34;
             width=&#34;280px&#34;
             /&gt;
     
@@ -3797,7 +3797,7 @@ C) Device constantly listening for updates.
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/angular.png&#34; alt=&#34;AngularJS logo&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/angular.png&#34; alt=&#34;AngularJS logo&#34;
             width=&#34;280px&#34;
             /&gt;
     
@@ -3861,7 +3861,7 @@ So thanks guys, and keep up the good work.&lt;/p&gt;
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/eclipsecon-france-2016-review/jenkins.png&#34; alt=&#34;Jenkins CI logo&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/eclipsecon-france-2016-review/jenkins.png&#34; alt=&#34;Jenkins CI logo&#34;
             width=&#34;280px&#34;
             /&gt;
     
@@ -3908,16 +3908,16 @@ It&amp;rsquo;s easy to envision how to describe via simple data structures like 
     
     <item>
       <title>Nabaztag/tag internals</title>
-      <link>http://www.arnaudbos.com/nabaztagtag-internals/</link>
+      <link>http://i-rant.arnaudbos.com/nabaztagtag-internals/</link>
       <pubDate>Mon, 06 Jun 2016 15:00:36 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/nabaztagtag-internals/</guid>
+      <guid>http://i-rant.arnaudbos.com/nabaztagtag-internals/</guid>
       <description>
 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/Nabaztag.jpg&#34; alt=&#34;Photo of a dismantled Nabaztag/tag&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/Nabaztag.jpg&#34; alt=&#34;Photo of a dismantled Nabaztag/tag&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -3954,7 +3954,7 @@ It&amp;rsquo;s easy to envision how to describe via simple data structures like 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/1-Front-view.jpg&#34; alt=&#34;Picture of Nabaztag/tag front view&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/1-Front-view.jpg&#34; alt=&#34;Picture of Nabaztag/tag front view&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -3966,7 +3966,7 @@ It&amp;rsquo;s easy to envision how to describe via simple data structures like 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/5-Inside-front.jpg&#34; alt=&#34;Picture of Nabaztag/tag opened front view&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/5-Inside-front.jpg&#34; alt=&#34;Picture of Nabaztag/tag opened front view&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -3991,7 +3991,7 @@ It&amp;rsquo;s easy to envision how to describe via simple data structures like 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/2-Back-view.jpg&#34; alt=&#34;Picture of Nabaztag/tag back view&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/2-Back-view.jpg&#34; alt=&#34;Picture of Nabaztag/tag back view&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4003,7 +4003,7 @@ It&amp;rsquo;s easy to envision how to describe via simple data structures like 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/6-Inside-back.jpg&#34; alt=&#34;Picture of Nabaztag/tag opened back view&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/6-Inside-back.jpg&#34; alt=&#34;Picture of Nabaztag/tag opened back view&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4034,7 +4034,7 @@ It&amp;rsquo;s easy to envision how to describe via simple data structures like 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/4-No-ears.jpg&#34; alt=&#34;Picture of Nabaztag/tag without its ears&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/4-No-ears.jpg&#34; alt=&#34;Picture of Nabaztag/tag without its ears&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4048,7 +4048,7 @@ It&amp;rsquo;s easy to envision how to describe via simple data structures like 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/9-Ears-motors.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears mechanism&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/9-Ears-motors.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears mechanism&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4066,7 +4066,7 @@ It&amp;rsquo;s easy to envision how to describe via simple data structures like 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/12-DC-motor.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears DC motors&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/12-DC-motor.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears DC motors&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4097,7 +4097,7 @@ H-bridge - a hardware switch that reverses a motor&amp;rsquo;s polarity.&lt;/p&g
 &lt;p&gt;
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/10-IR-encoder.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears IR encoder&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/10-IR-encoder.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s ears IR encoder&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4108,7 +4108,7 @@ H-bridge - a hardware switch that reverses a motor&amp;rsquo;s polarity.&lt;/p&g
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/11-Pulleys-belt.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s pulleys-belt and cogs mechanism&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/11-Pulleys-belt.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s pulleys-belt and cogs mechanism&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4147,7 +4147,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/LEDs.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s LEDs and cones&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/LEDs.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s LEDs and cones&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4167,7 +4167,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/RFID.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s RFID reader&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/RFID.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s RFID reader&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4185,7 +4185,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/Microphone.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s Microphone&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/Microphone.png&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s Microphone&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4197,7 +4197,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/16-Microphone.jpg&#34; alt=&#34;Detailed view of the microphone&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/16-Microphone.jpg&#34; alt=&#34;Detailed view of the microphone&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4219,7 +4219,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 &lt;p&gt;
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/Wireless.png&#34; alt=&#34;Detailed view of the wireless module&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/Wireless.png&#34; alt=&#34;Detailed view of the wireless module&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4230,7 +4230,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/WiFi-antenna.png&#34; alt=&#34;Detailed view of the WiFi antenna&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/WiFi-antenna.png&#34; alt=&#34;Detailed view of the WiFi antenna&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4246,7 +4246,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/6-Inside-back.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s loudspeaker&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/6-Inside-back.jpg&#34; alt=&#34;Picture of Nabaztag/tag&amp;#39;s loudspeaker&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4266,7 +4266,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 &lt;p&gt;
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/13-Power-adapter-back.jpg&#34; alt=&#34;Detailed back view of the power supply&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/13-Power-adapter-back.jpg&#34; alt=&#34;Detailed back view of the power supply&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4277,7 +4277,7 @@ tooth 3, ears point up; on tooth 13, they are horizontal.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/14-Power-adapter-front.jpg&#34; alt=&#34;Detailed front view of the power supply&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/14-Power-adapter-front.jpg&#34; alt=&#34;Detailed front view of the power supply&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4322,7 +4322,7 @@ power supply, as it provided just the right amount of power.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/nabaztagtag-internals/15-Wheel-and-Jack.jpg&#34; alt=&#34;Detailed front view of the volume wheel and jack entry&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/nabaztagtag-internals/15-Wheel-and-Jack.jpg&#34; alt=&#34;Detailed front view of the volume wheel and jack entry&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4438,16 +4438,16 @@ clearance.&lt;/p&gt;
     
     <item>
       <title>MR. P — Project outline</title>
-      <link>http://www.arnaudbos.com/mr-p-outline/</link>
+      <link>http://i-rant.arnaudbos.com/mr-p-outline/</link>
       <pubDate>Sun, 05 Jun 2016 00:22:34 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/mr-p-outline/</guid>
+      <guid>http://i-rant.arnaudbos.com/mr-p-outline/</guid>
       <description>
 
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/mr-p-outline/nabaztags.png&#34; alt=&#34;Photo of several Nabaztag rabbits&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/mr-p-outline/nabaztags.png&#34; alt=&#34;Photo of several Nabaztag rabbits&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4484,7 +4484,7 @@ clearance.&lt;/p&gt;
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/mr-p-outline/Nabaztag.jpg&#34; alt=&#34;Photo of a dismantled Nabaztag/tag&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/mr-p-outline/Nabaztag.jpg&#34; alt=&#34;Photo of a dismantled Nabaztag/tag&#34;
             width=&#34;100%&#34;
             /&gt;
     
@@ -4550,7 +4550,7 @@ a proper modern IoT device.
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/mr-p-outline/Pi-model-B.png&#34; alt=&#34;Schema of a Raspberry Pi board&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/mr-p-outline/Pi-model-B.png&#34; alt=&#34;Schema of a Raspberry Pi board&#34;
             
             /&gt;
     
@@ -4569,7 +4569,7 @@ a proper modern IoT device.
 
 &lt;figure  &gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/mr-p-outline/Pi-zero.png&#34; alt=&#34;Design of a Raspberry Pi Zero&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/mr-p-outline/Pi-zero.png&#34; alt=&#34;Design of a Raspberry Pi Zero&#34;
             
             /&gt;
     
@@ -4611,19 +4611,19 @@ a proper modern IoT device.
     
     <item>
       <title></title>
-      <link>http://www.arnaudbos.com/architecture-decision-records/</link>
+      <link>http://i-rant.arnaudbos.com/architecture-decision-records/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.arnaudbos.com/architecture-decision-records/</guid>
+      <guid>http://i-rant.arnaudbos.com/architecture-decision-records/</guid>
       <description></description>
     </item>
     
     <item>
       <title></title>
-      <link>http://www.arnaudbos.com/automated-diagrams-in-documentation-with-boot/</link>
+      <link>http://i-rant.arnaudbos.com/automated-diagrams-in-documentation-with-boot/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.arnaudbos.com/automated-diagrams-in-documentation-with-boot/</guid>
+      <guid>http://i-rant.arnaudbos.com/automated-diagrams-in-documentation-with-boot/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/boot-clj/boot&#34;&gt;https://github.com/boot-clj/boot&lt;/a&gt;
 &lt;a href=&#34;https://github.com/ztellman/rhizome&#34;&gt;https://github.com/ztellman/rhizome&lt;/a&gt;
 &lt;a href=&#34;https://github.com/drcode/vijual&#34;&gt;https://github.com/drcode/vijual&lt;/a&gt;
@@ -4635,10 +4635,10 @@ a proper modern IoT device.
     
     <item>
       <title></title>
-      <link>http://www.arnaudbos.com/local-docker-development-with-vagrant/</link>
+      <link>http://i-rant.arnaudbos.com/local-docker-development-with-vagrant/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.arnaudbos.com/local-docker-development-with-vagrant/</guid>
+      <guid>http://i-rant.arnaudbos.com/local-docker-development-with-vagrant/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://docs.docker.com/docker-for-mac/docker-toolbox/#the-docker-for-mac-environment&#34;&gt;https://docs.docker.com/docker-for-mac/docker-toolbox/#the-docker-for-mac-environment&lt;/a&gt;
 Part1: &lt;a href=&#34;http://activelamp.com/blog/devops/hashing-out-docker-workflow/&#34;&gt;http://activelamp.com/blog/devops/hashing-out-docker-workflow/&lt;/a&gt;
 Part2: &lt;a href=&#34;http://activelamp.com/blog/devops/docker-with-vagrant/&#34;&gt;http://activelamp.com/blog/devops/docker-with-vagrant/&lt;/a&gt;

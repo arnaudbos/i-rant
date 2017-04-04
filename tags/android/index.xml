@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Arnaud Bos</title>
-    <link>http://www.arnaudbos.com/tags/android/index.xml</link>
+    <link>http://i-rant.arnaudbos.com/tags/android/index.xml</link>
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <atom:link href="http://www.arnaudbos.com/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://i-rant.arnaudbos.com/tags/android/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>2D Transformations with Android and Java</title>
-      <link>http://www.arnaudbos.com/2d-transformations-android-java/</link>
+      <link>http://i-rant.arnaudbos.com/2d-transformations-android-java/</link>
       <pubDate>Tue, 07 Feb 2017 02:30:04 +0100</pubDate>
       
-      <guid>http://www.arnaudbos.com/2d-transformations-android-java/</guid>
+      <guid>http://i-rant.arnaudbos.com/2d-transformations-android-java/</guid>
       <description>
 
 &lt;p&gt;I my previous post, &lt;a href=&#34;../matrices-for-developers&#34;&gt;&amp;ldquo;Matrices for developers&amp;rdquo;&lt;/a&gt;, I&amp;rsquo;ve
@@ -342,7 +342,7 @@ public class AffineTransformZoomExample {
 
 &lt;figure  style=&#34;text-align: center;&#34;&gt;
     
-        &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/java-zoom-at-center.png&#34; alt=&#34;Demo of Java 2D zooming&#34;
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/java-zoom-at-center.png&#34; alt=&#34;Demo of Java 2D zooming&#34;
             width=&#34;80%&#34;
             /&gt;
     
@@ -655,8 +655,8 @@ public class MainActivity extends AppCompatActivity {
 &lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-init.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;260px&#34;
@@ -671,8 +671,8 @@ public class MainActivity extends AppCompatActivity {
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-rotate.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;260px&#34;
@@ -687,8 +687,8 @@ public class MainActivity extends AppCompatActivity {
 &lt;/figure&gt;
 
   &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-  &lt;a href=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
-      &lt;img src=&#34;http://www.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;thumbnail&#34;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1080x1920&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/2d-transformations-android-java/grumpy-out.png&#34; itemprop=&#34;thumbnail&#34;
         
         
         width=&#34;260px&#34;

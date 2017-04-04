@@ -141,6 +141,9 @@ body {
   padding-top: 12px;
   word-spacing: 25px;
 }
+.social a {
+  color: #000;
+}
 .avatar {
   padding-top: 5%;
 }
@@ -179,7 +182,7 @@ body {
   line-height: 0.4;
   font-size: 16px;
 }
-.list.level-up h3 {
+.list.level-up h3, .list.level-up h4, .list.level-up h5 {
   color: #27A822;
   margin-bottom: 20px;
 }
@@ -187,9 +190,12 @@ body {
   list-style: none;
   margin-top: 10px;
 }
-.list.level-up a {
+.list.level-up a, .list.level-up em {
   color: #6b6b6b;
   cursor: pointer;
+}
+.list.level-up em {
+  font-size: 14px;
 }
 .blogpost figure {
     margin: 1em 40px;
@@ -290,22 +296,40 @@ body {
   list-style-type: none;
 }
 
-.blogpost .fold {
-  font-size: 13px;
+.fold {
+  font-size: 14px;
 }
-.blogpost .fold.title {
+
+.fold.title {
   margin-bottom: 15px;
   display: block;
 }
-.blogpost .fold.content {
-  font-size: 13px;
-  border-left: 5px solid #ccc !important;
-  margin-left: -15px !important;
-  padding-left: 15px !important;
-  padding-bottom: 5px !important;
-  margin-bottom: 15px !important;
-  margin-top: 10px !important;
-  padding-top: 5px !important;
+
+.fold.content {
+  padding-left: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  padding-top: 5px;
+  border: 1px solid #eee;
+  border-left: 5px solid #ccc;
+  border-radius: 3px;
+}
+
+.fold.content-danger {
+  border-left-color: #ce4844;
+}
+.fold.content-warning {
+  border-left-color: #aa6708;
+}
+.fold.content-info {
+  border-left-color: #1b809e;
+}
+.fold.content-primary {
+  border-left-color: #337ab7;
+}
+.fold.content-success {
+  border-left-color: #27a822;
 }
 
 .scroll-to-top {
