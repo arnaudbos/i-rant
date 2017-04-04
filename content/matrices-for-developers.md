@@ -5,7 +5,7 @@ description: Back to basics on matrices, an article oriented toward developers i
 tags: ["math","matrix"]
 parent: "blog"
 categories: ["math"]
-seoimage: /img/matrices-for-developers/2D-rotation-unit.png
+seoimage: img/matrices-for-developers/2D-rotation-unit.png
 highlight: true
 math: true
 klipse: true
