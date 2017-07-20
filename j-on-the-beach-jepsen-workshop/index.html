@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+        
+    <meta property="og:title" content="J On The Beach 2017 — Jepsen Workshop" />
+    <meta property="og:description" content="Network&#39;s Laggy     Store it maybe     The first book I&rsquo;ve read about distributed systems was Distributed Systems: Principles and Paradigms by Andrew S. Tanenbaum and Maarten van Steen.
+I was reading at the library on my last year of study and I remember being confused very often, and to be honest I didn&rsquo;t even finish it&hellip;
+By the end of 2013 or beginning of 2014, I progressively started to regain interest in distributed systems after having been distracted by programming on mobile devices for a while." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/" />
+    
+
+    <meta name="description" content="My corner of teh interweb.">
+    <link rel="shortcut icon" type="image/x-icon" href="http://i-rant.arnaudbos.com/img/favicon.ico">
+    <title>J On The Beach 2017 — Jepsen Workshop</title>
+    <meta name="generator" content="Hugo 0.17" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="http://i-rant.arnaudbos.com/css/main.css" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://www.arnaudbos.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="http://i-rant.arnaudbos.com/">BLOG</a></li>
+        
+        <li><a href="http://side-effects.arnaudbos.com/">PROJECTS</a></li>
+        
+        <li><a href="http://vitae.arnaudbos.com/">RESUME</a></li>
+        
+        <li><a href="http://level-up.arnaudbos.com/">LEVEL-UP</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <a href="/j-on-the-beach-jepsen-workshop/">J On The Beach 2017 — Jepsen Workshop</a>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          July 11, 2017
+          &nbsp;&nbsp;
+          —
+          &nbsp;&nbsp;
+          9 minutes read
+          </h4>
+        </div>
+        <div>
+          <h4>
+            
+            <span class="label label-success">conference</span>
+            
+            <span class="label label-success">review</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/j-on-the-beach-jepsen-workshop/-012.jpg" itemprop="contentUrl" data-size="900x675">
+      <img src="/img/j-on-the-beach-jepsen-workshop/-012.jpg" itemprop="thumbnail"
+        
+        
+        width="395"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Network&#39;s Laggy
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/j-on-the-beach-jepsen-workshop/-013.jpg" itemprop="contentUrl" data-size="900x675">
+      <img src="/img/j-on-the-beach-jepsen-workshop/-013.jpg" itemprop="thumbnail"
+        
+        
+        width="395"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Store it maybe
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+
+</div>
+
+
+<hr />
+
+<p>The first book I&rsquo;ve read about distributed systems was
+<a href="https://www.amazon.fr/Distributed-Systems-Principles-Andrew-Tanenbaum/dp/0132392275">Distributed Systems: Principles and Paradigms</a>
+by Andrew S. Tanenbaum and Maarten van Steen.<br />
+I was reading at the library on my last year of study and I remember being
+confused very often, and to be honest I didn&rsquo;t even finish it&hellip;</p>
+
+<p>By the end of 2013 or beginning of 2014, I progressively started to regain
+interest in distributed systems after having been distracted by programming
+on mobile devices for a while.</p>
+
+<p>At that time, something appeared on my radar, it was named
+<a href="http://jepsen.io/">Jepsen</a>, and this year I&rsquo;ve had the chance to finally give
+it a try by myself by attending <a href="../j-on-the-beach-malaga-2017-review">J On The Beach</a>
+and its Jepsen workshop animated by no one else than the author:
+<a href="https://aphyr.com/">Kyle Kingsbury</a>.</p>
+
+<h1 id="table-of-contents">Table of contents</h1>
+
+<div id="toc" class="well col-md-12">
+  <nav id="TableOfContents">
+<ul>
+<li><a href="#table-of-contents">Table of contents</a></li>
+<li><a href="#j-on-the-beach-day-1-jepsen-workshop">J On The Beach Day 1: Jepsen Workshop</a></li>
+<li><a href="#how-does-it-work">How does it work?</a>
+<ul>
+<li><a href="#operation">Operation</a></li>
+<li><a href="#client">Client</a></li>
+<li><a href="#generator">Generator</a></li>
+<li><a href="#nemesis">Nemesis</a></li>
+<li><a href="#pizza-beers-chit-chat">Pizza + beers + chit-chat</a></li>
+<li><a href="#history">History</a></li>
+<li><a href="#checker">Checker</a></li>
+<li><a href="#model">Model</a></li>
+<li><a href="#q-a">Q/A</a></li>
+</ul></li>
+<li><a href="#wrap-up">Wrap-up</a></li>
+</ul>
+</nav>
+</div>
+
+<h1 id="j-on-the-beach-day-1-jepsen-workshop">J On The Beach Day 1: Jepsen Workshop</h1>
+
+<p>After a warm welcome and a handshake, <a href="https://aphyr.com/">Kyle Kingsbury</a>
+started introducing <a href="https://clojure.org/">Clojure</a> for a brief moment:
+the syntax, data structures literals and the immutability part,
+just enough to be able to follow the hands-on part of the workshop.</p>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Let&#39;s get <a href="https://twitter.com/JOTB17">@JOTB17</a> started! <a href="https://twitter.com/aphyr">@aphyr</a> introducing <a href="https://twitter.com/hashtag/Clojure?src=hash">#Clojure</a> for the <a href="https://twitter.com/hashtag/Jepsen?src=hash">#Jepsen</a> workshop! <a href="https://t.co/c4M7SXhCR3">pic.twitter.com/c4M7SXhCR3</a></p>&mdash; Arnaud Bos (@arnaud_bos) <a href="https://twitter.com/arnaud_bos/status/864748353489428481">May 17, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>It&rsquo;s true that Clojure might be disturbing at first glance, like any new
+programming language&rsquo;s syntax.<br />
+If you&rsquo;re interested in learning Clojure (you should), Kyle&rsquo;s blogpost series
+<a href="https://aphyr.com/tags/Clojure-from-the-ground-up">Clojure from the ground up</a>
+and Daniel Higginbotham&rsquo;s <a href="http://www.braveclojure.com/clojure-for-the-brave-and-true/">Clojure for the Brave and True</a>
+are really great resources before you go into more in-depths topics with
+<a href="http://www.joyofclojure.com/">The Joy of Clojure</a> for instance.</p>
+
+<p>After this quick <em>aperitivo</em>, Kyle gave us an overview of <a href="https://github.com/jepsen-io/jepsen#design-overview">Jepsen&rsquo;s design and core concepts</a>, namely:
+Operations, Generators, Clients, Nemesis, History and Checkers (and Models)
+which, combined together and executed, form a Jepsen Test.
+So what is <a href="http://jepsen.io/">Jepsen</a>?</p>
+
+<p>I think Kyle started from an observation that lots of people agree about:
+Testing distributed systems is hard. So after an argument about a consistency
+issue, he went and implemented a tool to introduce failure in systems and
+check the outcome.</p>
+
+<p>Starting from READMEs and gut feelings, he begun to create a battery of tests
+for some of the best know distributed databases and key-value stores &ldquo;we&rdquo; use,
+and found <a href="https://aphyr.com/tags/jepsen">disturbances in the force</a>:</p>
+
+<blockquote>
+<p>He found complex errors lying into the heart of some of the softwares we use.</p>
+</blockquote>
+
+<p>If you talk with Kyle, he makes it really clear that he&rsquo;s not blaming vendors
+for introducing bugs and is not implying that they are intentionally hiding
+faults in their systems, but they can omit details or make assumptions or
+simply not test every corner case.</p>
+
+<p>Jepsen is meant to do <strong><em>simulation testing</em></strong> (see other
+<a href="http://queue.acm.org/detail.cfm?id=2889274">system testing methods</a>) on
+distributed systems such as databases, distributed caches, etc., finding
+real/production errors, not theoretical ones.</p>
+
+<p>Starting to think about
+<a href="https://github.com/Netflix/SimianArmy">Netflix&rsquo;s Chaos Monkey/Simian Army</a>?<br />
+Close enough.<br />
+The <a href="https://github.com/Netflix/SimianArmy">Simian Army</a> is a suite of
+<strong><em>fault-injection</em></strong> tools meant to introduce <em>catastrophic errors</em> by
+terminating nodes/regions or introducing <em>network instability</em>.</p>
+
+<p>While Jepsen can also inject this kind of faults, it is more concerned about
+<strong><em>correctness</em></strong> than <strong><em>availability</em></strong> or <strong><em>latency</em></strong>.</p>
+
+<h1 id="how-does-it-work">How does it work?</h1>
+
+<p><a href="https://github.com/jepsen-io/jepsen">Jepsen</a> is designed to run as a
+<strong>cluster</strong>: the number of nodes is parametrizable but it seems 3 to 5 nodes
+are usually enough to reproduce and/or detect <em>catastrophic errors</em>
+(<a href="https://www.usenix.org/conference/osdi14/technical-sessions/presentation/yuan">source</a>).</p>
+
+<p>One of the nodes is the <strong>control node</strong>, which is responsible for logging
+into the other nodes via <code>SSH</code> and <em>execute</em> the tests.<br />
+The other nodes will ship the software at test and execute the operations.</p>
+
+<p>As said in the github&rsquo;s page:</p>
+
+<blockquote>
+<p>Once the system is running, the control node spins up a set of logically
+single-threaded processes, each with its own client for the distributed system.
+A generator generates new operations for each process to perform. Processes
+then apply those operations to the system using their clients. The start and
+end of each operation is recorded in a history. While performing operations,
+a special nemesis process introduces faults into the system&ndash;also scheduled
+by the generator.</p>
+</blockquote>
+
+<p>The point of having single-threaded processes is to avoid unnecessary
+complexity on the testing side, in order to make the work of the <em>checker</em>,
+which will analyze the <em>history</em>, more manageable.</p>
+
+<h2 id="operation">Operation</h2>
+
+<p>An operation is an abstract representation, a common language
+(a data structure) to express a function invocation onto the system at test.</p>
+
+<p>Stripping the details of the <code>clojure</code> implementation, here are examples of
+operations (think JSON documents, JavaScript Objects, Java HashMaps,
+Python Dictionaries, whatever seems familiar to you):</p>
+
+<pre><code class="language-clojure">;; a read: we don't know what value we'll read from the system yes so value is 'nil
+{:type :invoke, :f :read, :value nil}
+
+;; a write of an integer that will be performed on the system
+{:type :invoke, :f :write, :value (rand-int 5)}
+
+;; a compare-and-set of an old integer and a new integer value
+{:type :invoke, :f :cas, :value [(rand-int 5) (rand-int 5)]}
+</code></pre>
+
+<p>These operations are <em><code>invocation operations</code></em>, they just describe a bunch of
+types of operations for the <em>clients</em> to perform.</p>
+
+<p>It is the <em>generator</em>&rsquo;s job to actually generate a few operations and then let
+the <em>clients</em> performs the operations and return <em><code>completion operations</code></em>
+(with the read value specified for instance).</p>
+
+<h2 id="client">Client</h2>
+
+<p>A client is an implementation of the types of function invocations you want to
+perform onto the system.</p>
+
+<p>Given the three <em>operations</em> above, one must implement a <code>clojure protocol</code>
+(think Java interface, but better) in order to actually perform the operation,
+for instance implementing a write of an integer to the database you are
+willing to test, using your SDK/library of choice.</p>
+
+<h2 id="generator">Generator</h2>
+
+<p>Generators are more sophisticated beast from my little understanding. While an
+<em>invocation operation</em> is a kind of template of an operation to be performed,
+a generator is responsible for creating more of them. Without giving you all
+the options available, I can tell that a generator can be configured to
+construct new <em><code>invocation operations</code></em> for a certain type (read for instance)
+or a mix (a mix of read and writes, or a mix of read, writes and
+compare-and-set).<br />
+Other parameters include the ability to stagger operations by a certain amount
+of time, impose a time limit for performing operations, etc.</p>
+
+<h2 id="nemesis">Nemesis</h2>
+
+<p>A nemesis is our chaos monkey: it will introduce failures, such as network
+partitions, and heal them back.</p>
+
+<p>Nemesis operations are also constructed by the generator, to which we can
+specify an order of execution, such as a cycling: sleep operation, start
+operation (introduce a failure), sleep operation (hoping some client operation
+will fail) and then stop operation (end the failure).</p>
+
+<h2 id="pizza-beers-chit-chat">Pizza + beers + chit-chat</h2>
+
+<p>That was the content of the workshop for the morning, and it went <em>fast</em>.</p>
+
+<p>For lunch, the organizers at JOTB had planned on-demand pizzas and beer. It was
+also the occasion to discover the backyard of the venue under a bright sky.</p>
+
+<p>I sat at a table with Kyle and other trainees and chitchatted about
+<a href="http://jepsen.io/analyses">Jepsen analyses</a> and systems that other attendees
+were interested in testing.<br />
+We also talked about Clojure and languages but mostly the discussion focused on
+Kyle&rsquo;s work/studies, how he funded his researches and how he approached (or
+was being approached by) databases or other softwares vendors in order to
+improve their product/communicate about its robustness/bugfixes.</p>
+
+<p>And then back to work.</p>
+
+<h2 id="history">History</h2>
+
+<blockquote>
+<p>With our generator and clients performing operations, we&rsquo;ve got a history
+to analyze for correctness.
+<a href="https://github.com/jepsen-io/jepsen/blob/master/doc/checker.md">Jepsen etcdemo - checker</a></p>
+</blockquote>
+
+<p>The history is not directly exposed to you as a test designer, but it is
+necessary to verify the results of the operations.<br />
+Under the hood I suppose (I haven&rsquo;t checked yet) that Jepsen stores the history
+in some way as a collection of every <em>completed operations</em>.</p>
+
+<p>This history is then used by the <em>checker</em> in order to verify correctness
+between what the systems said it did and what it actually did.</p>
+
+<p>Jepsen also uses the history to generate a set of graphs.</p>
+
+<h2 id="checker">Checker</h2>
+
+<p>Now, this history is not going to analyze itself. This is the role of the
+checker, whose job it is to reorder the calls/results from all the clients
+and confront the history to a model.</p>
+
+<p>When a client writes a value and gets back an acknowledgement of the write, the
+system&rsquo;s log is checked to see if the database actually performed the write.
+TODO: I&rsquo;m actually not sure about this one&hellip;</p>
+
+<h2 id="model">Model</h2>
+
+<p>A model is an abstraction on top of the linearizability concept.<br />
+It&rsquo;s not easy to defined linearizability, I&rsquo;ve had to read and watch so many
+resources to try to understand that I can&rsquo;t count them, and in the end I&rsquo;m not
+sure I understand it well.</p>
+
+<p>Linearizability is a type of consistency among others (eventual consistency,
+causality linearizability, string linearizability, etc).</p>
+
+<p>In short, and probably not fully exact: when a new value for a certain key
+has been written (successfully), no previous value for this key should be read
+ever, and every subsequent read should return the same value unless another
+successful write is performed.</p>
+
+<p>Now, Jepsen uses <a href="https://github.com/jepsen-io/knossos">Knossos</a> under the hood
+to build a singlethreaded model that is holding the history of operations and
+results, and by reducing (I guess, but it&rsquo;s an implementation detail) over the
+operations, analyses the state to find illegal state transitions.</p>
+
+<h2 id="q-a">Q/A</h2>
+
+<p><strong>How do you find a bug?</strong></p>
+
+<p>As Kyle explained, he generally started by reading the READMEs and
+documentations of the systems he wanted to evaluate.</p>
+
+<p>Then it&rsquo;s a mix of gut feeling and experience that leads him toward testing
+a feature or another, and apply different types of failures to the system.</p>
+
+<p>In the end what is important is that Jepsen is a tool that enables anyone to
+test the softwares it uses and make informed choices.</p>
+
+<p><strong>How long does it take?</strong></p>
+
+<p>I honestly can&rsquo;t remember the answer to this question and I did not write it
+in my notes. So maybe someone (a fellow trainee, a reviewer) can fill-in this
+gap?</p>
+
+<h1 id="wrap-up">Wrap-up</h1>
+
+<p>This workshop is usually done in two days so keeping up with the fast coding
+pace and trying to fit all the concepts and information in my head in a
+single day was hard.<br />
+And by &ldquo;hard&rdquo; I don&rsquo;t mean <em>painful</em>, but <em>exhausting</em>. It was actually
+pleasant, and Kyle is a <strong><em>fantastic</em></strong> teacher: he is funny and he really
+cares.
+Nonetheless, I&rsquo;m pretty sure I wasn&rsquo;t the only one in the room feeling really
+tired at the end of the day, so I took a long walk
+(by the beach <span class="emoji">:sunglasses:</span>
+) in order to clear my mind.</p>
+
+<p>If you want to know more about Jepsen, and learn more about distributed systems
+in general (which is my case), you can follow the etcdemo guide by yourself
+at home, but if you have the possibility to attend one of Kyle&rsquo;s workshop,
+don&rsquo;t hesitate, he really <em>knows his stuff</em> and he is a <em>fantastic person</em>.</p>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+                
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        July 13, 2016
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/eclipsecon-france-2016-review/">EclipseCon France 2016 — Review</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = 'i-rant';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/arnaudbos/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  <a target='_blank' href="https://github.com/arnaudbos" class="github-corner" aria-label="Fork me on Github">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#27A822; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+      <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+      <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+      <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    </svg>
+  </a>
+
+<div class="scroll-to-top">
+  <a href="#">Scroll<br>to Top</a>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://i-rant.arnaudbos.com/js/docs.min.js"></script>
+<script src="http://i-rant.arnaudbos.com/js/main.js"></script>
+
+<script src="http://i-rant.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- EmojiOne -->
+<script src="https://cdn.jsdelivr.net/emojione/2.2.7/lib/js/emojione.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/2.2.7/assets/css/emojione.min.css"/>
+
+<script>
+(function (){
+  var emojis = document.getElementsByClassName('emoji');
+  for(var i=0; i<emojis.length; i++){
+	  var content = emojis[i].textContent;
+    emojis[i].innerHTML = emojione.shortnameToImage(content);
+  }
+})();
+</script>
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/clojure.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<link rel="stylesheet" href="/css/photoswipe.css">
+<link rel="stylesheet" href="/css/default-skin/default-skin.css">
+<script src="/js/photoswipe.min.js"></script>
+<script src="/js/photoswipe-ui-default.min.js"></script>
+<script src="/js/initphotoswipe.js"></script>
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+<style>
+    .gallery { float: right; margin-bottom: 10px; text-align: center; }
+    .gallery img { height: auto; }
+    .gallery .title { text-align: center; text-decoration: underline; }
+    .gallery figure { display: block; float: left; margin: 0 5px 5px 0; }
+    .gallery figcaption { display: none; }
+</style>
+
+<script>initPhotoSwipeFromDOM('.gallery');</script>
+
+
+
+
+
+
+
+  </body>
+</html>

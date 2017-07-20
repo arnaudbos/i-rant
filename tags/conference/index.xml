@@ -9,6 +9,1108 @@
     <atom:link href="http://i-rant.arnaudbos.com/tags/conference/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>J On The Beach 2017 — Jepsen Workshop</title>
+      <link>http://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</link>
+      <pubDate>Tue, 11 Jul 2017 23:10:08 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</guid>
+      <description>
+
+&lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-jepsen-workshop/-012.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;900x675&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-jepsen-workshop/-012.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;395&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Network&amp;#39;s Laggy
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-jepsen-workshop/-013.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;900x675&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-jepsen-workshop/-013.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;395&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Store it maybe
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+
+&lt;/div&gt;
+
+
+&lt;hr /&gt;
+
+&lt;p&gt;The first book I&amp;rsquo;ve read about distributed systems was
+&lt;a href=&#34;https://www.amazon.fr/Distributed-Systems-Principles-Andrew-Tanenbaum/dp/0132392275&#34;&gt;Distributed Systems: Principles and Paradigms&lt;/a&gt;
+by Andrew S. Tanenbaum and Maarten van Steen.&lt;br /&gt;
+I was reading at the library on my last year of study and I remember being
+confused very often, and to be honest I didn&amp;rsquo;t even finish it&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;By the end of 2013 or beginning of 2014, I progressively started to regain
+interest in distributed systems after having been distracted by programming
+on mobile devices for a while.&lt;/p&gt;
+
+&lt;p&gt;At that time, something appeared on my radar, it was named
+&lt;a href=&#34;http://jepsen.io/&#34;&gt;Jepsen&lt;/a&gt;, and this year I&amp;rsquo;ve had the chance to finally give
+it a try by myself by attending &lt;a href=&#34;../j-on-the-beach-malaga-2017-review&#34;&gt;J On The Beach&lt;/a&gt;
+and its Jepsen workshop animated by no one else than the author:
+&lt;a href=&#34;https://aphyr.com/&#34;&gt;Kyle Kingsbury&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;table-of-contents&#34;&gt;Table of contents&lt;/h1&gt;
+
+&lt;div id=&#34;toc&#34; class=&#34;well col-md-12&#34;&gt;
+  &lt;!-- toc --&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&#34;j-on-the-beach-day-1-jepsen-workshop&#34;&gt;J On The Beach Day 1: Jepsen Workshop&lt;/h1&gt;
+
+&lt;p&gt;After a warm welcome and a handshake, &lt;a href=&#34;https://aphyr.com/&#34;&gt;Kyle Kingsbury&lt;/a&gt;
+started introducing &lt;a href=&#34;https://clojure.org/&#34;&gt;Clojure&lt;/a&gt; for a brief moment:
+the syntax, data structures literals and the immutability part,
+just enough to be able to follow the hands-on part of the workshop.&lt;/p&gt;
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Let&amp;#39;s get &lt;a href=&#34;https://twitter.com/JOTB17&#34;&gt;@JOTB17&lt;/a&gt; started! &lt;a href=&#34;https://twitter.com/aphyr&#34;&gt;@aphyr&lt;/a&gt; introducing &lt;a href=&#34;https://twitter.com/hashtag/Clojure?src=hash&#34;&gt;#Clojure&lt;/a&gt; for the &lt;a href=&#34;https://twitter.com/hashtag/Jepsen?src=hash&#34;&gt;#Jepsen&lt;/a&gt; workshop! &lt;a href=&#34;https://t.co/c4M7SXhCR3&#34;&gt;pic.twitter.com/c4M7SXhCR3&lt;/a&gt;&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/864748353489428481&#34;&gt;May 17, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;//platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;It&amp;rsquo;s true that Clojure might be disturbing at first glance, like any new
+programming language&amp;rsquo;s syntax.&lt;br /&gt;
+If you&amp;rsquo;re interested in learning Clojure (you should), Kyle&amp;rsquo;s blogpost series
+&lt;a href=&#34;https://aphyr.com/tags/Clojure-from-the-ground-up&#34;&gt;Clojure from the ground up&lt;/a&gt;
+and Daniel Higginbotham&amp;rsquo;s &lt;a href=&#34;http://www.braveclojure.com/clojure-for-the-brave-and-true/&#34;&gt;Clojure for the Brave and True&lt;/a&gt;
+are really great resources before you go into more in-depths topics with
+&lt;a href=&#34;http://www.joyofclojure.com/&#34;&gt;The Joy of Clojure&lt;/a&gt; for instance.&lt;/p&gt;
+
+&lt;p&gt;After this quick &lt;em&gt;aperitivo&lt;/em&gt;, Kyle gave us an overview of &lt;a href=&#34;https://github.com/jepsen-io/jepsen#design-overview&#34;&gt;Jepsen&amp;rsquo;s design and core concepts&lt;/a&gt;, namely:
+Operations, Generators, Clients, Nemesis, History and Checkers (and Models)
+which, combined together and executed, form a Jepsen Test.
+So what is &lt;a href=&#34;http://jepsen.io/&#34;&gt;Jepsen&lt;/a&gt;?&lt;/p&gt;
+
+&lt;p&gt;I think Kyle started from an observation that lots of people agree about:
+Testing distributed systems is hard. So after an argument about a consistency
+issue, he went and implemented a tool to introduce failure in systems and
+check the outcome.&lt;/p&gt;
+
+&lt;p&gt;Starting from READMEs and gut feelings, he begun to create a battery of tests
+for some of the best know distributed databases and key-value stores &amp;ldquo;we&amp;rdquo; use,
+and found &lt;a href=&#34;https://aphyr.com/tags/jepsen&#34;&gt;disturbances in the force&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;He found complex errors lying into the heart of some of the softwares we use.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If you talk with Kyle, he makes it really clear that he&amp;rsquo;s not blaming vendors
+for introducing bugs and is not implying that they are intentionally hiding
+faults in their systems, but they can omit details or make assumptions or
+simply not test every corner case.&lt;/p&gt;
+
+&lt;p&gt;Jepsen is meant to do &lt;strong&gt;&lt;em&gt;simulation testing&lt;/em&gt;&lt;/strong&gt; (see other
+&lt;a href=&#34;http://queue.acm.org/detail.cfm?id=2889274&#34;&gt;system testing methods&lt;/a&gt;) on
+distributed systems such as databases, distributed caches, etc., finding
+real/production errors, not theoretical ones.&lt;/p&gt;
+
+&lt;p&gt;Starting to think about
+&lt;a href=&#34;https://github.com/Netflix/SimianArmy&#34;&gt;Netflix&amp;rsquo;s Chaos Monkey/Simian Army&lt;/a&gt;?&lt;br /&gt;
+Close enough.&lt;br /&gt;
+The &lt;a href=&#34;https://github.com/Netflix/SimianArmy&#34;&gt;Simian Army&lt;/a&gt; is a suite of
+&lt;strong&gt;&lt;em&gt;fault-injection&lt;/em&gt;&lt;/strong&gt; tools meant to introduce &lt;em&gt;catastrophic errors&lt;/em&gt; by
+terminating nodes/regions or introducing &lt;em&gt;network instability&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;While Jepsen can also inject this kind of faults, it is more concerned about
+&lt;strong&gt;&lt;em&gt;correctness&lt;/em&gt;&lt;/strong&gt; than &lt;strong&gt;&lt;em&gt;availability&lt;/em&gt;&lt;/strong&gt; or &lt;strong&gt;&lt;em&gt;latency&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;how-does-it-work&#34;&gt;How does it work?&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/jepsen-io/jepsen&#34;&gt;Jepsen&lt;/a&gt; is designed to run as a
+&lt;strong&gt;cluster&lt;/strong&gt;: the number of nodes is parametrizable but it seems 3 to 5 nodes
+are usually enough to reproduce and/or detect &lt;em&gt;catastrophic errors&lt;/em&gt;
+(&lt;a href=&#34;https://www.usenix.org/conference/osdi14/technical-sessions/presentation/yuan&#34;&gt;source&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;One of the nodes is the &lt;strong&gt;control node&lt;/strong&gt;, which is responsible for logging
+into the other nodes via &lt;code&gt;SSH&lt;/code&gt; and &lt;em&gt;execute&lt;/em&gt; the tests.&lt;br /&gt;
+The other nodes will ship the software at test and execute the operations.&lt;/p&gt;
+
+&lt;p&gt;As said in the github&amp;rsquo;s page:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Once the system is running, the control node spins up a set of logically
+single-threaded processes, each with its own client for the distributed system.
+A generator generates new operations for each process to perform. Processes
+then apply those operations to the system using their clients. The start and
+end of each operation is recorded in a history. While performing operations,
+a special nemesis process introduces faults into the system&amp;ndash;also scheduled
+by the generator.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The point of having single-threaded processes is to avoid unnecessary
+complexity on the testing side, in order to make the work of the &lt;em&gt;checker&lt;/em&gt;,
+which will analyze the &lt;em&gt;history&lt;/em&gt;, more manageable.&lt;/p&gt;
+
+&lt;h2 id=&#34;operation&#34;&gt;Operation&lt;/h2&gt;
+
+&lt;p&gt;An operation is an abstract representation, a common language
+(a data structure) to express a function invocation onto the system at test.&lt;/p&gt;
+
+&lt;p&gt;Stripping the details of the &lt;code&gt;clojure&lt;/code&gt; implementation, here are examples of
+operations (think JSON documents, JavaScript Objects, Java HashMaps,
+Python Dictionaries, whatever seems familiar to you):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;;; a read: we don&#39;t know what value we&#39;ll read from the system yes so value is &#39;nil
+{:type :invoke, :f :read, :value nil}
+
+;; a write of an integer that will be performed on the system
+{:type :invoke, :f :write, :value (rand-int 5)}
+
+;; a compare-and-set of an old integer and a new integer value
+{:type :invoke, :f :cas, :value [(rand-int 5) (rand-int 5)]}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;These operations are &lt;em&gt;&lt;code&gt;invocation operations&lt;/code&gt;&lt;/em&gt;, they just describe a bunch of
+types of operations for the &lt;em&gt;clients&lt;/em&gt; to perform.&lt;/p&gt;
+
+&lt;p&gt;It is the &lt;em&gt;generator&lt;/em&gt;&amp;rsquo;s job to actually generate a few operations and then let
+the &lt;em&gt;clients&lt;/em&gt; performs the operations and return &lt;em&gt;&lt;code&gt;completion operations&lt;/code&gt;&lt;/em&gt;
+(with the read value specified for instance).&lt;/p&gt;
+
+&lt;h2 id=&#34;client&#34;&gt;Client&lt;/h2&gt;
+
+&lt;p&gt;A client is an implementation of the types of function invocations you want to
+perform onto the system.&lt;/p&gt;
+
+&lt;p&gt;Given the three &lt;em&gt;operations&lt;/em&gt; above, one must implement a &lt;code&gt;clojure protocol&lt;/code&gt;
+(think Java interface, but better) in order to actually perform the operation,
+for instance implementing a write of an integer to the database you are
+willing to test, using your SDK/library of choice.&lt;/p&gt;
+
+&lt;h2 id=&#34;generator&#34;&gt;Generator&lt;/h2&gt;
+
+&lt;p&gt;Generators are more sophisticated beast from my little understanding. While an
+&lt;em&gt;invocation operation&lt;/em&gt; is a kind of template of an operation to be performed,
+a generator is responsible for creating more of them. Without giving you all
+the options available, I can tell that a generator can be configured to
+construct new &lt;em&gt;&lt;code&gt;invocation operations&lt;/code&gt;&lt;/em&gt; for a certain type (read for instance)
+or a mix (a mix of read and writes, or a mix of read, writes and
+compare-and-set).&lt;br /&gt;
+Other parameters include the ability to stagger operations by a certain amount
+of time, impose a time limit for performing operations, etc.&lt;/p&gt;
+
+&lt;h2 id=&#34;nemesis&#34;&gt;Nemesis&lt;/h2&gt;
+
+&lt;p&gt;A nemesis is our chaos monkey: it will introduce failures, such as network
+partitions, and heal them back.&lt;/p&gt;
+
+&lt;p&gt;Nemesis operations are also constructed by the generator, to which we can
+specify an order of execution, such as a cycling: sleep operation, start
+operation (introduce a failure), sleep operation (hoping some client operation
+will fail) and then stop operation (end the failure).&lt;/p&gt;
+
+&lt;h2 id=&#34;pizza-beers-chit-chat&#34;&gt;Pizza + beers + chit-chat&lt;/h2&gt;
+
+&lt;p&gt;That was the content of the workshop for the morning, and it went &lt;em&gt;fast&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;For lunch, the organizers at JOTB had planned on-demand pizzas and beer. It was
+also the occasion to discover the backyard of the venue under a bright sky.&lt;/p&gt;
+
+&lt;p&gt;I sat at a table with Kyle and other trainees and chitchatted about
+&lt;a href=&#34;http://jepsen.io/analyses&#34;&gt;Jepsen analyses&lt;/a&gt; and systems that other attendees
+were interested in testing.&lt;br /&gt;
+We also talked about Clojure and languages but mostly the discussion focused on
+Kyle&amp;rsquo;s work/studies, how he funded his researches and how he approached (or
+was being approached by) databases or other softwares vendors in order to
+improve their product/communicate about its robustness/bugfixes.&lt;/p&gt;
+
+&lt;p&gt;And then back to work.&lt;/p&gt;
+
+&lt;h2 id=&#34;history&#34;&gt;History&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;With our generator and clients performing operations, we&amp;rsquo;ve got a history
+to analyze for correctness.
+&lt;a href=&#34;https://github.com/jepsen-io/jepsen/blob/master/doc/checker.md&#34;&gt;Jepsen etcdemo - checker&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The history is not directly exposed to you as a test designer, but it is
+necessary to verify the results of the operations.&lt;br /&gt;
+Under the hood I suppose (I haven&amp;rsquo;t checked yet) that Jepsen stores the history
+in some way as a collection of every &lt;em&gt;completed operations&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;This history is then used by the &lt;em&gt;checker&lt;/em&gt; in order to verify correctness
+between what the systems said it did and what it actually did.&lt;/p&gt;
+
+&lt;p&gt;Jepsen also uses the history to generate a set of graphs.&lt;/p&gt;
+
+&lt;h2 id=&#34;checker&#34;&gt;Checker&lt;/h2&gt;
+
+&lt;p&gt;Now, this history is not going to analyze itself. This is the role of the
+checker, whose job it is to reorder the calls/results from all the clients
+and confront the history to a model.&lt;/p&gt;
+
+&lt;p&gt;When a client writes a value and gets back an acknowledgement of the write, the
+system&amp;rsquo;s log is checked to see if the database actually performed the write.
+TODO: I&amp;rsquo;m actually not sure about this one&amp;hellip;&lt;/p&gt;
+
+&lt;h2 id=&#34;model&#34;&gt;Model&lt;/h2&gt;
+
+&lt;p&gt;A model is an abstraction on top of the linearizability concept.&lt;br /&gt;
+It&amp;rsquo;s not easy to defined linearizability, I&amp;rsquo;ve had to read and watch so many
+resources to try to understand that I can&amp;rsquo;t count them, and in the end I&amp;rsquo;m not
+sure I understand it well.&lt;/p&gt;
+
+&lt;p&gt;Linearizability is a type of consistency among others (eventual consistency,
+causality linearizability, string linearizability, etc).&lt;/p&gt;
+
+&lt;p&gt;In short, and probably not fully exact: when a new value for a certain key
+has been written (successfully), no previous value for this key should be read
+ever, and every subsequent read should return the same value unless another
+successful write is performed.&lt;/p&gt;
+
+&lt;p&gt;Now, Jepsen uses &lt;a href=&#34;https://github.com/jepsen-io/knossos&#34;&gt;Knossos&lt;/a&gt; under the hood
+to build a singlethreaded model that is holding the history of operations and
+results, and by reducing (I guess, but it&amp;rsquo;s an implementation detail) over the
+operations, analyses the state to find illegal state transitions.&lt;/p&gt;
+
+&lt;h2 id=&#34;q-a&#34;&gt;Q/A&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;How do you find a bug?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;As Kyle explained, he generally started by reading the READMEs and
+documentations of the systems he wanted to evaluate.&lt;/p&gt;
+
+&lt;p&gt;Then it&amp;rsquo;s a mix of gut feeling and experience that leads him toward testing
+a feature or another, and apply different types of failures to the system.&lt;/p&gt;
+
+&lt;p&gt;In the end what is important is that Jepsen is a tool that enables anyone to
+test the softwares it uses and make informed choices.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;How long does it take?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I honestly can&amp;rsquo;t remember the answer to this question and I did not write it
+in my notes. So maybe someone (a fellow trainee, a reviewer) can fill-in this
+gap?&lt;/p&gt;
+
+&lt;h1 id=&#34;wrap-up&#34;&gt;Wrap-up&lt;/h1&gt;
+
+&lt;p&gt;This workshop is usually done in two days so keeping up with the fast coding
+pace and trying to fit all the concepts and information in my head in a
+single day was hard.&lt;br /&gt;
+And by &amp;ldquo;hard&amp;rdquo; I don&amp;rsquo;t mean &lt;em&gt;painful&lt;/em&gt;, but &lt;em&gt;exhausting&lt;/em&gt;. It was actually
+pleasant, and Kyle is a &lt;strong&gt;&lt;em&gt;fantastic&lt;/em&gt;&lt;/strong&gt; teacher: he is funny and he really
+cares.
+Nonetheless, I&amp;rsquo;m pretty sure I wasn&amp;rsquo;t the only one in the room feeling really
+tired at the end of the day, so I took a long walk
+(by the beach &lt;span class=&#34;emoji&#34;&gt;:sunglasses:&lt;/span&gt;
+) in order to clear my mind.&lt;/p&gt;
+
+&lt;p&gt;If you want to know more about Jepsen, and learn more about distributed systems
+in general (which is my case), you can follow the etcdemo guide by yourself
+at home, but if you have the possibility to attend one of Kyle&amp;rsquo;s workshop,
+don&amp;rsquo;t hesitate, he really &lt;em&gt;knows his stuff&lt;/em&gt; and he is a &lt;em&gt;fantastic person&lt;/em&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>J On The Beach 2017 — Review</title>
+      <link>http://i-rant.arnaudbos.com/j-on-the-beach-malaga-2017-review/</link>
+      <pubDate>Mon, 26 Jun 2017 23:01:54 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/j-on-the-beach-malaga-2017-review/</guid>
+      <description>
+
+
+&lt;figure  &gt;
+    
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/panoramic.jpg&#34; alt=&#34;Picture taken while hiking, the day after the conference&#34;
+            width=&#34;100%&#34;
+            /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h6&gt;&lt;em&gt;Panoramic view of the seaside of Malaga — Picture taken while hiking, the day after the conference&lt;/em&gt;&lt;/h6&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://jonthebeach.com/&#34;&gt;J On The Beach&lt;/a&gt; (JOTB) is &lt;em&gt;&amp;ldquo;A Big Data Conference On The Beach&amp;rdquo;&lt;/em&gt; happening in Malaga (Spain) and this year (2017) was its second edition.&lt;/p&gt;
+
+&lt;h1 id=&#34;tl-dr&#34;&gt;tl;dr&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The staff was great, the speakers awesome and the talks interesting.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;I felt very comfortable and almost at home during the three days. The
+atmosphere felt like being at a local conference but with famous and
+renowned speakers from around the world.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Everyone I met - speakers/attendees/staff - was accessible and affable.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;I will detail the lunches and dinner in the rest of the article to make
+pauses between talks reviews and technical explanations, but it&amp;rsquo;s fair to say
+that the food was &lt;strong&gt;&lt;em&gt;great&lt;/em&gt;&lt;/strong&gt; and that &lt;strong&gt;&lt;em&gt;the organizers made sure we wouldn&amp;rsquo;t
+forget our stay&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The party at the end of the event was &lt;strong&gt;&lt;em&gt;fantastic&lt;/em&gt;&lt;/strong&gt;, I&amp;rsquo;ve never seen so
+many geeks dance &lt;span class=&#34;emoji&#34;&gt;:astonished:&lt;/span&gt;
+&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I&amp;rsquo;ve discovered JOTB by accident last year, during the revelation of the
+&lt;a href=&#34;https://panamapapers.icij.org/&#34;&gt;Panama Papers&lt;/a&gt; when I was searching for
+technical details about how the &lt;a href=&#34;https://www.icij.org/about&#34;&gt;ICIJ&lt;/a&gt; managed to
+analyse this massive leak of data.&lt;br /&gt;
+I stumbled-upon Mar Cabra&amp;rsquo;s
+&lt;a href=&#34;https://www.youtube.com/watch?v=rjqHC5dYdfE&#34;&gt;&lt;em&gt;&amp;ldquo;The tech behind the bigger journalism leak in history&amp;rdquo;&lt;/em&gt;&lt;/a&gt;
+, and after watching a few other talks I decided it was worth keeping an
+eye on it for the next edition.&lt;/p&gt;
+
+&lt;p&gt;Soon enough, the 2017 line-up was released, followed by the
+&lt;a href=&#34;https://jonthebeach.com/schedule&#34;&gt;schedule&lt;/a&gt; and when
+I saw the subjects and the speakers I managed to get one of the first round of
+tickets&lt;/p&gt;
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Tickets booked, I&amp;#39;ll be &lt;a href=&#34;https://twitter.com/JOTB17&#34;&gt;@JOTB17&lt;/a&gt; in May and will attend &lt;a href=&#34;https://twitter.com/aphyr&#34;&gt;@aphyr&lt;/a&gt;&amp;#39;s workshop on &lt;a href=&#34;https://twitter.com/hashtag/Jepsen?src=hash&#34;&gt;#Jepsen&lt;/a&gt; 🎉 Can&amp;#39;t wait!&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/816912096948613120&#34;&gt;January 5, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;//platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;h1 id=&#34;tabla-de-contenido&#34;&gt;Tabla de contenido&lt;/h1&gt;
+
+&lt;div id=&#34;toc&#34; class=&#34;well col-md-12&#34;&gt;
+  &lt;!-- toc --&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+
+&lt;p&gt;I&amp;rsquo;ll start by giving my experience of the conference just to try to
+make you feel what it was like to be there, I hope it&amp;rsquo;ll give context for
+reading my reviews of the talks.&lt;/p&gt;
+
+&lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/venue.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;4032x3024&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/venue.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;100%&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    La Termica
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/hall.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;4032x3024&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/hall.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;505&#34;
+        height=&#34;390&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Campero Hall
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/corridor.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;3024x4032&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/corridor.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;285&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Corridor
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/jotb-logo.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;3024x2873&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/jotb-logo.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;203&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    JOTB Logo
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/termica.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1200x800&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/termica.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;291&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    La Termica
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/workshop.png&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;1200x800&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/workshop.png&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;291&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Jepsen Workshop
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+
+&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The title of the conference &lt;em&gt;&amp;ldquo;A Big Data Conference On The Beach&amp;rdquo;&lt;/em&gt; is not a
+scam: the beach is right there, 200 meters away from the conference venue
+&lt;a href=&#34;http://www.latermicamalaga.com/&#34;&gt;La Termica&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The location was easy to find because it is a cultural center. It is not in
+the city center, more halfway between the airport and the center and can
+be reached in 40 minutes walk by the beach. There are hotels around and a
+bus stop 50m from the entrance, as well as city bikes spots.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The place in itself is nice, the hallways and rooms are large and bright.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The staff was really welcoming every days, everyone speaking English and
+willing to assist the speakers and attendees.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The registration process took forever on the first day but someone was
+available to guide me to my workshop room so I didn&amp;rsquo;t have to search
+(thank you!).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The necklace with printed program schedule and plan was a really great idea,
+but on the other hand the names of the attendees were not that legible.
+Also the bracelet that&amp;rsquo;s &lt;em&gt;&amp;ldquo;your pass for the three days&amp;rdquo;&lt;/em&gt; that you can&amp;rsquo;t
+remove at night or to shower was annoying to me.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;During the workshop and also during the talks, one could find several power
+strips along the chairs.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The conference WiFi was great during the two days of conference, but was
+really awful during the workshop and we even experienced an outage during
+20 to 30 minutes (which is unfortunate when you&amp;rsquo;re &lt;code&gt;SSH&lt;/code&gt;-ing onto cluster
+nodes to run Jepsen tests).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Breakfast, coffee/tea and milk was catered every morning and bottles of
+(cold) water were available all day long. There were also bottles of waters
+ready for each attendee in the workshop room which was a nice treat.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Speaking of treats, the swag bag was OK, but please bear in mind that &lt;em&gt;I&amp;rsquo;m
+not much fan of goodies&lt;/em&gt; in general:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The t-shirt was cool, plus there were women sizes
+&lt;span class=&#34;emoji&#34;&gt;:raising_hand:&lt;/span&gt;
+&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The aluminum water bottle was also a good idea&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Only one sticker?&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;A frisbee, because it&amp;rsquo;s on the beach, you know
+&lt;span class=&#34;emoji&#34;&gt;:sunglasses:&lt;/span&gt;
+&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The rest I can&amp;rsquo;t remember and didn&amp;rsquo;t bring back home&amp;hellip; ¯\&lt;em&gt;(ツ)&lt;/em&gt;/¯&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;day1-jepsen-workshop&#34;&gt;Day1: Jepsen Workshop&lt;/h1&gt;
+
+&lt;p&gt;I wrote about this workshop &lt;a href=&#34;../j-on-the-beach-jepsen-workshop&#34;&gt;in a separate blog entry&lt;/a&gt;
+to save some space and not mix topics.&lt;/p&gt;
+
+&lt;p&gt;This other entry is just scratching the surface of what Jepsen is, what it does
+and how to does it.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m planning to write more about it in the future and I&amp;rsquo;ll
+make sure to put links here when it&amp;rsquo;s done.&lt;/p&gt;
+
+&lt;h1 id=&#34;day-2-talks&#34;&gt;Day 2: Talks&lt;/h1&gt;
+
+&lt;h2 id=&#34;eric-ladizinsky-evolving-quantum-computers&#34;&gt;Eric Ladizinsky —  Evolving Quantum Computers&lt;/h2&gt;
+
+&lt;p&gt;This is the kind of opening that really stick with me.&lt;br /&gt;
+If you don&amp;rsquo;t know about Quantum Computers,
+&lt;a href=&#34;https://www.dwavesys.com&#34;&gt;D-Wave Systems&lt;/a&gt; and Eric Ladizinsky,
+don&amp;rsquo;t feel bad, I didn&amp;rsquo;t know either (if you knew, good for you!).&lt;/p&gt;
+
+&lt;p&gt;So the conference started with a man going up on stage really naturally,
+presenting himself not as a programmer nor computer scientist but as a
+physicist.&lt;/p&gt;
+
+&lt;p&gt;He started talking about how, given our current tools and all computing power,
+we are still unable to solve the real problems we are facing a civilization:
+poverty, injustice, &amp;hellip;others!&lt;br /&gt;
+Which, put that way, is frankly quite depressing&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;He took a step back and gave us his analyze on how, through evolution,
+our species (&lt;a href=&#34;https://en.wikipedia.org/wiki/Homo&#34;&gt;Homo genus&lt;/a&gt;)
+evolved step by step by first &lt;strong&gt;&lt;em&gt;discovering&lt;/em&gt;&lt;/strong&gt;, &lt;strong&gt;&lt;em&gt;using&lt;/em&gt;&lt;/strong&gt; and then
+&lt;strong&gt;&lt;em&gt;mastering&lt;/em&gt;&lt;/strong&gt; new tools (think &lt;span class=&#34;emoji&#34;&gt;:fire:&lt;/span&gt;
+,
+&lt;span class=&#34;emoji&#34;&gt;:tractor:&lt;/span&gt;
+, &lt;span class=&#34;emoji&#34;&gt;:factory:&lt;/span&gt;
+),
+and how &lt;em&gt;quantum physics&lt;/em&gt; might be another step forward.&lt;/p&gt;
+
+&lt;p&gt;He drew the parallel with computer science through our limited ability to find
+the most advanced models for a task in data science: we manage to find good
+results through the use of lots of training data and clever algorithms.&lt;br /&gt;
+But when some algorithm can be successful by throwing more computing power at
+them, some problem remain &lt;a href=&#34;https://en.wikipedia.org/wiki/Computational_complexity_theory#Intractability&#34;&gt;intractable&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Quantum computers leverage the principles of quantum physics
+like &lt;code&gt;untanglement&lt;/code&gt; in order to evaluate all possible models and find the
+most efficient solution.&lt;/p&gt;
+
+&lt;p&gt;Eric gave us a great analogy with forgery: consider the molecules of metal
+forming a sword.&lt;br /&gt;
+The best sword ever can only be achieved by find the best shape, the best
+alignment possible of its molecules.&lt;/p&gt;
+
+&lt;p&gt;So, of all the possible combinations, which one is the best?&lt;/p&gt;
+
+&lt;p&gt;Quantum physics can help us explore all the possible solutions, and find the
+most efficient models whereas classical computers would require centuries of
+computation.&lt;/p&gt;
+
+&lt;p&gt;Considering quantum computers like that really blew my mind. Of course
+realizing this kind of processors is hard and expansive, but they already exist!&lt;/p&gt;
+
+&lt;p&gt;D-Wave are making quantum computers, and each new evolution is faster than the
+previous one at a much higher rate than our current CPUs.&lt;/p&gt;
+
+&lt;p&gt;At the moment it seems like only the NASA and Google can afford to buy some
+of them and try them on, but we, as programmers,
+&lt;a href=&#34;https://www.dwavesys.com/software&#34;&gt;we can already program them&lt;/a&gt;
+with our current tools (Python, C++) in cloud based environments.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m short on words and my knowledge of quantum physics, quantum computers and
+the programming model to use them is limited, but if you are interested,
+here are some links:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.cbinsights.com/blog/quantum-computing-explainer/&#34;&gt;WTF Is Quantum Computing? A 5-minute Primer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://io9.gizmodo.com/what-will-nasa-be-doing-with-its-new-quantum-computer-1468333514&#34;&gt;What will NASA be doing with its new quantum computer?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;inés-sombra-the-trouble-with-distribution&#34;&gt;Inés Sombra — The trouble with distribution&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/randommood&#34;&gt;Inés Sombra&lt;/a&gt; is an engineer at
+&lt;a href=&#34;https://www.fastly.com&#34;&gt;Fastly&lt;/a&gt; and in this session she talked about
+&lt;strong&gt;tradeoffs&lt;/strong&gt; in building a distributed system. And OMG she speaks really fast.&lt;/p&gt;
+
+&lt;p&gt;If I could summarize the entire talk in a single word, it would be
+&lt;strong&gt;&lt;em&gt;&amp;ldquo;tradeoffs&amp;rdquo;&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Taking as an example the implementation of Faslty&amp;rsquo;s
+&lt;a href=&#34;https://docs.fastly.com/api/imageopto&#34;&gt;Image optimizer&lt;/a&gt;, Inés presented
+several stages of the evolution of the Image optimizer and the pros and cons
+of each solution.&lt;/p&gt;
+
+&lt;p&gt;To give a little bit of context and grossly describe this service, it is and
+&lt;em&gt;image processing and caching&lt;/em&gt; solution.&lt;br /&gt;
+You give it the location of your original quality content images and a set
+of &lt;strong&gt;&lt;em&gt;V&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;arnish&lt;/em&gt; &lt;strong&gt;&lt;em&gt;C&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;onfiguration&lt;/em&gt; &lt;strong&gt;&lt;em&gt;L&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;anguage&lt;/em&gt; rules, and each
+time one of your clients requires an image it points to this high quality
+image and gives query parameters about the expected size, ratio, quality, etc,
+of the result it needs.&lt;br /&gt;
+Then Fastly&amp;rsquo;s Image optimizer will search for a cached version of the image
+result, optimize it on the fly in case of a cache miss, and eventually return
+the expected result after caching it.&lt;br /&gt;
+Of course a lots of details are missing but this is the big picture&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Throughout the talk, Inés weights the costs and benefits of:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;pre-processing all the catalog then caching&lt;/em&gt; VS &lt;em&gt;on-the-fly transforming
+on a per-request basis then caching&lt;/em&gt;, or&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;being centralized&lt;/em&gt; VS &lt;em&gt;being distributed&lt;/em&gt;, or&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;being consistent&lt;/em&gt; VS &lt;em&gt;being available&lt;/em&gt; (or being &lt;em&gt;&amp;ldquo;fast enough&amp;rdquo;&lt;/em&gt;), or&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;stripping metadata&lt;/em&gt; VS &lt;em&gt;keeping metadata&lt;/em&gt;, etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All in all, I think the talk had both too much and too little content. Let me
+explain:&lt;/p&gt;
+
+&lt;p&gt;It is true that Inés speaks really fast, but she still had to rush through
+the last couple of slides in order to finish on time.&lt;br /&gt;
+On the other hand, the talk was really high level on technical details and I
+think that was the goal, but the tradeoffs slides with only pros and cons
+about the &amp;ldquo;current&amp;rdquo; version of the service, with not a lot of details
+about how this &amp;ldquo;current&amp;rdquo; version was designed made it difficult to really
+realize what/how choices were made.&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s worth re-watching and take time to rewind now that the video is available:&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/m8CyenESI1c&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;h2 id=&#34;kyle-kingsbury-jepsen-talk&#34;&gt;Kyle Kingsbury — Jepsen Talk&lt;/h2&gt;
+
+&lt;p&gt;Distributed systems behave badly
+Hard to test
+Don&amp;rsquo;t trust vendors documentation, they&amp;rsquo;re not evil but have physical/budget limits to testing
+Do tests
+Hope this will lead to better software&lt;/p&gt;
+
+&lt;p&gt;Once again, &lt;a href=&#34;https://aphyr.com/&#34;&gt;aphyr&lt;/a&gt; strikes with his presentation skills
+and humor.&lt;/p&gt;
+
+&lt;p&gt;To paraphrase him: &lt;strong&gt;&lt;em&gt;&amp;ldquo;our databases are on fire&amp;rdquo;&lt;/em&gt;&lt;/strong&gt;, and what we do as
+developers is try to hide this instability to our users through nicely
+designed and shiny APIs.&lt;/p&gt;
+
+&lt;p&gt;But if we do our best for our users to continue riding around on unicorns
+all day long, we are sitting on top of systems of which we don&amp;rsquo;t really know
+the inner workings.&lt;/p&gt;
+
+&lt;p&gt;Since 2014, Kyle has been using &lt;a href=&#34;http://jepsen.io/&#34;&gt;Jepsen&lt;/a&gt; to test databases,
+queues and other distributed systems on the basis of what he suspected was
+wrong or what the README and documentation of those softwares were stating.&lt;/p&gt;
+
+&lt;p&gt;He found numerous &amp;ldquo;bugs&amp;rdquo; and &amp;ldquo;inconsistencies&amp;rdquo;, published them in a series
+of blog posts and worked with some of the teams to help analyze problems
+and improve stability.&lt;/p&gt;
+
+&lt;p&gt;What he learnt was that we should all test the software we use and we depend
+on.&lt;br /&gt;
+We should carefully read the claims and documentations of such systems,
+but not take anything for granted, because all of these systems are developed
+under physical and budget constraints, because formal testing is hard and
+simulation testing is hard.&lt;/p&gt;
+
+&lt;p&gt;This talk is also, in my opinion, a call to acknowledge that implementations
+of such distributed systems might not be perfect, and that some kinds of
+errors, loss or corruptions might be acceptable from a domain point
+of view, but that problem should not be hidden and assumptions must be
+validated.&lt;/p&gt;
+
+&lt;p&gt;In the end, I think Kyle is a on a journey to help teams develop better software.&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/tpbNTEYE9NQ&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;p&gt;In the same series, I find this previous talk about Jepsen to be more
+informative for someone interested in &lt;strong&gt;&lt;em&gt;learning&lt;/em&gt;&lt;/strong&gt; about distributed systems, and
+it also might be the funniest talk I&amp;rsquo;ve ever watched:
+&lt;a href=&#34;https://www.youtube.com/watch?v=QdkS6ZjeR7Q&#34;&gt;Jepsen II: Linearizable Boogaloo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;dharma-shukla-lessons-learnt-from-building-a-globally-distributed-database-service-from-the-ground-up&#34;&gt;Dharma Shukla — Lessons learnt from building a globally distributed database service from the ground up&lt;/h2&gt;
+
+&lt;p&gt;For the first few seconds I was a bit bored by the tone of the presentation.
+Boy I was wrong!&lt;/p&gt;
+
+&lt;p&gt;During this talk, I&amp;rsquo;ve been introduced to
+&lt;a href=&#34;https://azure.microsoft.com/en-us/services/cosmos-db/&#34;&gt;CosmosDB&lt;/a&gt;, formerly
+known as DocumentDB.&lt;/p&gt;
+
+&lt;p&gt;Honestly, I didn&amp;rsquo;t even know this was a thing, and yet it is a really
+interesting product developed during the last 7 years by Microsoft:
+a &lt;em&gt;schema-less&lt;/em&gt;, &lt;em&gt;multi-model&lt;/em&gt;, &lt;em&gt;globally distributed&lt;/em&gt; database in Azure Cloud.&lt;/p&gt;
+
+&lt;p&gt;There are articles that will better describe Cosmos DB than I could do, but
+what I will keep from Dharma&amp;rsquo;s talk is the amount of work the teams at
+Microsoft seem to have invested in ensuring strong and comprehensible SLAs
+for latency and availability, but also for consistency and throughput,
+which is another level of quality.&lt;/p&gt;
+
+&lt;p&gt;Cosmos DB is fully &lt;strong&gt;&lt;em&gt;schema agnostic&lt;/em&gt;&lt;/strong&gt; and has its own way of structuring data
+so that you don&amp;rsquo;t have to worry about it (RDF under the hood?), and it
+also &amp;ldquo;indexes all the data&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Cosmos DB is &lt;strong&gt;&lt;em&gt;multi-model&lt;/em&gt;&lt;/strong&gt; in the sense that it supports &lt;em&gt;document&lt;/em&gt;,
+&lt;em&gt;graph&lt;/em&gt; of &lt;em&gt;key-value&lt;/em&gt; data types and uses a &lt;em&gt;SQL-like&lt;/em&gt; query dialect as well
+as MongoDB or graph APIs.&lt;/p&gt;
+
+&lt;p&gt;Another important feature of Cosmos DB is it&amp;rsquo;s &lt;strong&gt;5 different levels of
+consistency&lt;/strong&gt;, from &lt;em&gt;&amp;ldquo;strong consistency&amp;rdquo;&lt;/em&gt; to &lt;em&gt;&amp;ldquo;eventual consistency&amp;rdquo;&lt;/em&gt;,
+Microsoft has implemented three other consistency models based on academic
+researches.&lt;/p&gt;
+
+&lt;p&gt;Cosmos DB is available as a service on &lt;em&gt;Microsoft Azure Cloud&lt;/em&gt;. There you can
+choose and &lt;em&gt;elastically control with API calls&lt;/em&gt; the amount of storage and
+&lt;em&gt;scale the throughput&lt;/em&gt; of your application and pay as you go down to
+a &lt;em&gt;granularity of a second&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;All those features are really impressive, they even brought
+&lt;a href=&#34;https://fr.wikipedia.org/wiki/Leslie_Lamport&#34;&gt;Leslie Lamport&lt;/a&gt; (inventor of
+the &lt;a href=&#34;https://en.wikipedia.org/wiki/Lamport_timestamps&#34;&gt;Lamport clock&lt;/a&gt; and
+the &lt;a href=&#34;https://en.wikipedia.org/wiki/Paxos_(computer_science)&#34;&gt;Paxos consensus protocol&lt;/a&gt;
+among &lt;a href=&#34;https://en.wikipedia.org/wiki/LaTeX&#34;&gt;other things&lt;/a&gt;) on board and
+used it&amp;rsquo;s &lt;a href=&#34;https://en.wikipedia.org/wiki/TLA%2B&#34;&gt;TLA+&lt;/a&gt; formal language to
+design and verify for correctness. And they also use Jepsen&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;I wasn&amp;rsquo;t expecting to be amazed by this talk but honestly if you&amp;rsquo;re not
+afraid of vendor lock-in or are already using Microsoft Azure, it looks amazing.&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/3Sq9AJzgxAg&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;h2 id=&#34;lunch-wraps-beers&#34;&gt;Lunch: Wraps+beers&lt;/h2&gt;
+
+&lt;p&gt;The first day&amp;rsquo;s lunch consisted of wraps of different flavors, chicken, ham
+or veggie.&lt;br /&gt;
+They were good enough, and open beer bar was present just like the day before
+so one just had to manage to eat and drink wisely in order to be fully ready
+for the talks of the afternoon.&lt;/p&gt;
+
+&lt;p&gt;The lunch took place in the backyard just like on Wednesday, on the grass,
+under a beautiful sunny sky.&lt;/p&gt;
+
+&lt;p&gt;During the meal I reconnected with some of my fellow Jepsen workshop-ers
+&lt;a href=&#34;https://twitter.com/rocketarium&#34;&gt;Andrei Dan&lt;/a&gt; and
+&lt;a href=&#34;https://twitter.com/einsmu&#34;&gt;Sebastian Utz&lt;/a&gt; from &lt;a href=&#34;https://crate.io/&#34;&gt;CrateDB&lt;/a&gt;,
+&lt;a href=&#34;https://twitter.com/neunhoef&#34;&gt;Max Neunhöffer&lt;/a&gt; from
+&lt;a href=&#34;https://www.arangodb.com/&#34;&gt;ArangoDB&lt;/a&gt; and Sayat Satybaldiev from
+&lt;a href=&#34;https://jobs.zalando.com/tech/blog/&#34;&gt;Zalando&lt;/a&gt; to share our experiences about
+the morning talks.&lt;/p&gt;
+
+&lt;h2 id=&#34;anjana-vakil-custom-query-languages-why-how&#34;&gt;Anjana Vakil — Custom Query Languages: Why? How?&lt;/h2&gt;
+
+&lt;p&gt;Design CQL like a UX with user/usability in mind
+Powerful abstractions
+Parser + AST&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/y5wMNehHYBY&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;h2 id=&#34;roland-kuhn-taming-distribution-formal-protocols-for-akka-typed&#34;&gt;Roland Kuhn — Taming distribution: formal protocols for Akka Typed&lt;/h2&gt;
+
+&lt;p&gt;Typed actors&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/kpvTd49YJpQ&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;h2 id=&#34;christopher-meiklejohn-just-right-consistency-closing-the-cap-gap&#34;&gt;Christopher Meiklejohn — Just-Right Consistency: Closing The CAP Gap&lt;/h2&gt;
+
+&lt;p&gt;OMG WAT?
+Antidote db&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/Vd2I9v3pYpA&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;h2 id=&#34;santiago-ortiz-dynamic-data-visualization&#34;&gt;Santiago Ortiz — Dynamic data visualization&lt;/h2&gt;
+
+&lt;p&gt;Santiago Ortiz has a really interesting way of looking at things and
+explaining how he thinks data visualization is meant to become a more
+democratized way at looking at data and just something reserved to data
+scientists as it is today.&lt;/p&gt;
+
+&lt;p&gt;Referring to the mental palace technique for remembering complex numbers, he
+draw the following parallel:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Machines use numbers for encoding of information including stories.&lt;/p&gt;
+
+&lt;p&gt;And we need stories to store numbers.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The rest of the talk was a portfolio of data visualizations which was nice
+to see but not really informative unless it is your thing.&lt;/p&gt;
+
+&lt;p&gt;On the plus side, one of the examples Santiago gave was about a book :
+[Rayuela](&lt;a href=&#34;https://en.wikipedia.org/wiki/Hopscotch_(Cort%C3%A1zar_novel&#34;&gt;https://en.wikipedia.org/wiki/Hopscotch_(Cort%C3%A1zar_novel&lt;/a&gt;) by
+Julio Cortázar.&lt;br /&gt;
+This book as he explained, has been written in such a was that it can be read
+linearly or in an unordered way following a pattern suggested by the author to
+jump from chapter to chapter.&lt;br /&gt;
+The visualization consisted in circles that allowed the viewer to screen
+and read from a chapter to another.&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/7t0ob7nGjN8&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;h2 id=&#34;dinner-pizza-beers-other-attendees-meetups-i-didn-t-go-because-sleep&#34;&gt;Dinner: Pizza+beers+other attendees+meetups I didn&amp;rsquo;t go because sleep&lt;/h2&gt;
+
+&lt;h1 id=&#34;day-3-talks&#34;&gt;Day 3: Talks&lt;/h1&gt;
+
+&lt;h2 id=&#34;duarte-nunes-scylladb-nosql-at-ludicrous-speed&#34;&gt;Duarte Nunes — ScyllaDB: NoSQL at Ludicrous Speed&lt;/h2&gt;
+
+&lt;p&gt;I was interested in this talk because of its summary highlighting the work
+done on performance on &lt;a href=&#34;http://www.scylladb.com/&#34;&gt;ScyllaDB&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So ScyllaDB is a distributed databased based on the same model as
+&lt;a href=&#34;http://cassandra.apache.org/&#34;&gt;Cassandra&lt;/a&gt;: dynamo-based. Its characteristics are
+&lt;strong&gt;high write availability&lt;/strong&gt;, &lt;strong&gt;eventual consistency&lt;/strong&gt; and inability to do join
+queries.&lt;/p&gt;
+
+&lt;p&gt;ScyllaDB is &lt;em&gt;fully compatible&lt;/em&gt; with Cassandra&amp;rsquo;s API and file format so you can
+drop replace it without a single code line change.&lt;/p&gt;
+
+&lt;p&gt;Where ScyllaDB delivers is on the performance aspects. According to the
+benchmarks (we all love a good benchmark don&amp;rsquo;t we), &lt;strong&gt;&lt;em&gt;a 3 nodes ScyllaDB
+cluster is able to sustain the same load as a 30 nodes Cassandra cluster&lt;/em&gt;&lt;/strong&gt;.&lt;br /&gt;
+This is basically Cassandra on steroids&lt;/p&gt;
+
+&lt;p&gt;So how did the team manage to do that?&lt;/p&gt;
+
+&lt;p&gt;The answer is lots of time and efforts applying &lt;strong&gt;&lt;em&gt;good algorithms&lt;/em&gt;&lt;/strong&gt; and
+&lt;strong&gt;&lt;em&gt;mechanical sympathy&lt;/em&gt;&lt;/strong&gt; principles in order to squeeze every bit from CPUs
+and memory.&lt;/p&gt;
+
+&lt;p&gt;ScyllaDB uses a &lt;strong&gt;&lt;em&gt;thread-per-core&lt;/em&gt;&lt;/strong&gt; model to avoid &lt;em&gt;context-switching&lt;/em&gt; between
+threads and allocates each core a &lt;strong&gt;private memory pool&lt;/strong&gt;. So blocking calls are
+forbidden and ScyllaDB adopts an &lt;em&gt;asynchronous&lt;/em&gt; programming style with &lt;em&gt;futures
+and promises&lt;/em&gt; for networking and file I/O and use message passing between CPUs
+to hide latency from accessing memory.&lt;/p&gt;
+
+&lt;p&gt;On the memory side, ScyllaDB is very cautious about its memory space allocation
+and manages to &lt;strong&gt;&lt;em&gt;compact&lt;/em&gt;&lt;/strong&gt; memory to avoid fragmentation.&lt;/p&gt;
+
+&lt;p&gt;ScyllaDB also features an interesting and tunable &lt;em&gt;self-monitoring&lt;/em&gt; tool
+(benchmarking itself) able to analyze the stress under which the database is
+and make decisions on which process to prioritize (queuing requests) and how
+to deal with background tasks such as &lt;em&gt;compaction&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you have a use case for Cassandra and are critical about your resources
+usage, I think it&amp;rsquo;s really worth taking a look at ScyllaDB which is also open
+source by the way.&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/Qsj6KkbjMGI&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;h2 id=&#34;danielle-ashley-uniting-church-and-state-fp-and-oo-together&#34;&gt;Danielle Ashley — Uniting Church and State: FP and OO Together&lt;/h2&gt;
+
+&lt;p&gt;When preparing my schedule, I selected this talk
+because it &amp;ldquo;&lt;em&gt;talked about FP and OO together&lt;/em&gt;&amp;rdquo; and I really like the idea
+that a lot of OO problems could be solved by using more FP
+concepts and good practices.
+Or use OO techniques in order to gain performance in our FP code, for
+instance.&lt;/p&gt;
+
+&lt;p&gt;So I just &lt;em&gt;completely ignored&lt;/em&gt; the first part of the talk and didn&amp;rsquo;t
+understand the &amp;ldquo;Church and State&amp;rdquo; pun until later, so yeah, I&amp;rsquo;m stupid.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;After&lt;/strong&gt; the conference I did my homework and looked at this church
+encoding thing and I realized it is really interesting as an exercise.
+At first, I didn&amp;rsquo;t see where it&amp;rsquo;d be useful unless you&amp;rsquo;re trying to implement
+a new language. But Danielle talked about the performance side of things, and
+it started to click.&lt;/p&gt;
+
+&lt;p&gt;Church encoding is a way of representing data and operators using &lt;em&gt;nothing
+more than recursion and anonymous functions&lt;/em&gt;. In this talk, Danielle is not
+showing us how to implement &lt;strong&gt;Church Numerals&lt;/strong&gt; but how, by thoroughly
+designing out programs, we can eventually make it simpler to &lt;em&gt;reason about&lt;/em&gt;
+(keep state in isolation), &lt;em&gt;invert the flow of control&lt;/em&gt; (push-pull &lt;em&gt;FRP&lt;/em&gt; style
+instead of downstream method calls) and &lt;em&gt;improve performance&lt;/em&gt; (less object
+instantiation).&lt;/p&gt;
+
+&lt;p&gt;This will deserve another blog post in the future to explore this topic.&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/Nn0eb9Tl1Bo&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;h2 id=&#34;justo-ruiz-ferrer-adressing-the-elephant-in-the-room-what-a-post-hadoop-era-looks-like&#34;&gt;Justo Ruiz Ferrer — Adressing the elephant in the room: what a post-Hadoop era looks like&lt;/h2&gt;
+
+&lt;p&gt;The title mislead to expect a talk giving insight about &lt;em&gt;where&lt;/em&gt; the big data
+processing techniques could go, but in the end it didn&amp;rsquo;t deliver.&lt;br /&gt;
+The talk was mainly just an explanation of the &lt;em&gt;&amp;ldquo;my big data is bigger than
+your big data&amp;rdquo;&lt;/em&gt; saying and a quick demo of &lt;a href=&#34;https://valo.io/&#34;&gt;Valo&lt;/a&gt;&amp;rsquo;s streaming
+platform.&lt;/p&gt;
+
+&lt;p&gt;The speaker (and CTO of the company hosting the event) is clearly comfortable
+talking to an audience and fills the room with his speaking, and
+I expected some insights or takeaway thoughts about the direction in which
+our industry is going.&lt;br /&gt;
+But I ended up with sort of a statement about our architectures moving from
+batch processing to streaming processing, with the lambda architecture
+(he didn&amp;rsquo;t mention it) and micro-batch processing architectures and
+techniques in between.&lt;/p&gt;
+
+&lt;p&gt;No video available for this one.&lt;/p&gt;
+
+&lt;h2 id=&#34;lunch-paella&#34;&gt;Lunch: Paella!!!&lt;/h2&gt;
+
+&lt;p&gt;The last day&amp;rsquo;s meal was an authentic
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Paella&#34;&gt;Valencian Paella&lt;/a&gt;, and I can tell you
+they nailed it. It was fantastic.&lt;/p&gt;
+
+&lt;p&gt;Once again in the backyard under a sunny sky I&amp;rsquo;ve had the occasion to share
+with other conference attendees about the previous talks and speak about
+programming languages and other geeky stuff. Fun time.&lt;/p&gt;
+
+&lt;h2 id=&#34;caitie-mccaffrey-distributed-sagas-a-protocol-for-coordinating-microservices&#34;&gt;Caitie McCaffrey — Distributed Sagas: A Protocol for Coordinating Microservices&lt;/h2&gt;
+
+&lt;p&gt;Super interesting talk about how to orchestrate multiple &lt;em&gt;microservices&lt;/em&gt; in
+order to achieve &lt;em&gt;consistency&lt;/em&gt; of a single business action.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Distributed Sagas&lt;/strong&gt; is a protocol with no standard or open source
+implementation (yet) designed to create a layer of &lt;em&gt;coordination&lt;/em&gt; on top of
+several (micro)services without having to write &lt;em&gt;yet another service&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;The example given in this talk is really simple and powerful: you have a
+&lt;em&gt;flight booking&lt;/em&gt; service to which was added a &lt;em&gt;hotel booking&lt;/em&gt; service as well
+as a &lt;em&gt;car rental&lt;/em&gt; service, and you want to offer your customers the ability
+to &lt;em&gt;book an entire trip&lt;/em&gt; including those three services.&lt;br /&gt;
+How do you ensure &lt;em&gt;business/domain level consistency&lt;/em&gt; without creating a
+new service?&lt;/p&gt;
+
+&lt;p&gt;This is not just an exercise: with the rise of microservices, we have moved
+away from the consistency guarantees offered by our databases and must
+maintain application-level consistency, or &lt;em&gt;feral consistency&lt;/em&gt;.&lt;br /&gt;
+And for each new service that is deployed and available we could
+develop &lt;code&gt;n&lt;/code&gt; new combinations of &lt;em&gt;coordination&lt;/em&gt; services in order to deliver new
+value to customers&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Distributed Sagas introduces the concept of a &lt;strong&gt;SEC&lt;/strong&gt;
+(&lt;strong&gt;&lt;em&gt;S&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;aga&lt;/em&gt; &lt;strong&gt;&lt;em&gt;E&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;xecution&lt;/em&gt; &lt;strong&gt;&lt;em&gt;C&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;oordinator&lt;/em&gt;) along with
+&lt;em&gt;action requests&lt;/em&gt; and &lt;em&gt;compensating requests&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Based on a persistent &lt;em&gt;log&lt;/em&gt;, the stateless &lt;strong&gt;SEC&lt;/strong&gt; will come and write the
+actions of other services and operations results to the log &lt;strong&gt;&lt;em&gt;after
+acknowledgement&lt;/em&gt;&lt;/strong&gt; of the success of the action.&lt;br /&gt;
+The &lt;strong&gt;SEC&lt;/strong&gt; is then responsible to manage the consistency of the operations from
+a domain perspective and &lt;em&gt;replay&lt;/em&gt; or &lt;em&gt;rollback&lt;/em&gt; operations in case of failure.&lt;/p&gt;
+
+&lt;p&gt;The log in this case is like a &lt;em&gt;stack&lt;/em&gt;, where each operation performed by a
+service is &lt;em&gt;idempotent&lt;/em&gt; (in order to be replayed in case of delay or timeout for
+instance) and has a corresponding &lt;em&gt;backward idempotent action&lt;/em&gt; (&lt;em&gt;compensating
+requests&lt;/em&gt;) that can be performed: a semantic &lt;em&gt;undo&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now this is interesting: because an &lt;em&gt;action request&lt;/em&gt; from a service may be
+delayed or just fail without returning (and we can&amp;rsquo;t make a difference), it is
+important that it be &lt;em&gt;idempotent&lt;/em&gt; in order to be replay.&lt;br /&gt;
+This way, we avoid the complexity of having to send a &lt;em&gt;compensating request&lt;/em&gt;
+to undo an &lt;em&gt;action request&lt;/em&gt; that may or may not have succeeded.&lt;br /&gt;
+By replaying, we make sure that we get a result and then we &amp;ldquo;cancel&amp;rdquo; if need be.&lt;/p&gt;
+
+&lt;p&gt;For this protocol to be applicable, the business/domain model must be
+compatible with eventual consistency because each service being exposed
+individually has its state exposed, but the whole saga can not be made
+&lt;em&gt;isolated&lt;/em&gt; nor &lt;em&gt;atomic&lt;/em&gt; under such constraints without introducing a lot
+of latency and single point of failures (see the part of the talk about
+&lt;em&gt;two phase commit&lt;/em&gt;).&lt;br /&gt;
+Indeed, the &lt;strong&gt;SEC&lt;/strong&gt; itself might look like a SPOF, but it is actually stateless
+so just spawning a new instance of it and replay the log is sufficient to
+continue the saga.&lt;/p&gt;
+
+&lt;p&gt;From what I understood both Uber and Twitter are currently
+experimenting this technique, so we will have to wait and see what comes out.&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/0UTOLRTwOX0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;h2 id=&#34;martin-thompson-high-performance-managed-languages&#34;&gt;Martin Thompson — High Performance Managed Languages&lt;/h2&gt;
+
+&lt;p&gt;In a word: What the GC gives you.
+Possible to have highly optimized non-GCed code but at the expense of efforts and time
+Allocation is not the problem, the problem is reclaiming memory
+&amp;ldquo;Pledge&amp;rdquo; for Better algorithms&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/Pz-4co8IaI8&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;h2 id=&#34;dinner-party-camperos-beers-flamenco-the-coovers-los-vinagres-other-attendees-and-anjana-vakil&#34;&gt;Dinner + Party: Camperos+beers+Flamenco+The Coovers+Los Vinagres+other attendees and Anjana Vakil&lt;/h2&gt;
+
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;Shut up and take my money!&lt;/p&gt;
+
+&lt;p&gt;Bonus ArangoDB:&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/m9xYejDUdus&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;p&gt;Bonus Managing 10,000 Node Storage Clusters at Twitter:&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/ff5k5j24dOs&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+
+&lt;p&gt;Interested in distributed systems testing? FoundationDB talk/TLA+ talks/Lamport guides/Caitie McCaffrey?/etc&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>EclipseCon France 2016 — Review</title>
       <link>http://i-rant.arnaudbos.com/eclipsecon-france-2016-review/</link>
       <pubDate>Wed, 13 Jul 2016 12:55:28 +0100</pubDate>
