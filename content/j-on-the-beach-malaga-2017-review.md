@@ -292,8 +292,6 @@ errors, loss or corruptions might be acceptable from a domain point
 of view, but that problem should not be hidden and assumptions must be
 validated.
 
-In the end, I think Kyle is a on a journey to help teams develop better software.
-
 {{< youtube tpbNTEYE9NQ >}}
 
 In the same series, I find this previous talk about Jepsen to be more
@@ -584,26 +582,101 @@ experimenting this technique, so we will have to wait and see what comes out.
 
 ## Martin Thompson — High Performance Managed Languages
 
+Famous for his work on high performance coding,
+Martin Thompson is a renowned expert and speaker.
 
-In a word: What the GC gives you.
-Possible to have highly optimized non-GCed code but at the expense of efforts and time
-Allocation is not the problem, the problem is reclaiming memory
-"Pledge" for Better algorithms
+At JOTB17, he gave us a talk about managed languages: languages that run on a virtual machine which provides garbage-collected memory management (Java, C#, etc.).
+
+I've already listened to Martin in various podcasts
+and one thing that he mentions quite often is that:
+
+> Our CPUs Arent't Getting Any Faster.
+
+But most of our applications aren't really CPU intensive,
+they are intensive in their memory access.  
+Hardware constructors are adding cores in order to increase speed, and they are doing wonders, but ourlittle understanding of how CPUs and memory access works prevents us from gaining all of the benefits.
+
+Just like there was a debate between Assembler vs Compiled Languages, there's an argument between managed languages vs native languages and this talk is just about that.
+
+Managed languages benefit from JIT optimizations that a sole static compiler cannot provide.  
+These are predictions made on real, measured data, and if it happens that the bets are wrong, the JIT can correct itself, revoke some decisions and make new optimizations.
+
+**Code branching**
+
+If a static compiler armed with a good programmer branch prediction hint/information can be a solid optimization, a managed language is able to use real data instead of static decisions and adjust over time.
+
+**Methods inlining**
+
+Methods/Functions can be inlined in case of hotness in order to avoid function call overhead.
+
+**Loop unrolling**
+
+The optimizer can also measure which loops are hotspots
+and which are not, and decide to unroll some rather than check and iterate.
+
+**Intrinsics**
+
+The runtime can also replace programmer instructions by architecture specific instructions (intrinsics) in order to benefit from a the particular implementation.  
+Something impossible for static compiler unless compiling for a specific architecture.
+
+**Polymorphism**
+
+Managed runtimes can avoid virtual dispatch or going through jump tables by directly calling the '*right*' method of an object or inlining it.  
+By checking the number of subtypes we can decide whether or not it's worth to just calling the method directly,
+using a simple `if` statement, go polymorphic or cache the code for a particular type if it is hotter than the others.
+
+**Garbage Collector**
+
+The performance of a Garbage Collector depends upon its implementation, but also on how we, as programmers, deal with our objects.
+
+Martin outlines the fact that it is not allocation that is costly, but reclamation...  
+The longer and object lives, the more operations the GC needs to do.
+
+In the end, THE most important thing to performance is TIME: how much time and effort are we willing to put into implementing good algorithms and doing right choices.
+
+Some takeaways:
+- Avoiding cache misses
+- Amortising expensive operations
+- Mechanical sympathy
+- Algo & Data-structures
+
+Fun facts:
+
+Martin is the author of Aeron, a high throughput, low latency messaging system (used by Onyx, BTW).
+
+The Java implementation of Aeron is faster than native implementation of other fast messaging systems: because of the time and efforts put into implementing good algorithms.
+
+Aeron has been ported to C++, then Go, then C#: and in the end the fastest implementation is in C#.  
+C++ could be but would take much, much more time.
+
+All comes down to {{< emoji content=":hourglass_flowing_sand:" >}}...
 
 {{< youtube Pz-4co8IaI8 >}}
 
-## Dinner + Party: Camperos+beers+Flamenco+The Coovers+Los Vinagres+other attendees and Anjana Vakil
+## Dinner + Party
 
+After dinner (Camperos + beer), the organizers invited a
+flamenco dancer, singer and guitarist.  
+
+And after the local culture and art, the party started.
 
 # Conclusion
-Shut up and take my money!
 
-Bonus ArangoDB:
+I think I've said it in the first part of the article but the conference felt very comfortable and almost like a local conference, despite the number of people from abroad and the awesome speakers.  
+It was then really easy to speak to people, even speakers.
+
+So thanks a lot to the organizers, speakers and other attendees for the lovely event.
+
+And thanks a lot to MonkeyPatch for sending me in Malaga!
+
+
+
+Bonus track "The Computer Science behind a modern distributed data store" by Max Neunhoef from ArangoDB.
+
+I've talked multiple times with Max during the three days of the conference and didn't even know he was a speaker until the last day.
+
+I've watched his talk later on Youtube and I've found it really interesting to get a sense of some major problems one stumble upon while learning about or working on distributed systems.
+
+It goes fast so if you are not "familiar" with distributed systems problems such as consensus, log structured merge trees, clocks and distributed ACID transactions you will find a lot of usefull information in order to learn more about these topics.
 
 {{< youtube m9xYejDUdus >}}
-
-Bonus Managing 10,000 Node Storage Clusters at Twitter:
-
-{{< youtube ff5k5j24dOs >}}
-
-Interested in distributed systems testing? FoundationDB talk/TLA+ talks/Lamport guides/Caitie McCaffrey?/etc...
