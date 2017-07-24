@@ -384,6 +384,39 @@ Typed actors
 OMG WAT?
 Antidote db
 
+Just-Right: "exploit availability whenever possible and only synchronize exactly when needed to enforce application invariance".
+
+Antidote: The only that supports "Transactional causal consistency"
+
+Turn Antidote DB from research topic (three years in the work with github repo implementation) into a company and actual product: industrialize.
+
+Cloud databases:
+- Centralized database (for many years): put data/information placed in databases in data center region: can be a group but thought of as ONE datacenter conceptually.
+- Clients from all over the world are accessing against this primary copy
+- We geo-replicate to ensure fault-tolerance and provide high-availability and low latency
+- In the event that one or more of the copy of the database cannot communicate with one another we have to make a choice: traditionally: we either choose a CP approach or an AP approach.
+
+CP: Consistent-Under-Partition
+- Sync each operation (write or read) "treat all the copies as one logical unit": single sys image: does every agree on each operation ? Wait... Move on. --> Slow (very popular)
+- This is the serializability model (Google Cloud Spanner): provide strong consistency an minimize the amount of time you have to wait.
+- Over-conservative but very popular because easy to program! Write app withou thinking about distribution: if I write something then I will read this something, this is a garantee that linearizability gives us.
+
+AP: Available-Under-Partition
+- Dynamo style databases: Cassandra, Riak
+- Operations are executed against local copies and then the result of those operations are then propagated async which may take time => reads and writes happen extremely fast, so we may have stale reads and write conflicts between two updates on two different copies of the database since they haven't synchronized: need to reconcile.
+- The system can keep operating in the even of failure: Available but difficult to program.
+
+We don't want to buy in one design or the other, we want it infered from the application.
+- No "one-size-fits-all" consistency models for applications
+- Better approach: express/specify application invariants (things that should always stay true) and we want the system to automatically tailor the consistency choices based on those invariants to guarantee that a violation doesn't occur.
+
+Just Right Consistency:
+- Write sequential applications that enforce application level invariants and preserve this application behavior when deployed under concurrency and distribution.
+- AP compatible invariants: under an AP system we can garantee these invariants without sync
+- CAP-sensible invariants: two way vs one way communication invariants: one way = do this thing it may or not happen Atomically or in a particular order but I don't need a response, two way: if this thing true then do this (requires coordination)
+- Tools for analysis and verification (IDE): tell you whether or not the application will be safe when it's deployed
+
+
 {{< youtube Vd2I9v3pYpA >}}
 
 ## Santiago Ortiz — Dynamic data visualization
