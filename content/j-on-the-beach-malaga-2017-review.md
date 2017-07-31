@@ -413,9 +413,61 @@ We don't want to buy in one design or the other, we want it infered from the app
 Just Right Consistency:
 - Write sequential applications that enforce application level invariants and preserve this application behavior when deployed under concurrency and distribution.
 - AP compatible invariants: under an AP system we can garantee these invariants without sync
-- CAP-sensible invariants: two way vs one way communication invariants: one way = do this thing it may or not happen Atomically or in a particular order but I don't need a response, two way: if this thing true then do this (requires coordination)
+- CAP-sensitive invariants: two way vs one way communication invariants: one way = do this thing it may or not happen Atomically or in a particular order but I don't need a response, two way: if this thing true then do this (requires coordination)
 - Tools for analysis and verification (IDE): tell you whether or not the application will be safe when it's deployed
 
+Exemples to demonstrate how some application invariants may be AP compatible while other being CAP sensitive
+Invariants:
+* Relative order (referential integrity) => AP compatible: Use Causal consitency infered from sequential client code / Use CRDTs
+* Joint updates (atomicity) => AP compatible: 
+* Precondition check: PP1 invariant => CAP sensitive
+
+AP compatibility
+* No synchronization: can operate locally without blocking. Updates are applied locally and async propagated
+* Async: updates are fast, availability and exploits concurrency so speed
+* AP compatible invariants: Relative order and Joint updates
+
+Data model: if no sync ==> divergence if two replicas are in agreement and two sep messages arrive on each node
+Wouldn't have this anomaly if using consensus.
+==> "Concurrent assignments don't commute" : no commutativity: In an AP system, assignment doesn't work, it requires CP.
+
+Can we make non-commutative updates commutative?
+Yes, using deterministic conflict resolution: pick a value that wins. Timestamp (cassandra last write wins), application level merge/resolution (CouchDB, OrientDB, Aerospike, Riak).
+Yes, using CRDTs (insert more links now): Many different designs for different uses, are extended sequential data types that encapsulate (built-in) deterministic merge functions.
+
+From now on: assume the system we're building has this. All operations will communte.
+
+Relative order invariant:
+* Do something, then other actions, and ensure that the updates are seen in the proper order
+* If P => (implies Q) than I make sure that Q is written before P, as long as it's in order on the target replica and that changes are replicated in the proper order, the invariant is never violated.
+* So need a system that ensures Causality: causal consitency is sufficient, sequential consistency not needed.
+"Updates that are causaly related to other updates (that influence other updates) that happen in an order should be delivered in the exact same order"
+* Strongest AP compatible consistency model
+
+Joint updates invariant:
+* Two replicas order ok with updates are causally consistent
+* Still inconsistent state of the database can be read
+* We need atomicity: all-or-nothing
+* By grouping updates atomically in batches, taking snapshots along the way
+* Clients (other replicas) read consistent snapshots
+
+Relative order + Joint updates = Transactional Causal Consistency: the strongest AP compatible model.
+
+CAP-sensitiveness:
+* Preventing getting the same prescription twice
+* Some preconditions are by default stable under concurrency, ex: check if count >0 is stable under concurrent addition, so these operations can proceed without synchronizing
+* Some aren't, ex: check if count >0 is not stable under concurrent subtraction , one operation could break the invariant.
+* Two solutions: ¯\_(ツ)_/¯ or forbid concurrency, aka synchronization
+
+Interesting because we can choose for each operation. But it's hard to reason about these problems.
+
+Need tools to analyse and allow or not operations to proceed by analysing where invariants could be violated and tell us where we're fine and where we need synchronization. Several models, this is a research topic with lots of movement.
+
+Cristopher presents one model: CISE Analysis, I'm not going into details at that point.
+
+So we have AntidoteDB: Open-source, Erlang, built on top or Riak core, Transactional Causal Consistency, alpha release.
+Creating company to raise money and bring developpers to implement.
+Causality is respected by program order through the clients. Operations API. Transaction API.
 
 {{< youtube Vd2I9v3pYpA >}}
 
