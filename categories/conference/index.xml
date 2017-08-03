@@ -274,7 +274,7 @@ resources to try to understand that I can&amp;rsquo;t count them, and in the end
 sure I understand it well.&lt;/p&gt;
 
 &lt;p&gt;Linearizability is a type of consistency among others (eventual consistency,
-causality linearizability, string linearizability, etc).&lt;/p&gt;
+causality linearizability, strong linearizability, etc).&lt;/p&gt;
 
 &lt;p&gt;In short, and probably not fully exact: when a new value for a certain key
 has been written (successfully), no previous value for this key should be read
@@ -620,7 +620,7 @@ But when some algorithm can be successful by throwing more computing power at
 them, some problem remain &lt;a href=&#34;https://en.wikipedia.org/wiki/Computational_complexity_theory#Intractability&#34;&gt;intractable&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Quantum computers leverage the principles of quantum physics
-like &lt;a href=&#34;https://en.wikipedia.org/wiki/Quantum_entanglement&#34;&gt;&lt;code&gt;untanglement&lt;/code&gt;&lt;/a&gt;
+like &lt;a href=&#34;https://en.wikipedia.org/wiki/Quantum_entanglement&#34;&gt;&lt;code&gt;entanglement&lt;/code&gt;&lt;/a&gt;
 in order to evaluate all possible models and find the most efficient solution.&lt;/p&gt;
 
 &lt;p&gt;Eric gave us a great analogy with forgery: consider the molecules of metal
