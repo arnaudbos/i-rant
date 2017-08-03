@@ -182,7 +182,7 @@ But when some algorithm can be successful by throwing more computing power at
 them, some problem remain [intractable](https://en.wikipedia.org/wiki/Computational_complexity_theory#Intractability).
 
 Quantum computers leverage the principles of quantum physics
-like [`untanglement`](https://en.wikipedia.org/wiki/Quantum_entanglement)
+like [`entanglement`](https://en.wikipedia.org/wiki/Quantum_entanglement)
 in order to evaluate all possible models and find the most efficient solution.
 
 Eric gave us a great analogy with forgery: consider the molecules of metal

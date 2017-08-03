@@ -230,7 +230,7 @@ resources to try to understand that I can't count them, and in the end I'm not
 sure I understand it well.
 
 Linearizability is a type of consistency among others (eventual consistency,
-causality linearizability, string linearizability, etc).
+causality linearizability, strong linearizability, etc).
 
 In short, and probably not fully exact: when a new value for a certain key
 has been written (successfully), no previous value for this key should be read
