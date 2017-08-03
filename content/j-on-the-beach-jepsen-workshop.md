@@ -10,7 +10,7 @@ gallery: true
 highlight: true
 ---
 
-{{< gallery >}}
+{{< gallery title="Photos shamelessly stolen from Kyle Kinsburry's website" >}}
   {{% galleryimage file="/img/j-on-the-beach-jepsen-workshop/-012.jpg"
   size="900x675" caption="Network's Laggy" width="395" %}}
   {{% galleryimage file="/img/j-on-the-beach-jepsen-workshop/-013.jpg"
@@ -219,7 +219,6 @@ and confront the history to a model.
 
 When a client writes a value and gets back an acknowledgement of the write, the
 system's log is checked to see if the database actually performed the write.
-TODO: I'm actually not sure about this one...
 
 ## Model
 
