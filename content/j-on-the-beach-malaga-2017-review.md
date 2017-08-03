@@ -57,6 +57,11 @@ tickets
 
 {{< tweet 816912096948613120 >}}
 
+I didn't know how to cut this article, maybe in half? or maybe an entry by
+talk was more appropriate?  
+So I just kept everything in a single page and here is the table of contents
+for you to hop around and read about the topics that you are interested in.
+
 # Tabla de contenido
 
 <div id="toc" class="well col-md-12">
@@ -314,7 +319,8 @@ by Apple since this talk.
 For the first few seconds I was a bit bored by the tone of the presentation.
 Boy I was wrong!
 
-During this talk, I've been introduced to
+During this talk, [Dharma Shukla](https://twitter.com/dharmashukla) introduces
+us with
 [CosmosDB](https://azure.microsoft.com/en-us/services/cosmos-db/), formerly
 known as DocumentDB.
 
@@ -384,7 +390,7 @@ share our experiences about the morning talks:
 
 ## Anjana Vakil — Custom Query Languages: Why? How?
 
-In this talk, [Anjana](https://twitter.com/anjanavakil) explains what is the
+In this talk, [Anjana Vakil](https://twitter.com/anjanavakil) explains what is the
 difference between a ***DSL*** and a ***CQL*** and gives us some insights on
 how to design such languages with the goal of providing powerful abstractions
 while keeping usability in mind.
@@ -443,32 +449,106 @@ Characteristics of a **CP system**:
 * All the operations are *synchronized* (write or read) on order to "*treat all
   the copies as one logical unit*". A *consensus* protocol must be used in order
   to ensure a single system image across replicas.
-* This is [*serializability*](https://en.wikipedia.org/wiki/Serializability)
-  (Google Cloud Spanner): provide *strong consistency* an minimize the amount
-  of time you have to wait, but *still slower than an AP system*.
+* This is [***serializability***](https://en.wikipedia.org/wiki/Serializability)
+  (e.g., Google Cloud Spanner): provide *strong consistency* an minimize the
+  amount of time you have to wait, but *still slower than an AP system*.
 * Often *over-conservative* but very popular because easier to program! On the
   programmer side, *the application is written without thinking about
   distribution*: if I write something then I will read this something, this is
-  a linearigarantee that linearizability gives us.
+  a guarantee of
+  [***linearizability***](https://en.wikipedia.org/wiki/Linearizability).
 
-AP: Available-Under-Partition
-- Dynamo style databases: Cassandra, Riak
-- Operations are executed against local copies and then the result of those operations are then propagated async which may take time => reads and writes happen extremely fast, so we may have stale reads and write conflicts between two updates on two different copies of the database since they haven't synchronized: need to reconcile.
-- The system can keep operating in the even of failure: Available but difficult to program.
+Characteristics of an **AP system**:
 
-We don't want to buy in one design or the other, we want it infered from the application.
-- No "one-size-fits-all" consistency models for applications
-- Better approach: express/specify application invariants (things that should always stay true) and we want the system to automatically tailor the consistency choices based on those invariants to guarantee that a violation doesn't occur.
+* Operations are *executed against local copies* and then the result of those
+  operations are then *propagated asynchronously* which may take time
+* Reads and writes happen *extremely fast*, so we may have ***stale reads***
+  and ***write conflicts*** between two updates on two different copies of
+  the database since they haven't *synchronized*: they need to reconcile.
+* The system can keep operating in the even of failure: *Available but
+  difficult to program*.
 
-Just Right Consistency:
-- Write sequential applications that enforce application level invariants and preserve this application behavior when deployed under concurrency and distribution.
-- AP compatible invariants: under an AP system we can garantee these invariants without sync
-- CAP-sensitive invariants: two way vs one way communication invariants: one way = do this thing it may or not happen Atomically or in a particular order but I don't need a response, two way: if this thing true then do this (requires coordination)
-- Tools for analysis and verification (IDE): tell you whether or not the application will be safe when it's deployed
+Acknowledging the fact that there is no such thing as a *"one-size-fits-all"*
+consistency models for applications, Christopher presents us a better approach:
 
-Exemples to demonstrate how some application invariants may be AP compatible while other being CAP sensitive
-Invariants:
-* Relative order (referential integrity) => AP compatible: Use Causal consitency infered from sequential client code / Use CRDTs
+Express our application invariants (properties of the system that must always
+hold true), and provide a way for the system to automatically infer from
+the application and tailor the consistency choices (feature by feature if you
+like) based on those invariants to guarantee that no violation occur,
+this is ***Just-Right Consistency***.
+
+Characteristics of **Just-Right Consistency**:
+
+* Write *sequential programs* that enforce *application level invariants*
+  and preserve this application behavior *when deployed under concurrency
+  and distribution*.
+* We will have **AP** compatible invariants: under an **AP** system we can
+  guarantee these invariants without synchronization.
+* And **CAP**-sensitive invariants: *one way* VS *two ways* communication
+  invariants:
+  *  One way: an operation that may or may not happen *atomically* or in a
+     particular order, but we *don't need a response* so it works without
+     synchronization
+  * Two way: two operations that are *related* or *dependent* will require
+    *coordination*
+* Provides tools for *analysis and verification* (e.g., at the IDE level): tell
+  whether or not the application *will be safe when it's deployed*, bringing
+  the application code and the database closer together.
+
+In the talk we follow the case study of a lifecycle management tool for
+prescriptions and drug delivery to demonstrate how some application invariants
+may be **AP** compatible while other being **CAP**-sensitive.
+
+Our invariants will be:
+
+* ***Relative order*** (*referential integrity*): Create a prescription record
+  and reference it by a patient
+* ***Joint updates*** (*atomicity*): Create prescription, then update doctor,
+  then patient, then pharmacy
+* ***Precondition check***: Deliver medication only the intended number of times
+
+The first two invariants are **AP** compatible, and the third one is
+**CAP**-sensitive as we shall see.
+
+Characteristics of an **AP** compatible invariant:
+
+* No synchronization: can operate locally without blocking. Its updates are
+  applied locally and asynchronously propagated.
+* Updates are fast and exploit *concurrency*.
+* Updates must *commute*: *non-commutative* updates require **CP**.
+
+
+What [***commutativity***](https://en.wikipedia.org/wiki/Commutative_property)
+is:
+
+Imagine we have two replicas of a register that are in agreement.
+
+If two concurrent operations set different values (e.g., 2 and 3) for a
+specific key on the two replicas and we don't synchronize, we will have a
+divergence.  
+Replication without coordination will not produce a single outcome, the system
+cannot by itself decide which value should win unless being told so.
+
+These two operations are said to be *non-commutative*.
+
+Can we make non-commutative updates commutative?
+
+Yes, using deterministic conflict resolution: pick a value that wins.  
+Use a timestamp-based algorithm (Cassandra's ***L****ast* ***W****rite*
+***W****ins*), application level merge/resolution (CouchDB, OrientDB, Aerospike, Riak).
+Yes, using CRDTs (insert more links now): Many different designs for different uses, are extended sequential data types that encapsulate (built-in) deterministic merge functions.
+
+Why are *relative order*
+
+First, there are two types of **CAP**-sensitive invariants:
+
+*
+
+For an invariant to be **CAP**-sensitive means:
+
+*
+
+* Relative order (referential integrity): Create a => AP compatible: Use Causal consitency infered from sequential client code / Use CRDTs
 * Joint updates (atomicity) => AP compatible:
 * Precondition check: PP1 invariant => CAP sensitive
 
@@ -637,10 +717,10 @@ This will deserve another blog post in the future to explore this topic.
 ## Justo Ruiz Ferrer — Adressing the elephant in the room: what a post-Hadoop era looks like
 
 The title mislead to expect a talk giving insight about *where* the big data
-processing techniques could go, but in the end it didn't deliver.  
+processing techniques could go, but in the end for me it didn't
+deliver {{< emoji content=":elephant:" >}}  
 The talk was mainly just an explanation of the *"my big data is bigger than
-your big data"* saying and a quick demo of [Valo](https://valo.io/)'s streaming
-platform.
+your big data"* saying and a quick demo of [Valo](https://valo.io/)'s streaming platform.
 
 The speaker (and CTO of the company hosting the event) is clearly comfortable
 talking to an audience and fills the room with his speaking, and
@@ -659,9 +739,12 @@ The last day's meal was an authentic
 [Valencian Paella](https://en.wikipedia.org/wiki/Paella), and I can tell you
 they nailed it. It was fantastic.
 
-{{< img src="/img/j-on-the-beach-malaga-2017-review/paella.jpg"
-title="Valencian Paella for 300 person" alt="Photo of a Valencian Paella"
-width="100%">}}
+{{< gallery title="Valencian Paella for 300 person" >}}
+  {{% galleryimage file="/img/j-on-the-beach-malaga-2017-review/paella.jpg"
+  size="4032x3024" width="372" %}}
+  {{% galleryimage file="/img/j-on-the-beach-malaga-2017-review/paella2.jpg"
+  size="4032x3024" width="418" %}}
+{{< /gallery >}}
 
 Once again in the backyard under a sunny sky {{< emoji content=":sunny:" >}}
 I've had the occasion to share with other conference attendees about the
@@ -670,8 +753,10 @@ Fun time {{< emoji content=":nerd:" >}}
 
 ## Caitie McCaffrey — Distributed Sagas: A Protocol for Coordinating Microservices
 
-Super interesting talk about how to orchestrate multiple *microservices* in
-order to achieve *consistency* of a single business action.
+Super interesting talk by
+[Caitie McCaffrey](https://twitter.com/caitie) about how to orchestrate
+multiple *microservices* in order to achieve *consistency* of a single
+business action.
 
 **Distributed Sagas** is a protocol with no standard or open source
 implementation (yet) designed to create a layer of *coordination* on top of
@@ -844,6 +929,13 @@ cover songs as well as a group called
 [Los Vinagres](https://g.co/kgs/zVDQ3a) coming from the
 Canary Islands {{< emoji content=":island:" >}}.
 
+{{< gallery title="Flamenco and Party" >}}
+  {{% galleryimage file="/img/j-on-the-beach-malaga-2017-review/flamenco.jpg"
+  size="4032x3024" caption="Flamenco group" width="395" %}}
+  {{% galleryimage file="/img/j-on-the-beach-malaga-2017-review/group.jpg"
+  size="4032x3024" caption="Cover songs" width="395" %}}
+{{< /gallery >}}
+
 I left with a few other attendees around midnight, going on a quest to find
 [Tapas](https://en.wikipedia.org/wiki/Tapas) {{< emoji content=":fried_shrimp:" >}}
 
@@ -854,11 +946,26 @@ I think I've said it in the first part of the article but the conference
 number of people from abroad and the *awesome speakers*.  
 It was then really easy to speak to people.
 
+
 **Thanks a lot to the organizers, speakers and other attendees for the great
 event.**
 
 **And thanks a lot to [MonkeyPatch](http://www.monkeypatch.io/)** (the company
 I work for) **for paying and allowing me to attend a conference in Malaga!**
+
+On a side note, I'd like to apologize for the length of this article.  
+It took me ***way too long*** to write this review and if you made it thus far,
+you're a hero.
+
+I really wanted to highlight the content of each talk and it took me researches
+and learning to give it back.  
+I hope you enjoyed nonetheless. I don't know if or how I will split my next
+conference review because I'm still new in this field, but there will be more
+content on most of the topics covered here in future blog posts.
+
+Thanks for reading, see you {{< emoji content=":wave:" >}}
+
+{{< img src="/img/j-on-the-beach-malaga-2017-review/venue2.jpg" title="Leaving" alt="Leaving the conference" width="100%">}}
 
 ## Bonus track: The Computer Science behind a modern distributed data store
 
