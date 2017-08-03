@@ -267,8 +267,10 @@ system&amp;rsquo;s log is checked to see if the database actually performed the 
 
 &lt;h2 id=&#34;model&#34;&gt;Model&lt;/h2&gt;
 
-&lt;p&gt;A model is an abstraction on top of the linearizability concept.&lt;br /&gt;
-It&amp;rsquo;s not easy to defined linearizability, I&amp;rsquo;ve had to read and watch so many
+&lt;p&gt;A model is an abstraction on top of the
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Linearizability&#34;&gt;&lt;strong&gt;&lt;em&gt;linearizability&lt;/em&gt;&lt;/strong&gt;&lt;/a&gt; concept.&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s not easy to defined linearizability, I&amp;rsquo;ve had to read and watch so many
 resources to try to understand that I can&amp;rsquo;t count them, and in the end I&amp;rsquo;m not
 sure I understand it well.&lt;/p&gt;
 
