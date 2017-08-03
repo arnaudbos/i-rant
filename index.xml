@@ -52,7 +52,7 @@
 &lt;/figure&gt;
 
 
-
+&lt;div class=&#34;title&#34;&gt;Photos shamelessly stolen from Kyle Kinsburry&amp;#39;s website&lt;/div&gt;
 &lt;/div&gt;
 
 
@@ -263,8 +263,7 @@ checker, whose job it is to reorder the calls/results from all the clients
 and confront the history to a model.&lt;/p&gt;
 
 &lt;p&gt;When a client writes a value and gets back an acknowledgement of the write, the
-system&amp;rsquo;s log is checked to see if the database actually performed the write.
-TODO: I&amp;rsquo;m actually not sure about this one&amp;hellip;&lt;/p&gt;
+system&amp;rsquo;s log is checked to see if the database actually performed the write.&lt;/p&gt;
 
 &lt;h2 id=&#34;model&#34;&gt;Model&lt;/h2&gt;
 
@@ -342,7 +341,7 @@ don&amp;rsquo;t hesitate, he really &lt;em&gt;knows his stuff&lt;/em&gt; and he 
     
     
     &lt;figcaption&gt;
-        &lt;h6&gt;&lt;em&gt;Panoramic view of the seaside of Malaga — Picture taken while hiking, the day after the conference&lt;/em&gt;&lt;/h6&gt;
+        &lt;h6&gt;&lt;em&gt;Panoramic view — Seaside of Malaga — Hiking the day after the conference&lt;/em&gt;&lt;/h6&gt;
         
     &lt;/figcaption&gt;
     
@@ -352,7 +351,9 @@ don&amp;rsquo;t hesitate, he really &lt;em&gt;knows his stuff&lt;/em&gt; and he 
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://jonthebeach.com/&#34;&gt;J On The Beach&lt;/a&gt; (JOTB) is &lt;em&gt;&amp;ldquo;A Big Data Conference On The Beach&amp;rdquo;&lt;/em&gt; happening in Malaga (Spain) and this year (2017) was its second edition.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://jonthebeach.com/&#34;&gt;J On The Beach&lt;/a&gt; (JOTB) is &lt;em&gt;&amp;ldquo;A Big Data
+Conference On The Beach&amp;rdquo;&lt;/em&gt; happening in Malaga (Spain) and this year (2017)
+was its second edition.&lt;/p&gt;
 
 &lt;h1 id=&#34;tl-dr&#34;&gt;tl;dr&lt;/h1&gt;
 
@@ -370,6 +371,8 @@ pauses between talks reviews and technical explanations, but it&amp;rsquo;s fair
 that the food was &lt;strong&gt;&lt;em&gt;great&lt;/em&gt;&lt;/strong&gt; and that &lt;strong&gt;&lt;em&gt;the organizers made sure we wouldn&amp;rsquo;t
 forget our stay&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
 
+&lt;li&gt;&lt;p&gt;I came for distributed systems topics, and I&amp;rsquo;ve been served.&lt;/p&gt;&lt;/li&gt;
+
 &lt;li&gt;&lt;p&gt;The party at the end of the event was &lt;strong&gt;&lt;em&gt;fantastic&lt;/em&gt;&lt;/strong&gt;, I&amp;rsquo;ve never seen so
 many geeks dance &lt;span class=&#34;emoji&#34;&gt;:astonished:&lt;/span&gt;
 &lt;/p&gt;&lt;/li&gt;
@@ -377,7 +380,7 @@ many geeks dance &lt;span class=&#34;emoji&#34;&gt;:astonished:&lt;/span&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;I&amp;rsquo;ve discovered JOTB by accident last year, during the revelation of the
+&lt;p&gt;I&amp;rsquo;ve discovered JOTB by accident in 2016, during the revelation of the
 &lt;a href=&#34;https://panamapapers.icij.org/&#34;&gt;Panama Papers&lt;/a&gt; when I was searching for
 technical details about how the &lt;a href=&#34;https://www.icij.org/about&#34;&gt;ICIJ&lt;/a&gt; managed to
 analyse this massive leak of data.&lt;br /&gt;
@@ -393,6 +396,11 @@ tickets&lt;/p&gt;
 
 &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Tickets booked, I&amp;#39;ll be &lt;a href=&#34;https://twitter.com/JOTB17&#34;&gt;@JOTB17&lt;/a&gt; in May and will attend &lt;a href=&#34;https://twitter.com/aphyr&#34;&gt;@aphyr&lt;/a&gt;&amp;#39;s workshop on &lt;a href=&#34;https://twitter.com/hashtag/Jepsen?src=hash&#34;&gt;#Jepsen&lt;/a&gt; 🎉 Can&amp;#39;t wait!&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/816912096948613120&#34;&gt;January 5, 2017&lt;/a&gt;&lt;/blockquote&gt;
 &lt;script async src=&#34;//platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;I didn&amp;rsquo;t know how to cut this article, maybe in half? or maybe an entry by
+talk was more appropriate?&lt;br /&gt;
+So I just kept everything in a single page and here is the table of contents
+for you to hop around and read about the topics that you are interested in.&lt;/p&gt;
 
 &lt;h1 id=&#34;tabla-de-contenido&#34;&gt;Tabla de contenido&lt;/h1&gt;
 
@@ -582,7 +590,7 @@ make sure to put links here when it&amp;rsquo;s done.&lt;/p&gt;
 
 &lt;p&gt;This is the kind of opening that really stick with me.&lt;br /&gt;
 If you don&amp;rsquo;t know about Quantum Computers,
-&lt;a href=&#34;https://www.dwavesys.com&#34;&gt;D-Wave Systems&lt;/a&gt; and Eric Ladizinsky,
+&lt;a href=&#34;https://www.dwavesys.com&#34;&gt;D-Wave Systems&lt;/a&gt; or Eric Ladizinsky,
 don&amp;rsquo;t feel bad, I didn&amp;rsquo;t know either (if you knew, good for you!).&lt;/p&gt;
 
 &lt;p&gt;So the conference started with a man going up on stage really naturally,
@@ -611,13 +619,13 @@ But when some algorithm can be successful by throwing more computing power at
 them, some problem remain &lt;a href=&#34;https://en.wikipedia.org/wiki/Computational_complexity_theory#Intractability&#34;&gt;intractable&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Quantum computers leverage the principles of quantum physics
-like &lt;code&gt;untanglement&lt;/code&gt; in order to evaluate all possible models and find the
-most efficient solution.&lt;/p&gt;
+like &lt;a href=&#34;https://en.wikipedia.org/wiki/Quantum_entanglement&#34;&gt;&lt;code&gt;untanglement&lt;/code&gt;&lt;/a&gt;
+in order to evaluate all possible models and find the most efficient solution.&lt;/p&gt;
 
 &lt;p&gt;Eric gave us a great analogy with forgery: consider the molecules of metal
 forming a sword.&lt;br /&gt;
-The best sword ever can only be achieved by find the best shape, the best
-alignment possible of its molecules.&lt;/p&gt;
+The best sword ever can only be achieved by finding the best shape, the best
+arrangement possible of its molecules.&lt;/p&gt;
 
 &lt;p&gt;So, of all the possible combinations, which one is the best?&lt;/p&gt;
 
@@ -634,7 +642,8 @@ previous one at a much higher rate than our current CPUs.&lt;/p&gt;
 &lt;p&gt;At the moment it seems like only the NASA and Google can afford to buy some
 of them and try them on, but we, as programmers,
 &lt;a href=&#34;https://www.dwavesys.com/software&#34;&gt;we can already program them&lt;/a&gt;
-with our current tools (Python, C++) in cloud based environments.&lt;/p&gt;
+with our current tools (Python, C++) thanks to cloud based environments and
+several layers of abstraction.&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m short on words and my knowledge of quantum physics, quantum computers and
 the programming model to use them is limited, but if you are interested,
@@ -649,7 +658,9 @@ here are some links:&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://twitter.com/randommood&#34;&gt;Inés Sombra&lt;/a&gt; is an engineer at
 &lt;a href=&#34;https://www.fastly.com&#34;&gt;Fastly&lt;/a&gt; and in this session she talked about
-&lt;strong&gt;tradeoffs&lt;/strong&gt; in building a distributed system. And OMG she speaks really fast.&lt;/p&gt;
+&lt;strong&gt;tradeoffs&lt;/strong&gt; in building a distributed system. And &lt;em&gt;OMG she speaks really
+fast&lt;/em&gt; &lt;span class=&#34;emoji&#34;&gt;:race_car:&lt;/span&gt;
+&lt;/p&gt;
 
 &lt;p&gt;If I could summarize the entire talk in a single word, it would be
 &lt;strong&gt;&lt;em&gt;&amp;ldquo;tradeoffs&amp;rdquo;&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
@@ -702,18 +713,13 @@ realize what/how choices were made.&lt;/p&gt;
 
 &lt;h2 id=&#34;kyle-kingsbury-jepsen-talk&#34;&gt;Kyle Kingsbury — Jepsen Talk&lt;/h2&gt;
 
-&lt;p&gt;Distributed systems behave badly
-Hard to test
-Don&amp;rsquo;t trust vendors documentation, they&amp;rsquo;re not evil but have physical/budget limits to testing
-Do tests
-Hope this will lead to better software&lt;/p&gt;
-
 &lt;p&gt;Once again, &lt;a href=&#34;https://aphyr.com/&#34;&gt;aphyr&lt;/a&gt; strikes with his presentation skills
 and humor.&lt;/p&gt;
 
 &lt;p&gt;To paraphrase him: &lt;strong&gt;&lt;em&gt;&amp;ldquo;our databases are on fire&amp;rdquo;&lt;/em&gt;&lt;/strong&gt;, and what we do as
 developers is try to hide this instability to our users through nicely
-designed and shiny APIs.&lt;/p&gt;
+designed and shiny APIs &lt;span class=&#34;emoji&#34;&gt;:rainbow:&lt;/span&gt;
+&lt;/p&gt;
 
 &lt;p&gt;But if we do our best for our users to continue riding around on unicorns
 all day long, we are sitting on top of systems of which we don&amp;rsquo;t really know
@@ -723,24 +729,22 @@ the inner workings.&lt;/p&gt;
 queues and other distributed systems on the basis of what he suspected was
 wrong or what the README and documentation of those softwares were stating.&lt;/p&gt;
 
-&lt;p&gt;He found numerous &amp;ldquo;bugs&amp;rdquo; and &amp;ldquo;inconsistencies&amp;rdquo;, published them in a series
-of blog posts and worked with some of the teams to help analyze problems
-and improve stability.&lt;/p&gt;
+&lt;p&gt;He found numerous &amp;ldquo;bugs&amp;rdquo; and &amp;ldquo;inconsistencies&amp;rdquo;, published them in a
+&lt;a href=&#34;http://jepsen.io/analyses&#34;&gt;series of blog posts&lt;/a&gt;
+and worked with some of the teams to help analyze problems and improve
+stability.&lt;/p&gt;
 
-&lt;p&gt;What he learnt was that we should all test the software we use and we depend
-on.&lt;br /&gt;
-We should carefully read the claims and documentations of such systems,
+&lt;p&gt;What he shares with us is that &lt;strong&gt;&lt;em&gt;we should test the software we use and
+we depend on&lt;/em&gt;&lt;/strong&gt;.&lt;br /&gt;
+We should &lt;em&gt;carefully read&lt;/em&gt; the claims and documentations of such systems,
 but not take anything for granted, because all of these systems are developed
-under physical and budget constraints, because formal testing is hard and
-simulation testing is hard.&lt;/p&gt;
+under physical and budget constraints, because &lt;em&gt;formal testing is hard&lt;/em&gt; and
+&lt;em&gt;simulation testing is hard too&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;This talk is also, in my opinion, a call to acknowledge that implementations
-of such distributed systems might not be perfect, and that some kinds of
-errors, loss or corruptions might be acceptable from a domain point
-of view, but that problem should not be hidden and assumptions must be
+&lt;p&gt;Implementations of distributed systems might not be perfect, and some kinds of
+&lt;em&gt;errors&lt;/em&gt;, &lt;em&gt;loss&lt;/em&gt; or &lt;em&gt;inconsistencies&lt;/em&gt; might be acceptable &lt;strong&gt;from a domain point
+of view&lt;/strong&gt;, but that problem should not be hidden and assumptions must be
 validated.&lt;/p&gt;
-
-&lt;p&gt;In the end, I think Kyle is a on a journey to help teams develop better software.&lt;/p&gt;
 
 
 &lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
@@ -748,23 +752,34 @@ validated.&lt;/p&gt;
  &lt;/div&gt;
 
 
+&lt;h5&gt;More on Jepsen and simulation testing:&lt;/h5&gt;
+
 &lt;p&gt;In the same series, I find this previous talk about Jepsen to be more
-informative for someone interested in &lt;strong&gt;&lt;em&gt;learning&lt;/em&gt;&lt;/strong&gt; about distributed systems, and
-it also might be the funniest talk I&amp;rsquo;ve ever watched:
+informative for someone interested in &lt;strong&gt;&lt;em&gt;learning&lt;/em&gt;&lt;/strong&gt; about distributed systems,
+and it also might be the funniest talk I&amp;rsquo;ve ever watched:
 &lt;a href=&#34;https://www.youtube.com/watch?v=QdkS6ZjeR7Q&#34;&gt;Jepsen II: Linearizable Boogaloo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve also came across this
+&lt;a href=&#34;https://www.youtube.com/watch?v=4fFDFbi3toc&#34;&gt;talk about simulation testing&lt;/a&gt;
+at FoundationDB. &lt;a href=&#34;https://en.wikipedia.org/wiki/FoundationDB&#34;&gt;FoundationDB&lt;/a&gt;
+was a closed source &lt;em&gt;&amp;ldquo;multi-model NoSQL database&amp;rdquo;&lt;/em&gt; that has been acquired
+by Apple since this talk.&lt;/p&gt;
 
 &lt;h2 id=&#34;dharma-shukla-lessons-learnt-from-building-a-globally-distributed-database-service-from-the-ground-up&#34;&gt;Dharma Shukla — Lessons learnt from building a globally distributed database service from the ground up&lt;/h2&gt;
 
 &lt;p&gt;For the first few seconds I was a bit bored by the tone of the presentation.
 Boy I was wrong!&lt;/p&gt;
 
-&lt;p&gt;During this talk, I&amp;rsquo;ve been introduced to
+&lt;p&gt;During this talk, &lt;a href=&#34;https://twitter.com/dharmashukla&#34;&gt;Dharma Shukla&lt;/a&gt; introduces
+us with
 &lt;a href=&#34;https://azure.microsoft.com/en-us/services/cosmos-db/&#34;&gt;CosmosDB&lt;/a&gt;, formerly
 known as DocumentDB.&lt;/p&gt;
 
 &lt;p&gt;Honestly, I didn&amp;rsquo;t even know this was a thing, and yet it is a really
 interesting product developed during the last 7 years by Microsoft:
-a &lt;em&gt;schema-less&lt;/em&gt;, &lt;em&gt;multi-model&lt;/em&gt;, &lt;em&gt;globally distributed&lt;/em&gt; database in Azure Cloud.&lt;/p&gt;
+a &lt;em&gt;schema-less&lt;/em&gt;, &lt;em&gt;multi-model&lt;/em&gt;, &lt;em&gt;globally distributed&lt;/em&gt; database in Azure Cloud
+&lt;span class=&#34;emoji&#34;&gt;:earth_africa:&lt;/span&gt;
+&lt;/p&gt;
 
 &lt;p&gt;There are articles that will better describe Cosmos DB than I could do, but
 what I will keep from Dharma&amp;rsquo;s talk is the amount of work the teams at
@@ -772,20 +787,20 @@ Microsoft seem to have invested in ensuring strong and comprehensible SLAs
 for latency and availability, but also for consistency and throughput,
 which is another level of quality.&lt;/p&gt;
 
-&lt;p&gt;Cosmos DB is fully &lt;strong&gt;&lt;em&gt;schema agnostic&lt;/em&gt;&lt;/strong&gt; and has its own way of structuring data
-so that you don&amp;rsquo;t have to worry about it (RDF under the hood?), and it
+&lt;p&gt;CosmosDB is fully &lt;strong&gt;&lt;em&gt;schema agnostic&lt;/em&gt;&lt;/strong&gt; and has its own way of structuring
+data so that you don&amp;rsquo;t have to worry about it (RDF under the hood?), and it
 also &amp;ldquo;indexes all the data&amp;rdquo;.&lt;/p&gt;
 
-&lt;p&gt;Cosmos DB is &lt;strong&gt;&lt;em&gt;multi-model&lt;/em&gt;&lt;/strong&gt; in the sense that it supports &lt;em&gt;document&lt;/em&gt;,
+&lt;p&gt;CosmosDB is &lt;strong&gt;&lt;em&gt;multi-model&lt;/em&gt;&lt;/strong&gt; in the sense that it supports &lt;em&gt;document&lt;/em&gt;,
 &lt;em&gt;graph&lt;/em&gt; of &lt;em&gt;key-value&lt;/em&gt; data types and uses a &lt;em&gt;SQL-like&lt;/em&gt; query dialect as well
 as MongoDB or graph APIs.&lt;/p&gt;
 
-&lt;p&gt;Another important feature of Cosmos DB is it&amp;rsquo;s &lt;strong&gt;5 different levels of
+&lt;p&gt;Another important feature of CosmosDB is it&amp;rsquo;s &lt;strong&gt;5 different levels of
 consistency&lt;/strong&gt;, from &lt;em&gt;&amp;ldquo;strong consistency&amp;rdquo;&lt;/em&gt; to &lt;em&gt;&amp;ldquo;eventual consistency&amp;rdquo;&lt;/em&gt;,
 Microsoft has implemented three other consistency models based on academic
 researches.&lt;/p&gt;
 
-&lt;p&gt;Cosmos DB is available as a service on &lt;em&gt;Microsoft Azure Cloud&lt;/em&gt;. There you can
+&lt;p&gt;CosmosDB is available as a service on &lt;em&gt;Microsoft Azure Cloud&lt;/em&gt;. There you can
 choose and &lt;em&gt;elastically control with API calls&lt;/em&gt; the amount of storage and
 &lt;em&gt;scale the throughput&lt;/em&gt; of your application and pay as you go down to
 a &lt;em&gt;granularity of a second&lt;/em&gt;.&lt;/p&gt;
@@ -810,27 +825,35 @@ afraid of vendor lock-in or are already using Microsoft Azure, it looks amazing.
 &lt;h2 id=&#34;lunch-wraps-beers&#34;&gt;Lunch: Wraps+beers&lt;/h2&gt;
 
 &lt;p&gt;The first day&amp;rsquo;s lunch consisted of wraps of different flavors, chicken, ham
-or veggie.&lt;br /&gt;
+or veggie &lt;span class=&#34;emoji&#34;&gt;:burrito:&lt;/span&gt;
+&lt;br /&gt;
 They were good enough, and open beer bar was present just like the day before
 so one just had to manage to eat and drink wisely in order to be fully ready
 for the talks of the afternoon.&lt;/p&gt;
 
 &lt;p&gt;The lunch took place in the backyard just like on Wednesday, on the grass,
-under a beautiful sunny sky.&lt;/p&gt;
+under a beautiful sunny sky &lt;span class=&#34;emoji&#34;&gt;:sunny:&lt;/span&gt;
+&lt;/p&gt;
 
-&lt;p&gt;During the meal I reconnected with some of my fellow Jepsen workshop-ers
-&lt;a href=&#34;https://twitter.com/rocketarium&#34;&gt;Andrei Dan&lt;/a&gt; and
-&lt;a href=&#34;https://twitter.com/einsmu&#34;&gt;Sebastian Utz&lt;/a&gt; from &lt;a href=&#34;https://crate.io/&#34;&gt;CrateDB&lt;/a&gt;,
-&lt;a href=&#34;https://twitter.com/neunhoef&#34;&gt;Max Neunhöffer&lt;/a&gt; from
-&lt;a href=&#34;https://www.arangodb.com/&#34;&gt;ArangoDB&lt;/a&gt; and Sayat Satybaldiev from
-&lt;a href=&#34;https://jobs.zalando.com/tech/blog/&#34;&gt;Zalando&lt;/a&gt; to share our experiences about
-the morning talks.&lt;/p&gt;
+&lt;p&gt;During the meal I reconnected with some of my fellow Jepsen workshop-ers to
+share our experiences about the morning talks:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://twitter.com/rocketarium&#34;&gt;Andrei Dan&lt;/a&gt; and
+&lt;a href=&#34;https://twitter.com/einsmu&#34;&gt;Sebastian Utz&lt;/a&gt; from &lt;a href=&#34;https://crate.io/&#34;&gt;CrateDB&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://twitter.com/neunhoef&#34;&gt;Max Neunhöffer&lt;/a&gt; from
+&lt;a href=&#34;https://www.arangodb.com/&#34;&gt;ArangoDB&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;Sayat Satybaldiev from &lt;a href=&#34;https://jobs.zalando.com/tech/blog/&#34;&gt;Zalando&lt;/a&gt; and&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://twitter.com/donnchadho&#34;&gt;Donnchadh Ó Donnabháin&lt;/a&gt; from
+&lt;a href=&#34;https://www.poppulo.com/&#34;&gt;Poppulo&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&#34;anjana-vakil-custom-query-languages-why-how&#34;&gt;Anjana Vakil — Custom Query Languages: Why? How?&lt;/h2&gt;
 
-&lt;p&gt;Design CQL like a UX with user/usability in mind
-Powerful abstractions
-Parser + AST&lt;/p&gt;
+&lt;p&gt;In this talk, &lt;a href=&#34;https://twitter.com/anjanavakil&#34;&gt;Anjana Vakil&lt;/a&gt; explains what is the
+difference between a &lt;strong&gt;&lt;em&gt;DSL&lt;/em&gt;&lt;/strong&gt; and a &lt;strong&gt;&lt;em&gt;CQL&lt;/em&gt;&lt;/strong&gt; and gives us some insights on
+how to design such languages with the goal of providing powerful abstractions
+while keeping usability in mind.&lt;/p&gt;
 
 
 &lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
@@ -840,7 +863,9 @@ Parser + AST&lt;/p&gt;
 
 &lt;h2 id=&#34;roland-kuhn-taming-distribution-formal-protocols-for-akka-typed&#34;&gt;Roland Kuhn — Taming distribution: formal protocols for Akka Typed&lt;/h2&gt;
 
-&lt;p&gt;Typed actors&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m interested in actors but not familiar enough with Scala, Akka and the
+specific implementation that is presented here to provide a good review of
+this talk.&lt;/p&gt;
 
 
 &lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
@@ -850,8 +875,285 @@ Parser + AST&lt;/p&gt;
 
 &lt;h2 id=&#34;christopher-meiklejohn-just-right-consistency-closing-the-cap-gap&#34;&gt;Christopher Meiklejohn — Just-Right Consistency: Closing The CAP Gap&lt;/h2&gt;
 
-&lt;p&gt;OMG WAT?
-Antidote db&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/cmeik&#34;&gt;Christopher Meiklejohn&lt;/a&gt; is a former software
+developer in industry turned researcher after having worked at
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Riak&#34;&gt;Riak&lt;/a&gt; at &lt;a href=&#34;http://basho.com/&#34;&gt;Basho&lt;/a&gt;.&lt;br /&gt;
+In this talk he talks about &amp;ldquo;&lt;strong&gt;&lt;em&gt;Just-Right Consistency&lt;/em&gt;&lt;/strong&gt;&amp;rdquo; or how to &amp;ldquo;&lt;em&gt;exploit
+availability whenever possible and only synchronize exactly when needed to
+enforce application invariance&lt;/em&gt;&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Topics of the talk:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Invariants&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CAP&lt;/strong&gt; theorem&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AP&lt;/strong&gt; and &lt;strong&gt;CP&lt;/strong&gt; systems&lt;/li&gt;
+&lt;li&gt;Consensus&lt;/li&gt;
+&lt;li&gt;Causality&lt;/li&gt;
+&lt;li&gt;Relative order&lt;/li&gt;
+&lt;li&gt;Joint updates&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CRDT&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And this is me watching the talk:&lt;/p&gt;
+
+
+&lt;figure  &gt;
+    
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/wat.jpg&#34; alt=&#34;wat&#34;
+            width=&#34;100%&#34;
+            /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h6&gt;&lt;em&gt;What is this, I don&amp;#39;t even.&lt;/em&gt;&lt;/h6&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+
+&lt;p&gt;This one gave me headaches, seriously. I&amp;rsquo;m not going to be able to summarize it
+in a short paragraph so I&amp;rsquo;ll go for the long one.&lt;/p&gt;
+
+&lt;p&gt;The state of cloud databases that has been for many years is that we
+traditionally put out data in databases in datacenter(s). We have clients
+from all over the world accessing a &lt;em&gt;primary&lt;/em&gt; copy and we &lt;em&gt;geo-replicate&lt;/em&gt; in
+order to ensure &lt;em&gt;fault-tolerance&lt;/em&gt; and provide &lt;em&gt;high-availability&lt;/em&gt; and
+&lt;em&gt;low latency&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;And in the event that one or more of the copy of the database cannot
+communicate with one another we have to make a choice, once and for all:&lt;/p&gt;
+
+&lt;p&gt;We either choose a
+&lt;em&gt;Consistent-under-Partition&lt;/em&gt; (&lt;strong&gt;CP&lt;/strong&gt;) or an
+&lt;em&gt;Available-under-Partition&lt;/em&gt; (&lt;strong&gt;AP&lt;/strong&gt;) approach.&lt;/p&gt;
+
+&lt;p&gt;Characteristics of a &lt;strong&gt;CP system&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;All the operations are &lt;em&gt;synchronized&lt;/em&gt; (write or read) on order to &amp;ldquo;&lt;em&gt;treat all
+the copies as one logical unit&lt;/em&gt;&amp;rdquo;. A &lt;em&gt;consensus&lt;/em&gt; protocol must be used in order
+to ensure a single system image across replicas.&lt;/li&gt;
+&lt;li&gt;This is &lt;a href=&#34;https://en.wikipedia.org/wiki/Serializability&#34;&gt;&lt;strong&gt;&lt;em&gt;serializability&lt;/em&gt;&lt;/strong&gt;&lt;/a&gt;
+(e.g., Google Cloud Spanner): provide &lt;em&gt;strong consistency&lt;/em&gt; an minimize the
+amount of time you have to wait, but &lt;em&gt;still slower than an AP system&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Often &lt;em&gt;over-conservative&lt;/em&gt; but very popular because easier to program! On the
+programmer side, &lt;em&gt;the application is written without thinking about
+distribution&lt;/em&gt;: if I write something then I will read this something, this is
+a guarantee of
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Linearizability&#34;&gt;&lt;strong&gt;&lt;em&gt;linearizability&lt;/em&gt;&lt;/strong&gt;&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Characteristics of an &lt;strong&gt;AP system&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Operations are &lt;em&gt;executed against local copies&lt;/em&gt; and then the result of those
+operations are then &lt;em&gt;propagated asynchronously&lt;/em&gt; which may take time&lt;/li&gt;
+&lt;li&gt;Reads and writes happen &lt;em&gt;extremely fast&lt;/em&gt;, so we may have &lt;strong&gt;&lt;em&gt;stale reads&lt;/em&gt;&lt;/strong&gt;
+and &lt;strong&gt;&lt;em&gt;write conflicts&lt;/em&gt;&lt;/strong&gt; between two updates on two different copies of
+the database since they haven&amp;rsquo;t &lt;em&gt;synchronized&lt;/em&gt;: they need to reconcile.&lt;/li&gt;
+&lt;li&gt;The system can keep operating in the even of failure: &lt;em&gt;Available but
+difficult to program&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Acknowledging the fact that there is no such thing as a &lt;em&gt;&amp;ldquo;one-size-fits-all&amp;rdquo;&lt;/em&gt;
+consistency model for applications, Christopher presents us a better approach:&lt;/p&gt;
+
+&lt;p&gt;Express our application invariants (properties of the system that must always
+hold true), and provide a way for the system to automatically infer from
+the application and tailor the consistency choices (a.k.a. feature by feature)
+based on those invariants to guarantee that no violation occur,
+this is &lt;strong&gt;&lt;em&gt;Just-Right Consistency&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Characteristics of &lt;strong&gt;Just-Right Consistency&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Write &lt;em&gt;sequential programs&lt;/em&gt; that enforce &lt;em&gt;application level invariants&lt;/em&gt;
+and preserve this application behavior &lt;em&gt;when deployed under&lt;/em&gt;
+&lt;strong&gt;&lt;em&gt;concurrency&lt;/em&gt;&lt;/strong&gt; &lt;em&gt;and&lt;/em&gt; &lt;strong&gt;&lt;em&gt;distribution&lt;/em&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;We will have &lt;strong&gt;AP&lt;/strong&gt; compatible invariants: under an &lt;strong&gt;AP&lt;/strong&gt; system we can
+guarantee these invariants without synchronization.&lt;/li&gt;
+&lt;li&gt;And &lt;strong&gt;CAP&lt;/strong&gt;-sensitive invariants: &lt;em&gt;one way&lt;/em&gt; VS &lt;em&gt;two ways&lt;/em&gt; communication
+invariants:
+
+&lt;ul&gt;
+&lt;li&gt;One way: an operation that may or may not happen &lt;em&gt;atomically&lt;/em&gt; or in a
+particular order, but we &lt;em&gt;don&amp;rsquo;t need a response&lt;/em&gt; so it works without
+synchronization&lt;/li&gt;
+&lt;li&gt;Two way: two operations that are &lt;em&gt;related&lt;/em&gt; or &lt;em&gt;dependent&lt;/em&gt; will require
+&lt;em&gt;coordination&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Provides tools for &lt;em&gt;analysis and verification&lt;/em&gt; (e.g., at the IDE level): tell
+whether or not the application &lt;em&gt;will be safe when it&amp;rsquo;s deployed&lt;/em&gt;, bringing
+the application code and the database closer together.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the talk we follow the case study of a lifecycle management tool for
+prescriptions and drug delivery to demonstrate how some application invariants
+may be &lt;strong&gt;AP&lt;/strong&gt; compatible while other being &lt;strong&gt;CAP&lt;/strong&gt;-sensitive.&lt;/p&gt;
+
+&lt;p&gt;Our invariants will be:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Relative order&lt;/em&gt;&lt;/strong&gt; (&lt;em&gt;referential integrity&lt;/em&gt;): Create a prescription record
+and reference it by a patient&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Joint updates&lt;/em&gt;&lt;/strong&gt; (&lt;em&gt;atomicity&lt;/em&gt;): Create prescription, then update doctor,
+then patient, then pharmacy&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Precondition check&lt;/em&gt;&lt;/strong&gt;: Deliver medication only the intended number of times&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The first two invariants are &lt;strong&gt;AP&lt;/strong&gt; compatible, and the third one is
+&lt;strong&gt;CAP&lt;/strong&gt;-sensitive as we shall see.&lt;/p&gt;
+
+&lt;p&gt;Characteristics of an &lt;strong&gt;AP&lt;/strong&gt; compatible invariant:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;No synchronization: can operate locally without blocking. Its updates are
+applied locally and asynchronously propagated.&lt;/li&gt;
+&lt;li&gt;Updates are fast and exploit &lt;em&gt;concurrency&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Updates must &lt;em&gt;commute&lt;/em&gt;: &lt;em&gt;non-commutative&lt;/em&gt; updates require &lt;strong&gt;CP&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;What &lt;a href=&#34;https://en.wikipedia.org/wiki/Commutative_property&#34;&gt;&lt;strong&gt;&lt;em&gt;commutativity&lt;/em&gt;&lt;/strong&gt;&lt;/a&gt;
+is:&lt;/p&gt;
+
+&lt;p&gt;Imagine we have two replicas of a register that are in agreement.&lt;/p&gt;
+
+&lt;p&gt;If two concurrent operations set different values (e.g., 2 and 3) for a
+specific key on the two replicas and we don&amp;rsquo;t synchronize, we will have a
+divergence.&lt;br /&gt;
+Replication without coordination will not produce a single outcome, the system
+cannot by itself decide which value should win unless being told so.&lt;/p&gt;
+
+&lt;p&gt;These two operations are said to be &lt;em&gt;non-commutative&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Can we make non-commutative updates commutative?  Yes:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Using deterministic conflict resolution: pick a value that wins.&lt;br /&gt;
+Use a timestamp-based algorithm (Cassandra&amp;rsquo;s &lt;strong&gt;&lt;em&gt;L&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;ast&lt;/em&gt; &lt;strong&gt;&lt;em&gt;W&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;rite&lt;/em&gt;
+&lt;strong&gt;&lt;em&gt;W&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;ins&lt;/em&gt;), or an application level merge/resolution (CouchDB, OrientDB,
+Aerospike, Riak).&lt;/li&gt;
+&lt;li&gt;using
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type&#34;&gt;&lt;strong&gt;&lt;em&gt;CRDT&lt;/em&gt;&lt;/strong&gt;&lt;/a&gt;s:
+&lt;strong&gt;CRDT&lt;/strong&gt;s are extended sequential data types that encapsulate (built-in)
+deterministic merge functions. I&amp;rsquo;m not very familiar so I will try to get into
+more details in future blog posts, but there are many different designs of
+CRTDs for different uses.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So what happens when we assume that the system we&amp;rsquo;re building has this property?&lt;br /&gt;
+All operations will commute.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s examine &lt;em&gt;relative order&lt;/em&gt; and &lt;em&gt;joint updates&lt;/em&gt; first.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Relative order&lt;/strong&gt; invariant:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;We do something, then other actions, and ensure that the updates
+are seen in the proper order, this is relative order.&lt;/li&gt;
+&lt;li&gt;If an operation P implies Q than the program makes sure that Q is written
+before P. As long as it&amp;rsquo;s in order on the target replica and that changes are
+replicated in the proper order, the invariant is never violated.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So we need a system that ensures
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Causal_consistency&#34;&gt;&lt;strong&gt;&lt;em&gt;causal consitency&lt;/em&gt;&lt;/strong&gt;&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Updates that are causaly related to other updates (that influence other
+updates) that happen in an order should be delivered in the exact same order&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Joint updates&lt;/strong&gt; invariant:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Given &lt;em&gt;relative order&lt;/em&gt;, two replicas with updates are causally consistent,
+so far so good&lt;/li&gt;
+&lt;li&gt;But still, inconsistent state of the database can be read by
+clients/replicas &lt;em&gt;between&lt;/em&gt; updates&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Joint updates&lt;/em&gt; relate to
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Atomicity_(database_systems)&#34;&gt;&lt;strong&gt;&lt;em&gt;atomicity&lt;/em&gt;&lt;/strong&gt;&lt;/a&gt;:
+all-or-nothing&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is solved by grouping updates atomically in batches, taking snapshots
+along the way so clients (or other replicas) read consistent snapshots.&lt;/p&gt;
+
+&lt;p&gt;By ensuring these invariants on the database side based on the sequential
+program on the client side, at this point we are designing a system that has
+&lt;em&gt;relative order&lt;/em&gt; plus &lt;em&gt;joint updates&lt;/em&gt;, that is:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Transactional Causal Consistency&lt;/em&gt;&lt;/strong&gt;: the strongest &lt;strong&gt;AP&lt;/strong&gt; compatible
+consistency model.&lt;/p&gt;
+
+&lt;p&gt;Now for our last invariant: &lt;strong&gt;Preconditions check&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Preventing getting the same prescription twice&lt;/li&gt;
+&lt;li&gt;This is basically a counter with addition and subtraction operation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;What happens when these operations happen concurently?&lt;/p&gt;
+
+&lt;p&gt;Addition for instance: Take a counter and apply an addition on a replica
+and another addition on a second replica. We assumed earlier that operations
+on our system will commute, so for instance adding 2 and then 3 is the
+same thing as adding 3 and then 2.&lt;/p&gt;
+
+&lt;p&gt;Addition is then stable under concurrency and we don&amp;rsquo;t have to synchronize.&lt;/p&gt;
+
+&lt;p&gt;Subtraction on the other hand is not stable under concurrency. If we
+decrement our counter on a replica and do the same thing on another
+replicat without synchronizing, we could break the invariant that the
+counter must always be greater than zero.&lt;/p&gt;
+
+&lt;p&gt;This is &lt;strong&gt;CAP&lt;/strong&gt;-sensitive.&lt;/p&gt;
+
+&lt;p&gt;We have two solutions do deal with this issue:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First: &lt;strong&gt;¯\&lt;em&gt;(ツ)&lt;/em&gt;/¯&lt;/strong&gt;
+We can be fine with this tradeoff and acknowledge that our invariant
+&lt;em&gt;wasn&amp;rsquo;t really an invariant&lt;/em&gt;, e.g.: ensure that a pacient gets its
+prediction rather than being too conservative.&lt;/li&gt;
+&lt;li&gt;Second: Forbid concurrency, a.k.a &lt;em&gt;synchronization&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Wow, that was a long read!&lt;/p&gt;
+
+&lt;p&gt;This model is interesting because we can choose &lt;em&gt;for each operation&lt;/em&gt;
+what consistency model suits best. And when I say &amp;ldquo;we&amp;rdquo;, I say the
+&lt;em&gt;system&lt;/em&gt;. Because it&amp;rsquo;s hard to reason about these problems and we need
+&lt;em&gt;new tools&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Need tools to analyse and allow or not operations to proceed by analysing
+&lt;em&gt;where invariants could be violated&lt;/em&gt; and tell us where we&amp;rsquo;re fine and
+where we need &lt;em&gt;synchronization&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is a research topic with lots of movement.&lt;br /&gt;
+Cristopher presents one model: the
+&lt;a href=&#34;https://syncfree.lip6.fr/index.php/2-uncategorised/51-cise&#34;&gt;CISE Analysis&lt;/a&gt;
+(&lt;a href=&#34;http://software.imdea.org/~gotsman/papers/cise-tool.pdf&#34;&gt;paper&lt;/a&gt;),
+but I&amp;rsquo;m not going to go into
+&lt;a href=&#34;https://github.com/SyncFree/CISE&#34;&gt;details&lt;/a&gt; at this point.&lt;/p&gt;
+
+&lt;p&gt;So we have &lt;a href=&#34;http://syncfree.github.io/antidote/&#34;&gt;AntidoteDB&lt;/a&gt;:
+&lt;a href=&#34;https://github.com/SyncFree/antidote&#34;&gt;Open-source&lt;/a&gt;, implemented in Erlang,
+built on top of Riak core, providing &lt;strong&gt;&lt;em&gt;Transactional Causal Consistency&lt;/em&gt;&lt;/strong&gt;
+and is in alpha release.&lt;/p&gt;
+
+&lt;p&gt;Antidote respects &lt;strong&gt;&lt;em&gt;causality&lt;/em&gt;&lt;/strong&gt; by program order through clients and
+provide an &lt;em&gt;operations API&lt;/em&gt; as well as a &lt;em&gt;transaction API&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;A company is materializing around it and is in the process of raising money.
+The goal is to prodive the database open-source and for free and support
+and tools commercially.&lt;/p&gt;
+
+&lt;p&gt;Really interesting topic and talk, and lots of content!&lt;/p&gt;
 
 
 &lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
@@ -861,13 +1163,13 @@ Antidote db&lt;/p&gt;
 
 &lt;h2 id=&#34;santiago-ortiz-dynamic-data-visualization&#34;&gt;Santiago Ortiz — Dynamic data visualization&lt;/h2&gt;
 
-&lt;p&gt;Santiago Ortiz has a really interesting way of looking at things and
-explaining how he thinks data visualization is meant to become a more
-democratized way at looking at data and just something reserved to data
-scientists as it is today.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/moebio&#34;&gt;Santiago Ortiz&lt;/a&gt; has a really interesting way
+of looking at things and explaining how he thinks data visualization is meant
+to become a more democratized way at analyzing data and not just something
+reserved to data scientists.&lt;/p&gt;
 
-&lt;p&gt;Referring to the mental palace technique for remembering complex numbers, he
-draw the following parallel:&lt;/p&gt;
+&lt;p&gt;Referring to the &lt;a href=&#34;https://en.wikipedia.org/wiki/Method_of_loci&#34;&gt;memory palace&lt;/a&gt;
+technique for remembering complex numbers, he draw the following parallel:&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Machines use numbers for encoding of information including stories.&lt;/p&gt;
@@ -881,9 +1183,9 @@ to see but not really informative unless it is your thing.&lt;/p&gt;
 &lt;p&gt;On the plus side, one of the examples Santiago gave was about a book :
 [Rayuela](&lt;a href=&#34;https://en.wikipedia.org/wiki/Hopscotch_(Cort%C3%A1zar_novel&#34;&gt;https://en.wikipedia.org/wiki/Hopscotch_(Cort%C3%A1zar_novel&lt;/a&gt;) by
 Julio Cortázar.&lt;br /&gt;
-This book as he explained, has been written in such a was that it can be read
-linearly or in an unordered way following a pattern suggested by the author to
-jump from chapter to chapter.&lt;br /&gt;
+This book, he explained, has been written in such a was that it can be read
+linearly or in an &lt;em&gt;unordered&lt;/em&gt; way following a pattern suggested by the author
+to jump from chapter to chapter.&lt;br /&gt;
 The visualization consisted in circles that allowed the viewer to screen
 and read from a chapter to another.&lt;/p&gt;
 
@@ -893,7 +1195,13 @@ and read from a chapter to another.&lt;/p&gt;
  &lt;/div&gt;
 
 
-&lt;h2 id=&#34;dinner-pizza-beers-other-attendees-meetups-i-didn-t-go-because-sleep&#34;&gt;Dinner: Pizza+beers+other attendees+meetups I didn&amp;rsquo;t go because sleep&lt;/h2&gt;
+&lt;h2 id=&#34;dinner&#34;&gt;Dinner&lt;/h2&gt;
+
+&lt;p&gt;The dinner was served in the backyard once again. We had fresh our of the oven
+pizzas and beer as well as soft drinks.&lt;/p&gt;
+
+&lt;p&gt;I ate with other attendees and left shortly after so I missed the meetups
+that had been organized specially for the event.&lt;/p&gt;
 
 &lt;h1 id=&#34;day-3-talks&#34;&gt;Day 3: Talks&lt;/h1&gt;
 
@@ -902,10 +1210,10 @@ and read from a chapter to another.&lt;/p&gt;
 &lt;p&gt;I was interested in this talk because of its summary highlighting the work
 done on performance on &lt;a href=&#34;http://www.scylladb.com/&#34;&gt;ScyllaDB&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;So ScyllaDB is a distributed databased based on the same model as
+&lt;p&gt;ScyllaDB is a distributed databased based on the same model as
 &lt;a href=&#34;http://cassandra.apache.org/&#34;&gt;Cassandra&lt;/a&gt;: dynamo-based. Its characteristics are
-&lt;strong&gt;high write availability&lt;/strong&gt;, &lt;strong&gt;eventual consistency&lt;/strong&gt; and inability to do join
-queries.&lt;/p&gt;
+&lt;strong&gt;high write availability&lt;/strong&gt;, &lt;strong&gt;eventual consistency&lt;/strong&gt; and inability to do
+&lt;em&gt;join&lt;/em&gt; queries.&lt;/p&gt;
 
 &lt;p&gt;ScyllaDB is &lt;em&gt;fully compatible&lt;/em&gt; with Cassandra&amp;rsquo;s API and file format so you can
 drop replace it without a single code line change.&lt;/p&gt;
@@ -965,11 +1273,13 @@ it started to click.&lt;/p&gt;
 
 &lt;p&gt;Church encoding is a way of representing data and operators using &lt;em&gt;nothing
 more than recursion and anonymous functions&lt;/em&gt;. In this talk, Danielle is not
-showing us how to implement &lt;strong&gt;Church Numerals&lt;/strong&gt; but how, by thoroughly
-designing out programs, we can eventually make it simpler to &lt;em&gt;reason about&lt;/em&gt;
-(keep state in isolation), &lt;em&gt;invert the flow of control&lt;/em&gt; (push-pull &lt;em&gt;FRP&lt;/em&gt; style
-instead of downstream method calls) and &lt;em&gt;improve performance&lt;/em&gt; (less object
-instantiation).&lt;/p&gt;
+showing us how to implement
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Church_encoding#Church_numerals&#34;&gt;Church Numerals&lt;/a&gt;
+but how, by thoroughly designing out programs, we can eventually make it
+simpler to &lt;strong&gt;&lt;em&gt;reason about&lt;/em&gt;&lt;/strong&gt; (keep state in isolation),
+&lt;strong&gt;&lt;em&gt;invert the flow of control&lt;/em&gt;&lt;/strong&gt; (push-pull &lt;em&gt;FRP style&lt;/em&gt; instead of downstream
+method calls) and &lt;strong&gt;&lt;em&gt;improve performance&lt;/em&gt;&lt;/strong&gt; (less object instantiation,
+and avoiding &lt;code&gt;Optional&lt;/code&gt; overhead in this example).&lt;/p&gt;
 
 &lt;p&gt;This will deserve another blog post in the future to explore this topic.&lt;/p&gt;
 
@@ -982,7 +1292,9 @@ instantiation).&lt;/p&gt;
 &lt;h2 id=&#34;justo-ruiz-ferrer-adressing-the-elephant-in-the-room-what-a-post-hadoop-era-looks-like&#34;&gt;Justo Ruiz Ferrer — Adressing the elephant in the room: what a post-Hadoop era looks like&lt;/h2&gt;
 
 &lt;p&gt;The title mislead to expect a talk giving insight about &lt;em&gt;where&lt;/em&gt; the big data
-processing techniques could go, but in the end it didn&amp;rsquo;t deliver.&lt;br /&gt;
+processing techniques could go, but in the end for me it didn&amp;rsquo;t
+deliver &lt;span class=&#34;emoji&#34;&gt;:elephant:&lt;/span&gt;
+&lt;br /&gt;
 The talk was mainly just an explanation of the &lt;em&gt;&amp;ldquo;my big data is bigger than
 your big data&amp;rdquo;&lt;/em&gt; saying and a quick demo of &lt;a href=&#34;https://valo.io/&#34;&gt;Valo&lt;/a&gt;&amp;rsquo;s streaming
 platform.&lt;/p&gt;
@@ -992,9 +1304,9 @@ talking to an audience and fills the room with his speaking, and
 I expected some insights or takeaway thoughts about the direction in which
 our industry is going.&lt;br /&gt;
 But I ended up with sort of a statement about our architectures moving from
-batch processing to streaming processing, with the lambda architecture
-(he didn&amp;rsquo;t mention it) and micro-batch processing architectures and
-techniques in between.&lt;/p&gt;
+&lt;strong&gt;&lt;em&gt;batch processing&lt;/em&gt;&lt;/strong&gt; to &lt;strong&gt;&lt;em&gt;streaming processing&lt;/em&gt;&lt;/strong&gt;, with the &lt;strong&gt;&lt;em&gt;lambda
+architecture&lt;/em&gt;&lt;/strong&gt;, &lt;strong&gt;&lt;em&gt;micro-batch&lt;/em&gt;&lt;/strong&gt; processing and the &lt;strong&gt;&lt;em&gt;dataflow model&lt;/em&gt;&lt;/strong&gt;
+which he didn&amp;rsquo;t mention.&lt;/p&gt;
 
 &lt;p&gt;No video available for this one.&lt;/p&gt;
 
@@ -1004,14 +1316,58 @@ techniques in between.&lt;/p&gt;
 &lt;a href=&#34;https://en.wikipedia.org/wiki/Paella&#34;&gt;Valencian Paella&lt;/a&gt;, and I can tell you
 they nailed it. It was fantastic.&lt;/p&gt;
 
-&lt;p&gt;Once again in the backyard under a sunny sky I&amp;rsquo;ve had the occasion to share
-with other conference attendees about the previous talks and speak about
-programming languages and other geeky stuff. Fun time.&lt;/p&gt;
+&lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/paella.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;4032x3024&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/paella.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;372&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/paella2.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;4032x3024&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/paella2.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;418&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;div class=&#34;title&#34;&gt;Valencian Paella for 300 person&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Once again in the backyard under a sunny sky &lt;span class=&#34;emoji&#34;&gt;:sunny:&lt;/span&gt;
+
+I&amp;rsquo;ve had the occasion to share with other conference attendees about the
+previous talks and speak about programming languages and other geeky stuff.&lt;br /&gt;
+Fun time &lt;span class=&#34;emoji&#34;&gt;:nerd:&lt;/span&gt;
+&lt;/p&gt;
 
 &lt;h2 id=&#34;caitie-mccaffrey-distributed-sagas-a-protocol-for-coordinating-microservices&#34;&gt;Caitie McCaffrey — Distributed Sagas: A Protocol for Coordinating Microservices&lt;/h2&gt;
 
-&lt;p&gt;Super interesting talk about how to orchestrate multiple &lt;em&gt;microservices&lt;/em&gt; in
-order to achieve &lt;em&gt;consistency&lt;/em&gt; of a single business action.&lt;/p&gt;
+&lt;p&gt;Super interesting talk by
+&lt;a href=&#34;https://twitter.com/caitie&#34;&gt;Caitie McCaffrey&lt;/a&gt; about how to orchestrate
+multiple &lt;em&gt;microservices&lt;/em&gt; in order to achieve &lt;em&gt;consistency&lt;/em&gt; of a single
+business action.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Distributed Sagas&lt;/strong&gt; is a protocol with no standard or open source
 implementation (yet) designed to create a layer of &lt;em&gt;coordination&lt;/em&gt; on top of
@@ -1021,19 +1377,19 @@ several (micro)services without having to write &lt;em&gt;yet another service&lt
 &lt;em&gt;flight booking&lt;/em&gt; service to which was added a &lt;em&gt;hotel booking&lt;/em&gt; service as well
 as a &lt;em&gt;car rental&lt;/em&gt; service, and you want to offer your customers the ability
 to &lt;em&gt;book an entire trip&lt;/em&gt; including those three services.&lt;br /&gt;
-How do you ensure &lt;em&gt;business/domain level consistency&lt;/em&gt; without creating a
+How do you ensure &lt;em&gt;business/domain level&lt;/em&gt; &lt;strong&gt;&lt;em&gt;consistency&lt;/em&gt;&lt;/strong&gt; without creating a
 new service?&lt;/p&gt;
 
 &lt;p&gt;This is not just an exercise: with the rise of microservices, we have moved
-away from the consistency guarantees offered by our databases and must
-maintain application-level consistency, or &lt;em&gt;feral consistency&lt;/em&gt;.&lt;br /&gt;
+away from the consistency &lt;em&gt;guarantees&lt;/em&gt; offered by our databases and must
+maintain &lt;em&gt;application-level consistency&lt;/em&gt;, or &lt;strong&gt;&lt;em&gt;feral consistency&lt;/em&gt;&lt;/strong&gt;.&lt;br /&gt;
 And for each new service that is deployed and available we could
-develop &lt;code&gt;n&lt;/code&gt; new combinations of &lt;em&gt;coordination&lt;/em&gt; services in order to deliver new
+develop $n$ new combinations of &lt;em&gt;coordination&lt;/em&gt; services in order to deliver new
 value to customers&amp;hellip;&lt;/p&gt;
 
 &lt;p&gt;Distributed Sagas introduces the concept of a &lt;strong&gt;SEC&lt;/strong&gt;
 (&lt;strong&gt;&lt;em&gt;S&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;aga&lt;/em&gt; &lt;strong&gt;&lt;em&gt;E&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;xecution&lt;/em&gt; &lt;strong&gt;&lt;em&gt;C&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;oordinator&lt;/em&gt;) along with
-&lt;em&gt;action requests&lt;/em&gt; and &lt;em&gt;compensating requests&lt;/em&gt;.&lt;/p&gt;
+&lt;strong&gt;&lt;em&gt;action requests&lt;/em&gt;&lt;/strong&gt; and &lt;strong&gt;&lt;em&gt;compensating requests&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;Based on a persistent &lt;em&gt;log&lt;/em&gt;, the stateless &lt;strong&gt;SEC&lt;/strong&gt; will come and write the
 actions of other services and operations results to the log &lt;strong&gt;&lt;em&gt;after
@@ -1046,22 +1402,24 @@ service is &lt;em&gt;idempotent&lt;/em&gt; (in order to be replayed in case of d
 instance) and has a corresponding &lt;em&gt;backward idempotent action&lt;/em&gt; (&lt;em&gt;compensating
 requests&lt;/em&gt;) that can be performed: a semantic &lt;em&gt;undo&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;Now this is interesting: because an &lt;em&gt;action request&lt;/em&gt; from a service may be
+&lt;p&gt;Now this is interesting: because an &lt;strong&gt;&lt;em&gt;action request&lt;/em&gt;&lt;/strong&gt; from a service may be
 delayed or just fail without returning (and we can&amp;rsquo;t make a difference), it is
-important that it be &lt;em&gt;idempotent&lt;/em&gt; in order to be replay.&lt;br /&gt;
-This way, we avoid the complexity of having to send a &lt;em&gt;compensating request&lt;/em&gt;
+important that it be &lt;strong&gt;&lt;em&gt;idempotent&lt;/em&gt;&lt;/strong&gt; in order to be &lt;em&gt;replayed&lt;/em&gt;.&lt;br /&gt;
+This way, we avoid the complexity of having to send a &lt;strong&gt;&lt;em&gt;compensating request&lt;/em&gt;&lt;/strong&gt;
 to undo an &lt;em&gt;action request&lt;/em&gt; that may or may not have succeeded.&lt;br /&gt;
-By replaying, we make sure that we get a result and then we &amp;ldquo;cancel&amp;rdquo; if need be.&lt;/p&gt;
+&lt;strong&gt;&lt;em&gt;By replaying, we make sure that we get a result and then we &amp;ldquo;cancel&amp;rdquo; if
+need be.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;For this protocol to be applicable, the business/domain model must be
-compatible with eventual consistency because each service being exposed
-individually has its state exposed, but the whole saga can not be made
-&lt;em&gt;isolated&lt;/em&gt; nor &lt;em&gt;atomic&lt;/em&gt; under such constraints without introducing a lot
-of latency and single point of failures (see the part of the talk about
+compatible with &lt;em&gt;eventual consistency&lt;/em&gt; because each service being exposed
+individually &lt;em&gt;exposes its state&lt;/em&gt;, and the whole saga cannot be made
+&lt;strong&gt;&lt;em&gt;isolated&lt;/em&gt;&lt;/strong&gt; nor &lt;strong&gt;&lt;em&gt;atomic&lt;/em&gt;&lt;/strong&gt; under such constraints without introducing a lot
+of &lt;em&gt;latency&lt;/em&gt; and &lt;em&gt;single point of failures&lt;/em&gt; (see the part of the talk about
 &lt;em&gt;two phase commit&lt;/em&gt;).&lt;br /&gt;
-Indeed, the &lt;strong&gt;SEC&lt;/strong&gt; itself might look like a SPOF, but it is actually stateless
-so just spawning a new instance of it and replay the log is sufficient to
-continue the saga.&lt;/p&gt;
+Indeed, the &lt;strong&gt;&lt;em&gt;SEC&lt;/em&gt;&lt;/strong&gt; itself might look like a SPOF, but it is actually
+stateless so just spawning a new instance of it and replay the log is
+sufficient to &lt;em&gt;continue the saga&lt;/em&gt; &lt;span class=&#34;emoji&#34;&gt;:traffic_light:&lt;/span&gt;
+&lt;/p&gt;
 
 &lt;p&gt;From what I understood both Uber and Twitter are currently
 experimenting this technique, so we will have to wait and see what comes out.&lt;/p&gt;
@@ -1074,10 +1432,108 @@ experimenting this technique, so we will have to wait and see what comes out.&lt
 
 &lt;h2 id=&#34;martin-thompson-high-performance-managed-languages&#34;&gt;Martin Thompson — High Performance Managed Languages&lt;/h2&gt;
 
-&lt;p&gt;In a word: What the GC gives you.
-Possible to have highly optimized non-GCed code but at the expense of efforts and time
-Allocation is not the problem, the problem is reclaiming memory
-&amp;ldquo;Pledge&amp;rdquo; for Better algorithms&lt;/p&gt;
+&lt;p&gt;Famous for his work on high performance coding,
+&lt;a href=&#34;https://twitter.com/mjpt777&#34;&gt;Martin Thompson&lt;/a&gt; is a renowned expert and speaker.&lt;/p&gt;
+
+&lt;p&gt;At JOTB17, he gave us a talk about managed languages: languages that run on a
+virtual machine which provides garbage-collected memory management
+(Java, C#, etc.).&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve already listened to Martin in various
+&lt;a href=&#34;http://www.se-radio.net/2014/02/episode-201-martin-thompson-on-mechanical-sympathy/&#34;&gt;podcasts&lt;/a&gt;
+and one thing that he mentions quite often is that:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Our CPUs Arent&amp;rsquo;t Getting Any Faster.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;But most of our applications aren&amp;rsquo;t really &lt;em&gt;CPU intensive&lt;/em&gt;, they are intensive
+in their &lt;em&gt;memory access&lt;/em&gt;.&lt;br /&gt;
+Hardware constructors are adding cores in order to increase speed, and they
+are doing wonders, but our little understanding of how CPUs and memory access
+work prevents us from gaining all of the benefits.&lt;/p&gt;
+
+&lt;p&gt;Just like there was a debate between &lt;em&gt;Assembler&lt;/em&gt; VS &lt;em&gt;Compiled Languages&lt;/em&gt;,
+there&amp;rsquo;s an argument between &lt;em&gt;managed languages&lt;/em&gt; VS &lt;em&gt;native languages&lt;/em&gt; and this
+talk is just about that.&lt;/p&gt;
+
+&lt;p&gt;Managed languages benefit from &lt;strong&gt;&lt;em&gt;JIT optimizations&lt;/em&gt;&lt;/strong&gt; that a sole static
+compiler cannot provide.&lt;br /&gt;
+These are &lt;strong&gt;&lt;em&gt;predictions&lt;/em&gt;&lt;/strong&gt; made on &lt;em&gt;real, measured data&lt;/em&gt;, and if it happens
+that the bets are wrong, &lt;strong&gt;&lt;em&gt;the JIT can correct itself&lt;/em&gt;&lt;/strong&gt;, &lt;em&gt;revoke&lt;/em&gt; some
+decisions and &lt;em&gt;make new optimizations&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code branching&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;If a static compiler armed with a good programmer branch prediction
+hint/information can be a solid optimization, a managed language is
+&lt;em&gt;able to use real data instead of static decisions and adjust over time&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Methods inlining&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Methods/Functions &lt;em&gt;can be inlined in case of hotness&lt;/em&gt; in order to avoid
+&lt;em&gt;function call overhead&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Loop unrolling&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The optimizer can also &lt;em&gt;measure which loops are hotspots&lt;/em&gt;
+and which are not, and decide to &lt;em&gt;unroll&lt;/em&gt; some rather than check and iterate.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Intrinsics&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The runtime can also &lt;em&gt;replace programmer instructions by architecture specific
+instructions&lt;/em&gt; (&lt;strong&gt;&lt;em&gt;intrinsics&lt;/em&gt;&lt;/strong&gt;) in order to benefit from a the particular
+implementation.&lt;br /&gt;
+Something impossible for static compiler unless &lt;em&gt;compiling for a specific
+architecture&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Polymorphism&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Managed runtimes can &lt;em&gt;avoid virtual dispatch&lt;/em&gt; or going through jump tables
+by directly calling the &amp;lsquo;&lt;em&gt;right&lt;/em&gt;&amp;rsquo; method of an object or &lt;em&gt;inlining&lt;/em&gt; it.&lt;br /&gt;
+By checking the number of subtypes we can &lt;em&gt;decide&lt;/em&gt; whether or not it&amp;rsquo;s worth
+to just &lt;em&gt;calling the method directly&lt;/em&gt;, using a simple &lt;code&gt;if&lt;/code&gt; statement,
+go &lt;em&gt;polymorphic&lt;/em&gt; or &lt;em&gt;cache the code for a particular type&lt;/em&gt; if it is hotter
+than the others.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Garbage Collector&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The performance of a &lt;strong&gt;&lt;em&gt;Garbage Collector&lt;/em&gt;&lt;/strong&gt; depends upon its implementation,
+but also on how we, as programmers, deal with our objects.&lt;/p&gt;
+
+&lt;p&gt;Martin outlines the fact that &lt;strong&gt;&lt;em&gt;it is not allocation that is costly, but
+reclamation&lt;/em&gt;&lt;/strong&gt;&amp;hellip;&lt;br /&gt;
+&lt;em&gt;The longer and object lives, the more operations the GC needs to do.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In the end, &lt;strong&gt;&lt;em&gt;THE&lt;/em&gt;&lt;/strong&gt; most important thing to performance is &lt;strong&gt;TIME&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;How much time and effort are we willing to put into implementing&lt;/em&gt; &lt;strong&gt;&lt;em&gt;good
+algorithms&lt;/em&gt;&lt;/strong&gt; &lt;em&gt;and doing right choices™&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some takeaways:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Avoiding cache misses&lt;/li&gt;
+&lt;li&gt;Amortising expensive operations&lt;/li&gt;
+&lt;li&gt;Mechanical sympathy&lt;/li&gt;
+&lt;li&gt;Algo &amp;amp; Data-structures&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5&gt;Fun facts:&lt;/h5&gt;
+
+&lt;p&gt;Martin is the author of &lt;a href=&#34;https://github.com/real-logic/aeron&#34;&gt;Aeron&lt;/a&gt;,
+a &lt;em&gt;high throughput&lt;/em&gt;, &lt;em&gt;low latency&lt;/em&gt; messaging system (it is used by
+&lt;a href=&#34;http://www.onyxplatform.org/&#34;&gt;Onyx&lt;/a&gt;, BTW).&lt;/p&gt;
+
+&lt;p&gt;The &lt;strong&gt;Java implementation of Aeron is faster than native implementation of
+other fast messaging systems&lt;/strong&gt;: because of the &lt;strong&gt;&lt;em&gt;time&lt;/em&gt;&lt;/strong&gt; and &lt;strong&gt;&lt;em&gt;efforts&lt;/em&gt;&lt;/strong&gt; put
+into implementing &lt;strong&gt;&lt;em&gt;good algorithms&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Aeron has been ported to C++, then Go, then C#: and in the end &lt;strong&gt;&lt;em&gt;the fastest
+implementation is in C#&lt;/em&gt;&lt;/strong&gt;.&lt;br /&gt;
+C++ could be but would take much, much more time
+&lt;span class=&#34;emoji&#34;&gt;:hourglass_flowing_sand:&lt;/span&gt;
+&amp;hellip;&lt;/p&gt;
 
 
 &lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
@@ -1085,29 +1541,137 @@ Allocation is not the problem, the problem is reclaiming memory
  &lt;/div&gt;
 
 
-&lt;h2 id=&#34;dinner-party-camperos-beers-flamenco-the-coovers-los-vinagres-other-attendees-and-anjana-vakil&#34;&gt;Dinner + Party: Camperos+beers+Flamenco+The Coovers+Los Vinagres+other attendees and Anjana Vakil&lt;/h2&gt;
+&lt;h2 id=&#34;dinner-party&#34;&gt;Dinner + Party&lt;/h2&gt;
+
+&lt;p&gt;After dinner (Camperos &lt;span class=&#34;emoji&#34;&gt;:taco:&lt;/span&gt;
+ +
+&lt;span class=&#34;emoji&#34;&gt;:beers:&lt;/span&gt;
+), the organizers invited a
+flamenco dancer &lt;span class=&#34;emoji&#34;&gt;:dancer_tone1:&lt;/span&gt;
+,
+singer &lt;span class=&#34;emoji&#34;&gt;:microphone2:&lt;/span&gt;
+ and
+guitarist &lt;span class=&#34;emoji&#34;&gt;:guitar:&lt;/span&gt;
+.&lt;/p&gt;
+
+&lt;p&gt;And after the local culture and art, the party started with a rock band doing
+cover songs as well as a group called
+&lt;a href=&#34;https://g.co/kgs/zVDQ3a&#34;&gt;Los Vinagres&lt;/a&gt; coming from the
+Canary Islands &lt;span class=&#34;emoji&#34;&gt;:island:&lt;/span&gt;
+.&lt;/p&gt;
+
+&lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/flamenco.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;4032x3024&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/flamenco.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;395&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Flamenco group
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/group.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;4032x3024&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/group.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;395&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Cover songs
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;div class=&#34;title&#34;&gt;Flamenco and Party&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;I left with a few other attendees around midnight, going on a quest to find
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Tapas&#34;&gt;Tapas&lt;/a&gt; &lt;span class=&#34;emoji&#34;&gt;:fried_shrimp:&lt;/span&gt;
+&lt;/p&gt;
 
 &lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
 
-&lt;p&gt;Shut up and take my money!&lt;/p&gt;
+&lt;p&gt;I think I&amp;rsquo;ve said it in the first part of the article but the conference
+&lt;em&gt;felt very comfortable&lt;/em&gt; and &lt;strong&gt;&lt;em&gt;almost like a local conference&lt;/em&gt;&lt;/strong&gt;, despite the
+number of people from abroad and the &lt;em&gt;awesome speakers&lt;/em&gt;.&lt;br /&gt;
+It was then really easy to speak to people.&lt;/p&gt;
 
-&lt;p&gt;Bonus ArangoDB:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Thanks a lot to the organizers, speakers and other attendees for the great
+event.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;And thanks a lot to &lt;a href=&#34;http://www.monkeypatch.io/&#34;&gt;MonkeyPatch&lt;/a&gt;&lt;/strong&gt; (the company
+I work for) &lt;strong&gt;for paying and allowing me to attend a conference in Malaga!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;On a side note, I&amp;rsquo;d like to apologize for the length of this article.&lt;br /&gt;
+It took me &lt;strong&gt;&lt;em&gt;way too long&lt;/em&gt;&lt;/strong&gt; to write this review and if you made it thus far,
+you&amp;rsquo;re a hero.&lt;/p&gt;
+
+&lt;p&gt;I really wanted to highlight the content of each talk and it took me researches
+and learning to give it back.&lt;br /&gt;
+I hope you enjoyed nonetheless. I don&amp;rsquo;t know if or how I will split my next
+conference review because I&amp;rsquo;m still new in this field, but there will be more
+content on most of the topics covered here in future blog posts.&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading, see you &lt;span class=&#34;emoji&#34;&gt;:wave:&lt;/span&gt;
+&lt;/p&gt;
+
+
+&lt;figure  &gt;
+    
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/j-on-the-beach-malaga-2017-review/venue2.jpg&#34; alt=&#34;Leaving the conference&#34;
+            width=&#34;100%&#34;
+            /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h6&gt;&lt;em&gt;Leaving&lt;/em&gt;&lt;/h6&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+
+&lt;h2 id=&#34;bonus-track-the-computer-science-behind-a-modern-distributed-data-store&#34;&gt;Bonus track: The Computer Science behind a modern distributed data store&lt;/h2&gt;
+
+&lt;p&gt;By &lt;a href=&#34;https://twitter.com/neunhoef&#34;&gt;Max Neunhöffer&lt;/a&gt; from
+&lt;a href=&#34;https://www.arangodb.com/&#34;&gt;ArangoDB&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve talked &lt;em&gt;multiple times&lt;/em&gt; with Max during the three days of the conference
+and &lt;em&gt;didn&amp;rsquo;t even know he was a speaker until the last day&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve watched his talk later on Youtube and I&amp;rsquo;ve found it really interesting
+to get a sense of some &lt;em&gt;major problems&lt;/em&gt; one can experience while learning about
+or working on &lt;em&gt;distributed systems&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;It goes fast so if you are not familiar with distributed systems problems
+such as
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Consensus_(computer_science)&#34;&gt;&lt;em&gt;consensus&lt;/em&gt;&lt;/a&gt;,
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Log-structured_merge-tree&#34;&gt;&lt;em&gt;log structured merge trees&lt;/em&gt;&lt;/a&gt;,
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Clock_synchronization&#34;&gt;&lt;em&gt;clocks&lt;/em&gt;&lt;/a&gt; and
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Distributed_transaction&#34;&gt;&lt;em&gt;distributed ACID transactions&lt;/em&gt;&lt;/a&gt;
+you will find a &lt;strong&gt;lot&lt;/strong&gt; of useful information in order to learn more about
+these topics.&lt;/p&gt;
 
 
 &lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
   &lt;iframe src=&#34;//www.youtube.com/embed/m9xYejDUdus&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
  &lt;/div&gt;
 
-
-&lt;p&gt;Bonus Managing 10,000 Node Storage Clusters at Twitter:&lt;/p&gt;
-
-
-&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
-  &lt;iframe src=&#34;//www.youtube.com/embed/ff5k5j24dOs&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
- &lt;/div&gt;
-
-
-&lt;p&gt;Interested in distributed systems testing? FoundationDB talk/TLA+ talks/Lamport guides/Caitie McCaffrey?/etc&amp;hellip;&lt;/p&gt;
 </description>
     </item>
     

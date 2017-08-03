@@ -4,10 +4,11 @@ html,
 body {
   height: 100%;
   background-color: #fff;
-  font-family: 'Helvetica Neue', 'Source Sans Pro', sans-serif;
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+  -webkit-font-smoothing: antialiased;
   /* The html and body elements cannot have any padding or margin. */
   border-top: 3px solid #27A822;
-  color: #6b6b6b;
+  /* color: #6b6b6b; */
 }
 /* Wrapper for page content to push down footer */
 #wrap {
@@ -24,9 +25,19 @@ body {
   font-weight: initial;
 }
 
+/* About
+-------------------------------------------------- */
+#about {
+  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+}
+
 /* Navbar
 -------------------------------------------------- */
 
+.navbar {
+  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  font-weight: bold;
+}
 .navbar-static-top {
   margin-bottom: 10px;
 }
@@ -119,15 +130,16 @@ body {
 .panel-default h5 {
   text-align: left;
   line-height: 30px;
-  font-size: 18px;
+  font-size: 20px;
 }
 .panel-default h6 {
-  font-size: 16px;
+  font-size: 18px;
 }
-.panel-default h4 a, h5 a {
+.panel-default h4 a, .panel-default h5 a {
   color: #27A822;
+  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
 }
-.panel-default h4 a:hover, h5 a:hover {
+.panel-default h4 a:hover, .panel-default h5 a:hover {
   color: #267723;
 }
 .panel{
@@ -149,12 +161,12 @@ body {
 }
 .blog-post{
   padding-top: 15px;
+  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  font-style: normal;
+  letter-spacing: -0.018em;
 }
-.blog-title{
+.blog-title {
   padding-top: 2px;
-}
-.related-posts h4 {
-  text-align: center;
 }
 .page-not-found {
   padding-top: 20%;
@@ -162,11 +174,19 @@ body {
 .disqus {
   padding-bottom: 15px;
 }
-
+.label {
+  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+}
 .blogpost {
   text-align: left;
-  line-height: 1.42857143;
-  font-size: 16px;
+  line-height: 1.62857143;
+  font-size: 18px;
+}
+.blogpost h1, .blogpost h2, .blogpost h3, .blogpost h4, .blogpost h5, .blogpost h6, .blogpost .h1, .blogpost .h2, .blogpost .h3, .blogpost .h4, .blogpost .h5, .blogpost .h6 {
+  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  font-style: normal;
+  letter-spacing: -0.018em;
+  margin-top: 50px;
 }
 .blogpost a {
   cursor: pointer;
@@ -177,10 +197,20 @@ body {
   color: #00c0aa;
   text-decoration: underline;
 }
+figcaption h6 {
+  margin-top: 5px !important;
+}
+.related-posts h6 {
+  text-align: center;
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+}
+.related-posts h6 a {
+  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+}
 .list h5{
   text-align: left;
   line-height: 0.4;
-  font-size: 16px;
+  font-size: 18px;
 }
 .list.level-up h3, .list.level-up h4, .list.level-up h5 {
   color: #27A822;
@@ -200,7 +230,6 @@ body {
 .blogpost figure {
     margin: 1em 40px;
 }
-
 .blogpost pre {
   display: block;
   position: relative;
@@ -228,7 +257,6 @@ body {
   box-sizing: border-box;
   border-radius: 0;
 }
-
 .blogpost pre > code[class*=hljs] {
   color: #000;
   background-color: #fdfdfd;
@@ -249,7 +277,6 @@ body {
   -ms-hyphens: none;
   hyphens: none;
 }
-
 .blogpost blockquote {
   color: #000;
   background-color: #fdfdfd;
@@ -271,12 +298,10 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
 }
-
 .hljs {
   background: inherit;
   padding: 0;
 }
-
 .row-same-height {
   display: -webkit-box;
   display: -webkit-flex;
@@ -291,20 +316,21 @@ body {
 .row-same-height > [class*='col-'] ~ [class*='col-'] {
   border-left: 1px solid #333;
 }
-
+#toc {
+  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  font-style: normal;
+  letter-spacing: -0.018em;
+}
 #TableOfContents > ul {
   list-style-type: none;
 }
-
 .fold {
   font-size: 14px;
 }
-
 .fold.title {
   margin-bottom: 15px;
   display: block;
 }
-
 .fold.content {
   padding-left: 15px;
   padding-bottom: 5px;
@@ -315,7 +341,6 @@ body {
   border-left: 5px solid #ccc;
   border-radius: 3px;
 }
-
 .fold.content-danger {
   border-left-color: #ce4844;
 }
@@ -331,7 +356,6 @@ body {
 .fold.content-success {
   border-left-color: #27a822;
 }
-
 .scroll-to-top {
   display: none;
   position: fixed; bottom: 30px; right: 50px;
@@ -353,14 +377,12 @@ body {
   color: #00c0aa;
   text-decoration: none;
 }
-
 .green-text {
   color: green;
 }
 .red-text {
   color: red;
 }
-
 .emoji {
   font-size: 20px;
   image-rendering: optimizeSpeed;
