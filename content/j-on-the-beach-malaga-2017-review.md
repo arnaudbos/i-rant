@@ -440,7 +440,9 @@ order to ensure *fault-tolerance* and provide *high-availability* and
 *low latency*.
 
 And in the event that one or more of the copy of the database cannot
-communicate with one another we have to make a choice: We either choose a
+communicate with one another we have to make a choice, once and for all:
+
+We either choose a
 *Consistent-under-Partition* (**CP**) or an
 *Available-under-Partition* (**AP**) approach.
 
@@ -469,19 +471,19 @@ Characteristics of an **AP system**:
   difficult to program*.
 
 Acknowledging the fact that there is no such thing as a *"one-size-fits-all"*
-consistency models for applications, Christopher presents us a better approach:
+consistency model for applications, Christopher presents us a better approach:
 
 Express our application invariants (properties of the system that must always
 hold true), and provide a way for the system to automatically infer from
-the application and tailor the consistency choices (feature by feature if you
-like) based on those invariants to guarantee that no violation occur,
+the application and tailor the consistency choices (a.k.a. feature by feature)
+based on those invariants to guarantee that no violation occur,
 this is ***Just-Right Consistency***.
 
 Characteristics of **Just-Right Consistency**:
 
 * Write *sequential programs* that enforce *application level invariants*
-  and preserve this application behavior *when deployed under concurrency
-  and distribution*.
+  and preserve this application behavior *when deployed under*
+  ***concurrency*** *and* ***distribution***.
 * We will have **AP** compatible invariants: under an **AP** system we can
   guarantee these invariants without synchronization.
 * And **CAP**-sensitive invariants: *one way* VS *two ways* communication
@@ -531,73 +533,118 @@ cannot by itself decide which value should win unless being told so.
 
 These two operations are said to be *non-commutative*.
 
-Can we make non-commutative updates commutative?
+Can we make non-commutative updates commutative?  Yes:
 
-Yes, using deterministic conflict resolution: pick a value that wins.  
-Use a timestamp-based algorithm (Cassandra's ***L****ast* ***W****rite*
-***W****ins*), application level merge/resolution (CouchDB, OrientDB, Aerospike, Riak).
-Yes, using CRDTs (insert more links now): Many different designs for different uses, are extended sequential data types that encapsulate (built-in) deterministic merge functions.
+* Using deterministic conflict resolution: pick a value that wins.  
+  Use a timestamp-based algorithm (Cassandra's ***L****ast* ***W****rite*
+  ***W****ins*), or an application level merge/resolution (CouchDB, OrientDB,
+  Aerospike, Riak).
+* using
+  [***CRDT***](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)s:
+  **CRDT**s are extended sequential data types that encapsulate (built-in)
+  deterministic merge functions. I'm not very familiar so I will try to get into
+  more details in future blog posts, but there are many different designs of
+  CRTDs for different uses.
 
-Why are *relative order*
+So what happens when we assume that the system we're building has this property?  
+All operations will commute.
 
-First, there are two types of **CAP**-sensitive invariants:
+Let's examine *relative order* and *joint updates* first.
 
-*
+**Relative order** invariant:
 
-For an invariant to be **CAP**-sensitive means:
+* We do something, then other actions, and ensure that the updates
+  are seen in the proper order, this is relative order.
+* If an operation P implies Q than the program makes sure that Q is written
+  before P. As long as it's in order on the target replica and that changes are
+  replicated in the proper order, the invariant is never violated.
 
-*
+So we need a system that ensures
+[***causal consitency***](https://en.wikipedia.org/wiki/Causal_consistency):
 
-* Relative order (referential integrity): Create a => AP compatible: Use Causal consitency infered from sequential client code / Use CRDTs
-* Joint updates (atomicity) => AP compatible:
-* Precondition check: PP1 invariant => CAP sensitive
+> Updates that are causaly related to other updates (that influence other
+> updates) that happen in an order should be delivered in the exact same order
 
-AP compatibility
-* No synchronization: can operate locally without blocking. Updates are applied locally and async propagated
-* Async: updates are fast, availability and exploits concurrency so speed
-* AP compatible invariants: Relative order and Joint updates
+**Joint updates** invariant:
 
-Data model: if no sync ==> divergence if two replicas are in agreement and two sep messages arrive on each node
-Wouldn't have this anomaly if using consensus.
-==> "Concurrent assignments don't commute" : no commutativity: In an AP system, assignment doesn't work, it requires CP.
+* Given *relative order*, two replicas with updates are causally consistent,
+  so far so good
+* But still, inconsistent state of the database can be read by
+  clients/replicas *between* updates
+* *Joint updates* relate to
+  [***atomicity***](https://en.wikipedia.org/wiki/Atomicity_(database_systems)):
+  all-or-nothing
 
-Can we make non-commutative updates commutative?
-Yes, using deterministic conflict resolution: pick a value that wins. Timestamp (cassandra last write wins), application level merge/resolution (CouchDB, OrientDB, Aerospike, Riak).
-Yes, using CRDTs (insert more links now): Many different designs for different uses, are extended sequential data types that encapsulate (built-in) deterministic merge functions.
+This is solved by grouping updates atomically in batches, taking snapshots
+along the way so clients (or other replicas) read consistent snapshots.
 
-From now on: assume the system we're building has this. All operations will communte.
+By ensuring these invariants on the database side based on the sequential
+program on the client side, at this point we are designing a system that has
+*relative order* plus *joint updates*, that is:
 
-Relative order invariant:
-* Do something, then other actions, and ensure that the updates are seen in the proper order
-* If P => (implies Q) than I make sure that Q is written before P, as long as it's in order on the target replica and that changes are replicated in the proper order, the invariant is never violated.
-* So need a system that ensures Causality: causal consitency is sufficient, sequential consistency not needed.
-"Updates that are causaly related to other updates (that influence other updates) that happen in an order should be delivered in the exact same order"
-* Strongest AP compatible consistency model
+***Transactional Causal Consistency***: the strongest **AP** compatible
+consistency model.
 
-Joint updates invariant:
-* Two replicas order ok with updates are causally consistent
-* Still inconsistent state of the database can be read
-* We need atomicity: all-or-nothing
-* By grouping updates atomically in batches, taking snapshots along the way
-* Clients (other replicas) read consistent snapshots
+Now for our last invariant: **Preconditions check**:
 
-Relative order + Joint updates = Transactional Causal Consistency: the strongest AP compatible model.
-
-CAP-sensitiveness:
 * Preventing getting the same prescription twice
-* Some preconditions are by default stable under concurrency, ex: check if count >0 is stable under concurrent addition, so these operations can proceed without synchronizing
-* Some aren't, ex: check if count >0 is not stable under concurrent subtraction , one operation could break the invariant.
-* Two solutions: ¯\\_(ツ)_/¯ or forbid concurrency, aka synchronization
+* This is basically a counter with addition and subtraction operation
 
-Interesting because we can choose for each operation. But it's hard to reason about these problems.
+What happens when these operations happen concurently?
 
-Need tools to analyse and allow or not operations to proceed by analysing where invariants could be violated and tell us where we're fine and where we need synchronization. Several models, this is a research topic with lots of movement.
+Addition for instance: Take a counter and apply an addition on a replica
+and another addition on a second replica. We assumed earlier that operations
+on our system will commute, so for instance adding 2 and then 3 is the
+same thing as adding 3 and then 2.
 
-Cristopher presents one model: CISE Analysis, I'm not going into details at that point.
+Addition is then stable under concurrency and we don't have to synchronize.
 
-So we have AntidoteDB: Open-source, Erlang, built on top or Riak core, Transactional Causal Consistency, alpha release.
-Creating company to raise money and bring developpers to implement.
-Causality is respected by program order through the clients. Operations API. Transaction API.
+Subtraction on the other hand is not stable under concurrency. If we
+decrement our counter on a replica and do the same thing on another
+replicat without synchronizing, we could break the invariant that the
+counter must always be greater than zero.
+
+This is **CAP**-sensitive.
+
+We have two solutions do deal with this issue:
+
+* First: **¯\\_(ツ)_/¯**
+  We can be fine with this tradeoff and acknowledge that our invariant
+  *wasn't really an invariant*, e.g.: ensure that a pacient gets its
+  prediction rather than being too conservative.
+* Second: Forbid concurrency, a.k.a *synchronization*.
+
+Wow, that was a long read!
+
+This model is interesting because we can choose *for each operation*
+what consistency model suits best. And when I say "we", I say the
+*system*. Because it's hard to reason about these problems and we need
+*new tools*.
+
+Need tools to analyse and allow or not operations to proceed by analysing
+*where invariants could be violated* and tell us where we're fine and
+where we need *synchronization*.
+
+This is a research topic with lots of movement.  
+Cristopher presents one model: the
+[CISE Analysis](https://syncfree.lip6.fr/index.php/2-uncategorised/51-cise)
+([paper](http://software.imdea.org/~gotsman/papers/cise-tool.pdf)),
+but I'm not going to go into
+[details](https://github.com/SyncFree/CISE) at this point.
+
+So we have [AntidoteDB](http://syncfree.github.io/antidote/):
+[Open-source](https://github.com/SyncFree/antidote), implemented in Erlang,
+built on top of Riak core, providing ***Transactional Causal Consistency***
+and is in alpha release.
+
+Antidote respects ***causality*** by program order through clients and
+provide an *operations API* as well as a *transaction API*.
+
+A company is materializing around it and is in the process of raising money.
+The goal is to prodive the database open-source and for free and support
+and tools commercially.
+
+Really interesting topic and talk, and lots of content!
 
 {{< youtube Vd2I9v3pYpA >}}
 
@@ -720,7 +767,8 @@ The title mislead to expect a talk giving insight about *where* the big data
 processing techniques could go, but in the end for me it didn't
 deliver {{< emoji content=":elephant:" >}}  
 The talk was mainly just an explanation of the *"my big data is bigger than
-your big data"* saying and a quick demo of [Valo](https://valo.io/)'s streaming platform.
+your big data"* saying and a quick demo of [Valo](https://valo.io/)'s streaming
+platform.
 
 The speaker (and CTO of the company hosting the event) is clearly comfortable
 talking to an audience and fills the room with his speaking, and
