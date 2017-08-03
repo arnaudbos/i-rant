@@ -222,7 +222,9 @@ system's log is checked to see if the database actually performed the write.
 
 ## Model
 
-A model is an abstraction on top of the linearizability concept.  
+A model is an abstraction on top of the
+[***linearizability***](https://en.wikipedia.org/wiki/Linearizability) concept.
+
 It's not easy to defined linearizability, I've had to read and watch so many
 resources to try to understand that I can't count them, and in the end I'm not
 sure I understand it well.
