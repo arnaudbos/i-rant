@@ -1,6 +1,6 @@
 ---
 title: J On The Beach 2017 — Jepsen Workshop
-date: 2017-07-11T23:10:08+01:00
+date: 2017-08-07T16:23:04+01:00
 description:
 parent: blog
 categories: ["conference"]

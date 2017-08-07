@@ -1,6 +1,6 @@
 ---
 title: J On The Beach 2017 — Review
-date: 2017-06-26T23:01:54+01:00
+date: 2017-08-07T16:23:04+01:00
 description:
 parent: blog
 categories: ["conference"]
