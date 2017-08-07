@@ -5,7 +5,7 @@ description:
 parent: blog
 categories: ["conference"]
 tags: ["conference", "review"]
-draft: true
+draft: false
 gallery: true
 highlight: true
 ---

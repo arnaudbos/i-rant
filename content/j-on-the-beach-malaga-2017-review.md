@@ -5,7 +5,7 @@ description:
 parent: blog
 categories: ["conference"]
 tags: ["conference", "review"]
-draft: true
+draft: false
 seoimage: img/j-on-the-beach-malaga-2017-review/hall.jpg
 gallery: true
 highlight: true
