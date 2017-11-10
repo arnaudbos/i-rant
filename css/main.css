@@ -392,6 +392,21 @@ figcaption h6 {
   image-rendering: pixelated;
   -ms-interpolation-mode: nearest-neighbor;
 }
+.twitter-tweet {
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+  margin-left: 150px !important;
+}
+@media (max-width: 767px) {
+  .twitter-tweet {
+    margin-left: 50px !important;
+  }
+}
+@media (max-width: 567px) {
+  .twitter-tweet {
+    margin-left: 0px !important;
+  }
+}
 
 /* Footer
 -------------------------------------------------- */

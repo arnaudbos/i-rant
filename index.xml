@@ -6,8 +6,187 @@
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 07 Aug 2017 16:23:04 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 10 Nov 2017 13:41:21 +0100</lastBuildDate>
     <atom:link href="http://i-rant.arnaudbos.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Just use Clojure already!</title>
+      <link>http://i-rant.arnaudbos.com/use-clojure-already/</link>
+      <pubDate>Fri, 10 Nov 2017 13:41:21 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/use-clojure-already/</guid>
+      <description>
+&lt;figure  &gt;
+    
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/use-clojure-already/lisp_cycles.png&#34; alt=&#34;xkcd joke&#34;
+            width=&#34;100%&#34;
+            /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h6&gt;&lt;em&gt;Lisp as a secret weapon&lt;/em&gt;&lt;/h6&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+
+&lt;hr /&gt;
+
+&lt;p&gt;I hear a lot of talking going on about &lt;a href=&#34;https://kotlinlang.org/&#34;&gt;Kotlin&lt;/a&gt; around me lately.&lt;/p&gt;
+
+&lt;p&gt;There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot
+has happened around it from the Google announcement that
+Kotlin would benefit from
+&lt;a href=&#34;https://blog.jetbrains.com/kotlin/2017/05/kotlin-on-android-now-official/&#34;&gt;first class support on Android&lt;/a&gt;, up to the
+hiring of &lt;a href=&#34;https://twitter.com/JakeWharton&#34;&gt;Jake Wharton&lt;/a&gt; (a figure in the world of Android
+developers).&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at
+&lt;a href=&#34;http://www.monkeypatch.io/&#34;&gt;MonkeyPatch&lt;/a&gt; seem to be following the hype (muahaha&amp;hellip;) and are
+becoming more and more addicted to it.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/ilaborie&#34;&gt;Igor&lt;/a&gt; offered to make a live demo in order to show me what it is they
+(he) like about Kotlin.&lt;/p&gt;
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;fr&#34; dir=&#34;ltr&#34;&gt;On profite de l&amp;#39;été pour se faire des petites sessions de BBL &lt;a href=&#34;https://twitter.com/hashtag/dev?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#dev&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/passion?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#passion&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/summer?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#summer&lt;/a&gt; &lt;a href=&#34;https://t.co/54JG68txhs&#34;&gt;pic.twitter.com/54JG68txhs&lt;/a&gt;&lt;/p&gt;&amp;mdash; MonkeyPatch (@MonkeyPatch_io) &lt;a href=&#34;https://twitter.com/MonkeyPatch_io/status/893066399794556928?ref_src=twsrc%5Etfw&#34;&gt;August 3, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;During his presentation I&amp;rsquo;ve noticed a few points that I disliked, but before
+jumping to conclusion I decided to dig a bit further, reading
+&lt;a href=&#34;https://www.manning.com/books/kotlin-in-action&#34;&gt;Kotlin in Action&lt;/a&gt; during vacations two weeks later.&lt;/p&gt;
+
+&lt;p&gt;I also asked on our private Slack team:
+&lt;strong&gt;&lt;em&gt;&amp;ldquo;What is Kotlin&amp;rsquo;s value proposition?&amp;rdquo;&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Amongst other small things, the consensus begun to build: &lt;em&gt;&amp;ldquo;It&amp;rsquo;s a better
+Java than Java&amp;rdquo;&lt;/em&gt;&amp;hellip;&lt;br /&gt;
+Exactly what I feared.&lt;/p&gt;
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Finished. Nice book, &lt;a href=&#34;https://twitter.com/hashtag/Kotlin?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#Kotlin&lt;/a&gt; is a better Java than &lt;a href=&#34;https://twitter.com/hashtag/Java?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#Java&lt;/a&gt; and increases productivity. But I still prefer &lt;a href=&#34;https://twitter.com/hashtag/Clojure?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#Clojure&lt;/a&gt;. I&amp;#39;ll write about that soon &lt;a href=&#34;https://t.co/4ZgHScppAA&#34;&gt;pic.twitter.com/4ZgHScppAA&lt;/a&gt;&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/898808015146627072?ref_src=twsrc%5Etfw&#34;&gt;August 19, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;To fulfill the promise made in this tweet, I took it as a game to code the
+same code example Igor showed me in &lt;a href=&#34;https://clojure.org/&#34;&gt;Clojure&lt;/a&gt; in order to return
+the favor to my colleagues.&lt;/p&gt;
+
+&lt;p&gt;And I&amp;rsquo;ve decided to start a series of blog posts about Clojure&amp;rsquo;s features and
+Kotlin&amp;rsquo;s features in order to express why &lt;strong&gt;&lt;em&gt;I&lt;/em&gt;&lt;/strong&gt; don&amp;rsquo;t see the later being that
+much of an improvement, despite its growth in popularity.&lt;/p&gt;
+
+&lt;p&gt;But using Clojure is not like riding on unicorns all day long either.&lt;br /&gt;
+Although I fail to see if some other new languages solve real problems or just
+add more puzzles to solve to our daily share or incidental complexity, I will
+address some pain points I&amp;rsquo;ve encountered too in Clojure.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;This post was actually in draft form since September 15th (I screwed up my
+publication planning) and in the mean time I&amp;rsquo;ve had many occasions to express
+my &lt;em&gt;&amp;ldquo;obsessive enthusiasm&amp;rdquo;&lt;/em&gt; of Clojure.&lt;/p&gt;
+
+&lt;p&gt;And the static typing and type systems aficionados around me (who seem to be
+legion, interestingly) have come to discover and appreciate &lt;a href=&#34;https://www.idris-lang.org/&#34;&gt;Idris&lt;/a&gt; and
+its &lt;a href=&#34;https://en.wikipedia.org/wiki/Dependent_type&#34;&gt;dependent types&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Well... I&amp;#39;d like to know fundamentally why... And anyway have you ever tried &lt;a href=&#34;https://twitter.com/idrislang?ref_src=twsrc%5Etfw&#34;&gt;@idrislang&lt;/a&gt; ?&lt;/p&gt;&amp;mdash; Frédéric Cabestre (@fcabestre) &lt;a href=&#34;https://twitter.com/fcabestre/status/912183360285544448?ref_src=twsrc%5Etfw&#34;&gt;September 25, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;I remember having heard about Idris around summer 2016 in this
+&lt;a href=&#34;https://www.functionalgeekery.com/episode-54-edwin-brady/&#34;&gt;podcast&lt;/a&gt;.&lt;br /&gt;
+I even added the episode to my favorites: which means I wanted to get back to
+it and listen again later.&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s nice to have people around ready to talk about these stuff.&lt;br /&gt;
+This tweet made me realize it would be a good way to also inject a bit of
+Idris dependent types and interactive editing features in the mix and see how
+Clojure compares on the matter (Kotlin being out of the equation here).&lt;/p&gt;
+
+&lt;p&gt;I hope this post will be the first of a series where &lt;a href=&#34;https://twitter.com/ilaborie&#34;&gt;Igor&lt;/a&gt; and I (and
+maybe &lt;a href=&#34;https://twitter.com/fcabestre&#34;&gt;Frederic&lt;/a&gt; on Idris?) might go back and forth, answering
+each other. It&amp;rsquo;s up to them.&lt;/p&gt;
+
+&lt;p&gt;In the first part I will solely talk about the &lt;em&gt;programming style&lt;/em&gt; I&amp;rsquo;ve
+used to arrive at my solution, and in the following parts I will explore
+other features of the language such as &lt;em&gt;data structures&lt;/em&gt;, &lt;em&gt;polymorphism&lt;/em&gt;,
+&lt;em&gt;interoperability&lt;/em&gt;, &lt;em&gt;concurrency&lt;/em&gt; and of course &lt;em&gt;static/dynamic/dependent
+typing&lt;/em&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Water Pouring Problem in Clojure</title>
+      <link>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</link>
+      <pubDate>Fri, 15 Sep 2017 13:36:21 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</guid>
+      <description>
+&lt;figure  &gt;
+    
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/water-pouring-in-clojure/die-hard-3-water-puzzle.jpg&#34; alt=&#34;Caption of the water puzzle scene in Die Hard with a Vengeance&#34;
+            width=&#34;100%&#34;
+            /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h6&gt;&lt;em&gt;Die Hard with a Vengeance — Water puzzle scene&lt;/em&gt;&lt;/h6&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+
+&lt;hr /&gt;
+
+&lt;p&gt;This post is the first or a series where I explore [Clojure][clojure] features
+and start a discussion with my colleague [Igor][igor] about Clojure vs
+[Kotlin][kotlin].&lt;/p&gt;
+
+&lt;p&gt;Last month [Igor][igor] offered to make a live Kotlin demo of a nice problem
+he&amp;rsquo;s been [working on][kotlin-pouring] that serves as an exercise to
+experiment several features of a language, the
+[Water pouring puzzle][water-puzzle].&lt;/p&gt;
+
+&lt;p&gt;In this first part I will solely talk about the &lt;strong&gt;&lt;em&gt;programming style&lt;/em&gt;&lt;/strong&gt; I&amp;rsquo;ve
+used to arrive at my solution, in the following parts I will explore other
+features of the language such as &lt;em&gt;static/dynamic typing&lt;/em&gt;, &lt;em&gt;polymorphism&lt;/em&gt;,
+&lt;em&gt;interoperability&lt;/em&gt; and &lt;em&gt;concurrency&lt;/em&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Igor&amp;rsquo;s [guideline][kotlin-pouring-guideline] offers a good starting point
+on how loads of OO and/or static typing adepts (including myself when I switch
+to that mode) would solve this problem: model the world.&lt;/p&gt;
+
+&lt;p&gt;After a few years of [REPL][good-repl] [driven development][repl-driven-dev] I
+know that I have a better (to me) tool to functionally, expressively and
+incrementally solve a problem.&lt;/p&gt;
+
+&lt;p&gt;This post is basically a transcript of my thought process as I was writing
+a solver to the Water pouring puzzle at the REPL.&lt;br /&gt;
+It was interesting to take the time to reflect and watch myself work as
+I was proceeding, it took more time but it was definitely an interesting
+experiment.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I setup the boilerplate first. (leiningen, dependencies, etc) and a
+namespace to work in:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&#34;language-klipse&#34;
+  &gt;
+
+&lt;/code&gt;
+
+(ns clojure-pouring.core
+  (:require [clojure.pprint :refer [pprint]]))&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>J On The Beach 2017 — Jepsen Workshop</title>
@@ -87,8 +266,9 @@ started introducing &lt;a href=&#34;https://clojure.org/&#34;&gt;Clojure&lt;/a&g
 the syntax, data structures literals and the immutability part,
 just enough to be able to follow the hands-on part of the workshop.&lt;/p&gt;
 
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Let&amp;#39;s get &lt;a href=&#34;https://twitter.com/JOTB17&#34;&gt;@JOTB17&lt;/a&gt; started! &lt;a href=&#34;https://twitter.com/aphyr&#34;&gt;@aphyr&lt;/a&gt; introducing &lt;a href=&#34;https://twitter.com/hashtag/Clojure?src=hash&#34;&gt;#Clojure&lt;/a&gt; for the &lt;a href=&#34;https://twitter.com/hashtag/Jepsen?src=hash&#34;&gt;#Jepsen&lt;/a&gt; workshop! &lt;a href=&#34;https://t.co/c4M7SXhCR3&#34;&gt;pic.twitter.com/c4M7SXhCR3&lt;/a&gt;&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/864748353489428481&#34;&gt;May 17, 2017&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async src=&#34;//platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Let&amp;#39;s get &lt;a href=&#34;https://twitter.com/JOTB17?ref_src=twsrc%5Etfw&#34;&gt;@JOTB17&lt;/a&gt; started! &lt;a href=&#34;https://twitter.com/aphyr?ref_src=twsrc%5Etfw&#34;&gt;@aphyr&lt;/a&gt; introducing &lt;a href=&#34;https://twitter.com/hashtag/Clojure?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#Clojure&lt;/a&gt; for the &lt;a href=&#34;https://twitter.com/hashtag/Jepsen?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#Jepsen&lt;/a&gt; workshop! &lt;a href=&#34;https://t.co/c4M7SXhCR3&#34;&gt;pic.twitter.com/c4M7SXhCR3&lt;/a&gt;&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/864748353489428481?ref_src=twsrc%5Etfw&#34;&gt;May 17, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
 
 &lt;p&gt;It&amp;rsquo;s true that Clojure might be disturbing at first glance, like any new
 programming language&amp;rsquo;s syntax.&lt;br /&gt;
@@ -396,8 +576,9 @@ eye on it for the next edition.&lt;/p&gt;
 I saw the subjects and the speakers I managed to get one of the first round of
 tickets&lt;/p&gt;
 
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Tickets booked, I&amp;#39;ll be &lt;a href=&#34;https://twitter.com/JOTB17&#34;&gt;@JOTB17&lt;/a&gt; in May and will attend &lt;a href=&#34;https://twitter.com/aphyr&#34;&gt;@aphyr&lt;/a&gt;&amp;#39;s workshop on &lt;a href=&#34;https://twitter.com/hashtag/Jepsen?src=hash&#34;&gt;#Jepsen&lt;/a&gt; 🎉 Can&amp;#39;t wait!&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/816912096948613120&#34;&gt;January 5, 2017&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async src=&#34;//platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Tickets booked, I&amp;#39;ll be &lt;a href=&#34;https://twitter.com/JOTB17?ref_src=twsrc%5Etfw&#34;&gt;@JOTB17&lt;/a&gt; in May and will attend &lt;a href=&#34;https://twitter.com/aphyr?ref_src=twsrc%5Etfw&#34;&gt;@aphyr&lt;/a&gt;&amp;#39;s workshop on &lt;a href=&#34;https://twitter.com/hashtag/Jepsen?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#Jepsen&lt;/a&gt; 🎉 Can&amp;#39;t wait!&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/816912096948613120?ref_src=twsrc%5Etfw&#34;&gt;January 5, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
 
 &lt;p&gt;I didn&amp;rsquo;t know how to cut this article, maybe in half? or maybe an entry by
 talk was more appropriate?&lt;br /&gt;
@@ -2426,22 +2607,15 @@ advices:&lt;/p&gt;
       <pubDate>Mon, 23 Jan 2017 13:23:08 +0100</pubDate>
       
       <guid>http://i-rant.arnaudbos.com/test-klipse/</guid>
-      <description>&lt;code class=&#34;language-klipse&#34;
-  data-external-libs=&#34;https://raw.githubusercontent.com/mikera/core.matrix/develop/src/main/clojure&#34;
-  data-preamble=&#34;(ns toto.matrices-algebra (:require [clojure.core.matrix :refer [shape]]))&#34;&gt;
-(shape [[1 2] [3 4]])
+      <description>&lt;p&gt;Foo&lt;/p&gt;
+
+&lt;code class=&#34;language-klipse&#34;
+  &gt;
+(println &amp;#34;Hello&amp;#34;)
 &lt;/code&gt;
-  
 
 
-  
-
-
-
-
-
-
-
+&lt;p&gt;Bar&lt;/p&gt;
 </description>
     </item>
     
@@ -5303,7 +5477,7 @@ advices:&lt;/p&gt;
 
 &lt;h2 id=&#34;what-s-this-post-about&#34;&gt;What&amp;rsquo;s this post about?&lt;/h2&gt;
 
-&lt;p&gt;Publishing all my drafts in the open, because I want to be loved, yay narcissism.&lt;/p&gt;
+&lt;p&gt;Publishing all stuff because I want to be loved, yay narcissism.&lt;/p&gt;
 
 &lt;h5 id=&#34;is-it-any-good&#34;&gt;Is it any good?&lt;/h5&gt;
 
@@ -6279,19 +6453,19 @@ a proper modern IoT device.
     
     <item>
       <title></title>
-      <link>http://i-rant.arnaudbos.com/architecture-decision-records/</link>
+      <link>http://i-rant.arnaudbos.com/drafts/architecture-decision-records/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/architecture-decision-records/</guid>
+      <guid>http://i-rant.arnaudbos.com/drafts/architecture-decision-records/</guid>
       <description></description>
     </item>
     
     <item>
       <title></title>
-      <link>http://i-rant.arnaudbos.com/automated-diagrams-in-documentation-with-boot/</link>
+      <link>http://i-rant.arnaudbos.com/drafts/automated-diagrams-in-documentation-with-boot/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/automated-diagrams-in-documentation-with-boot/</guid>
+      <guid>http://i-rant.arnaudbos.com/drafts/automated-diagrams-in-documentation-with-boot/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/boot-clj/boot&#34;&gt;https://github.com/boot-clj/boot&lt;/a&gt;
 &lt;a href=&#34;https://github.com/ztellman/rhizome&#34;&gt;https://github.com/ztellman/rhizome&lt;/a&gt;
 &lt;a href=&#34;https://github.com/drcode/vijual&#34;&gt;https://github.com/drcode/vijual&lt;/a&gt;
@@ -6303,10 +6477,20 @@ a proper modern IoT device.
     
     <item>
       <title></title>
-      <link>http://i-rant.arnaudbos.com/local-docker-development-with-vagrant/</link>
+      <link>http://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/local-docker-development-with-vagrant/</guid>
+      <guid>http://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</guid>
+      <description>&lt;p&gt;&lt;div class=&#34;reddit-embed&#34; data-embed-media=&#34;www.redditmedia.com&#34; data-embed-parent=&#34;false&#34; data-embed-live=&#34;false&#34; data-embed-uuid=&#34;d1a5e927-69c5-44a7-96d7-91115ea45ef3&#34; data-embed-created=&#34;2017-09-25T22:04:23.908Z&#34;&gt;&lt;a href=&#34;https://www.reddit.com/r/programming/comments/57w463/the_inconvenient_truth_about_dynamic_vs_static/d8vn39m/&#34;&gt;Comment&lt;/a&gt; from discussion &lt;a href=&#34;https://www.reddit.com/r/programming/comments/57w463/the_inconvenient_truth_about_dynamic_vs_static/&#34;&gt;The Inconvenient Truth About Dynamic vs. Static Typing&lt;/a&gt;.&lt;/div&gt;&lt;script async src=&#34;https://www.redditstatic.com/comment-embed.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://i-rant.arnaudbos.com/drafts/local-docker-development-with-vagrant/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/drafts/local-docker-development-with-vagrant/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://docs.docker.com/docker-for-mac/docker-toolbox/#the-docker-for-mac-environment&#34;&gt;https://docs.docker.com/docker-for-mac/docker-toolbox/#the-docker-for-mac-environment&lt;/a&gt;
 Part1: &lt;a href=&#34;http://activelamp.com/blog/devops/hashing-out-docker-workflow/&#34;&gt;http://activelamp.com/blog/devops/hashing-out-docker-workflow/&lt;/a&gt;
 Part2: &lt;a href=&#34;http://activelamp.com/blog/devops/docker-with-vagrant/&#34;&gt;http://activelamp.com/blog/devops/docker-with-vagrant/&lt;/a&gt;

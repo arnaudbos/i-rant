@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/categories/clojure/index.xml</link>
+    <link>http://i-rant.arnaudbos.com/tags/kotlin/index.xml</link>
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <atom:link href="http://i-rant.arnaudbos.com/categories/clojure/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://i-rant.arnaudbos.com/tags/kotlin/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Just use Clojure already!</title>
@@ -114,94 +114,6 @@ used to arrive at my solution, and in the following parts I will explore
 other features of the language such as &lt;em&gt;data structures&lt;/em&gt;, &lt;em&gt;polymorphism&lt;/em&gt;,
 &lt;em&gt;interoperability&lt;/em&gt;, &lt;em&gt;concurrency&lt;/em&gt; and of course &lt;em&gt;static/dynamic/dependent
 typing&lt;/em&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Water Pouring Problem in Clojure</title>
-      <link>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</link>
-      <pubDate>Fri, 15 Sep 2017 13:36:21 +0100</pubDate>
-      
-      <guid>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</guid>
-      <description>
-&lt;figure  &gt;
-    
-        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/water-pouring-in-clojure/die-hard-3-water-puzzle.jpg&#34; alt=&#34;Caption of the water puzzle scene in Die Hard with a Vengeance&#34;
-            width=&#34;100%&#34;
-            /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;h6&gt;&lt;em&gt;Die Hard with a Vengeance — Water puzzle scene&lt;/em&gt;&lt;/h6&gt;
-        
-    &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-
-
-
-&lt;hr /&gt;
-
-&lt;p&gt;This post is the first or a series where I explore [Clojure][clojure] features
-and start a discussion with my colleague [Igor][igor] about Clojure vs
-[Kotlin][kotlin].&lt;/p&gt;
-
-&lt;p&gt;Last month [Igor][igor] offered to make a live Kotlin demo of a nice problem
-he&amp;rsquo;s been [working on][kotlin-pouring] that serves as an exercise to
-experiment several features of a language, the
-[Water pouring puzzle][water-puzzle].&lt;/p&gt;
-
-&lt;p&gt;In this first part I will solely talk about the &lt;strong&gt;&lt;em&gt;programming style&lt;/em&gt;&lt;/strong&gt; I&amp;rsquo;ve
-used to arrive at my solution, in the following parts I will explore other
-features of the language such as &lt;em&gt;static/dynamic typing&lt;/em&gt;, &lt;em&gt;polymorphism&lt;/em&gt;,
-&lt;em&gt;interoperability&lt;/em&gt; and &lt;em&gt;concurrency&lt;/em&gt;.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;Igor&amp;rsquo;s [guideline][kotlin-pouring-guideline] offers a good starting point
-on how loads of OO and/or static typing adepts (including myself when I switch
-to that mode) would solve this problem: model the world.&lt;/p&gt;
-
-&lt;p&gt;After a few years of [REPL][good-repl] [driven development][repl-driven-dev] I
-know that I have a better (to me) tool to functionally, expressively and
-incrementally solve a problem.&lt;/p&gt;
-
-&lt;p&gt;This post is basically a transcript of my thought process as I was writing
-a solver to the Water pouring puzzle at the REPL.&lt;br /&gt;
-It was interesting to take the time to reflect and watch myself work as
-I was proceeding, it took more time but it was definitely an interesting
-experiment.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;I setup the boilerplate first. (leiningen, dependencies, etc) and a
-namespace to work in:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&#34;language-klipse&#34;
-  &gt;
-
-&lt;/code&gt;
-
-(ns clojure-pouring.core
-  (:require [clojure.pprint :refer [pprint]]))&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Klipse</title>
-      <link>http://i-rant.arnaudbos.com/test-klipse/</link>
-      <pubDate>Mon, 23 Jan 2017 13:23:08 +0100</pubDate>
-      
-      <guid>http://i-rant.arnaudbos.com/test-klipse/</guid>
-      <description>&lt;p&gt;Foo&lt;/p&gt;
-
-&lt;code class=&#34;language-klipse&#34;
-  &gt;
-(println &amp;#34;Hello&amp;#34;)
-&lt;/code&gt;
-
-
-&lt;p&gt;Bar&lt;/p&gt;
 </description>
     </item>
     

@@ -3070,9 +3070,21 @@ advices:</p>
 
 
 <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css">
+<link rel="stylesheet" type="text/css" href="/css/klipse-theme.css">
 <script>
     window.klipse_settings = {
-        selector: '.language-klipse'
+        selector: '.language-klipse',
+        codemirror_options_in: {
+          theme: "monokai",
+          lineWrapping: true,
+          lineNumbers: true,
+          autoCloseBrackets: true
+        },
+        codemirror_options_out: {
+          theme: "monokai",
+          lineWrapping: true,
+          lineNumbers: true
+        }
     };
 </script>
 <script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>

@@ -14,22 +14,15 @@
       <pubDate>Mon, 23 Jan 2017 13:23:08 +0100</pubDate>
       
       <guid>http://i-rant.arnaudbos.com/test-klipse/</guid>
-      <description>&lt;code class=&#34;language-klipse&#34;
-  data-external-libs=&#34;https://raw.githubusercontent.com/mikera/core.matrix/develop/src/main/clojure&#34;
-  data-preamble=&#34;(ns toto.matrices-algebra (:require [clojure.core.matrix :refer [shape]]))&#34;&gt;
-(shape [[1 2] [3 4]])
+      <description>&lt;p&gt;Foo&lt;/p&gt;
+
+&lt;code class=&#34;language-klipse&#34;
+  &gt;
+(println &amp;#34;Hello&amp;#34;)
 &lt;/code&gt;
-  
 
 
-  
-
-
-
-
-
-
-
+&lt;p&gt;Bar&lt;/p&gt;
 </description>
     </item>
     

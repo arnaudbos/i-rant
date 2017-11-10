@@ -3,7 +3,17 @@
   
   <url>
     <loc>http://i-rant.arnaudbos.com/</loc>
-    <lastmod>2017-08-07T16:23:04+01:00</lastmod>
+    <lastmod>2017-11-10T13:41:21+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/use-clojure-already/</loc>
+    <lastmod>2017-11-10T13:41:21+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</loc>
+    <lastmod>2017-09-15T13:36:21+01:00</lastmod>
   </url>
   
   <url>
@@ -52,15 +62,19 @@
   </url>
   
   <url>
-    <loc>http://i-rant.arnaudbos.com/architecture-decision-records/</loc>
+    <loc>http://i-rant.arnaudbos.com/drafts/architecture-decision-records/</loc>
   </url>
   
   <url>
-    <loc>http://i-rant.arnaudbos.com/automated-diagrams-in-documentation-with-boot/</loc>
+    <loc>http://i-rant.arnaudbos.com/drafts/automated-diagrams-in-documentation-with-boot/</loc>
   </url>
   
   <url>
-    <loc>http://i-rant.arnaudbos.com/local-docker-development-with-vagrant/</loc>
+    <loc>http://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</loc>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/drafts/local-docker-development-with-vagrant/</loc>
   </url>
   
 </urlset>
