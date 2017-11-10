@@ -7,4 +7,8 @@ draft: true
 klipse: true
 ---
 
-{{< klipse >}}
+Foo
+
+{{< klipse content="(println \"Hello\")">}}
+
+Bar
