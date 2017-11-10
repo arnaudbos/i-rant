@@ -11,7 +11,7 @@ draft: false
 What's this post about?
 ---
 
-Publishing all my drafts in the open, because I want to be loved, yay narcissism.
+Publishing all stuff because I want to be loved, yay narcissism.
 
 ##### Is it any good?
 
