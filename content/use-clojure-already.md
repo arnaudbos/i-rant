@@ -84,12 +84,6 @@ I hope this post will be the first of a series where [Igor][igor] and I (and
 maybe [Frederic][frederic] on Idris?) might go back and forth, answering
 each other. It's up to them.
 
-In the first part I will solely talk about the *programming style* I've
-used to arrive at my solution, and in the following parts I will explore
-other features of the language such as *data structures*, *polymorphism*,
-*interoperability*, *concurrency* and of course *static/dynamic/dependent
-typing*.
-
 [kotlin]: https://kotlinlang.org/
 [kotlin-first-class-android]: https://blog.jetbrains.com/kotlin/2017/05/kotlin-on-android-now-official/
 [jakewharton]: https://twitter.com/JakeWharton
