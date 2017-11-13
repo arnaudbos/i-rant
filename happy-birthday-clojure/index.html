@@ -6,22 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="map[]" />
         
-    <meta property="og:title" content="Water Pouring Problem in Clojure" />
-    <meta property="og:description" content="Solving the water pouring problem in Clojure and detailing my approach at the REPL" />
+    <meta property="og:title" content="Happy birthday Clojure!" />
+    <meta property="og:description" content="This year is the tenth birthday of the release of Clojure.
+Although Clojure is gaining momentum and the community is growing at a steady pace worldwide, after ten years the number of places where active communities have formed is small and Clojure enthusiasts are still struggling to use their favorite language professionally.
+In Europe for instance (which is my point of view), I can see strong communities have formed in northern Europe, in London for example, Finland, Netherlands or Germany, with conference taking place every year and companies supporting them and the Clojure job market." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://i-rant.arnaudbos.com/water-pouring-in-clojure/" />
+    <meta property="og:url" content="http://i-rant.arnaudbos.com/happy-birthday-clojure/" />
     
-    <meta property="og:image" content="http://i-rant.arnaudbos.com/img/water-pouring-in-clojure/die-hard-3-water-puzzle.jpg" />
+    <meta property="og:image" content="http://i-rant.arnaudbos.com/img/happy-birthday-clojure/clojure.jpeg" />
     
 
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="http://i-rant.arnaudbos.com/img/favicon.ico">
-    <title>Water Pouring Problem in Clojure</title>
+    <title>Happy birthday Clojure!</title>
     <meta name="generator" content="Hugo 0.17" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
-    
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
     <link rel="stylesheet" type="text/css" href="http://i-rant.arnaudbos.com/css/main.css" />
     
     <!--[if lt IE 9]>
@@ -62,24 +63,22 @@
       <div class="container">
         <div class="blog-post">
           <h3>
-            <a href="/water-pouring-in-clojure/">Water Pouring Problem in Clojure</a>
+            <a href="/happy-birthday-clojure/">Happy birthday Clojure!</a>
           </h3>
         </div>
         <div class="blog-title">
           <h4>
-          September 15, 2017
+          November 13, 2017
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          2 minutes read
+          3 minutes read
           </h4>
         </div>
         <div>
           <h4>
             
             <span class="label label-success">clojure</span>
-            
-            <span class="label label-success">REPL</span>
             
           </h4>
         </div>
@@ -89,15 +88,10 @@
               
 <figure  >
     
-        <img src="/img/water-pouring-in-clojure/die-hard-3-water-puzzle.jpg" alt="Caption of the water puzzle scene in Die Hard with a Vengeance"
+        <img src="/img/happy-birthday-clojure/clojure.jpeg" alt="Clojure logo"
             width="100%"
             />
     
-    
-    <figcaption>
-        <h6><em>Die Hard with a Vengeance — Water puzzle scene</em></h6>
-        
-    </figcaption>
     
 </figure>
 
@@ -105,67 +99,69 @@
 
 <hr />
 
-<p>This post is the first or a series where I explore [Clojure][clojure] features
-and start a discussion with my colleague [Igor][igor] about Clojure vs
-[Kotlin][kotlin].</p>
+<p>This year is the tenth birthday of the release of <a href="http://blog.cognitect.com/blog/2017/8/18/come-celebrate-seven-years-of-conj-10-years-of-clojure">Clojure</a>.</p>
 
-<p>Last month [Igor][igor] offered to make a live Kotlin demo of a nice problem
-he&rsquo;s been [working on][kotlin-pouring] that serves as an exercise to
-experiment several features of a language, the
-[Water pouring puzzle][water-puzzle].</p>
+<p>Although Clojure is gaining momentum and the community is growing at a steady
+pace worldwide, after ten years the number of places where active communities
+have formed is small and Clojure enthusiasts are still struggling to use their
+favorite language professionally.</p>
 
-<p>In this first part I will solely talk about the <strong><em>programming style</em></strong> I&rsquo;ve
-used to arrive at my solution, in the following parts I will explore other
-features of the language such as <em>static/dynamic typing</em>, <em>polymorphism</em>,
-<em>interoperability</em> and <em>concurrency</em>.</p>
+<p>In Europe for instance (which is my point of view), I can see strong
+communities have formed in northern Europe, in London for example, Finland,
+Netherlands or Germany, with conference taking place every year and companies
+supporting them and the Clojure job market.</p>
 
-<hr />
+<p>In France however, the number of &ldquo;Clojurians&rdquo; is pretty small. There is a
+Clojure User Group in Paris with really active people, which is great. Other
+than that I don&rsquo;t hear a whole lot about Clojure around here.</p>
 
-<p>Igor&rsquo;s [guideline][kotlin-pouring-guideline] offers a good starting point
-on how loads of OO and/or static typing adepts (including myself when I switch
-to that mode) would solve this problem: model the world.</p>
+<p>Earlier this year I was listening to <a href="https://twitter.com/mohitthatte">Mohit Thatte</a>&rsquo;s conversation
+in <a href="https://www.functionalgeekery.com/episode-82-mohit-thatte/">this episode of Functional Geekery</a>.
+He has created a <a href="http://inclojure.org">Clojure conference in India</a>, from scratch (!),
+in order to spread the word about Clojure and:</p>
 
-<p>After a few years of [REPL][good-repl] [driven development][repl-driven-dev] I
-know that I have a better (to me) tool to functionally, expressively and
-incrementally solve a problem.</p>
+<blockquote>
+<p>&ldquo;nurture the small but growing community of Clojure programmers in India&rdquo;.</p>
+</blockquote>
 
-<p>This post is basically a transcript of my thought process as I was writing
-a solver to the Water pouring puzzle at the REPL.<br />
-It was interesting to take the time to reflect and watch myself work as
-I was proceeding, it took more time but it was definitely an interesting
-experiment.</p>
+<p>This inspired me a lot and the fact that I couldn&rsquo;t attend the seventh <em>conj</em>,
+for Clojure&rsquo;s tenth birthday, added on top of the all the frustration
+generated by having to use other technologies and programming models all day
+long made me decide to take actions.</p>
 
-<hr />
+<p>I have made a proposal to talk about Lisp and Clojure at our local (Toulouse)
+Java User Group. The talk got accepted and I tried (more on this in a next
+article) to express the fundamentals of Lisp, Clojure and the way we treat
+information in our systems.</p>
 
-<p>I setup the boilerplate first. (leiningen, dependencies, etc) and a
-namespace to work in:</p>
+<p><strong>This talk was also a perfect tribune to announce the creation of the
+<a href="https://www.meetup.com/fr-FR/Toulouse-Clojure-User-Group/">Toulouse Clojure User Group</a>.</strong></p>
 
-<p><code class="language-klipse"
-  >
+<p>In 2013 when I was forced by <a href="https://twitter.com/FrancoisRoyer">this guy</a>
+(he was my boss) to adopt a Lisp, it felt like my brain was melting.<br />
+Now I&rsquo;m frustrated almost every day I have to use anything else (which is part
+of why I don&rsquo;t do frontend development anymore, all the other tech stacks in
+this field feel hostile and <em>complected</em> in every possible way).</p>
 
-</code>
+<p>My goal with this user group is more or less the same as any user group
+creator: to spread the word about a subject I am really excited about and
+nurture the community that will form around it.</p>
 
-(ns clojure-pouring.core
-  (:require [clojure.pprint :refer [pprint]]))</p>
+<p>I also want it to be a place where programmers can come and talk about other
+functional programming languages: Haskell, Scala, Elixir, Erlang, Idris,
+PureScript, Elm, Kotlin, Agda, Coq, etc.<br />
+There is no &ldquo;functional meetup&rdquo; around here and I think we could all benefit
+from cross pollication and sharing ideas, just expect me to be advocating for
+Clojure a little bit more.</p>
+
+<p>Local user groups are local by definition, so I don&rsquo;t expect people coming
+to work in the area from more than 20 to 40km to attend an afterwork meetup.<br />
+But if you are in the area, and are interested in Clojure or in functional
+programming, <a href="https://twitter.com/ClojureToulouse">let&rsquo;s meet</a>.</p>
 
               <hr>
               <div class="related-posts">
                 <h5>Related Posts</h5>
-                
-                
-                  <div class="row">
-                    <div class="col-sm-4 col-md-4 col-lg-4">
-                      <h6 style="text-align: right">
-                        November 13, 2017
-                      </h6>
-                    </div>
-                    <div class="col-sm-8 col-md-8 col-lg-8">
-                      <h6 style="text-align: left">
-                        <strong><a href="/happy-birthday-clojure/">Happy birthday Clojure!</a></strong>
-                      </h6>
-                    </div>
-                  </div>
-                
                 
                 
                   <div class="row">
@@ -180,6 +176,8 @@ namespace to work in:</p>
                       </h6>
                     </div>
                   </div>
+                
+                
                 
                 
                 
@@ -257,94 +255,10 @@ namespace to work in:</p>
 })();
 </script>
 
-<!-- Syntax highlighting -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/clojure.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
-
-<link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css">
-<link rel="stylesheet" type="text/css" href="/css/klipse-theme.css">
-<script>
-    window.klipse_settings = {
-        selector: '.language-klipse',
-        codemirror_options_in: {
-          theme: "monokai",
-          lineWrapping: true,
-          lineNumbers: true,
-          autoCloseBrackets: true
-        },
-        codemirror_options_out: {
-          theme: "monokai",
-          lineWrapping: true,
-          lineNumbers: true
-        }
-    };
-</script>
-<script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
-
-
-<link rel="stylesheet" href="/css/photoswipe.css">
-<link rel="stylesheet" href="/css/default-skin/default-skin.css">
-<script src="/js/photoswipe.min.js"></script>
-<script src="/js/photoswipe-ui-default.min.js"></script>
-<script src="/js/initphotoswipe.js"></script>
 
 
 
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
-      
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-      
-      
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
-
-<style>
-    .gallery { float: right; margin-bottom: 10px; text-align: center; }
-    .gallery img { height: auto; }
-    .gallery .title { text-align: center; text-decoration: underline; }
-    .gallery figure { display: block; float: left; margin: 0 5px 5px 0; }
-    .gallery figcaption { display: none; }
-</style>
-
-<script>initPhotoSwipeFromDOM('.gallery');</script>
 
 
 
