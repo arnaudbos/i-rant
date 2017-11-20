@@ -6,8 +6,165 @@
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 13 Nov 2017 13:50:14 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 20 Nov 2017 03:09:02 +0100</lastBuildDate>
     <atom:link href="http://i-rant.arnaudbos.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Feedback on giving a talk</title>
+      <link>http://i-rant.arnaudbos.com/feedback-on-giving-a-talk/</link>
+      <pubDate>Mon, 20 Nov 2017 03:09:02 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/feedback-on-giving-a-talk/</guid>
+      <description>&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;OMW to my first ever local meetup talk. I will be presenting &lt;a href=&#34;https://twitter.com/hashtag/Clojure?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#Clojure&lt;/a&gt;.&lt;br&gt;/me nervous as fuck &lt;a href=&#34;https://t.co/sFqpDa0Iqz&#34;&gt;pic.twitter.com/sFqpDa0Iqz&lt;/a&gt;&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/928664706222575616?ref_src=twsrc%5Etfw&#34;&gt;November 9, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Last week I gave a talk at a local meetup, the Toulouse Java User Group,
+where I presented Lisp and Clojure.&lt;/p&gt;
+
+&lt;p&gt;Apart from mandatory workgroup presentations or master thesis defense, I&amp;rsquo;ve
+never volunteered to talk in front of people.&lt;/p&gt;
+
+&lt;p&gt;In the beginning of May 2017, I sent a &amp;ldquo;Call for paper&amp;rdquo; to one of our local
+&lt;a href=&#34;https://devfesttoulouse.fr/&#34;&gt;GDG DevFest&lt;/a&gt; and got rejected ¯\&lt;em&gt;(ツ)&lt;/em&gt;/¯&lt;/p&gt;
+
+&lt;p&gt;My presentation title wasn&amp;rsquo;t entertaining, the content was pretty boring and
+I also left my speaker bio empty because I forgot to submit it.&lt;br /&gt;
+Honestly, now that I think about it I would have rejected myself. But at
+the time it was disappointing, and also relieving.&lt;/p&gt;
+
+&lt;p&gt;And then, during the summer I listened to
+&lt;a href=&#34;https://www.functionalgeekery.com/episode-82-mohit-thatte/&#34;&gt;this episode of Functional Geekery&lt;/a&gt; in which
+&lt;a href=&#34;https://twitter.com/mohitthatte&#34;&gt;Mohit Thatte&lt;/a&gt; explains how he has created a
+&lt;a href=&#34;http://inclojure.org&#34;&gt;Clojure conference in India&lt;/a&gt; and essentially says that you get
+the community you deserve and if no-one has created a meetup yet, you can
+just start with that, it doesn&amp;rsquo;t have to be someone else to do it.&lt;/p&gt;
+
+&lt;p&gt;But creating a meetup first and then try to spread the word about it and
+convince people to come is not something I could do, so I made a new
+proposal to a talk about Clojure at our local Java User Group.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&#34;http://www.toulousejug.org/&#34;&gt;Toulouse Java User Group&lt;/a&gt; has a good aura and is one of the
+most frequently and well organized user group in town, so I decided to
+reword my presentation proposal and found a provocative title:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The greatest single programming language ever designed: Lisp on the JVM&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This is a quote by &lt;a href=&#34;https://en.wikipedia.org/wiki/Alan_Kay&#34;&gt;Alan Kay&lt;/a&gt; and I was expecting a lot of trolls,
+obviously.&lt;/p&gt;
+
+&lt;p&gt;Preparing the talk has been exhausting because I was terrified at the idea
+of not being able to express my ideas or answering questions about my topic.&lt;br /&gt;
+This is why I read &lt;a href=&#34;https://www.manning.com/books/clojure-in-action-second-edition&#34;&gt;two&lt;/a&gt; &lt;a href=&#34;https://www.manning.com/books/the-joy-of-clojure-second-edition&#34;&gt;books&lt;/a&gt;, watched and read
+several dozens of talks and articles about Clojure but also about a dozen of
+articles about the concepts of &lt;a href=&#34;https://en.wikipedia.org/wiki/Identity_and_change&#34;&gt;Identity and change&lt;/a&gt;, plus a
+mini series of really interesting (French) &lt;a href=&#34;https://www.franceinter.fr/emissions/sur-les-epaules-de-darwin&#34;&gt;podcast&lt;/a&gt; (episodes more or
+less related to the concept of &amp;ldquo;time&amp;rdquo;, from Sept. 2, 2017 to Oct. 21, 2017).&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve read so much that I didn&amp;rsquo;t take the time necessary to review and memorize
+my talk&amp;hellip;&lt;br /&gt;
+I you take &lt;a href=&#34;https://waitbutwhy.com/2016/03/doing-a-ted-talk-the-full-story.html&#34;&gt;Tim Urban&amp;rsquo;s &amp;ldquo;Methods&amp;rdquo;&lt;/a&gt;, I was at level &amp;ldquo;3B&amp;rdquo; which,
+according to him, is the worst place to be:&lt;/p&gt;
+
+
+&lt;figure  &gt;
+    
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/feedback-on-giving-a-talk/method.png&#34; alt=&#34;Tim Urban Public Speaking Methods Pros and Cons&#34;
+            width=&#34;100%&#34;
+            /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+
+&lt;p&gt;The night before the talk I was polishing my slides and &lt;strong&gt;practicing in front of
+my fridge, at 2am, in my pyjamas, while my wife and children where peacefully
+asleep&lt;/strong&gt;. I was so &lt;em&gt;frightened&lt;/em&gt; that I considered dozens of excuses and possible
+ways to &lt;em&gt;avoid giving the talk&lt;/em&gt;.&lt;br /&gt;
+After a short night I did realize not getting enough sleep was a terrible idea.&lt;/p&gt;
+
+&lt;p&gt;The rest of the day has been a cycle going from totally relaxed, to nervous
+as fuck, until it was my time to talk to the audience.&lt;/p&gt;
+
+&lt;p&gt;As soon as I begun to talk I felt like the stress was &lt;em&gt;melting away&lt;/em&gt;. I was
+still nervous of course, but a big part of it was gone just by going on stage
+and doing the actual thing.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Giving the talk was a tremendous experience and the distress preceding it
+was immediately replaced by a feeling of completeness, gratitude and love.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Despite my &amp;ldquo;3B public speaking method&amp;rdquo; I don&amp;rsquo;t actually think the talk was
+boring as most of the people were active during my presentation, answering
+questions and laughing (when expected to).&lt;/p&gt;
+
+&lt;p&gt;But as a first time speaker I&amp;rsquo;ve made a lot of mistakes both before and during
+the presentation. &lt;em&gt;I know it, because I watched the video&lt;/em&gt; later on. And
+&lt;strong&gt;watching myself was horrible experience&lt;/strong&gt;&amp;hellip;&lt;/p&gt;
+
+&lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/feedback-on-giving-a-talk/left.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;2048x1324&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/feedback-on-giving-a-talk/left.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;395&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/feedback-on-giving-a-talk/right.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;2048x1324&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/feedback-on-giving-a-talk/right.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;395&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;div class=&#34;title&#34;&gt;Presenting Clojure at the Java User Group&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Seriously, it&amp;rsquo;s a lot worse than just hearing the sound of your voice and being
+like:&lt;br /&gt;
+&lt;em&gt;&amp;ldquo;I sound like a duck.&amp;rdquo;&lt;/em&gt;&lt;br /&gt;
+The video adds a new dimension to it and you notice every single detail that
+is wrong about your body, &amp;ldquo;look&amp;rdquo; or attitude.&lt;/p&gt;
+
+&lt;p&gt;Nonetheless, I now understand what people say when they talk about about
+public speaking and the desire to get back to it as soon as you&amp;rsquo;ve finished
+the last one.&lt;br /&gt;
+The feeling of &lt;em&gt;hopelessness and nervousness&lt;/em&gt; during the preparation, followed
+by the &lt;em&gt;relief and well being&lt;/em&gt; done with it are separated only by an ephemeral
+moment where you physically and mentally engage in a single activity.&lt;br /&gt;
+&lt;strong&gt;This is all hormones and brain chemistry&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;I hope this will encourage other people who might want to start giving
+presentations to actually &lt;a href=&#34;https://www.youtube.com/watch?v=os6U77Hhm_s&#34;&gt;do it&lt;/a&gt;. Honestly, it&amp;rsquo;s worth it, even if you feel like
+shit when preparing and also after watching yourself on video afterwards.
+If people like what you have to say, they will tell you, and getting
+congratulations for spreading ideas you care about is the biggest reward.&lt;br /&gt;
+That and dopamine, you &lt;em&gt;junkie&lt;/em&gt;!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Happy birthday Clojure!</title>
@@ -6548,16 +6705,6 @@ a proper modern IoT device.
 &lt;a href=&#34;https://github.com/daveray/dorothy&#34;&gt;https://github.com/daveray/dorothy&lt;/a&gt;
 &lt;a href=&#34;https://github.com/Macroz/tangle&#34;&gt;https://github.com/Macroz/tangle&lt;/a&gt;
 &lt;a href=&#34;http://www.graphviz.org/content/dot-language&#34;&gt;http://www.graphviz.org/content/dot-language&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>http://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</guid>
-      <description>&lt;p&gt;&lt;div class=&#34;reddit-embed&#34; data-embed-media=&#34;www.redditmedia.com&#34; data-embed-parent=&#34;false&#34; data-embed-live=&#34;false&#34; data-embed-uuid=&#34;d1a5e927-69c5-44a7-96d7-91115ea45ef3&#34; data-embed-created=&#34;2017-09-25T22:04:23.908Z&#34;&gt;&lt;a href=&#34;https://www.reddit.com/r/programming/comments/57w463/the_inconvenient_truth_about_dynamic_vs_static/d8vn39m/&#34;&gt;Comment&lt;/a&gt; from discussion &lt;a href=&#34;https://www.reddit.com/r/programming/comments/57w463/the_inconvenient_truth_about_dynamic_vs_static/&#34;&gt;The Inconvenient Truth About Dynamic vs. Static Typing&lt;/a&gt;.&lt;/div&gt;&lt;script async src=&#34;https://www.redditstatic.com/comment-embed.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
 </description>
     </item>
     
