@@ -212,19 +212,19 @@ figcaption h6 {
   line-height: 0.4;
   font-size: 18px;
 }
-.list.level-up h3, .list.level-up h4, .list.level-up h5 {
+.list.level-up h3, .list.level-up h4, .list.level-up h5, .list.talks h3, .list.talks h4, .list.talks h5 {
   color: #27A822;
   margin-bottom: 20px;
 }
-.list.level-up ul {
+.list.level-up ul, .list.talks ul {
   list-style: none;
   margin-top: 10px;
 }
-.list.level-up a, .list.level-up em {
+.list.level-up a, .list.level-up em, .list.talks a, .list.talks em {
   color: #6b6b6b;
   cursor: pointer;
 }
-.list.level-up em {
+.list.level-up em, .list.talks em {
   font-size: 14px;
 }
 .blogpost figure {
@@ -356,6 +356,9 @@ figcaption h6 {
 .fold.content-success {
   border-left-color: #27a822;
 }
+.talk .fold :not(.content) {
+  padding-bottom: 20px;
+}
 .scroll-to-top {
   display: none;
   position: fixed; bottom: 30px; right: 50px;
@@ -406,6 +409,9 @@ figcaption h6 {
   .twitter-tweet {
     margin-left: 0px !important;
   }
+}
+.klipse-container {
+  margin-bottom: 20px;
 }
 
 /* Footer
