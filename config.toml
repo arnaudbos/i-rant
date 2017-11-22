@@ -37,12 +37,17 @@ theme = "hugo-sustain"
   weight = 200
   url = "http://side-effects.arnaudbos.com/"
 [[menu.main]]
-  name = "resume"
-  identifier = "resume"
+  name = "talks"
+  identifier = "talks"
   weight = 300
-  url = "http://vitae.arnaudbos.com/"
+  url = "http://talks.arnaudbos.com/"
 [[menu.main]]
   name = "level-up"
   identifier = "level-up"
   weight = 400
   url = "http://level-up.arnaudbos.com/"
+[[menu.main]]
+  name = "resume"
+  identifier = "resume"
+  weight = 500
+  url = "http://vitae.arnaudbos.com/"
