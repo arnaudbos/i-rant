@@ -43,15 +43,15 @@ he&amp;rsquo;s been &lt;a href=&#34;https://github.com/ilaborie/kotlin-pouring&#
 discover and experiment a programming language: the
 &lt;a href=&#34;https://en.wikipedia.org/wiki/Water_pouring_puzzle&#34;&gt;Water pouring puzzle&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;In this article will talk about the &lt;strong&gt;&lt;em&gt;programming style&lt;/em&gt;&lt;/strong&gt; I&amp;rsquo;ve
+&lt;p&gt;In this article I talk about the &lt;strong&gt;&lt;em&gt;programming style&lt;/em&gt;&lt;/strong&gt; I&amp;rsquo;ve
 used to find my solution: a data oriented, bottom-up approach, at the
 REPL.&lt;/p&gt;
 
 &lt;hr /&gt;
 
 &lt;p&gt;Igor&amp;rsquo;s &lt;a href=&#34;https://github.com/ilaborie/kotlin-pouring#guideline-try-to-implements-with-immutable-data-structure&#34;&gt;guideline&lt;/a&gt; offers a good starting point
-on how OO and/or static typing (including myself when I switch to that mode,
-when I do Java for instance) would solve this problem: model the world.&lt;br /&gt;
+on how OO and/or static typing (including myself when I switch to Java for
+instance) would solve this problem: model the world.&lt;br /&gt;
 Notice how, by following this recipe, you don&amp;rsquo;t get to handle or transform
 any data until point 15 of about 30.&lt;/p&gt;
 
@@ -60,7 +60,7 @@ straightforward way to do things for a majority of developers, to me this is a
 major drawback. It means that half of the time you are spending laying out
 things, hoping the Lego blocks will fall into place, thinking about types and
 safety when all you should be thinking about should be (IMO) how do I solve
-this particular business domain.&lt;/p&gt;
+this particular problem.&lt;/p&gt;
 
 &lt;p&gt;After a few years of &lt;a href=&#34;http://vvvvalvalval.github.io/posts/what-makes-a-good-repl.html&#34;&gt;REPL&lt;/a&gt; &lt;a href=&#34;https://vimeo.com/223309989&#34;&gt;driven development&lt;/a&gt; I
 know that I have a good tool to functionally, expressively and
