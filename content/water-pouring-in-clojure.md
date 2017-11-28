@@ -25,15 +25,15 @@ he's been [working on][kotlin-pouring] that can serve as a fine exercise to
 discover and experiment a programming language: the
 [Water pouring puzzle][water-puzzle].
 
-In this article will talk about the ***programming style*** I've
+In this article I talk about the ***programming style*** I've
 used to find my solution: a data oriented, bottom-up approach, at the
 REPL.
 
 -----
 
 Igor's [guideline][kotlin-pouring-guideline] offers a good starting point
-on how OO and/or static typing (including myself when I switch to that mode,
-when I do Java for instance) would solve this problem: model the world.  
+on how OO and/or static typing (including myself when I switch to Java for
+instance) would solve this problem: model the world.  
 Notice how, by following this recipe, you don't get to handle or transform
 any data until point 15 of about 30.
 
@@ -42,7 +42,7 @@ straightforward way to do things for a majority of developers, to me this is a
 major drawback. It means that half of the time you are spending laying out
 things, hoping the Lego blocks will fall into place, thinking about types and
 safety when all you should be thinking about should be (IMO) how do I solve
-this particular business domain.
+this particular problem.
 
 After a few years of [REPL][good-repl] [driven development][repl-driven-dev] I
 know that I have a good tool to functionally, expressively and
