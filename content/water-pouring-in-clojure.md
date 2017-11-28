@@ -1,11 +1,11 @@
 ---
 title: Water Pouring Problem in Clojure
-date: 2017-09-15T13:36:21+01:00
+date: 2017-11-28T06:23:11+01:00
 description: Solving the water pouring problem in Clojure and detailing my approach at the REPL
 parent: blog
 categories: ["clojure"]
-tags: ["clojure", "REPL"]
-draft: true
+tags: ["clojure", "REPL", "kotlin"]
+draft: false
 seoimage: img/water-pouring-in-clojure/die-hard-3-water-puzzle.jpg
 highlight: true
 klipse: true
@@ -16,28 +16,36 @@ gallery: true
 
 -----
 
-This post is the first or a series where I explore [Clojure][clojure] features
-and start a discussion with my colleague [Igor][igor] about Clojure vs
-[Kotlin][kotlin].
+This post is the first or a series where I explore Clojure features
+and start a discussion with my colleague [Igor][igor] about [Clojure][clojure]
+and [Kotlin][kotlin].
 
-Last month [Igor][igor] offered to make a live Kotlin demo of a nice problem
-he's been [working on][kotlin-pouring] that serves as an exercise to
-experiment several features of a language, the
+This summer, [Igor][igor] offered to make a live Kotlin demo of a nice problem
+he's been [working on][kotlin-pouring] that can serve as a fine exercise to
+discover and experiment a programming language: the
 [Water pouring puzzle][water-puzzle].
 
-In this first part I will solely talk about the ***programming style*** I've
-used to arrive at my solution, in the following parts I will explore other
-features of the language such as *static/dynamic typing*, *polymorphism*,
-*interoperability* and *concurrency*.
+In this article will talk about the ***programming style*** I've
+used to find my solution: a data oriented, bottom-up approach, at the
+REPL.
 
 -----
 
 Igor's [guideline][kotlin-pouring-guideline] offers a good starting point
-on how loads of OO and/or static typing adepts (including myself when I switch
-to that mode) would solve this problem: model the world.
+on how OO and/or static typing (including myself when I switch to that mode,
+when I do Java for instance) would solve this problem: model the world.  
+Notice how, by following this recipe, you don't get to handle or transform
+any data until point 15 of about 30.
+
+Although I understand how this is more usual, familiar and maybe the most
+straightforward way to do things for a majority of developers, to me this is a
+major drawback. It means that half of the time you are spending laying out
+things, hoping the Lego blocks will fall into place, thinking about types and
+safety when all you should be thinking about should be (IMO) how do I solve
+this particular business domain.
 
 After a few years of [REPL][good-repl] [driven development][repl-driven-dev] I
-know that I have a better (to me) tool to functionally, expressively and
+know that I have a good tool to functionally, expressively and
 incrementally solve a problem.
 
 This post is basically a transcript of my thought process as I was writing
@@ -46,14 +54,13 @@ It was interesting to take the time to reflect and watch myself work as
 I was proceeding, it took more time but it was definitely an interesting
 experiment.
 
------
+----
 
 I setup the boilerplate first. (leiningen, dependencies, etc) and a
 namespace to work in:
 
 {{< klipse >}}
-(ns clojure-pouring.core
-  (:require [clojure.pprint :refer [pprint]]))
+(ns clojure-pouring.repl)
 {{< /klipse >}}
 
 At the REPL, the fundamental principle is: ***exploratory programming***.  
@@ -95,11 +102,35 @@ just to get a short sample of data like this gives me goosebumps.
 
 Kotlin [might](https://discuss.kotlinlang.org/t/plans-for-collection-literals/2049),
 at [some point](https://blog.jetbrains.com/kotlin/2017/06/kotlin-future-features-survey-results/),
-have collection literals similar to those.
+have collection literals similar to those, or not.  
+There seems to be a debate inside the community whether this is a desired
+feature or not, despite the clear winner of the community survey.
 
-Needless to say Clojure's collections are *"truly immutable data"* structures
-as opposed to Kotlin collections. Clojure was built for concurrency and thus
-I wonder how the two will compare in a future post on this topic.
+Communicating intent is an important part of a language and Kotlin's debate
+around collection literals seems to fall in the category of convenient syntax
+vs intent. Why?  
+Because Kotlin's designers have made the choice to support both mutable and
+immutable collections as first class citizens. So how do you define what `{}`
+is or `[]` is? Is it mutable or immutable?  
+The debate also seem to include considerations such as ordered/unordered and the
+choice of syntax between lists and sets. Good luck figuring that out.
+
+Clojure is based on first-class persistent data-structures so mutation is not
+and option, and its collection literals are easily identified:
+
+* `()` for lists (PersistentList)
+* `[]` for vectors (PersistentVector)
+* `{}` for a maps (PersistentHashMap)
+* `#{}` for sets (PersistentHashSet)
+
+Want ordered/unordered variants? array-maps? queues? Sure, just use the
+appropriate constructor, the collections you will use the most are available
+as literals and it's a burden not put on you, the developer.  
+View it as *"only convenient"* if you want to ditch the argument and discussion
+altogether, but with mutation out of the way a whole class of problems are gone
+once again, and the benefit of being able to just copy and paste
+around printed representations of data-structures (in REPL or in logs) and
+use them verbatim as code is priceless.
 
 Alright, so the actions allowed to be performed on a glass are either to *pour*
 some quantity out of it, or to *fill* it with some quantity.
@@ -130,16 +161,17 @@ This is a multi-arity function:
   a standard library function that returns a new map containing the new
   `key/value` mapping.
 
-Don't worry about the prefix notation, you're just not
-*[familiar](https://www.infoq.com/presentations/Simple-Made-Easy)* with it,
+Don't worry about the prefix notation, it's not difficult, it's just different,
+you're not
+*[familiar](https://www.infoq.com/presentations/Simple-Made-Easy)* with it, and
 you'll get used to it.
 
 Test `pour`:
 
 {{< klipse >}}
-(pprint (pour {:capacity 5 :current 4}))
-(pprint (pour {:capacity 8 :current 4} 2))
-(pprint (pour {:capacity 8 :current 4} 5))
+(println (pour {:capacity 5 :current 4}))
+(println (pour {:capacity 8 :current 4} 2))
+(println (pour {:capacity 8 :current 4} 5))
 {{< /klipse >}}
 
 * Pouring out empty a glass of capacity `5` returns an empty glass of capacity
@@ -149,8 +181,10 @@ Test `pour`:
 * And pouring out `5` from a glass of capacity `8` containing `4` just returns
   and empty glass, not `-1`.
 
-Ignore the last `true` in the results, it's just the live code evaluation
-plugin that prints it out.
+Ignore the last `nil` in the results, it's just the live code evaluation
+plugin that prints it out as the result of the last `println` call.  
+Go ahead and play with it a little, even change the implementation above
+if you will.
 
 Now the `fill` function:
 
@@ -169,14 +203,15 @@ This is also a multi-arity function:
 * The first implementation fills a glass up to its maximum capacity.
 * The second implementation fills a glass *up to* its maximum capacity given
   a quantity to fill it with.
-* Both return a new glass of course, we're in ***immutable*** territory here.
+* Both return a new glass of course (not a copy!!!), we're in ***immutable***
+  land here.
 
 Test `fill`:
 
 {{< klipse >}}
-(pprint (fill {:capacity 5 :current 0}))
-(pprint (fill {:capacity 8 :current 4} 1))
-(pprint (fill {:capacity 8 :current 7} 2))
+(println (fill {:capacity 5 :current 0}))
+(println (fill {:capacity 8 :current 4} 1))
+(println (fill {:capacity 8 :current 7} 2))
 {{< /klipse >}}
 
 * Filling an empty glass returns a glass full.
@@ -192,7 +227,7 @@ Test `fill`:
   size="728x485" width="390px" %}}
 {{< /gallery >}}
 
-Let's make a break here.
+Let's take a break here.
 
 -----
 
@@ -238,15 +273,19 @@ in front of my eyes.
 I define **new functions** and make extensive use of *"variable shadowing"* to
 **modify the implementation of existing functions**.
 
-No classes, no types: just data and functions...  
+No classes, no types, no FactoryFactoryAbstractDelegateProxyPattern:
+just data and functions...  
 I can hear you, static typing addict: **BUT IT IS NOT SAFE!**  
 Yes, I know, I just don't care at this point! I told you, I'm **exploring**.
-I want to go fast, iterate quicky, not model the whole universe and bang my
+I want to go fast, iterate quickly, not model the whole universe and bang my
 head against the type checker.
 
-I can just rely on my tests for now and use assertions or
+I can just rely on my tests for now and use simple assertions or
 [specifications](https://clojure.org/about/spec) later (or now, but right now
 I'm not, obviously) to refine.
+
+I've never had a shortest feedback loop in any other language I've used, this is
+pure gold.
 
 -----
 
@@ -296,7 +335,7 @@ A `:fill` move will dispatch to the `->move :fill` multimethod.
 A `:pour` move will dispatch to the `->move :pour` multimethod.
 
 {{< klipse >}}
-; Pour empty the glass at index from
+; Empty the glass at index from
 (defmethod ->move :empty
   [state {:keys [from]}]
   (update-in state [from] pour))
@@ -382,7 +421,7 @@ test of `glasses->index`:
          (glasses->index final-state (comp #(= 3 %) :capacity)))
 {{< /klipse >}}
 
-The *"indexing"* function works, now the moves listing function:
+The *"indexing"* works, now the function for listing moves:
 
 {{< klipse >}}
 (defn available-moves
@@ -393,7 +432,7 @@ The *"indexing"* function works, now the moves listing function:
     (concat
       (map #(hash-map :type :empty :from %) non-empty)
       (map #(hash-map :type :fill  :to   %) non-full)
-      ; Oh so beautiful cartesian product
+      ; I really like this one
       (for [from non-empty to non-full :when (not= from to)]
         {:type :pour :from from :to to}))))
 {{< /klipse >}}
@@ -405,8 +444,8 @@ glasses.
 Test `available-moves`:
 
 {{< klipse >}}
-(pprint (available-moves initial-state))
-(pprint (available-moves final-state))
+(println (available-moves initial-state))
+(println (available-moves final-state))
 {{< /klipse >}}
 
 I can get the list of moves that are practicable, now let's
@@ -437,7 +476,7 @@ exploring further...
 of all the possible next states for a given state and list of moves.
 
 See? I've *explored*, I've made an experiment with a function mapped over
-some data.
+some data. And it didn't cost much because my feedback loop is really short.
 
 I've realized this path is not going to help, so I can just discard it and
 refine my understanding of the steps I need to take to reach my goal.
@@ -463,15 +502,15 @@ the augmented list of move leading to it.
 Test `expand`:
 
 {{< klipse >}}
-(pprint
+(println
   (expand
     {:glasses [{:capacity 5 :current 5} {:capacity 3 :current 0}]
      :moves [{:type :fill :to 0}]}))
 {{< /klipse >}}
 
-Nice, given glasses and the history of moves that led from an initial
+Nice, given glasses and the `history` of moves that led from an initial
 state to these glasses, I can get the list of next states that are
-possible, with their respective history of moves.
+*possible*, with their respective history of moves.
 
 But at some point I might reach a state that I have already visited in the
 past... So it would be interesting to keep an index of the states that I
@@ -586,9 +625,14 @@ Test it again with a (seemingly) more complicated use case:
 
 -----
 
-Refactor
+Functionally I could stop here because the problem is solved. But there are
+some points that bother me, some `vars` names that don't reflect what
+piece of information they carry or some functions that could be broken into
+smaller ones.
 
-Refactor `->move` fn to better reflect domain:
+Let's refactor a little:
+
+Refactor `->move` to better reflect domain:
 
 {{< klipse >}}
 (defmulti ->move
@@ -630,6 +674,8 @@ Refactor `expand` by extracting the node builder:
 
 Refactor `solver` by decomposing functions:
 
+Let's create a `make-glass` utility function:
+
 {{< klipse >}}
 (defn make-glass
   ([capacity]
@@ -647,6 +693,9 @@ Test `make-glass`:
 {{< klipse >}}
 (make-glass 8 3)
 {{< /klipse >}}
+
+Now a `initialize` function to create a vector of glasses from capacities or
+capacities + quantities:
 
 {{< klipse >}}
 (defn initialize
@@ -666,6 +715,9 @@ Test `initialize`:
 (initialize [8 5 3] [4 0 0])
 {{< /klipse >}}
 
+Let's extract the part of the solver that find the successors of a collection
+of nodes into `find-successors`:
+
 {{< klipse >}}
 (defn find-successors
   [nodes]
@@ -677,6 +729,9 @@ Test `find-successors`:
 {{< klipse >}}
 (find-successors [{:glasses [{:capacity 5 :current 0} {:capacity 3 :current 0}] :moves []}])
 {{< /klipse >}}
+
+Let's extract the part of the solver that filters out the successors that have
+already been visited into `filter-successors`:
 
 {{< klipse >}}
 (defn filter-successors
@@ -693,19 +748,24 @@ Test `filter-successors`:
   #{[{:capacity 5, :current 5} {:capacity 3, :current 0}]})
 {{< /klipse >}}
 
+We're almost done. Let's create a function to only keep a distinct set of
+successors from a collection of candidates with `get-unique-glasses`.
+
 {{< klipse >}}
-(defn get-unique-glasses
+(defn distinct-glasses
   [successors]
   (into #{} (map :glasses successors)))
 {{< /klipse >}}
 
-Test `get-unique-glasses`:
+Test `distinct-glasses`:
 
 {{< klipse >}}
-(get-unique-glasses
+(distinct-glasses
   [{:moves [{:type :fill :to 0}] :glasses [{:capacity 5, :current 5} {:capacity 3, :current 0}]}
    {:moves [{:type :fill, :to 1}], :glasses [{:capacity 5, :current 5} {:capacity 3, :current 0}]}])
 {{< /klipse >}}
+
+And now we can rewrite `solver` with these new pieces.
 
 {{< klipse >}}
 (defn solver
@@ -720,7 +780,7 @@ Test `get-unique-glasses`:
             solution
             (let [successors (find-successors nodes)
                   valid-successors (filter-successors successors visited)
-                  unique-glasses (get-unique-glasses valid-successors)]
+                  unique-glasses (distinct-glasses valid-successors)]
               (recur (clojure.set/union visited unique-glasses)
                      valid-successors))))))))
 {{< /klipse >}}
@@ -729,12 +789,12 @@ Test `solver`:
 
 {{< klipse >}}
 (def simple-solver (solver [5 3] [4 0]))
-(pprint (simple-solver))
+(println (simple-solver))
 {{< /klipse >}}
 
 {{< klipse >}}
 (def less-simple-solver (solver [8 5 3] [4 0 0]))
-(pprint (less-simple-solver))
+(println (less-simple-solver))
 {{< /klipse >}}
 
 Implement `-main`:
@@ -745,12 +805,43 @@ Implement `-main`:
   (assert (even? (count args)))
   (let [input (map #(Integer. (re-find  #"\d+" %)) args)
         solver-fn (apply solver (split-at (/ (count input) 2) input))]
-    (pprint (solver-fn))))
+    (println (solver-fn))))
 {{< /klipse >}}
 
-<a name="new">1</a>: We will see that it is not exactly a new glass as in 'a
-copy' but a new pointer to a persistent data structure, a concept also know
-as *structural sharing* ([go back](#anew))
+----
+
+It's been a pretty long article in the end. Together we've implemented a
+function to solve the water pouring problem for an arbitrary list of glasses
+of some quantity in Clojure.
+
+You can find the file I've used to write this exploratory work
+[here][clj-water-pouring-repl], and the final version of the solver without
+all the evaluations [here][clj-water-pouring-core].
+
+The thing that is the most interesting to me here is not the number of lines,
+the safety or the provability of correctness.  
+What I want to stress out is the development at the REPL.
+
+You can see in the repository that I didn't even bother to write tests, because
+I don't plan to share this work, publish it or maintain it. Nonetheless it has
+been tested.  
+I has been tested all the way from the beginning, at each function definition,
+with data. You see, I didn't need to use TDD, and I didn't have to write some
+temporary `main` function to pass inputs to the command line, and I didn't need
+to wait until I've assembled all the code together to try it fingers crossed.
+
+Through the use of immutability, pure functions and first-class data literals
+I feel like I can achieve more and iterate more quickly than with any other
+language I've used.  
+I also argue that the Lisp syntax, although different, is an asset, because
+there's no cognitive load associated with it: no magical keywords, no mix of
+parents, braces or brackets for structure: just lists as functions and data.
+
+Footnote:
+
+<a name="new">1</a>: This it is not exactly a new glass as in 'a copy' but a
+new pointer to a persistent data structure, a concept also know as
+*structural sharing* ([go back](#anew))
 
 [kotlin]: https://kotlinlang.org/
 [igor]: https://twitter.com/ilaborie
@@ -762,3 +853,5 @@ as *structural sharing* ([go back](#anew))
 [repl-driven-dev]: https://vimeo.com/223309989
 [klipse]: https://github.com/viebel/klipse
 [lighttable]: http://lighttable.com/
+[clj-water-pouring-repl]: https://github.com/arnaudbos/clj-water-pouring/blob/master/src/clj_water_pouring/repl.clj
+[clj-water-pouring-core]: https://github.com/arnaudbos/clj-water-pouring/blob/master/src/clj_water_pouring/core.clj
