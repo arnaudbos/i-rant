@@ -11,7 +11,7 @@
     <item>
       <title>Water Pouring Problem in Clojure</title>
       <link>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</link>
-      <pubDate>Fri, 15 Sep 2017 13:36:21 +0100</pubDate>
+      <pubDate>Tue, 28 Nov 2017 06:23:11 +0100</pubDate>
       
       <guid>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</guid>
       <description>
@@ -37,22 +37,20 @@
 and start a discussion with my colleague &lt;a href=&#34;https://twitter.com/ilaborie&#34;&gt;Igor&lt;/a&gt; about &lt;a href=&#34;https://clojure.org/&#34;&gt;Clojure&lt;/a&gt;
 and &lt;a href=&#34;https://kotlinlang.org/&#34;&gt;Kotlin&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Last month &lt;a href=&#34;https://twitter.com/ilaborie&#34;&gt;Igor&lt;/a&gt; offered to make a live Kotlin demo of a nice problem
+&lt;p&gt;This summer, &lt;a href=&#34;https://twitter.com/ilaborie&#34;&gt;Igor&lt;/a&gt; offered to make a live Kotlin demo of a nice problem
 he&amp;rsquo;s been &lt;a href=&#34;https://github.com/ilaborie/kotlin-pouring&#34;&gt;working on&lt;/a&gt; that can serve as a fine exercise to
-discover and experiment a programming language, the
+discover and experiment a programming language: the
 &lt;a href=&#34;https://en.wikipedia.org/wiki/Water_pouring_puzzle&#34;&gt;Water pouring puzzle&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;In this first part I will talk about the &lt;strong&gt;&lt;em&gt;programming style&lt;/em&gt;&lt;/strong&gt; I&amp;rsquo;ve
-used to arrive at my solution: a data oriented, bottom-up approach, at the
-REPL. In following articles I will explore other aspects of programming
-languages such as &lt;em&gt;static/dynamic typing&lt;/em&gt;, &lt;em&gt;polymorphism&lt;/em&gt;,
-&lt;em&gt;interoperability&lt;/em&gt; and &lt;em&gt;concurrency&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;In this article will talk about the &lt;strong&gt;&lt;em&gt;programming style&lt;/em&gt;&lt;/strong&gt; I&amp;rsquo;ve
+used to find my solution: a data oriented, bottom-up approach, at the
+REPL.&lt;/p&gt;
 
 &lt;hr /&gt;
 
 &lt;p&gt;Igor&amp;rsquo;s &lt;a href=&#34;https://github.com/ilaborie/kotlin-pouring#guideline-try-to-implements-with-immutable-data-structure&#34;&gt;guideline&lt;/a&gt; offers a good starting point
-on how loads of OO and/or static typing adepts (including myself when I switch
-to that mode, in Java for instance) would solve this problem: model the world.&lt;br /&gt;
+on how OO and/or static typing (including myself when I switch to that mode,
+when I do Java for instance) would solve this problem: model the world.&lt;br /&gt;
 Notice how, by following this recipe, you don&amp;rsquo;t get to handle or transform
 any data until point 15 of about 30.&lt;/p&gt;
 
@@ -82,8 +80,7 @@ namespace to work in:&lt;/p&gt;
   
   &gt;
   
-(ns clojure-pouring.core
-  (:require [clojure.pprint :refer [pprint]]))
+(ns clojure-pouring.repl)
 
 &lt;/div&gt;
 
@@ -216,9 +213,9 @@ you&amp;rsquo;ll get used to it.&lt;/p&gt;
   
   &gt;
   
-(pprint (pour {:capacity 5 :current 4}))
-(pprint (pour {:capacity 8 :current 4} 2))
-(pprint (pour {:capacity 8 :current 4} 5))
+(println (pour {:capacity 5 :current 4}))
+(println (pour {:capacity 8 :current 4} 2))
+(println (pour {:capacity 8 :current 4} 5))
 
 &lt;/div&gt;
 
@@ -232,8 +229,10 @@ a glass of capacity &lt;code&gt;8&lt;/code&gt; containing &lt;code&gt;2&lt;/code
 and empty glass, not &lt;code&gt;-1&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Ignore the last &lt;code&gt;true&lt;/code&gt; in the results, it&amp;rsquo;s just the live code evaluation
-plugin that prints it out.&lt;/p&gt;
+&lt;p&gt;Ignore the last &lt;code&gt;nil&lt;/code&gt; in the results, it&amp;rsquo;s just the live code evaluation
+plugin that prints it out as the result of the last &lt;code&gt;println&lt;/code&gt; call.&lt;br /&gt;
+Go ahead and play with it a little, even change the implementation above
+if you will.&lt;/p&gt;
 
 &lt;p&gt;Now the &lt;code&gt;fill&lt;/code&gt; function:&lt;/p&gt;
 
@@ -258,7 +257,8 @@ plugin that prints it out.&lt;/p&gt;
 &lt;li&gt;The first implementation fills a glass up to its maximum capacity.&lt;/li&gt;
 &lt;li&gt;The second implementation fills a glass &lt;em&gt;up to&lt;/em&gt; its maximum capacity given
 a quantity to fill it with.&lt;/li&gt;
-&lt;li&gt;Both return a new glass of course, we&amp;rsquo;re in &lt;strong&gt;&lt;em&gt;immutable&lt;/em&gt;&lt;/strong&gt; territory here.&lt;/li&gt;
+&lt;li&gt;Both return a new glass of course (not a copy!!!), we&amp;rsquo;re in &lt;strong&gt;&lt;em&gt;immutable&lt;/em&gt;&lt;/strong&gt;
+land here.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Test &lt;code&gt;fill&lt;/code&gt;:&lt;/p&gt;
@@ -267,9 +267,9 @@ a quantity to fill it with.&lt;/li&gt;
   
   &gt;
   
-(pprint (fill {:capacity 5 :current 0}))
-(pprint (fill {:capacity 8 :current 4} 1))
-(pprint (fill {:capacity 8 :current 7} 2))
+(println (fill {:capacity 5 :current 0}))
+(println (fill {:capacity 8 :current 4} 1))
+(println (fill {:capacity 8 :current 7} 2))
 
 &lt;/div&gt;
 
@@ -321,7 +321,7 @@ a glass of capacity &lt;code&gt;8&lt;/code&gt; that is full, not &lt;code&gt;9&l
 &lt;/div&gt;
 
 
-&lt;p&gt;Let&amp;rsquo;s make a break here.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s take a break here.&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -384,15 +384,19 @@ in front of my eyes.&lt;br /&gt;
 I define &lt;strong&gt;new functions&lt;/strong&gt; and make extensive use of &lt;em&gt;&amp;ldquo;variable shadowing&amp;rdquo;&lt;/em&gt; to
 &lt;strong&gt;modify the implementation of existing functions&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;No classes, no types: just data and functions&amp;hellip;&lt;br /&gt;
+&lt;p&gt;No classes, no types, no FactoryFactoryAbstractDelegateProxyPattern:
+just data and functions&amp;hellip;&lt;br /&gt;
 I can hear you, static typing addict: &lt;strong&gt;BUT IT IS NOT SAFE!&lt;/strong&gt;&lt;br /&gt;
 Yes, I know, I just don&amp;rsquo;t care at this point! I told you, I&amp;rsquo;m &lt;strong&gt;exploring&lt;/strong&gt;.
-I want to go fast, iterate quicky, not model the whole universe and bang my
+I want to go fast, iterate quickly, not model the whole universe and bang my
 head against the type checker.&lt;/p&gt;
 
-&lt;p&gt;I can just rely on my tests for now and use assertions or
+&lt;p&gt;I can just rely on my tests for now and use simple assertions or
 &lt;a href=&#34;https://clojure.org/about/spec&#34;&gt;specifications&lt;/a&gt; later (or now, but right now
 I&amp;rsquo;m not, obviously) to refine.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve never had a shortest feedback loop in any other language I&amp;rsquo;ve used, this is
+pure gold.&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -457,7 +461,7 @@ A &lt;code&gt;:pour&lt;/code&gt; move will dispatch to the &lt;code&gt;-&amp;gt;
   
   &gt;
   
-; Pour empty the glass at index from
+; Empty the glass at index from
 (defmethod -&gt;move :empty
   [state {:keys [from]}]
   (update-in state [from] pour))
@@ -562,7 +566,7 @@ test of &lt;code&gt;glasses-&amp;gt;index&lt;/code&gt;:&lt;/p&gt;
 &lt;/div&gt;
 
 
-&lt;p&gt;The &lt;em&gt;&amp;ldquo;indexing&amp;rdquo;&lt;/em&gt; function works, now the moves listing function:&lt;/p&gt;
+&lt;p&gt;The &lt;em&gt;&amp;ldquo;indexing&amp;rdquo;&lt;/em&gt; works, now the function for listing moves:&lt;/p&gt;
 
 &lt;div class=&#34;language-klipse&#34;
   
@@ -576,7 +580,7 @@ test of &lt;code&gt;glasses-&amp;gt;index&lt;/code&gt;:&lt;/p&gt;
     (concat
       (map #(hash-map :type :empty :from %) non-empty)
       (map #(hash-map :type :fill  :to   %) non-full)
-      ; Oh so beautiful cartesian product
+      ; I really like this one
       (for [from non-empty to non-full :when (not= from to)]
         {:type :pour :from from :to to}))))
 
@@ -593,8 +597,8 @@ glasses.&lt;/p&gt;
   
   &gt;
   
-(pprint (available-moves initial-state))
-(pprint (available-moves final-state))
+(println (available-moves initial-state))
+(println (available-moves final-state))
 
 &lt;/div&gt;
 
@@ -637,7 +641,7 @@ exploring further&amp;hellip;&lt;/p&gt;
 of all the possible next states for a given state and list of moves.&lt;/p&gt;
 
 &lt;p&gt;See? I&amp;rsquo;ve &lt;em&gt;explored&lt;/em&gt;, I&amp;rsquo;ve made an experiment with a function mapped over
-some data.&lt;/p&gt;
+some data. And it didn&amp;rsquo;t cost much because my feedback loop is really short.&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;ve realized this path is not going to help, so I can just discard it and
 refine my understanding of the steps I need to take to reach my goal.&lt;/p&gt;
@@ -672,7 +676,7 @@ the augmented list of move leading to it.&lt;/p&gt;
   
   &gt;
   
-(pprint
+(println
   (expand
     {:glasses [{:capacity 5 :current 5} {:capacity 3 :current 0}]
      :moves [{:type :fill :to 0}]}))
@@ -680,9 +684,9 @@ the augmented list of move leading to it.&lt;/p&gt;
 &lt;/div&gt;
 
 
-&lt;p&gt;Nice, given glasses and the history of moves that led from an initial
+&lt;p&gt;Nice, given glasses and the &lt;code&gt;history&lt;/code&gt; of moves that led from an initial
 state to these glasses, I can get the list of next states that are
-possible, with their respective history of moves.&lt;/p&gt;
+&lt;em&gt;possible&lt;/em&gt;, with their respective history of moves.&lt;/p&gt;
 
 &lt;p&gt;But at some point I might reach a state that I have already visited in the
 past&amp;hellip; So it would be interesting to keep an index of the states that I
@@ -832,9 +836,14 @@ searching for a solution leading to the target state:&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;Refactor&lt;/p&gt;
+&lt;p&gt;Functionally I could stop here because the problem is solved. But there are
+some points that bother me, some &lt;code&gt;vars&lt;/code&gt; names that don&amp;rsquo;t reflect what
+piece of information they carry or some functions that could be broken into
+smaller ones.&lt;/p&gt;
 
-&lt;p&gt;Refactor &lt;code&gt;-&amp;gt;move&lt;/code&gt; fn to better reflect domain:&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s refactor a little:&lt;/p&gt;
+
+&lt;p&gt;Refactor &lt;code&gt;-&amp;gt;move&lt;/code&gt; to better reflect domain:&lt;/p&gt;
 
 &lt;div class=&#34;language-klipse&#34;
   
@@ -886,6 +895,8 @@ searching for a solution leading to the target state:&lt;/p&gt;
 
 &lt;p&gt;Refactor &lt;code&gt;solver&lt;/code&gt; by decomposing functions:&lt;/p&gt;
 
+&lt;p&gt;Let&amp;rsquo;s create a &lt;code&gt;make-glass&lt;/code&gt; utility function:&lt;/p&gt;
+
 &lt;div class=&#34;language-klipse&#34;
   
   &gt;
@@ -918,6 +929,9 @@ searching for a solution leading to the target state:&lt;/p&gt;
 
 &lt;/div&gt;
 
+
+&lt;p&gt;Now a &lt;code&gt;initialize&lt;/code&gt; function to create a vector of glasses from capacities or
+capacities + quantities:&lt;/p&gt;
 
 &lt;div class=&#34;language-klipse&#34;
   
@@ -952,6 +966,9 @@ searching for a solution leading to the target state:&lt;/p&gt;
 &lt;/div&gt;
 
 
+&lt;p&gt;Let&amp;rsquo;s extract the part of the solver that find the successors of a collection
+of nodes into &lt;code&gt;find-successors&lt;/code&gt;:&lt;/p&gt;
+
 &lt;div class=&#34;language-klipse&#34;
   
   &gt;
@@ -973,6 +990,9 @@ searching for a solution leading to the target state:&lt;/p&gt;
 
 &lt;/div&gt;
 
+
+&lt;p&gt;Let&amp;rsquo;s extract the part of the solver that filters out the successors that have
+already been visited into &lt;code&gt;filter-successors&lt;/code&gt;:&lt;/p&gt;
 
 &lt;div class=&#34;language-klipse&#34;
   
@@ -999,29 +1019,34 @@ searching for a solution leading to the target state:&lt;/p&gt;
 &lt;/div&gt;
 
 
+&lt;p&gt;We&amp;rsquo;re almost done. Let&amp;rsquo;s create a function to only keep a distinct set of
+successors from a collection of candidates with &lt;code&gt;get-unique-glasses&lt;/code&gt;.&lt;/p&gt;
+
 &lt;div class=&#34;language-klipse&#34;
   
   &gt;
   
-(defn get-unique-glasses
+(defn distinct-glasses
   [successors]
   (into #{} (map :glasses successors)))
 
 &lt;/div&gt;
 
 
-&lt;p&gt;Test &lt;code&gt;get-unique-glasses&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Test &lt;code&gt;distinct-glasses&lt;/code&gt;:&lt;/p&gt;
 
 &lt;div class=&#34;language-klipse&#34;
   
   &gt;
   
-(get-unique-glasses
+(distinct-glasses
   [{:moves [{:type :fill :to 0}] :glasses [{:capacity 5, :current 5} {:capacity 3, :current 0}]}
    {:moves [{:type :fill, :to 1}], :glasses [{:capacity 5, :current 5} {:capacity 3, :current 0}]}])
 
 &lt;/div&gt;
 
+
+&lt;p&gt;And now we can rewrite &lt;code&gt;solver&lt;/code&gt; with these new pieces.&lt;/p&gt;
 
 &lt;div class=&#34;language-klipse&#34;
   
@@ -1039,7 +1064,7 @@ searching for a solution leading to the target state:&lt;/p&gt;
             solution
             (let [successors (find-successors nodes)
                   valid-successors (filter-successors successors visited)
-                  unique-glasses (get-unique-glasses valid-successors)]
+                  unique-glasses (distinct-glasses valid-successors)]
               (recur (clojure.set/union visited unique-glasses)
                      valid-successors))))))))
 
@@ -1053,7 +1078,7 @@ searching for a solution leading to the target state:&lt;/p&gt;
   &gt;
   
 (def simple-solver (solver [5 3] [4 0]))
-(pprint (simple-solver))
+(println (simple-solver))
 
 &lt;/div&gt;
 
@@ -1063,7 +1088,7 @@ searching for a solution leading to the target state:&lt;/p&gt;
   &gt;
   
 (def less-simple-solver (solver [8 5 3] [4 0 0]))
-(pprint (less-simple-solver))
+(println (less-simple-solver))
 
 &lt;/div&gt;
 
@@ -1079,14 +1104,45 @@ searching for a solution leading to the target state:&lt;/p&gt;
   (assert (even? (count args)))
   (let [input (map #(Integer. (re-find  #&#34;\d+&#34; %)) args)
         solver-fn (apply solver (split-at (/ (count input) 2) input))]
-    (pprint (solver-fn))))
+    (println (solver-fn))))
 
 &lt;/div&gt;
 
 
-&lt;p&gt;&lt;a name=&#34;new&#34;&gt;1&lt;/a&gt;: We will see that it is not exactly a new glass as in &amp;lsquo;a
-copy&amp;rsquo; but a new pointer to a persistent data structure, a concept also know
-as &lt;em&gt;structural sharing&lt;/em&gt; (&lt;a href=&#34;#anew&#34;&gt;go back&lt;/a&gt;)&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;It&amp;rsquo;s been a pretty long article in the end. Together we&amp;rsquo;ve implemented a
+function to solve the water pouring problem for an arbitrary list of glasses
+of some quantity in Clojure.&lt;/p&gt;
+
+&lt;p&gt;You can find the file I&amp;rsquo;ve used to write this exploratory work
+&lt;a href=&#34;https://github.com/arnaudbos/clj-water-pouring/blob/master/src/clj_water_pouring/repl.clj&#34;&gt;here&lt;/a&gt;, and the final version of the solver without
+all the evaluations &lt;a href=&#34;https://github.com/arnaudbos/clj-water-pouring/blob/master/src/clj_water_pouring/core.clj&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The thing that is the most interesting to me here is not the number of lines,
+the safety or the provability of correctness.&lt;br /&gt;
+What I want to stress out is the development at the REPL.&lt;/p&gt;
+
+&lt;p&gt;You can see in the repository that I didn&amp;rsquo;t even bother to write tests, because
+I don&amp;rsquo;t plan to share this work, publish it or maintain it. Nonetheless it has
+been tested.&lt;br /&gt;
+I has been tested all the way from the beginning, at each function definition,
+with data. You see, I didn&amp;rsquo;t need to use TDD, and I didn&amp;rsquo;t have to write some
+temporary &lt;code&gt;main&lt;/code&gt; function to pass inputs to the command line, and I didn&amp;rsquo;t need
+to wait until I&amp;rsquo;ve assembled all the code together to try it fingers crossed.&lt;/p&gt;
+
+&lt;p&gt;Through the use of immutability, pure functions and first-class data literals
+I feel like I can achieve more and iterate more quickly than with any other
+language I&amp;rsquo;ve used.&lt;br /&gt;
+I also argue that the Lisp syntax, although different, is an asset, because
+there&amp;rsquo;s no cognitive load associated with it: no magical keywords, no mix of
+parents, braces or brackets for structure: just lists as functions and data.&lt;/p&gt;
+
+&lt;p&gt;Footnote:&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;new&#34;&gt;1&lt;/a&gt;: This it is not exactly a new glass as in &amp;lsquo;a copy&amp;rsquo; but a
+new pointer to a persistent data structure, a concept also know as
+&lt;em&gt;structural sharing&lt;/em&gt; (&lt;a href=&#34;#anew&#34;&gt;go back&lt;/a&gt;)&lt;/p&gt;
 </description>
     </item>
     
