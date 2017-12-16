@@ -1,16 +1,16 @@
-.cm-s-monokai {
-	font-size: 1em;
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
+.cm-s-twilight {
+	font-size: 16px;
+	line-height: 20px;
+	font-family: 'Fira Code', inconsolata, monospace;
+	font-variant-ligatures: contextual;
 	letter-spacing: 0.3px;
-	word-spacing: 1px;
 	background: #272822;
 	color: #F8F8F2;
 }
-.cm-s-monokai .CodeMirror-lines {
+.cm-s-twilight .CodeMirror-lines {
 	padding: 8px 0;
 }
-.cm-s-monokai .CodeMirror-gutters {
+.cm-s-twilight .CodeMirror-gutters {
 	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
 	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
 	background-color: #272822;
@@ -18,47 +18,49 @@
 	z-index: 3;
 	border: none;
 }
-.cm-s-monokai div.CodeMirror-cursor {
+.cm-s-twilight div.CodeMirror-cursor {
 	border-left: 3px solid #F8F8F2;
 }
-.cm-s-monokai .CodeMirror-activeline-background {
+.cm-s-twilight .CodeMirror-activeline-background {
 	background: #49483E;
 }
-.cm-s-monokai .CodeMirror-selected {
+.cm-s-twilight .CodeMirror-selected {
 	background: #49483E;
 }
-.cm-s-monokai .cm-comment {
-	color: #75715E;
+.cm-s-twilight .cm-comment {
+	color:#777; font-style:italic; font-weight:normal;
 }
-.cm-s-monokai .cm-string {
-	color: #E6DB74;
+.cm-s-twilight .cm-string {
+	color:#8f9d6a; font-style:italic;
 }
-.cm-s-monokai .cm-number {
+.cm-s-twilight .cm-number {
+	color:  #ca7841;
+}
+.cm-s-twilight .cm-atom {
+	color: #FC0;
+}
+.cm-s-twilight .cm-builtin {
+	color: #cda869;
+}
+.cm-s-twilight .cm-keyword {
+	color: #f9ee98;
+}
+/*.cm-s-twilight .cm-variable {
+	color: #607392;
+}*/
+.cm-s-twilight .cm-def {
+	color: #8DA6CE;
+}
+/*.cm-s-twilight .cm-variable-2 {
+	color: #607392;
+}*/
+.cm-s-twilight .cm-property {
 	color: #66D9EF;
 }
-.cm-s-monokai .cm-atom {
-	color: #66D9EF;
+.cm-s-twilight .cm-operator {
+	color: #cda869;
 }
-.cm-s-monokai .cm-keyword {
-	color: #F92672;
-}
-.cm-s-monokai .cm-variable {
-	color: #A6E22E;
-}
-.cm-s-monokai .cm-def {
-	font-style: italic;
-	color: #FD971F;
-}
-.cm-s-monokai .cm-variable-2 {
-	color: #F92672;
-}
-.cm-s-monokai .cm-property {
-	color: #66D9EF;
-}
-.cm-s-monokai .cm-operator {
-	color: #F92672;
-}
-.cm-s-monokai .CodeMirror-linenumber {
+.cm-s-twilight .CodeMirror-linenumber {
 	color: #75715E;
 }
 .CodeMirror {
