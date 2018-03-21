@@ -11,7 +11,7 @@ draft: false
 What's this post about?
 ---
 
-Publishing all stuff because I want to be loved, yay narcissism.
+Publishing stuff and things.
 
 ##### Is it any good?
 
