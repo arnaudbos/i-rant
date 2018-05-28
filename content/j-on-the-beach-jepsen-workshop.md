@@ -4,7 +4,7 @@ date: 2017-08-07T16:23:04+01:00
 description:
 parent: blog
 categories: ["conference"]
-tags: ["conference", "review"]
+tags: ["conference", "review", "jepsen"]
 draft: false
 gallery: true
 highlight: true

@@ -1,6 +1,6 @@
 ---
 title: J On The Beach 2017 — Review
-date: 2017-08-07T16:23:04+01:00
+date: 2017-08-08T16:23:15+01:00
 description:
 parent: blog
 categories: ["conference"]
@@ -16,7 +16,7 @@ math: true
 
 -----
 
-[J On The Beach](https://jonthebeach.com/) (JOTB) is *"A Big Data
+[J On The Beach](https://2017.jonthebeach.com/) (JOTB) is *"A Big Data
 Conference On The Beach"* happening in Malaga (Spain) and this year (2017)
 was its second edition.
 
@@ -41,18 +41,20 @@ forget our stay***.
 many geeks dance {{< emoji content=":astonished:" >}}
 
 -----
+
+# Preamble
+
 I've discovered JOTB by accident in 2016, during the revelation of the
 [Panama Papers](https://panamapapers.icij.org/) when I was searching for
 technical details about how the [ICIJ](https://www.icij.org/about) managed to
-analyse this massive leak of data.  
+analyze this massive leak of data.  
 I stumbled-upon Mar Cabra's
 [*"The tech behind the bigger journalism leak in history"*](https://www.youtube.com/watch?v=rjqHC5dYdfE)
 , and after watching a few other talks I decided it was worth keeping an
 eye on it for the next edition.
 
-Soon enough, the 2017 line-up was released, followed by the
-[schedule](https://jonthebeach.com/schedule) and when
-I saw the subjects and the speakers I managed to get one of the first round of
+Soon enough, the 2017 line-up was released, followed by the schedule so when I
+saw the subjects and the speakers I managed to get one of the first round of
 tickets
 
 {{< tweet 816912096948613120 >}}
@@ -380,7 +382,7 @@ under a beautiful sunny sky {{< emoji content=":sunny:" >}}
 During the meal I reconnected with some of my fellow Jepsen workshop-ers to
 share our experiences about the morning talks:
 
-* [Andrei Dan](https://twitter.com/rocketarium) and
+* [Andrei Dan](https://twitter.com/_andreidan) and
   [Sebastian Utz](https://twitter.com/einsmu) from [CrateDB](https://crate.io/);
 * [Max Neunhöffer](https://twitter.com/neunhoef) from
   [ArangoDB](https://www.arangodb.com/);
