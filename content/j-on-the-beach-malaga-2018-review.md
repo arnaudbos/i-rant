@@ -88,7 +88,7 @@ bus stop 50m from the entrance, as well as city bikes spots.
 
 * The place in itself is nice, the hallways and rooms are large and bright.
 
-* The staff was really welcoming every days, everyone speaking English and
+* The staff was really welcoming, everyone speaking English and
 willing to assist the speakers and attendees.
 
 * YES, I totally did copy/paste the four points above from
@@ -288,8 +288,8 @@ consistency models and tackle the problem of distributed transactions.
 In a nutshell, Orleans is an actor model (encapsulated state, message passing, ...)
 based framework for the .NET ecosystem with support for transactions (beta).
 
-And this is really exciting even if you're not (like me) a .NET aficionado,
-because it has extensive documentation for you to study if (like me), you like
+And this is really exciting even if you're not a .NET aficionado,
+because it has extensive documentation for you to study if you like
 to read about distributed systems.
 
 Links:
@@ -299,7 +299,7 @@ Links:
 
 [The video is now available on Youtube.](https://youtu.be/2ylIl_QToq4)
 
-## Jonas Boner — Designing Events-First Microservices
+## Jonas Boner — Designing Event-First Microservices
 
 "Designing Event-First Microservices", is a talk about event sourcing by
 [Mr Jonas Bonér](https://twitter.com/jboner).
