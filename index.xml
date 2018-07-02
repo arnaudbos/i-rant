@@ -172,7 +172,7 @@ bus stop 50m from the entrance, as well as city bikes spots.&lt;/p&gt;&lt;/li&gt
 
 &lt;li&gt;&lt;p&gt;The place in itself is nice, the hallways and rooms are large and bright.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;The staff was really welcoming every days, everyone speaking English and
+&lt;li&gt;&lt;p&gt;The staff was really welcoming, everyone speaking English and
 willing to assist the speakers and attendees.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;YES, I totally did copy/paste the four points above from
@@ -387,8 +387,8 @@ consistency models and tackle the problem of distributed transactions.&lt;/p&gt;
 &lt;p&gt;In a nutshell, Orleans is an actor model (encapsulated state, message passing, &amp;hellip;)
 based framework for the .NET ecosystem with support for transactions (beta).&lt;/p&gt;
 
-&lt;p&gt;And this is really exciting even if you&amp;rsquo;re not (like me) a .NET aficionado,
-because it has extensive documentation for you to study if (like me), you like
+&lt;p&gt;And this is really exciting even if you&amp;rsquo;re not a .NET aficionado,
+because it has extensive documentation for you to study if you like
 to read about distributed systems.&lt;/p&gt;
 
 &lt;p&gt;Links:&lt;/p&gt;
@@ -400,7 +400,7 @@ to read about distributed systems.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://youtu.be/2ylIl_QToq4&#34;&gt;The video is now available on Youtube.&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;jonas-boner-designing-events-first-microservices&#34;&gt;Jonas Boner — Designing Events-First Microservices&lt;/h2&gt;
+&lt;h2 id=&#34;jonas-boner-designing-event-first-microservices&#34;&gt;Jonas Boner — Designing Event-First Microservices&lt;/h2&gt;
 
 &lt;p&gt;&amp;ldquo;Designing Event-First Microservices&amp;rdquo;, is a talk about event sourcing by
 &lt;a href=&#34;https://twitter.com/jboner&#34;&gt;Mr Jonas Bonér&lt;/a&gt;.&lt;/p&gt;
