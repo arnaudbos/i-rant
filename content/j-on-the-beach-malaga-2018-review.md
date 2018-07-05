@@ -1,11 +1,11 @@
 ---
 title: J On The Beach 2018 — Review
-date: 2018-07-03T23:17:15+01:00
+date: 2018-07-05T23:12:11+01:00
 description:
 parent: blog
 categories: ["conference"]
 tags: ["conference", "review"]
-draft: true
+draft: false
 seoimage: img/j-on-the-beach-malaga-2018-review/plaza_del_obispo.jpg
 gallery: true
 highlight: true
