@@ -9,6 +9,378 @@
     <atom:link href="http://i-rant.arnaudbos.com/tags/review/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>ClojuTRE &amp; SmallFP 2018 — Review</title>
+      <link>http://i-rant.arnaudbos.com/clojutre-finland-2018-review/</link>
+      <pubDate>Tue, 25 Sep 2018 00:17:42 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/clojutre-finland-2018-review/</guid>
+      <description>
+
+
+&lt;figure  &gt;
+    
+        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/boats.jpg&#34; alt=&#34;Picture of Helsinki boats&#34;
+            width=&#34;100%&#34;
+            /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h6&gt;&lt;em&gt;Helsinki&lt;/em&gt;&lt;/h6&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://clojutre.com&#34;&gt;ClojuTRE&lt;/a&gt; is a Clojure conference happening in Finland
+since 2012.&lt;/p&gt;
+
+&lt;p&gt;I was super eager to attend a Clojure conference this year, so the addition of
+SmallFP just before ClojuTRE finally amortized the travel cost.&lt;/p&gt;
+
+&lt;h1 id=&#34;tl-dr&#34;&gt;tl;dr&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;SmallFP really did deliver a great experience by allowing an audience of
+Clojure developers to hear about other functional programming languages and
+concepts.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The topics were a nice mixture of industry practices, libraries and research.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The venue was &lt;strong&gt;a Tram museum&lt;/strong&gt;(!)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;I bought bear salami in Helsinki&amp;rsquo;s Old Market Hall&amp;hellip; &lt;strong&gt;BEAR SALAMI!&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&#34;preamble&#34;&gt;Preamble&lt;/h1&gt;
+
+&lt;p&gt;This year I was super eager to attend a Clojure conference and was really
+looking forward to EuroClojure. But after the realization that it would not
+hapen this year, I switched my focus to ClojuTRE as it was one of the most
+popular one in Europe after EuroClojure.&lt;/p&gt;
+
+&lt;p&gt;For the second time, ClojuTRE has been colocated with SmallFP, also a one day
+conference, focusing on other functional programming languages.&lt;/p&gt;
+
+&lt;p&gt;The addition of SmallFP is a very good initiative, it amortizes the cost of
+travelling and it also encourages cross-polinization and open-minded/honest
+discussions in the functional programming community.&lt;/p&gt;
+
+&lt;h1 id=&#34;sisällysluettelo&#34;&gt;Sisällysluettelo&lt;/h1&gt;
+
+&lt;div id=&#34;toc&#34; class=&#34;well col-md-12&#34;&gt;
+  &lt;!-- toc --&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&#34;a-few-pictures&#34;&gt;A few pictures&lt;/h1&gt;
+
+&lt;div class=&#34;gallery&#34; itemscope itemtype=&#34;http://schema.org/ImageGallery&#34;&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/cathedral.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;5158x3167&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/cathedral.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;100%&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Helsinki Cathedral
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/island.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;5184x3888&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/island.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;395&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Some island
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/kings-gate.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;5184x3888&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/kings-gate.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;395&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    King&amp;#39;s Gate
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/salmon.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;5184x3888&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/salmon.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;395&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Cold-smoked salmon
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+  &lt;figure itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+  &lt;a href=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/monkeys.jpg&#34; itemprop=&#34;contentUrl&#34; data-size=&#34;5184x3888&#34;&gt;
+      &lt;img src=&#34;http://i-rant.arnaudbos.com/img/clojutre-finland-2018-review/monkeys.jpg&#34; itemprop=&#34;thumbnail&#34;
+        
+        
+        width=&#34;395&#34;
+        height=&#34;142&#34;
+        /&gt;
+  &lt;/a&gt;
+
+  &lt;figcaption itemprop=&#34;caption description&#34;&gt;
+    Polar Monkeys
+    &lt;span itemprop=&#34;copyrightHolder&#34;&gt;&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+
+&lt;/div&gt;
+
+
+&lt;h1 id=&#34;smallfp&#34;&gt;SmallFP&lt;/h1&gt;
+
+&lt;h2 id=&#34;ocaml-reborn-fullstack-applications-with-reasonml-antónio-monteiro&#34;&gt;OCaml, REborn: fullstack applications with ReasonML (António Monteiro)&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;@anmonteiro90&#34;&gt;António Monteiro&lt;/a&gt; has been a ClojureScript developer, speaker
+and contributor for a few years, and although doing Clojure all day for work,
+he recently switched focus onto ReasonML on his spare time, and he explains why
+in this talk.&lt;/p&gt;
+
+&lt;p&gt;Coming from ClojureScript, it&amp;rsquo;s not a surprise that António values data-driven
+applications, and ReasonML seems to suits well this kind of applications too.&lt;br /&gt;
+ReasonML is a modern new dialect of OCaml aimed at JavaScript developers and
+provides a toolchain for fullstack applications.&lt;/p&gt;
+
+&lt;p&gt;ReasonML provides a static type system which enables developers to share objects
+between backend and frontend and catch errors at compile time.&lt;br /&gt;
+Unlike some statically typed programming languages, like Haskell for instance,
+ReasonML is not a pure language, as the type system will not check and prevent
+the developer to do side effects among other things.&lt;br /&gt;
+As António puts it, the type system is still 100% sound, but more &amp;ldquo;practical&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Its type system seems to align well with GraphQL types and schemas, and
+provides type-checked queries ensuring consistency between the client and server
+implementation, when their code is co-located. I&amp;rsquo;m wondering what the story is
+when they are not though&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;At MonkeyPatch, we&amp;rsquo;ve recently interviewed a candidate who implemented his
+coding test at home in ReasonML (&amp;amp; Reason React).&lt;/p&gt;
+
+&lt;p&gt;Having a candidate handing us this nice piece of frontend code really brighted
+up my day. I look forward to see the future of ReasonML.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://clojutre.org/2018/#anmonteiro&#34;&gt;Abstract, slides and video available here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;interactive-functional-gpu-accelerated-programming-in-clojure-dragan-djuric&#34;&gt;Interactive, Functional, GPU Accelerated Programming in Clojure (Dragan Djuric)&lt;/h2&gt;
+
+&lt;p&gt;The recent surge of machine learning, deep learning, AI and whatnot has made the
+ecosystem of libraries and tools to &amp;ldquo;do data science&amp;rdquo; to grow quickly.&lt;/p&gt;
+
+&lt;p&gt;In the quest of performance, data scientists value every processing unit
+cycle and typically use low-level programming languages such as C or C++ rather
+than high-level ones. But even then, the performances and dramatically better
+when leveraging the power of GPU grids with special versions of these languages.&lt;/p&gt;
+
+&lt;p&gt;On the other hand, programmers typically counterbalance the rigidity,
+low-level aspects and scaling issues of these languages by using high-level
+programming languages such as R, Python or Java as wrappers.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/draganrocks&#34;&gt;Dragan Djuric&lt;/a&gt; is know in the Clojure
+community for his work on libraries allowing developers to leverage the power
+of GPU kernels for number crunching tasks, from the comfort of the Clojure REPL.&lt;/p&gt;
+
+&lt;p&gt;The numbers showed in his slides comparing runtime speed for basic number
+crunching tasks are really telling, and he presents a style of programming which
+is functional and interactive as another approach to notebook based programming,
+which seems to be problematic:&lt;/p&gt;
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;slides for my &amp;quot;I Don&amp;#39;t Like Notebooks&amp;quot; &lt;a href=&#34;https://twitter.com/hashtag/JupyterCon?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#JupyterCon&lt;/a&gt; talk:&lt;a href=&#34;https://t.co/30peBFwTbv&#34;&gt;https://t.co/30peBFwTbv&lt;/a&gt;&lt;/p&gt;&amp;mdash; Joel Grus (@joelgrus) &lt;a href=&#34;https://twitter.com/joelgrus/status/1033035196428378113?ref_src=twsrc%5Etfw&#34;&gt;August 24, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;I have to admit I&amp;rsquo;m far (oh so far) from being an expert in this field (I&amp;rsquo;ve
+just tried some basic introductory exercises a few times), but this presentation
+really resonated with me, and a lot of the pain points outlined in this talk by
+Joel Grus could, perhaps disappear with the use of a proper REPL.&lt;/p&gt;
+
+&lt;p&gt;I think Clojure&amp;rsquo;s style for interactive development can provide a good story
+for agile and iterative data science projects.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://clojutre.org/2018/#dragandjuric&#34;&gt;Abstract and video available here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;i-used-elm-in-production-and-it-cost-me-my-job-annaia-berry&#34;&gt;I used Elm in production and it cost me my job (Annaia Berry)&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/ann_arcana&#34;&gt;Annaia Berry&lt;/a&gt; delivered an accurate, yet oh so
+funny talk on how Elm has provided her and her team with a really productive
+and stable environment. New feature development was so quick, and maintenance
+tasks so infrequent, that it wasn&amp;rsquo;t necessary for the company hiring her as
+a consultant to keep her.&lt;/p&gt;
+
+&lt;p&gt;This is a story about how functional programming is a comptetitive advantage
+but also a double edged sword for programmers, who need to live and pay the bills
+in this world where productivity is not necessarily accurately measured nor
+valued.&lt;/p&gt;
+
+&lt;p&gt;And then the talks takes an unexpected turn &lt;a href=&#34;https://www.youtube.com/watch?v=LEZv-kQUSi4&#34;&gt;to narcissistic design&lt;/a&gt;.
+Describing all the things we can still do to keep our jobs by complecting some
+aspects of our work so much as to be the only ones able to maintain it.&lt;/p&gt;
+
+&lt;p&gt;It was a very entertaining talk, I encourage you to &lt;a href=&#34;https://clojutre.org/2018/#jarcane&#34;&gt;watch it here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;meetings-with-remarkable-trees-bodil-stokke&#34;&gt;Meetings With Remarkable Trees (Bodil Stokke)&lt;/h2&gt;
+
+&lt;p&gt;As a good clojurist, I&amp;rsquo;m pretty familiar with Bagwell Tries (aka &amp;ldquo;Hash array
+mapped tries&amp;rdquo;) and Hickey Tries (aka &amp;ldquo;Persistent Bit-partitioned Vector Tries&amp;rdquo;
+or &amp;ldquo;Bitmapped Vector Tries&amp;rdquo;) but I&amp;rsquo;m less familiar with Finger Trees.&lt;/p&gt;
+
+&lt;p&gt;If you don&amp;rsquo;t know what those data structures are or what they provide then good
+news, &lt;a href=&#34;https://twitter.com/bodil&#34;&gt;Bodil Stokke&lt;/a&gt; just gave a quick reminder of
+their Big O properties and quickly presented the one data structure to rule them
+all: RRB-Trees (aka Relaxed Radix Balanced Trees).&lt;/p&gt;
+
+&lt;p&gt;In this presentation, Hickey Tries are explored at length and reimplemented in
+JavaScript. Sadly, Finger Trees are not studied as much and are just presented
+for Big O comparison. Finally, RRB-Trees are introduced in the end to outline
+their awesome properties.&lt;/p&gt;
+
+&lt;p&gt;In summary: review your Big O, study awesome data structures and worship Phil Bagwell.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://clojutre.org/2018/#bodil&#34;&gt;Abstract, slides and video available here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;clojutre&#34;&gt;ClojuTRE&lt;/h1&gt;
+
+&lt;h2 id=&#34;documenting-the-clojure-script-ecosystem-martin-klepsch&#34;&gt;Documenting the Clojure/Script Ecosystem (Martin Klepsch)&lt;/h2&gt;
+
+&lt;p&gt;If it wasn&amp;rsquo;t clear already I&amp;rsquo;m a huge fan of Clojure, and as a user for more
+than five years, I&amp;rsquo;m pretty familiar with the language and its ecosystem.&lt;br /&gt;
+But regularly, through polls or random blog posts on the Web, we hear about
+beginners having a hard time getting started setting up their environment,
+choose libraries, understand how to use libraries or simply grok the docstring
+of some core functions.&lt;/p&gt;
+
+&lt;p&gt;To be honest it was my first impression too, although I remember being amazed by
+reading the core functions docstrings. They &lt;strong&gt;seem&lt;/strong&gt; difficult to grasp sometimes,
+yes, but they are concise and accurate.&lt;/p&gt;
+
+&lt;p&gt;After this barrier to entry, the Clojure programmers tend to quickly skim through
+the documentation of a library, and if the documentation is not clear enough,
+jump straight into the code, see what data goes in and what goes out,
+fire a REPL to start experimenting.&lt;/p&gt;
+
+&lt;p&gt;However from a beginner&amp;rsquo;s point of view it is a bit rude, and we all could
+benefit from better documentation.&lt;/p&gt;
+
+&lt;p&gt;Rust has &lt;a href=&#34;docs.rs&#34;&gt;docs.rs&lt;/a&gt;, and now, Clojure has &lt;a href=&#34;https://cljdoc.xyz/&#34;&gt;cljdoc!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Cljdoc is an initiative by &lt;a href=&#34;https://twitter.com/martinklepsch&#34;&gt;Martin Klepsch&lt;/a&gt; to
+encourage better library authors to write better documentation without the hassle
+of building it.&lt;/p&gt;
+
+&lt;p&gt;The project is young but very promising, and the roadmap includes really
+interesting features such as attaching code examples to vars or integrating
+&lt;code&gt;clojure.spec&lt;/code&gt; to navigate from function to function inside or accross library
+boundaries.&lt;/p&gt;
+
+&lt;p&gt;There is no video available for this talk as Martin has asked the conference
+organizers to defer its release for after he&amp;rsquo;s back from a sailing trip, so he
+can answer questions.&lt;/p&gt;
+
+&lt;p&gt;You can still &lt;a href=&#34;https://clojutre.org/2018/#martinklepsch&#34;&gt;read the abstract here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;carp-a-language-for-the-21st-century-veit-heller&#34;&gt;Carp: A Language for the 21st Century (Veit Heller)&lt;/h2&gt;
+
+&lt;p&gt;In a tweet:&lt;/p&gt;
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Carp, a type-inferred (like Haskell), borrow-checked (like Rust) Lisp-1 (like Clojure): &lt;a href=&#34;https://t.co/LkekbtvXa3&#34;&gt;https://t.co/LkekbtvXa3&lt;/a&gt;&lt;/p&gt;&amp;mdash; (λ. borkdude) (@borkdude) &lt;a href=&#34;https://twitter.com/borkdude/status/1043582174014902274?ref_src=twsrc%5Etfw&#34;&gt;September 22, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Pretty exciting right?&lt;/p&gt;
+
+&lt;p&gt;Veit Heller gave us a gentle introduction to the language he is a core
+contributor to. Carp is designed for realtime applications: games and graphical
+libraries.&lt;/p&gt;
+
+&lt;p&gt;It is not ready for production yet, but it will be interesting to see how it
+evolves and how fast brave people will adopt it.&lt;/p&gt;
+
+&lt;p&gt;You can find &lt;a href=&#34;https://clojutre.org/2018/#hellerve&#34;&gt;the abstract here&lt;/a&gt; and the
+video by following the link in the tweet above.&lt;/p&gt;
+
+&lt;h2 id=&#34;native-clojure-with-graalvm-jan-stępień&#34;&gt;Native Clojure with GraalVM (Jan Stępień)&lt;/h2&gt;
+
+&lt;p&gt;It is impossible to not hear about GraalVM these days, and the Clojure
+community seems to also be interested in it.&lt;/p&gt;
+
+&lt;p&gt;In this presentation &lt;a href=&#34;https://twitter.com/janstepien&#34;&gt;Jan Stępień&lt;/a&gt; shows interesting
+numbers comparing the binary sizes, startup times and memory usages of different
+packaging/runtime/targets.&lt;/p&gt;
+
+&lt;p&gt;He shows that thanks to GraalVM, Clojure can actually become a good candidate to
+command line utilities too, giving us the power of Clojure for data manipulation
+to transform incoming data and chain small utilisies following the Unix
+philosophy.&lt;/p&gt;
+
+&lt;p&gt;He goes on demonstrating a simple key/value store implementation and its
+packaging as a native binary inside a Docker image resulting in a &lt;strong&gt;13MB&lt;/strong&gt; (!)
+image size.&lt;/p&gt;
+
+&lt;p&gt;GraalVM is a really interesting piece of technology and the Clojure community
+seems to be looking at it closely.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://clojutre.org/2018/#janstepien&#34;&gt;Abstract, slides and video available here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;On a side note, if you haven&amp;rsquo;t read this paper (below) by Oracle Labs people about
+Truffle, I encourage you to do so now!&lt;/p&gt;
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Practical Partial Evaluation&lt;br&gt;for High-Performance Dynamic Language Runtimes.&lt;br&gt;&amp;quot;This separation of concerns reuses a language-agnostic optimizing compiler and only requires an implementation of language semantics as an interpreter in a managed host language&amp;quot;&lt;a href=&#34;https://t.co/owgOD5K0Gl&#34;&gt;https://t.co/owgOD5K0Gl&lt;/a&gt;&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/994190039155388416?ref_src=twsrc%5Etfw&#34;&gt;May 9, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;Obviously I haven&amp;rsquo;t covered all of the talks in this review, I&amp;rsquo;ve tried to stick
+with the ones that I knew I could summarize properly, but they are not necessarily
+the only ones I&amp;rsquo;ve found interesting.&lt;br /&gt;
+If you are eager for more I encourage you to watch the other talks on youtube.
+The organizers have done an amazing work at publishing all the videos in under
+a week, and the 25 minutes long format is ideal for &amp;ldquo;later watching&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Finally, I&amp;rsquo;d like to address a giant thank you to &lt;a href=&#34;http://www.monkeypatch.io/&#34;&gt;MonkeyPatch&lt;/a&gt;
+(my employer) for allowing the budget to attend &lt;strong&gt;yet another conference&lt;/strong&gt;!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>J On The Beach 2018 — Review</title>
       <link>http://i-rant.arnaudbos.com/j-on-the-beach-malaga-2018-review/</link>
       <pubDate>Thu, 05 Jul 2018 23:12:11 +0100</pubDate>
