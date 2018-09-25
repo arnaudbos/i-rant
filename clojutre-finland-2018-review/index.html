@@ -9,7 +9,7 @@
     <meta property="og:title" content="ClojuTRE &amp; SmallFP 2018 — Review" />
     <meta property="og:description" content="Helsinki   ClojuTRE is a Clojure conference happening in Finland since 2012.
 I was super eager to attend a Clojure conference this year, so the addition of SmallFP just before ClojuTRE finally amortized the travel cost.
-tl;dr  SmallFP really did deliver a great experience by allowing an audience of Clojure developers to hear about other functional programming languages and concepts.
+tl;dr  SmallFP did deliver a great experience by allowing an audience of Clojure developers to hear about other functional programming languages and concepts.
  The topics were a nice mixture of industry practices, libraries and research." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://i-rant.arnaudbos.com/clojutre-finland-2018-review/" />
@@ -75,7 +75,7 @@ tl;dr  SmallFP really did deliver a great experience by allowing an audience of 
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          9 minutes read
+          8 minutes read
           </h4>
         </div>
         <div>
@@ -120,7 +120,7 @@ SmallFP just before ClojuTRE finally amortized the travel cost.</p>
 <h1 id="tl-dr">tl;dr</h1>
 
 <ul>
-<li><p>SmallFP really did deliver a great experience by allowing an audience of
+<li><p>SmallFP did deliver a great experience by allowing an audience of
 Clojure developers to hear about other functional programming languages and
 concepts.</p></li>
 
@@ -135,10 +135,10 @@ concepts.</p></li>
 
 <h1 id="preamble">Preamble</h1>
 
-<p>This year I was super eager to attend a Clojure conference and was really
+<p>This year I was super eager to attend a Clojure conference and was
 looking forward to EuroClojure. But after the realization that it would not
-hapen this year, I switched my focus to ClojuTRE as it was one of the most
-popular one in Europe after EuroClojure.</p>
+hapen, I switched my focus to ClojuTRE as it was one of the most
+popular one in Europe.</p>
 
 <p>For the second time, ClojuTRE has been colocated with SmallFP, also a one day
 conference, focusing on other functional programming languages.</p>
@@ -277,11 +277,11 @@ applications, and ReasonML seems to suits well this kind of applications too.<br
 ReasonML is a modern new dialect of OCaml aimed at JavaScript developers and
 provides a toolchain for fullstack applications.</p>
 
-<p>ReasonML provides a static type system which enables developers to share objects
-between backend and frontend and catch errors at compile time.<br />
+<p>It provides a statically checked type system which enables developers to share
+objects between backend and frontend and catch errors at compile time.<br />
 Unlike some statically typed programming languages, like Haskell for instance,
 ReasonML is not a pure language, as the type system will not check and prevent
-the developer to do side effects among other things.<br />
+the developer to do side effects, among other things.<br />
 As António puts it, the type system is still 100% sound, but more &ldquo;practical&rdquo;.</p>
 
 <p>Its type system seems to align well with GraphQL types and schemas, and
@@ -292,7 +292,7 @@ when they are not though&hellip;</p>
 <p>At MonkeyPatch, we&rsquo;ve recently interviewed a candidate who implemented his
 coding test at home in ReasonML (&amp; Reason React).</p>
 
-<p>Having a candidate handing us this nice piece of frontend code really brighted
+<p>Having a candidate handing us this nice piece of frontend code brightened
 up my day. I look forward to see the future of ReasonML.</p>
 
 <p><a href="https://clojutre.org/2018/#anmonteiro">Abstract, slides and video available here</a>.</p>
@@ -304,7 +304,7 @@ ecosystem of libraries and tools to &ldquo;do data science&rdquo; to grow quickl
 
 <p>In the quest of performance, data scientists value every processing unit
 cycle and typically use low-level programming languages such as C or C++ rather
-than high-level ones. But even then, the performances and dramatically better
+than high-level ones. But even then, the performances are dramatically better
 when leveraging the power of GPU grids with special versions of these languages.</p>
 
 <p>On the other hand, programmers typically counterbalance the rigidity,
@@ -313,10 +313,10 @@ programming languages such as R, Python or Java as wrappers.</p>
 
 <p><a href="https://twitter.com/draganrocks">Dragan Djuric</a> is know in the Clojure
 community for his work on libraries allowing developers to leverage the power
-of GPU kernels for number crunching tasks, from the comfort of the Clojure REPL.</p>
+of GPU kernels, from the comfort of the Clojure REPL.</p>
 
-<p>The numbers showed in his slides comparing runtime speed for basic number
-crunching tasks are really telling, and he presents a style of programming which
+<p>The numbers showed in his slides comparing runtime speed for basic &ldquo;number
+crunching&rdquo; tasks are telling, and he presents a style of programming which
 is functional and interactive as another approach to notebook based programming,
 which seems to be problematic:</p>
 
@@ -393,16 +393,16 @@ the documentation of a library, and if the documentation is not clear enough,
 jump straight into the code, see what data goes in and what goes out,
 fire a REPL to start experimenting.</p>
 
-<p>However from a beginner&rsquo;s point of view it is a bit rude, and we all could
+<p>However from a beginner&rsquo;s point of view it is a bit rude, and we could all
 benefit from better documentation.</p>
 
 <p>Rust has <a href="docs.rs">docs.rs</a>, and now, Clojure has <a href="https://cljdoc.xyz/">cljdoc!</a></p>
 
 <p>Cljdoc is an initiative by <a href="https://twitter.com/martinklepsch">Martin Klepsch</a> to
-encourage better library authors to write better documentation without the hassle
+encourage library authors to write better documentation without the hassle
 of building it.</p>
 
-<p>The project is young but very promising, and the roadmap includes really
+<p>The project is young but very promising, and the roadmap includes
 interesting features such as attaching code examples to vars or integrating
 <code>clojure.spec</code> to navigate from function to function inside or accross library
 boundaries.</p>
@@ -444,15 +444,12 @@ packaging/runtime/targets.</p>
 
 <p>He shows that thanks to GraalVM, Clojure can actually become a good candidate to
 command line utilities too, giving us the power of Clojure for data manipulation
-to transform incoming data and chain small utilisies following the Unix
+to transform incoming data and chain small utilities following the Unix
 philosophy.</p>
 
 <p>He goes on demonstrating a simple key/value store implementation and its
 packaging as a native binary inside a Docker image resulting in a <strong>13MB</strong> (!)
 image size.</p>
-
-<p>GraalVM is a really interesting piece of technology and the Clojure community
-seems to be looking at it closely.</p>
 
 <p><a href="https://clojutre.org/2018/#janstepien">Abstract, slides and video available here</a>.</p>
 
