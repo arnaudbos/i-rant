@@ -5,7 +5,7 @@ description:
 parent: blog
 categories: ["conference"]
 tags: ["conference", "review"]
-draft: true
+draft: false
 seoimage: img/clojutre-finland-2018-review/boats.jpg
 gallery: true
 ---
