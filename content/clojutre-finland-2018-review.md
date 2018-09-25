@@ -1,6 +1,6 @@
 ---
 title: ClojuTRE & SmallFP 2018 — Review
-date: 2018-09-25T00:17:42+01:00
+date: 2018-09-25T22:56:42+01:00
 description:
 parent: blog
 categories: ["conference"]
@@ -22,7 +22,7 @@ SmallFP just before ClojuTRE finally amortized the travel cost.
 
 # tl;dr
 
-* SmallFP really did deliver a great experience by allowing an audience of
+* SmallFP did deliver a great experience by allowing an audience of
   Clojure developers to hear about other functional programming languages and
   concepts.
 
@@ -36,10 +36,10 @@ SmallFP just before ClojuTRE finally amortized the travel cost.
 
 # Preamble
 
-This year I was super eager to attend a Clojure conference and was really
+This year I was super eager to attend a Clojure conference and was
 looking forward to EuroClojure. But after the realization that it would not
-hapen this year, I switched my focus to ClojuTRE as it was one of the most
-popular one in Europe after EuroClojure.
+hapen, I switched my focus to ClojuTRE as it was one of the most
+popular one in Europe.
 
 For the second time, ClojuTRE has been colocated with SmallFP, also a one day
 conference, focusing on other functional programming languages.
@@ -83,11 +83,11 @@ applications, and ReasonML seems to suits well this kind of applications too.
 ReasonML is a modern new dialect of OCaml aimed at JavaScript developers and
 provides a toolchain for fullstack applications.
 
-ReasonML provides a static type system which enables developers to share objects
-between backend and frontend and catch errors at compile time.  
+It provides a statically checked type system which enables developers to share
+objects between backend and frontend and catch errors at compile time.  
 Unlike some statically typed programming languages, like Haskell for instance,
 ReasonML is not a pure language, as the type system will not check and prevent
-the developer to do side effects among other things.  
+the developer to do side effects, among other things.  
 As António puts it, the type system is still 100% sound, but more "practical".
 
 Its type system seems to align well with GraphQL types and schemas, and
@@ -98,7 +98,7 @@ when they are not though...
 At MonkeyPatch, we've recently interviewed a candidate who implemented his
 coding test at home in ReasonML (& Reason React).
 
-Having a candidate handing us this nice piece of frontend code really brighted
+Having a candidate handing us this nice piece of frontend code brightened
 up my day. I look forward to see the future of ReasonML.
 
 [Abstract, slides and video available here](https://clojutre.org/2018/#anmonteiro).
@@ -110,7 +110,7 @@ ecosystem of libraries and tools to "do data science" to grow quickly.
 
 In the quest of performance, data scientists value every processing unit
 cycle and typically use low-level programming languages such as C or C++ rather
-than high-level ones. But even then, the performances and dramatically better
+than high-level ones. But even then, the performances are dramatically better
 when leveraging the power of GPU grids with special versions of these languages.
 
 On the other hand, programmers typically counterbalance the rigidity,
@@ -119,10 +119,10 @@ programming languages such as R, Python or Java as wrappers.
 
 [Dragan Djuric](https://twitter.com/draganrocks) is know in the Clojure
 community for his work on libraries allowing developers to leverage the power
-of GPU kernels for number crunching tasks, from the comfort of the Clojure REPL.
+of GPU kernels, from the comfort of the Clojure REPL.
 
-The numbers showed in his slides comparing runtime speed for basic number
-crunching tasks are really telling, and he presents a style of programming which
+The numbers showed in his slides comparing runtime speed for basic "number
+crunching" tasks are telling, and he presents a style of programming which
 is functional and interactive as another approach to notebook based programming,
 which seems to be problematic:
 
@@ -197,16 +197,16 @@ the documentation of a library, and if the documentation is not clear enough,
 jump straight into the code, see what data goes in and what goes out,
 fire a REPL to start experimenting.
 
-However from a beginner's point of view it is a bit rude, and we all could
+However from a beginner's point of view it is a bit rude, and we could all
 benefit from better documentation.
 
 Rust has [docs.rs](docs.rs), and now, Clojure has [cljdoc!](https://cljdoc.xyz/)
 
 Cljdoc is an initiative by [Martin Klepsch](https://twitter.com/martinklepsch) to
-encourage better library authors to write better documentation without the hassle
+encourage library authors to write better documentation without the hassle
 of building it.
 
-The project is young but very promising, and the roadmap includes really
+The project is young but very promising, and the roadmap includes
 interesting features such as attaching code examples to vars or integrating
 `clojure.spec` to navigate from function to function inside or accross library
 boundaries.
@@ -246,15 +246,12 @@ packaging/runtime/targets.
 
 He shows that thanks to GraalVM, Clojure can actually become a good candidate to
 command line utilities too, giving us the power of Clojure for data manipulation
-to transform incoming data and chain small utilisies following the Unix
+to transform incoming data and chain small utilities following the Unix
 philosophy.
 
 He goes on demonstrating a simple key/value store implementation and its
 packaging as a native binary inside a Docker image resulting in a **13MB** (!)
 image size.
-
-GraalVM is a really interesting piece of technology and the Clojure community
-seems to be looking at it closely.
 
 [Abstract, slides and video available here](https://clojutre.org/2018/#janstepien).
 
