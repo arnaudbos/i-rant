@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Drafts-rsses on Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/drafts/index.xml</link>
-    <description>Recent content in Drafts-rsses on Arnaud Bos</description>
+    <title>Drafts on Arnaud Bos</title>
+    <link>http://i-rant.arnaudbos.com/drafts/</link>
+    <description>Recent content in Drafts on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <atom:link href="http://i-rant.arnaudbos.com/drafts/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://i-rant.arnaudbos.com/drafts/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title></title>
@@ -23,13 +25,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://i-rant.arnaudbos.com/drafts/automated-diagrams-in-documentation-with-boot/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/boot-clj/boot&#34;&gt;https://github.com/boot-clj/boot&lt;/a&gt;
-&lt;a href=&#34;https://github.com/ztellman/rhizome&#34;&gt;https://github.com/ztellman/rhizome&lt;/a&gt;
-&lt;a href=&#34;https://github.com/drcode/vijual&#34;&gt;https://github.com/drcode/vijual&lt;/a&gt;
-&lt;a href=&#34;https://github.com/daveray/dorothy&#34;&gt;https://github.com/daveray/dorothy&lt;/a&gt;
-&lt;a href=&#34;https://github.com/Macroz/tangle&#34;&gt;https://github.com/Macroz/tangle&lt;/a&gt;
-&lt;a href=&#34;http://www.graphviz.org/content/dot-language&#34;&gt;http://www.graphviz.org/content/dot-language&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>https://github.com/boot-clj/boot https://github.com/ztellman/rhizome https://github.com/drcode/vijual https://github.com/daveray/dorothy https://github.com/Macroz/tangle http://www.graphviz.org/content/dot-language</description>
     </item>
     
     <item>
@@ -38,25 +34,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</guid>
-      <description>&lt;p&gt;&lt;div class=&#34;reddit-embed&#34; data-embed-media=&#34;www.redditmedia.com&#34; data-embed-parent=&#34;false&#34; data-embed-live=&#34;false&#34; data-embed-uuid=&#34;d1a5e927-69c5-44a7-96d7-91115ea45ef3&#34; data-embed-created=&#34;2017-09-25T22:04:23.908Z&#34;&gt;&lt;a href=&#34;https://www.reddit.com/r/programming/comments/57w463/the_inconvenient_truth_about_dynamic_vs_static/d8vn39m/&#34;&gt;Comment&lt;/a&gt; from discussion &lt;a href=&#34;https://www.reddit.com/r/programming/comments/57w463/the_inconvenient_truth_about_dynamic_vs_static/&#34;&gt;The Inconvenient Truth About Dynamic vs. Static Typing&lt;/a&gt;.&lt;/div&gt;&lt;script async src=&#34;https://www.redditstatic.com/comment-embed.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>http://i-rant.arnaudbos.com/drafts/local-docker-development-with-vagrant/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://i-rant.arnaudbos.com/drafts/local-docker-development-with-vagrant/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://docs.docker.com/docker-for-mac/docker-toolbox/#the-docker-for-mac-environment&#34;&gt;https://docs.docker.com/docker-for-mac/docker-toolbox/#the-docker-for-mac-environment&lt;/a&gt;
-Part1: &lt;a href=&#34;http://activelamp.com/blog/devops/hashing-out-docker-workflow/&#34;&gt;http://activelamp.com/blog/devops/hashing-out-docker-workflow/&lt;/a&gt;
-Part2: &lt;a href=&#34;http://activelamp.com/blog/devops/docker-with-vagrant/&#34;&gt;http://activelamp.com/blog/devops/docker-with-vagrant/&lt;/a&gt;
-Part3: &lt;a href=&#34;http://activelamp.com/blog/devops/local-docker-development-with-vagrant/&#34;&gt;http://activelamp.com/blog/devops/local-docker-development-with-vagrant/&lt;/a&gt;
-Part4: &lt;a href=&#34;http://activelamp.com/blog/devops/jenkins-build-docker-images/&#34;&gt;http://activelamp.com/blog/devops/jenkins-build-docker-images/&lt;/a&gt;
-&lt;a href=&#34;https://martinfowler.com/bliki/ImmutableServer.html&#34;&gt;https://martinfowler.com/bliki/ImmutableServer.html&lt;/a&gt;
-&lt;a href=&#34;https://technologyconversations.com/2015/02/11/continuous-integration-delivery-or-deployment-with-jenkins-docker-and-ansible/&#34;&gt;https://technologyconversations.com/2015/02/11/continuous-integration-delivery-or-deployment-with-jenkins-docker-and-ansible/&lt;/a&gt;
-&lt;a href=&#34;http://trustmeiamadeveloper.com/2015/12/17/mesos-as-a-docker-containers-farm/&#34;&gt;http://trustmeiamadeveloper.com/2015/12/17/mesos-as-a-docker-containers-farm/&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>Comment from discussion The Inconvenient Truth About Dynamic vs. Static Typing.</description>
     </item>
     
     <item>
@@ -74,9 +52,7 @@ Part4: &lt;a href=&#34;http://activelamp.com/blog/devops/jenkins-build-docker-im
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://i-rant.arnaudbos.com/drafts/pseudo-uris-and-custom-url-scheme/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://philcalcado.com/2017/03/22/pattern_using_seudo-uris_with_microservices.html&#34;&gt;http://philcalcado.com/2017/03/22/pattern_using_seudo-uris_with_microservices.html&lt;/a&gt;
-&lt;a href=&#34;https://www.confluent.io/blog/publishing-apache-kafka-new-york-times/&#34;&gt;https://www.confluent.io/blog/publishing-apache-kafka-new-york-times/&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>http://philcalcado.com/2017/03/22/pattern_using_seudo-uris_with_microservices.html https://www.confluent.io/blog/publishing-apache-kafka-new-york-times/</description>
     </item>
     
   </channel>

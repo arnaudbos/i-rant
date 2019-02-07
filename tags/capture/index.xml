@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Capture on Arnaud Bos</title>
+    <link>http://i-rant.arnaudbos.com/tags/capture/</link>
+    <description>Recent content in Capture on Arnaud Bos</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Thu, 07 Feb 2019 02:59:53 +0100</lastBuildDate>
+    
+	<atom:link href="http://i-rant.arnaudbos.com/tags/capture/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Setup audio recording on OSX</title>
+      <link>http://i-rant.arnaudbos.com/setup-audio-recording-osx/</link>
+      <pubDate>Thu, 07 Feb 2019 02:59:53 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/setup-audio-recording-osx/</guid>
+      <description>The goal: something like that   Created: February 7th, 2019 Object: As I was preparing the next evening of the ToulouseJUG I found myself lacking a second mic for our next duet. This post is a note to myself about the setup for recording audio of one or two speakers with the pieces of equipment I have at my disposal, with pictures, so I can come back later and relearn how to do this.</description>
+    </item>
+    
+  </channel>
+</rss>

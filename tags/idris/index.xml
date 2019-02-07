@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/tags/idris/index.xml</link>
-    <description>Recent content on Arnaud Bos</description>
+    <title>Idris on Arnaud Bos</title>
+    <link>http://i-rant.arnaudbos.com/tags/idris/</link>
+    <description>Recent content in Idris on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <atom:link href="http://i-rant.arnaudbos.com/tags/idris/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Nov 2017 13:41:21 +0100</lastBuildDate>
+    
+	<atom:link href="http://i-rant.arnaudbos.com/tags/idris/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Just use Clojure already!</title>
@@ -14,101 +17,9 @@
       <pubDate>Fri, 10 Nov 2017 13:41:21 +0100</pubDate>
       
       <guid>http://i-rant.arnaudbos.com/use-clojure-already/</guid>
-      <description>
-&lt;figure  &gt;
-    
-        &lt;img src=&#34;http://i-rant.arnaudbos.com/img/use-clojure-already/lisp_cycles.png&#34; alt=&#34;xkcd joke&#34;
-            width=&#34;100%&#34;
-            /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;h6&gt;&lt;em&gt;Lisp as a secret weapon&lt;/em&gt;&lt;/h6&gt;
-        
-    &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-
-
-
-&lt;hr /&gt;
-
-&lt;p&gt;I hear a lot of talking going on about &lt;a href=&#34;https://kotlinlang.org/&#34;&gt;Kotlin&lt;/a&gt; around me lately.&lt;/p&gt;
-
-&lt;p&gt;There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot
-has happened around it from the Google announcement that
-Kotlin would benefit from
-&lt;a href=&#34;https://blog.jetbrains.com/kotlin/2017/05/kotlin-on-android-now-official/&#34;&gt;first class support on Android&lt;/a&gt;, up to the
-hiring of &lt;a href=&#34;https://twitter.com/JakeWharton&#34;&gt;Jake Wharton&lt;/a&gt; (a figure in the world of Android
-developers).&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at
-&lt;a href=&#34;http://www.monkeypatch.io/&#34;&gt;MonkeyPatch&lt;/a&gt; seem to be following the hype (muahaha&amp;hellip;) and are
-becoming more and more addicted to it.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://twitter.com/ilaborie&#34;&gt;Igor&lt;/a&gt; offered to make a live demo in order to show me what it is they
-(he) like about Kotlin.&lt;/p&gt;
-
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;fr&#34; dir=&#34;ltr&#34;&gt;On profite de l&amp;#39;été pour se faire des petites sessions de BBL &lt;a href=&#34;https://twitter.com/hashtag/dev?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#dev&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/passion?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#passion&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/summer?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#summer&lt;/a&gt; &lt;a href=&#34;https://t.co/54JG68txhs&#34;&gt;pic.twitter.com/54JG68txhs&lt;/a&gt;&lt;/p&gt;&amp;mdash; MonkeyPatch (@MonkeyPatch_io) &lt;a href=&#34;https://twitter.com/MonkeyPatch_io/status/893066399794556928?ref_src=twsrc%5Etfw&#34;&gt;August 3, 2017&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
-
-
-&lt;p&gt;During his presentation I&amp;rsquo;ve noticed a few points that I disliked, but before
-jumping to conclusion I decided to dig a bit further, reading
-&lt;a href=&#34;https://www.manning.com/books/kotlin-in-action&#34;&gt;Kotlin in Action&lt;/a&gt; during vacations two weeks later.&lt;/p&gt;
-
-&lt;p&gt;I also asked on our private Slack team:
-&lt;strong&gt;&lt;em&gt;&amp;ldquo;What is Kotlin&amp;rsquo;s value proposition?&amp;rdquo;&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Amongst other small things, the consensus begun to build: &lt;em&gt;&amp;ldquo;It&amp;rsquo;s a better
-Java than Java&amp;rdquo;&lt;/em&gt;&amp;hellip;&lt;br /&gt;
-Exactly what I feared.&lt;/p&gt;
-
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Finished. Nice book, &lt;a href=&#34;https://twitter.com/hashtag/Kotlin?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#Kotlin&lt;/a&gt; is a better Java than &lt;a href=&#34;https://twitter.com/hashtag/Java?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#Java&lt;/a&gt; and increases productivity. But I still prefer &lt;a href=&#34;https://twitter.com/hashtag/Clojure?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#Clojure&lt;/a&gt;. I&amp;#39;ll write about that soon &lt;a href=&#34;https://t.co/4ZgHScppAA&#34;&gt;pic.twitter.com/4ZgHScppAA&lt;/a&gt;&lt;/p&gt;&amp;mdash; Arnaud Bos (@arnaud_bos) &lt;a href=&#34;https://twitter.com/arnaud_bos/status/898808015146627072?ref_src=twsrc%5Etfw&#34;&gt;August 19, 2017&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
-
-
-&lt;p&gt;To fulfill the promise made in this tweet, I took it as a game to code the
-same code example Igor showed me in &lt;a href=&#34;https://clojure.org/&#34;&gt;Clojure&lt;/a&gt; in order to return
-the favor to my colleagues.&lt;/p&gt;
-
-&lt;p&gt;And I&amp;rsquo;ve decided to start a series of blog posts about Clojure&amp;rsquo;s features and
-Kotlin&amp;rsquo;s features in order to express why &lt;strong&gt;&lt;em&gt;I&lt;/em&gt;&lt;/strong&gt; don&amp;rsquo;t see the later being that
-much of an improvement, despite its growth in popularity.&lt;/p&gt;
-
-&lt;p&gt;But using Clojure is not like riding on unicorns all day long either.&lt;br /&gt;
-Although I fail to see if some other new languages solve real problems or just
-add more puzzles to solve to our daily share or incidental complexity, I will
-address some pain points I&amp;rsquo;ve encountered too in Clojure.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;This post was actually in draft form since September 15th (I screwed up my
-publication planning) and in the mean time I&amp;rsquo;ve had many occasions to express
-my &lt;em&gt;&amp;ldquo;obsessive enthusiasm&amp;rdquo;&lt;/em&gt; of Clojure.&lt;/p&gt;
-
-&lt;p&gt;And the static typing and type systems aficionados around me (who seem to be
-legion, interestingly) have come to discover and appreciate &lt;a href=&#34;https://www.idris-lang.org/&#34;&gt;Idris&lt;/a&gt; and
-its &lt;a href=&#34;https://en.wikipedia.org/wiki/Dependent_type&#34;&gt;dependent types&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Well... I&amp;#39;d like to know fundamentally why... And anyway have you ever tried &lt;a href=&#34;https://twitter.com/idrislang?ref_src=twsrc%5Etfw&#34;&gt;@idrislang&lt;/a&gt; ?&lt;/p&gt;&amp;mdash; Frédéric Cabestre (@fcabestre) &lt;a href=&#34;https://twitter.com/fcabestre/status/912183360285544448?ref_src=twsrc%5Etfw&#34;&gt;September 25, 2017&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
-
-
-&lt;p&gt;I remember having heard about Idris around summer 2016 in this
-&lt;a href=&#34;https://www.functionalgeekery.com/episode-54-edwin-brady/&#34;&gt;podcast&lt;/a&gt;.&lt;br /&gt;
-I even added the episode to my favorites: which means I wanted to get back to
-it and listen again later.&lt;/p&gt;
-
-&lt;p&gt;It&amp;rsquo;s nice to have people around ready to talk about these stuff.&lt;br /&gt;
-This tweet made me realize it would be a good way to also inject a bit of
-Idris dependent types and interactive editing features in the mix and see how
-Clojure compares on the matter (Kotlin being out of the equation here).&lt;/p&gt;
-
-&lt;p&gt;I hope this post will be the first of a series where &lt;a href=&#34;https://twitter.com/ilaborie&#34;&gt;Igor&lt;/a&gt; and I (and
-maybe &lt;a href=&#34;https://twitter.com/fcabestre&#34;&gt;Frederic&lt;/a&gt; on Idris?) might go back and forth, answering
-each other. It&amp;rsquo;s up to them.&lt;/p&gt;
-</description>
+      <description>Lisp as a secret weapon   I hear a lot of talking going on about Kotlin around me lately.
+There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot has happened around it from the Google announcement that Kotlin would benefit from first class support on Android, up to the hiring of Jake Wharton (a figure in the world of Android developers).
+I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at MonkeyPatch seem to be following the hype (muahaha&amp;hellip;) and are becoming more and more addicted to it.</description>
     </item>
     
   </channel>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Arnaud Bos</title>
+    <link>http://i-rant.arnaudbos.com/categories/</link>
+    <description>Recent content in Categories on Arnaud Bos</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 07 Feb 2017 02:30:04 +0100</lastBuildDate>
+    
+	<atom:link href="http://i-rant.arnaudbos.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Android</title>
+      <link>http://i-rant.arnaudbos.com/categories/android/</link>
+      <pubDate>Tue, 07 Feb 2017 02:30:04 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/categories/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Blog</title>
+      <link>http://i-rant.arnaudbos.com/categories/blog/</link>
+      <pubDate>Mon, 07 Nov 2016 12:55:28 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/categories/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Clojure</title>
+      <link>http://i-rant.arnaudbos.com/categories/clojure/</link>
+      <pubDate>Tue, 28 Nov 2017 06:23:11 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/categories/clojure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Conference</title>
+      <link>http://i-rant.arnaudbos.com/categories/conference/</link>
+      <pubDate>Tue, 25 Sep 2018 22:56:42 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/categories/conference/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Iot</title>
+      <link>http://i-rant.arnaudbos.com/categories/iot/</link>
+      <pubDate>Mon, 06 Jun 2016 15:00:36 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/categories/iot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>http://i-rant.arnaudbos.com/categories/java/</link>
+      <pubDate>Tue, 07 Feb 2017 02:30:04 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/categories/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jug</title>
+      <link>http://i-rant.arnaudbos.com/categories/jug/</link>
+      <pubDate>Thu, 07 Feb 2019 02:59:53 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/categories/jug/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Math</title>
+      <link>http://i-rant.arnaudbos.com/categories/math/</link>
+      <pubDate>Mon, 23 Jan 2017 13:11:45 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/categories/math/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

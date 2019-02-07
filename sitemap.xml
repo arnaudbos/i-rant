@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://i-rant.arnaudbos.com/</loc>
-    <lastmod>2018-09-25T22:56:42+01:00</lastmod>
+    <loc>http://i-rant.arnaudbos.com/setup-audio-recording-osx/</loc>
+    <lastmod>2019-02-07T02:59:53+01:00</lastmod>
   </url>
   
   <url>
@@ -94,15 +95,202 @@
   </url>
   
   <url>
-    <loc>http://i-rant.arnaudbos.com/drafts/local-docker-development-with-vagrant/</loc>
-  </url>
-  
-  <url>
     <loc>http://i-rant.arnaudbos.com/drafts/monkeytechday-flink-kstreams/</loc>
   </url>
   
   <url>
     <loc>http://i-rant.arnaudbos.com/drafts/pseudo-uris-and-custom-url-scheme/</loc>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/android/</loc>
+    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/categories/android/</loc>
+    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/</loc>
+    <lastmod>2019-02-07T02:59:53+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/blog/</loc>
+    <lastmod>2017-01-23T13:23:08+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/categories/blog/</loc>
+    <lastmod>2016-11-07T12:55:28+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/capture/</loc>
+    <lastmod>2019-02-07T02:59:53+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/categories/</loc>
+    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/clojure/</loc>
+    <lastmod>2017-11-28T06:23:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/categories/clojure/</loc>
+    <lastmod>2017-11-28T06:23:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/conference/</loc>
+    <lastmod>2018-09-25T22:56:42+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/categories/conference/</loc>
+    <lastmod>2018-09-25T22:56:42+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/drafts/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/idris/</loc>
+    <lastmod>2017-11-10T13:41:21+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/iot/</loc>
+    <lastmod>2016-06-06T15:00:36+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/categories/iot/</loc>
+    <lastmod>2016-06-06T15:00:36+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/java/</loc>
+    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/categories/java/</loc>
+    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/jepsen/</loc>
+    <lastmod>2017-08-07T16:23:04+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/jug/</loc>
+    <lastmod>2019-02-07T02:59:53+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/categories/jug/</loc>
+    <lastmod>2019-02-07T02:59:53+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/klipse/</loc>
+    <lastmod>2017-01-23T13:23:08+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/kotlin/</loc>
+    <lastmod>2017-11-28T06:23:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/math/</loc>
+    <lastmod>2017-01-23T13:11:45+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/categories/math/</loc>
+    <lastmod>2017-01-23T13:11:45+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/matrix/</loc>
+    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/meta/</loc>
+    <lastmod>2016-11-07T12:55:28+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/nabaztag/</loc>
+    <lastmod>2016-06-06T15:00:36+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/osx/</loc>
+    <lastmod>2019-02-07T02:59:53+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/repl/</loc>
+    <lastmod>2017-11-28T06:23:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/review/</loc>
+    <lastmod>2018-09-25T22:56:42+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/</loc>
+    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/tags/talk/</loc>
+    <lastmod>2017-11-20T03:09:02+01:00</lastmod>
+    <priority>0</priority>
   </url>
   
 </urlset>

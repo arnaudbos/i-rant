@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+        
+    <meta property="og:title" content="Setup audio recording on OSX" />
+    <meta property="og:description" content="Note to self — setup audio recording for the Toulouse JUG." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://i-rant.arnaudbos.com/setup-audio-recording-osx/" />
+    
+    <meta property="og:image" content="http://i-rant.arnaudbos.com//img/setup-audio-recording-osx/garageband.png" />
+    
+
+    <meta name="description" content="My corner of teh interweb.">
+    <link rel="shortcut icon" type="image/x-icon" href="http://i-rant.arnaudbos.com/img/favicon.ico">
+    <title>Setup audio recording on OSX</title>
+    <meta name="generator" content="Hugo 0.54.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    <link rel="stylesheet" type="text/css" href="http://i-rant.arnaudbos.com/css/main.css" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://www.arnaudbos.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="http://i-rant.arnaudbos.com/">BLOG</a></li>
+        
+        <li><a href="http://side-effects.arnaudbos.com/">PROJECTS</a></li>
+        
+        <li><a href="http://talks.arnaudbos.com/">TALKS</a></li>
+        
+        <li><a href="http://level-up.arnaudbos.com/">LEVEL-UP</a></li>
+        
+        <li><a href="http://vitae.arnaudbos.com/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <a href="/setup-audio-recording-osx/">Setup audio recording on OSX</a>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          February 7, 2019
+          &nbsp;&nbsp;
+          —
+          &nbsp;&nbsp;
+          4 minutes read
+          </h4>
+        </div>
+        <div>
+          <h4>
+            
+            <span class="label label-success">jug</span>
+            
+            <span class="label label-success">osx</span>
+            
+            <span class="label label-success">capture</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/setup-audio-recording-osx/garageband.png" itemprop="contentUrl" data-size="3360×2054">
+      <img src="/img/setup-audio-recording-osx/garageband.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="100%"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">The goal: something like that</div>
+</div>
+
+
+<hr />
+
+<ul>
+<li><strong>Created</strong>: February 7th, 2019</li>
+<li><strong>Object</strong>: As I was preparing the next evening of the <a href="http://www.toulousejug.org/">ToulouseJUG</a> I found myself
+lacking a second mic for our next duet. This post is a note to myself about the setup
+for recording audio of one or two speakers with the pieces of equipment I have at my
+disposal, with pictures, so I can come back later and relearn how to do this.</li>
+</ul>
+
+<hr />
+
+<h1 id="table-of-contents">Table of contents</h1>
+
+<div id="toc" class="well col-md-12">
+  <nav id="TableOfContents">
+<ul>
+<li><a href="#table-of-contents">Table of contents</a>
+<ul>
+<li><a href="#one-speaker">One speaker</a>
+<ul>
+<li><a href="#hardware-setup">Hardware setup</a></li>
+<li><a href="#recording-from-final-cut-pro-x">Recording from Final Cut Pro X</a></li>
+</ul></li>
+<li><a href="#two-speakers">Two speakers</a>
+<ul>
+<li><a href="#hardware-setup-1">Hardware setup</a></li>
+<li><a href="#audio-settings">Audio settings</a></li>
+<li><a href="#recording-from-garageband">Recording from GarageBand</a></li>
+</ul></li>
+<li><a href="#last-thought">Last thought</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+
+<h2 id="one-speaker">One speaker</h2>
+
+<h3 id="hardware-setup">Hardware setup</h3>
+
+<p>For one speaker we will use the Toulouse JUG&rsquo;s own audio recording hardware which is
+composed of a Sennheiser FM transmitter and receiver.</p>
+
+<p>The FM receiver is plugged to my MacBook Pro via an XLR <code>-&gt;</code> 3.5mm jack.</p>
+
+<p>But the MacBook Pro does not recognize the microphone as is by just plugging the XLR
+cable in.</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/sound-builtin-only.png" alt="Screen capture of OSX sound settings"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>OSX does not recognize the microphone</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<p>I&rsquo;ve followed <a href="https://www.youtube.com/watch?v=9k1MfRs8DlI">this video</a> and bought a
+&ldquo;TRRS Cable&rdquo; to plug the XLR cable:</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/receiver-jug.jpg" alt="Picture of the Sennheiser FM receiver"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>The Sennheiser FM receiver</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<blockquote>
+<p>Note: the headphones are there to monitor the audio input while recording</p>
+</blockquote>
+
+<p>And then it worked:</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/sound-with-external.png" alt="Screen capture of OSX sound settings"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>OSX now shows the external microphone</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<blockquote>
+<p>Note: Ignore the &ldquo;Two Mics&rdquo; thing for the moment.</p>
+</blockquote>
+
+<h3 id="recording-from-final-cut-pro-x">Recording from Final Cut Pro X</h3>
+
+<p>We can record the audio track of the talk directly from Final Cut Pro X (the software
+I use for post-processing and final video export).</p>
+
+<p>Simply start a new &ldquo;Voiceover recording&rdquo;:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/setup-audio-recording-osx/fcpx-record-voiceover.png" itemprop="contentUrl" data-size="612×868">
+      <img src="/img/setup-audio-recording-osx/fcpx-record-voiceover.png" itemprop="thumbnail"
+        
+        
+        width="40%"
+        height="40%"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+
+</div>
+
+
+<p>Select the external microphone as the <code>Input</code> and heck the &ldquo;Monitor <code>On</code>&rdquo; feature if you
+want to monitor the incoming audio feed.</p>
+
+<h2 id="two-speakers">Two speakers</h2>
+
+<p>There are <del>99</del> two problems when doubling the number of speakers:</p>
+
+<ol>
+<li>We need a second microphone</li>
+<li>Final Cut Pro X doesn&rsquo;t support multiple voiceover recordings simultaneously</li>
+</ol>
+
+<h3 id="hardware-setup-1">Hardware setup</h3>
+
+<p>So we need another microphone, but the Toulouse JUG only owns one Sennheiser set
+(headset mic + transmitter + receiver)&hellip;</p>
+
+<p>Fortunately, a member of the JUG is able to lend us more audio and video recording
+hardware. One such piece of equipment is another audio recording set (lavalier mic +
+transmitter + receiver + some kind of decoder/amplifier, IDK) which is plugged to the
+receiving computer via a USB-A cable (in this case, my MacBook Pro via a USB-C hub).</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/receiver-eclipse.jpg" alt="Picture of the second audio recording set with cables and USB-C adapter"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>The second audio recording set with USB-C adapter</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<p>First, repeat the process above to setup the first microphone, and read on to record
+both simultaneously.</p>
+
+<h3 id="audio-settings">Audio settings</h3>
+
+<p>When plugged to the MacBook Pro, the new microphone is automatically detected:</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/sound-with-usb.png" alt="Screen capture of OSX sound settings"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>OSX shows the USB microphone</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<p>Great but FCPX still doesn&rsquo;t support multiple simultaneous recordings.<br />
+&hellip; Well, remember the &ldquo;Two Mics&rdquo; thingy? Now&rsquo;s the time to talk about it.</p>
+
+<p>To bypass this limitation of FCPX I use GarageBand. But in order to use it, as I&rsquo;ve
+found in <a href="https://www.youtube.com/watch?v=SeBAyanpeBU">this video</a>, we must first create
+a new &ldquo;Aggregate Device&rdquo;.</p>
+
+<p>Open Spotlight and type &ldquo;midi&rdquo;:</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/open-midi.png" alt="Screen capture of Spotlight"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>Command &#43; Space then search for &#34;Audio MIDI Setup&#34;</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<p>Click on the <code>+</code> sign in the bottom-left corner:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/setup-audio-recording-osx/two-mics.png" itemprop="contentUrl" data-size="1838×1026">
+      <img src="/img/setup-audio-recording-osx/two-mics.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="100%"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+
+</div>
+
+
+<p>And select &ldquo;Create Aggregate Device&rdquo;:</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/create-aggregate-device.png" alt="Screen capture of the &#34;Create Aggregate Device&#34; popup"
+            width="30%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>Create Aggregate Device</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<p>Then make sure both the &ldquo;external microphone&rdquo; (the one we plugged in when we had only
+one speaker) and &ldquo;USB Audio Codec&rdquo; (the one we plugged in via USB just above) have their
+inputs selected.</p>
+
+<p>I have also selected the external headphones (the ones plugged at the other end of the
+TRRS cable) and the built-in speakers for good measure. I honestly don&rsquo;t know if it&rsquo;s
+useful or not, but at least it does no harm.</p>
+
+<p>Then give this &ldquo;Aggregate Device&rdquo; a name, such as &ldquo;Two Mics&rdquo; for instance, and you
+should have the same config as we saw above:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/setup-audio-recording-osx/two-mics.png" itemprop="contentUrl" data-size="1838×1026">
+      <img src="/img/setup-audio-recording-osx/two-mics.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="100%"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+
+</div>
+
+
+<p>Now go to GarageBand.</p>
+
+<h3 id="recording-from-garageband">Recording from GarageBand</h3>
+
+<p>From GarageBand you will have to open the settings and switch the default devices
+to your newly created &ldquo;Two Mics&rdquo;:</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/garageband-settings.png" alt="Screen capture of Audio MIDI Setup window showing the new Two Mics device"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>Set GarageBand devices to &#34;Two Mics&#34;</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<p>Now add a new track that will record the first microphone, select &ldquo;Input 1&rdquo;:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/setup-audio-recording-osx/input-1-two-mics.png" itemprop="contentUrl" data-size="3360×2054">
+      <img src="/img/setup-audio-recording-osx/input-1-two-mics.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="100%"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+
+</div>
+
+
+<p>And then add a new track that will record the second microphone, select &ldquo;Input 3:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/setup-audio-recording-osx/input-3-two-mics.png" itemprop="contentUrl" data-size="3360×2054">
+      <img src="/img/setup-audio-recording-osx/input-3-two-mics.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="100%"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+
+</div>
+
+
+<p>Why &ldquo;Input 1&rdquo; and &ldquo;Input 3&rdquo;? I have no idea, but it works <span class="emoji">:thumbsup:</span>
+</p>
+
+<p>Give your tracks names, it&rsquo;s more pleasant.<br />
+And finally, with your two tracks in place, go to the  <code>Track</code>(s?) top menu and select
+&ldquo;Configure Track Header&hellip;&rdquo; to display the little record control to each of your tracks:</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/configure-track-header.png" alt="Screen capture of the &#34;Configure Track Header...&#34; popup"
+            width="40%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>Select &#34;Configure Track Header...&#34;</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<p>Selecting the menu should show this popup where you can select the &ldquo;Record Enable&rdquo;
+checkbox:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/setup-audio-recording-osx/garageband.png" itemprop="contentUrl" data-size="3360×2054">
+      <img src="/img/setup-audio-recording-osx/garageband.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="100%"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+
+</div>
+
+
+<p>If you want your recording to get both input simultaneously, Shift + Select both tracks&rsquo;
+little red record buttons.</p>
+
+<p>And you&rsquo;re good to go!</p>
+
+<h2 id="last-thought">Last thought</h2>
+
+<ol>
+<li>Don&rsquo;t forget to bring a power strip!</li>
+<li>Don&rsquo;t forget to bring spare batteries for the microphones transmitters!</li>
+</ol>
+
+<p>The Duracell Powercheck are actually pretty good for that matter:</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/batteries.jpg" alt="Picture of a Duracell Powercheck"
+            width="40%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>Duracell Powercheck</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<p>As their name suggest they have this little &ldquo;Power check&rdquo; which kinda looks like a
+colored bar chart that lights up when you touch the right spot, and tells you how much
+is left before it&rsquo;s empty.</p>
+
+
+<figure  >
+    
+        <img src="/img/setup-audio-recording-osx/powercheck.jpg" alt="Picture of the Powercheck feature"
+            width="30%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>Powercheck demo</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<p>Until we change our equipment to something with a Lithium-ion batteries&hellip; ?</p>
+
+<p>That&rsquo;s it!</p>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = 'i-rant';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/arnaudbos/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+<div class="scroll-to-top">
+  <a href="#">Scroll<br>to Top</a>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://i-rant.arnaudbos.com/js/docs.min.js"></script>
+<script src="http://i-rant.arnaudbos.com/js/main.js"></script>
+
+<script src="http://i-rant.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- EmojiOne -->
+<script src="https://cdn.jsdelivr.net/emojione/2.2.7/lib/js/emojione.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/2.2.7/assets/css/emojione.min.css"/>
+
+<script>
+(function (){
+  var emojis = document.getElementsByClassName('emoji');
+  for(var i=0; i<emojis.length; i++){
+	  var content = emojis[i].textContent;
+    emojis[i].innerHTML = emojione.shortnameToImage(content);
+  }
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
