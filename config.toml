@@ -18,13 +18,6 @@ theme = "hugo-sustain"
   custom_css = []
   custom_js  = []
 
-[social]
-  Github        = "arnaudbos"
-  Email         = "mail@arnaudbos.com"
-  Twitter       = "arnaud_bos"
-  LinkedIn      = "arnaudbos"
-  Stackoverflow = "story/arnaudbos"
-
 ## Main Menu
 [[menu.main]]
   name = "blog"
