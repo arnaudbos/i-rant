@@ -8,7 +8,7 @@
           <div class="panel panel-default">
             <div class="panel-body">
               <div class="list">
-                {{ range .Data.Pages.ByPublishDate }}
+                {{ range .Data.Pages }}
                 {{ if (not .Draft) }}
                 <div class="row">
                   <div class="col-sm-4 col-md-4 col-lg-4">
