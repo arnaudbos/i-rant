@@ -5,7 +5,7 @@ description: Part 1 on a series of articles about OpenJDK's Project Loom
 parent: blog
 categories: ["java"]
 tags: ["java", "concurrency"]
-draft: false
+draft: true
 seoimage: img/loom/jacquard_loom.jpg
 highlight: true
 gallery: true
