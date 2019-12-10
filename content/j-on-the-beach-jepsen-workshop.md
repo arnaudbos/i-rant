@@ -35,11 +35,7 @@ it a try by myself by attending [J On The Beach](../j-on-the-beach-malaga-2017-r
 and its Jepsen workshop animated by no one else than the author:
 [Kyle Kingsbury](https://aphyr.com/).
 
-# Table of contents
-
-<div id="toc" class="well col-md-12">
-  <!-- toc -->
-</div>
+<!-- toc -->
 
 # J On The Beach Day 1: Jepsen Workshop
 

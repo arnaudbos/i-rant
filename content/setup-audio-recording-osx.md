@@ -24,12 +24,7 @@ seoimage: /img/setup-audio-recording-osx/garageband.png
 
 -----
 
-
-# Table of contents
-
-<div id="toc" class="well col-md-12">
-  <!-- toc -->
-</div>
+<!-- toc -->
 
 ## One speaker
 

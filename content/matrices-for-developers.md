@@ -41,6 +41,8 @@ be able to view the crag which was composed of:
 The user had to have the ability to pan and zoom at will and have the routes
 layer *"follow"* the picture.
 
+<!-- toc -->
+
 ## Technical challenge
 
 In order to have the overlay of routes follow the user's actions, I found I
@@ -88,13 +90,6 @@ The first part, this one, is about matrices. The second part,
 ["2D Transformations with Android and Java"][2d-transformations-android-java],
 is about how to apply what you know about matrices in code, with Java and
 on Android.
-
-## Table of contents
-
-<div id="toc" class="well col-md-12">
-  <!-- toc -->
-</div>
-
 
 ## What is a matrix?
 

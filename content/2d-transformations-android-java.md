@@ -18,11 +18,7 @@ In this post, I want to talk about how to apply what we know about matrices
 in order to perform 2D transformations, first using Java AWT and then with the
 Android SDK.
 
-## Table of contents
-
-<div id="toc" class="well col-md-12">
-  <!-- toc -->
-</div>
+<!-- toc -->
 
 ## Affine transformations with Java
 

@@ -48,11 +48,7 @@ The addition of SmallFP is a very good initiative, it amortizes the cost of
 travelling and it also encourages cross-polinization and open-minded/honest
 discussions in the functional programming community.
 
-# Sisällysluettelo
-
-<div id="toc" class="well col-md-12">
-  <!-- toc -->
-</div>
+<!-- toc -->
 
 # A few pictures
 

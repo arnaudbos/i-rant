@@ -58,11 +58,7 @@ So here's my review of J On The Beach 2018!
 
 <small>Hopefully shorter than last year's</small>
 
-# Tabla de contenido
-
-<div id="toc" class="well col-md-12">
-  <!-- toc -->
-</div>
+<!-- toc -->
 
 # Overview
 

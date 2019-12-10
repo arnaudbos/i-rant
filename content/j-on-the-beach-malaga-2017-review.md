@@ -64,11 +64,7 @@ talk was more appropriate?
 So I just kept everything in a single page and here is the table of contents
 for you to hop around and read about the topics that you are interested in.
 
-# Tabla de contenido
-
-<div id="toc" class="well col-md-12">
-  <!-- toc -->
-</div>
+<!-- toc -->
 
 # Overview
 
