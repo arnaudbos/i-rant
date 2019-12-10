@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+        
+    <meta property="og:title" content="Loom - Part 1 - It&#39;s all about Scheduling" />
+    <meta property="og:description" content="Part 1 on a series of articles about OpenJDK&#39;s Project Loom" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://i-rant.arnaudbos.com/loom-part-1-scheduling/" />
+    
+    <meta property="og:image" content="http://i-rant.arnaudbos.com/img/loom/jacquard_loom.jpg" />
+    
+
+    <meta name="description" content="My corner of teh interweb.">
+    <link rel="shortcut icon" type="image/x-icon" href="http://i-rant.arnaudbos.com/img/favicon.ico">
+    <title>Loom - Part 1 - It&#39;s all about Scheduling</title>
+    <meta name="generator" content="Hugo 0.54.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="http://i-rant.arnaudbos.com/css/main.css" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://www.arnaudbos.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="http://i-rant.arnaudbos.com/">BLOG</a></li>
+        
+        <li><a href="http://side-effects.arnaudbos.com/">PROJECTS</a></li>
+        
+        <li><a href="http://talks.arnaudbos.com/">TALKS</a></li>
+        
+        <li><a href="http://level-up.arnaudbos.com/">LEVEL-UP</a></li>
+        
+        <li><a href="http://vitae.arnaudbos.com/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <a href="/loom-part-1-scheduling/">Loom - Part 1 - It&#39;s all about Scheduling</a>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          December 10, 2019
+          &nbsp;&nbsp;
+          —
+          &nbsp;&nbsp;
+          12 minutes read
+          </h4>
+        </div>
+        <div>
+          <h4>
+            
+            <span class="label label-success">java</span>
+            
+            <span class="label label-success">concurrency</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+<blockquote>
+<p>Part 1 in a series of articles about Project Loom.<br />
+In this part we skim the surface of scheduling history before diving into the JVM.</p>
+
+<p>If you&rsquo;d like you could head over to<br />
+<a href="../loom-part-0-rationale">Part 0 - Writing for the past me</a></p>
+</blockquote>
+
+
+<figure  style="text-align: center;">
+    <a target="_blank" href="https://commons.wikimedia.org/wiki/File:A_Jacquard_loom_showing_information_punchcards,_National_Museum_of_Scotland.jpg">
+        <img src="/img/loom/jacquard_loom.jpg" alt="Jacquard Loom"
+            width="100%"
+            />
+    </a>
+    
+    <figcaption>
+        <h6><em>Jacquard Loom</em></h6>
+        <p>
+        Stephencdickson
+        <a href="https://creativecommons.org/licenses/by-sa/4.0"> 
+            CC BY-SA 4.0
+        </a> 
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+
+<hr />
+
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#there-s-only-one-hard-problem">There&rsquo;s only one hard problem</a></li>
+<li><a href="#the-land-before-time">The Land Before Time</a>
+<ul>
+<li><a href="#sequential-execution">Sequential execution</a></li>
+<li><a href="#batch-processing">Batch processing</a></li>
+<li><a href="#time-sharing">Time-sharing</a></li>
+</ul></li>
+<li><a href="#process-switch">Process switch</a></li>
+<li><a href="#threads">Threads</a></li>
+<li><a href="#multitasking">Multitasking</a>
+<ul>
+<li><a href="#preemptive-scheduling">Preemptive scheduling</a></li>
+<li><a href="#cooperative-scheduling">Cooperative scheduling</a></li>
+</ul></li>
+<li><a href="#to-be-continued">To be continued</a></li>
+</ul></li>
+</ul>
+</nav></div>
+
+<h2 id="there-s-only-one-hard-problem">There&rsquo;s only one hard problem</h2>
+
+<p>The first problem there is with concurrency (and generally in computer science/programming really), is that
+we&rsquo;re extremely bad at naming things. We sometimes use the same word to describe several distinct concepts,
+different words to describe one and only thing or even different words to describe different things but swap
+meanings <span class="emoji">:twisted_rightwards_arrows:</span>
+ depending on context!</p>
+
+<p>To make sure we&rsquo;re on the same page, let&rsquo;s read what &ldquo;Wikipedia&rdquo; has to say (as of today) on one particular concept:</p>
+
+<blockquote>
+<p>In some operating systems there is no separate LWP <em>(Ed.: Light-Weight Process)</em> layer between kernel threads and user threads.<br />
+This means that user threads are implemented directly on top of kernel threads.<br />
+In those contexts, the term <strong>&ldquo;light-weight process&rdquo; typically refers to kernel threads and the term &ldquo;threads&rdquo; can
+refer to user threads</strong>.<br />
+On Linux, <strong>user threads are implemented by allowing certain processes to share resources, which sometimes leads
+to these processes to be called &ldquo;light weight processes&rdquo;</strong>.<br />
+Similarly, in SunOS version 4 onwards (prior to Solaris) <strong>&ldquo;light weight process&rdquo; referred to user threads</strong>.
+— from <a href="https://en.wikipedia.org/wiki/Light-weight_process">https://en.wikipedia.org/wiki/Light-weight_process</a> (emphasis mine)</p>
+</blockquote>
+
+<p>I find that confusing to say the least, especially from an application developers&rsquo; point of view: I&rsquo;m not that very
+interested in all the details of implementation and tiny semantic or implementation differences between operating
+systems past and present (Unix System V, SunOS, really?).</p>
+
+<p>Let me drop a few terms in a conspicuous attempt to show off:</p>
+
+<ul class="task-list">
+<li><label><input type="checkbox" disabled class="task-list-item"> Process</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Lightweight Process</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Thread</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Lightweight Thread</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Kernel Thread</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> User Thread</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Green Thread</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Fiber</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Knot</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Go(/Co)routine</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Async/await</label></li>
+</ul>
+
+<p>Quick questions:</p>
+
+<ol>
+<li>Can you spot the mistake?</li>
+<li>Do you know what concept each of those terms refer to?</li>
+<li>If yes, are you sure you know them well enough to explain their meaning to somebody?</li>
+</ol>
+
+<p>If you&rsquo;ve answered yes three times, stop reading and go do something else. <span class="emoji">:wave:</span>
+</p>
+
+<hr />
+
+<p>Still with me? Alright <span class="emoji">:muscle:</span>
+ let&rsquo;s try to untangle this by first taking a look back
+in history.</p>
+
+<h2 id="the-land-before-time">The Land Before Time</h2>
+
+<figure style="text-align: center;">
+    <a target="_blank" href="https://commons.wikimedia.org/wiki/File:Women_holding_parts_of_the_first_four_Army_computers.jpg">
+        <img src="/img/loom/computers.jpg" alt="When the computer wore a skirt" width="100%"/>
+    </a>
+    <figcaption>
+        <h6>"When the <em><a target="_blank" href="https://www.history.com/news/coding-used-to-be-a-womans-job-so-it-was-paid-less-and-undervalued">computer</a></em> wore a skirt" — <em><a target="_blank" href="https://www.nasa.gov/centers/langley/news/researchernews/rn_kjohnson.html">Katherine Johnson</a></em></h6>
+    </figcaption>
+</figure>
+
+<h3 id="sequential-execution">Sequential execution</h3>
+
+<p>The first computers were capable of running one set of instructions, a program, sequentially and would sit idle the rest
+of the time. Up until another program is executed. Kind of like a sewing machine (or a loom!).</p>
+
+<p>The diagram below shows the execution of two distinct programs on such a computing machine.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/sequential.png" itemprop="contentUrl" data-size="2198x994">
+      <img src="/img/loom/sequential.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Schema of sequential execution, also detailed in text in the following paragraphs.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Sequential execution</div>
+</div>
+
+
+<blockquote>
+<p>&ldquo;Operators&rdquo; were the names of the first computers, who used <em>computers</em>.</p>
+</blockquote>
+
+<p>Here we have two operators. The first one starts &ldquo;writing a program&rdquo;, which actually consists in wiring cables and
+turning switches (among other things) to make the computer calculate the solution to a problem.</p>
+
+<p>Once the computer is working, Operator1 must wait the end of the program to get the result and only then Operator2 can
+access the computer to write her program and make it run. There is no ability for Operator1 and Operator2 to parallelize
+their work, their programs are executed sequentially.</p>
+
+<p>This worked well for people to see the value added, and the Red Queen&rsquo;s race started&hellip; Sequential execution became
+a problem!</p>
+
+<p>Because the bottleneck to solve problems faster shifted, from computers, to humans, being too slow: even with new ways to
+write programs (punch cards, magnetic tapes) the time taken by each programmer to &ldquo;insert&rdquo; its program into the machine
+became unacceptable—i.e., too expensive.</p>
+
+<p>In this situation, a good scheduler has to do something. Right?</p>
+
+<h3 id="batch-processing">Batch processing</h3>
+
+<p>In this case, the schedulers were computer scientists and manufacturers. They came up with this really sensible idea
+that, to amortize the cost of running many jobs sequentially, one could <a href="https://en.wikipedia.org/wiki/Batch_processing">&ldquo;batch&rdquo;</a> them.</p>
+
+<p>Not only let programmers write program instructions on their own, away from the machine, but let them &ldquo;offer&rdquo; their
+programs to a waiting queue of jobs to be performed.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/batch.png" itemprop="contentUrl" data-size="1984x978">
+      <img src="/img/loom/batch.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Schema of batch processing, also detailed in text in the following paragraphs.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Batch processing</div>
+</div>
+
+
+<p>In the diagram above, Program1 and Program2 are submitted one after the other, so Program1 runs first and Program2 will
+run after.</p>
+
+<p>But having to append a program into a &ldquo;giant&rdquo; batch of jobs for the program to compute, and then wait for the computer
+to return all the results of all those jobs in order to get one was a massive pain in the butt!<br />
+Imagine debugging your programs <strong>with a 24 hours feedback loop&hellip;</strong></p>
+
+
+<figure  >
+    <a target="_blank" href="https://www.computerhistory.org/revolution/punched-cards/2/211/2253">
+        <img src="/img/loom/kropotchev.png" alt="Silent spoof movie relating the adventures of a programmer waiting on batch processing."
+            width="100%"
+            />
+    </a>
+    
+    <figcaption>
+        <h6><em>&#34;Batch processing&#34; spoof movie — Stanford</em></h6>
+        
+    </figcaption>
+    
+</figure>
+
+
+
+<p>It was not only painful for programmers though. It was also painful for <em>users</em> who would have to run the programs!</p>
+
+<p>It&rsquo;s a common problem in scheduling: optimising for a use case/parameter (less computer idle time) ends up
+making it worse from another point of view (more programmer idle time).</p>
+
+<p>Computers kept getting faster and faster for sure, and although programmers tried to make the best of the computing
+power they could get, any single user wouldn&rsquo;t make efficient use of a computer by herself!</p>
+
+<p>Indeed, processes, to do something useful, have to be fed with inputs and produce any kind of output, otherwise they&rsquo;d
+just be raising the temperature of the room.<br />
+Consuming inputs today can be reading from a keyboard, hard drive or network card. But in the sixties it mostly meant
+reading from magnetic tape or a teletypewriter. Similarly, producing output meant writing to magnetic tape, printing
+to a teletypewriter or a &ldquo;high-speed&rdquo; Xerox printer.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/io.png" itemprop="contentUrl" data-size="1934x664">
+      <img src="/img/loom/io.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Schema of wasted cycles because of I/O.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Cycles wasted on I/O</div>
+</div>
+
+
+<p>In the above diagram, we can see Program1 starting and finishing before Program2, but there are <em>gaps</em> between bursts
+of execution. Same for Program2.<br />
+And all the time during which a processor is waiting for I/O (polling, <a href="https://en.wikipedia.org/wiki/Busy_waiting">busy waiting</a>) rather than &ldquo;crunching numbers&rdquo;
+is wasted.</p>
+
+<p>Schedulers to the rescue!</p>
+
+<h3 id="time-sharing">Time-sharing</h3>
+
+<p>The video below is a gem.<br />
+In it, you can see Turing Award winner <del>Buddy Holly</del> <a href="https://en.wikipedia.org/wiki/Fernando_J._Corbat%C3%B3">Fernando Corbató</a> explain the promises and premises of
+<a href="https://en.wikipedia.org/wiki/Compatible_Time-Sharing_System">time-sharing</a> as it was being designed.</p>
+
+<p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/Q07PhW5sCEk" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<br /></p>
+
+<p>With it, processes wouldn&rsquo;t spin on I/O but rather be <em>parked</em>, while another process would be allocated
+CPU time. Time-sharing allows <strong>concurrency</strong>: the <strong>illusion of parallelism</strong> and <strong>efficient use of physical
+resources</strong>.</p>
+
+<p>Let&rsquo;s see an example:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/time-sharing.png" itemprop="contentUrl" data-size="1830x1194">
+      <img src="/img/loom/time-sharing.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Schema of time-sharing, also detailed in text in the following paragraphs.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Time-sharing</div>
+</div>
+
+
+<p>In this diagram, Program1 starts first and is parked when it starts a <strong>blocking</strong> I/O call.<br />
+Program2 then gets a chance to run but is quickly parked too as it also makes a <strong>blocking</strong> I/O call.<br />
+Some other program, Program3, runs while 1 and 2 are <strong>parked</strong>.<br />
+Program2&rsquo;s I/O returns first, so on the next <em>shift</em>, Program2 is <strong>unparked</strong> and <em>continues</em> to run while
+Program1&rsquo;s I/O returns.<br />
+Program2 ends eventually.<br />
+Program1 then picks up the result from its I/O call and finishes running too.</p>
+
+<h2 id="process-switch">Process switch</h2>
+
+<p>In the previous sections I&rsquo;ve considered all programs equals, but as always, <em>&ldquo;It depends&rdquo;</em>.</p>
+
+<p><code>P1</code>, <code>P2</code>, <code>P3</code> could very well have different subroutines lengths but also very different characteristics with regard
+to the kind of work they do.</p>
+
+<p><em>CPU-bound</em> tasks that don&rsquo;t require much (if any) communication could be tackled by multiple processes (instances
+of a program communicating through IPC).</p>
+
+<p>But tasks requiring communication, such as coupled cooperative processes for which IPC may be too expensive, or tasks
+requiring many I/O operations (<em>I/O bound</em>), the time to <em>switch</em> from <code>P1</code> to <code>P2</code> and back to <code>P1</code> (for instance)
+may hamper its fast realization and/or drain physical resources&hellip;</p>
+
+<p>From a scheduling perspective, it would be nice to have a mechanism so that cooperative processes (of which there were
+more and more) could communicate without being taxed by &ldquo;expensive&rdquo; communication mechanisms. Similarly, it would be
+nice to have a mechanism so that I/O bound processes wouldn&rsquo;t undergo excessively costly <strong><em>process switches</em></strong>.</p>
+
+<blockquote>
+<p>A process switch is a special case of <strong>context switch</strong> applied to processes.<br />
+As the name may suggest, it is a special mechanism for kernels to switch a process by another to achieve concurrency.<br />
+As usual with names, &ldquo;context switch&rdquo; is overloaded, and we&rsquo;ll mention this in the next sections.</p>
+</blockquote>
+
+<p>That&rsquo;s where threads get introduced: nowadays the most widespread fundamental unit of concurrency is not the
+process, it&rsquo;s the <strong>thread</strong>.<br />
+And threads have interesting characteristics with regard to the previous points.</p>
+
+<h2 id="threads">Threads</h2>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/threads.png" itemprop="contentUrl" data-size="1882x1314">
+      <img src="/img/loom/threads.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Threads in a process, sharing memory but with distinct call stacks.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Threads in a Process</div>
+</div>
+
+
+<p>Conceptually, a thread is like a process: it embodies the execution of a set of instructions and, at runtime, gets
+its own <a href="https://en.wikipedia.org/wiki/Call_stack">control stack</a> filled with stack frames. But what&rsquo;s really remarkable about threads is their ability (for
+better or worse) to share the memory of their parent process.</p>
+
+<p>And because each thread has its own call stack, it&rsquo;s possible for multiple threads, while in a single process, to
+execute <strong>different sets of instructions</strong> running <strong>in parallel</strong> on distinct processors and cores.</p>
+
+<p>So cooperative processes can now be implemented as a single process, but with multiple threads communicating directly
+by sharing memory places, by sharing data.</p>
+
+<p>I/O bound processes also benefit from this new layer of indirection because switching between threads of the same
+process is typically faster than switching between processes.</p>
+
+<blockquote>
+<p>Nowadays a context switch is almost synonymous with switching between threads rather than between processes.<br />
+But &ldquo;context switch&rdquo; is also used, in many many blog posts and articles, to talk about <em>process switches</em>,
+<em>thread switches</em> or <em>mode switches</em> almost indistinguishably.<br />
+We&rsquo;ll touch on these differences in the [next part][part-2].</p>
+</blockquote>
+
+<p>Let&rsquo;s talk about time-sharing a bit more.</p>
+
+<h2 id="multitasking">Multitasking</h2>
+
+<p>Time-sharing gained traction after the realization that computers had become powerful enough to be under-utilized
+by their users and that connecting more users to one would amortize its cost.</p>
+
+<p>In order to do that, time-sharing employed both</p>
+
+<ul>
+<li>multiprogramming: multiple programs running concurrently; and</li>
+<li>multitasking: programs would run one after the other, in <strong>short</strong> bursts (to avoid greedy programs to monopolize the CPU).</li>
+</ul>
+
+<p>There are several techniques that can lead to effective multitasking and fair (or not) sharing of CPU cycles, but they
+can grouped in two main categories: <code>Preemptive multitasking</code> and <code>Cooperative multitasking</code>; and their properties are
+enforced by scheduler policies.</p>
+
+<h3 id="preemptive-scheduling">Preemptive scheduling</h3>
+
+<p>A preemptive scheduler may suspend a running thread when it blocks on I/O or waits on a condition, so the processor
+can be assigned another thread to work on. It may also prevent spin-locking or CPU intensive tasks to
+<em>hog the CPU</em> by allowing threads for a finite amount of time before parking it, in order to let
+other tasks a &ldquo;fair&rdquo; chance to run.</p>
+
+<blockquote>
+<p>To be <em>fair</em> (pun intended), &ldquo;fair&rdquo; scheduling isn&rsquo;t a solved problem, and I didn&rsquo;t dive into the details of the
+algorithms. These two resources may be good entry-points for more research <a href="https://en.wikipedia.org/wiki/Completely_Fair_Scheduler">Completely Fair Scheduler</a> and
+<a href="https://en.wikipedia.org/wiki/Brain_Fuck_Scheduler">Brain Fuck Scheduler</a>.</p>
+</blockquote>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/preempt-io.png" itemprop="contentUrl" data-size="2118x1552">
+      <img src="/img/loom/preempt-io.png" itemprop="thumbnail"
+        
+        
+        width="395px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Thread preemption triggered by a blocking call. The first thread is parked and unparked some time later.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/preempt-quantum.png" itemprop="contentUrl" data-size="2116x1554">
+      <img src="/img/loom/preempt-quantum.png" itemprop="thumbnail"
+        
+        
+        width="395px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Thread preemption triggered by time slicing. The first thread consumes is quantum so is parked and unparked some time later.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Preemptive scheduling illustrations</div>
+</div>
+
+
+<p>The first figure, the one on the left, illustrates a thread/task being preempted by the kernel, using a <em>context-switch</em>
+when a blocking call occurs, in order to satisfy the scheduling policy.<br />
+The first thread is parked while the next thread is executed. Eventually (hopefully), the first thread is going to be
+unparked and resume its execution.</p>
+
+<p>The second figure, on the right, illustrates a thread being preempted because its execution duration is longer than the
+time it is authorized to run on the CPU, also named its <em>quantum</em>.</p>
+
+<p>Preemptive multitasking is what we get from our modern operating systems, or kernels. And in practice, the preemption
+is specified inside the kernel scheduler&rsquo;s algorithm and could use any number of techniques or policies to determine
+when the current task could/should be preempted and which task gets to run next.</p>
+
+<h3 id="cooperative-scheduling">Cooperative scheduling</h3>
+
+<blockquote>
+<p>Cooperative multitasking, also known as non-preemptive multitasking, is a style of computer multitasking in which
+<strong>the operating system never initiates a context switch</strong> from a running process to another process. Instead,
+<strong>processes voluntarily yield control periodically or when idle or logically blocked</strong> in order to enable multiple
+applications to be run concurrently. This type of multitasking is called &ldquo;cooperative&rdquo; because <strong>all programs must
+cooperate for the entire scheduling scheme to work</strong>.<br />
+— From <a href="https://en.wikipedia.org/wiki/Cooperative_multitasking">https://en.wikipedia.org/wiki/Cooperative_multitasking</a> (emphasis mine)</p>
+</blockquote>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/cooperative.png" itemprop="contentUrl" data-size="2096x920">
+      <img src="/img/loom/cooperative.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Tasks cooperatively yield when they do not need system resources, allowing other tasks to run.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Cooperative scheduling</div>
+</div>
+
+
+<p>In the diagram above, we can see two threads, Thread 1 and Thread 2, both containing interleaved &ldquo;random&rdquo; instructions
+(that is, any code that this thread is supposed to run) and instructions containing a <code>yield</code> statement.</p>
+
+<p>With cooperative scheduling, there is no intervention from the kernel to pause a thread and schedule the next one, this
+is all done by each task deliberately relinquishing CPU time when it is not using computing resources so that another
+task can run.</p>
+
+<p>As you see, with this scheduling policy it requires <strong>ALL</strong> programs to cooperate and fairness is not ensured, which
+explains why most operating systems nowadays implement preemptive scheduling.</p>
+
+<h2 id="to-be-continued">To be continued</h2>
+
+<p>I think we&rsquo;ve covered most of the ground work necessary to understand where we&rsquo;re at from a scheduling
+point of view regarding modern computers.</p>
+
+<p>I obviously took a great detour to explain some fundamentals.<br />
+On the other hand, there&rsquo;s been so much innovation in computer systems in the last 60 years that I had to cut corners
+and feel like I didn&rsquo;t do it any justice. If it picked your curiosity, start with the links I&rsquo;ve provided and follow
+those threads (pun intended).</p>
+
+<p>Alternatively, I&rsquo;ve just stumbled upon this Twitter thread which cover about the same period but with more details on
+the dates and pre-historic computer names. Thought you might find it interesting:</p>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">OK SO let&#39;s say it&#39;s 1962 and you&#39;re lucky enough to be a programmer working somewhere that has an IBM 7090.<br>This is a top of the line transistorized revision of the IBM 709, capable of 100,000 floating point operations per second. <br><br>But how do you code for it? <a href="https://t.co/hcJ1FHiO1W">pic.twitter.com/hcJ1FHiO1W</a></p>&mdash; foone (@Foone) <a href="https://twitter.com/Foone/status/1201956309941116928?ref_src=twsrc%5Etfw">December 3, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>In the next part, we will experiment!</p>
+
+              <hr>
+              <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
+              <p>You can <em>annotate</em> or <em>highlight</em> words or paragraphs directly by selecting the text!</p>
+              <p>If you want to leave a general comment or read what others have to say, please use the collapsible panel on the right of this page.</p>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 10, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-0-rationale/">Loom - Part 0 - Writing for the past me</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                
+                
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        February 7, 2017
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/2d-transformations-android-java/">2D Transformations with Android and Java</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <!-- Hypothes.is -->
+<script type="application/json" class="js-hypothesis-config">
+    {"showHighlights": false}
+</script>
+<script src="https://hypothes.is/embed.js" async></script>
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/arnaudbos/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+<div class="scroll-to-top">
+  <a href="#">Scroll<br>to Top</a>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://i-rant.arnaudbos.com/js/docs.min.js"></script>
+<script src="http://i-rant.arnaudbos.com/js/main.js"></script>
+
+<script src="http://i-rant.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- EmojiOne -->
+<script src="https://cdn.jsdelivr.net/emojione/2.2.7/lib/js/emojione.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/2.2.7/assets/css/emojione.min.css"/>
+
+<script>
+(function (){
+  var emojis = document.getElementsByClassName('emoji');
+  for(var i=0; i<emojis.length; i++){
+	  var content = emojis[i].textContent;
+    emojis[i].innerHTML = emojione.shortnameToImage(content);
+  }
+})();
+</script>
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/clojure.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<link rel="stylesheet" href="/css/photoswipe.css">
+<link rel="stylesheet" href="/css/default-skin/default-skin.css">
+<script src="/js/photoswipe.min.js"></script>
+<script src="/js/photoswipe-ui-default.min.js"></script>
+<script src="/js/initphotoswipe.js"></script>
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+<style>
+    .gallery { float: right; margin-bottom: 10px; text-align: center; }
+    .gallery img { height: auto; }
+    .gallery .title { text-align: center; text-decoration: underline; }
+    .gallery figure { display: block; float: left; margin: 0 5px 5px 0; }
+    .gallery figcaption { display: none; }
+</style>
+
+<script>initPhotoSwipeFromDOM('.gallery');</script>
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="map[]" />
         
-    <meta property="og:title" content="Klipse" />
-    <meta property="og:description" content="Foo
-Bar  " />
+    <meta property="og:title" content="Loom - Part 0 - Writing for the past me" />
+    <meta property="og:description" content="Part 0 on a series of articles about OpenJDK&#39;s Project Loom" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://i-rant.arnaudbos.com/test-klipse/" />
+    <meta property="og:url" content="http://i-rant.arnaudbos.com/loom-part-0-rationale/" />
+    
+    <meta property="og:image" content="http://i-rant.arnaudbos.com/img/loom/jacquard_loom.jpg" />
     
 
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="http://i-rant.arnaudbos.com/img/favicon.ico">
-    <title>Klipse</title>
+    <title>Loom - Part 0 - Writing for the past me</title>
     <meta name="generator" content="Hugo 0.54.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
@@ -62,43 +63,76 @@ Bar  " />
       <div class="container">
         <div class="blog-post">
           <h3>
-            <a href="/test-klipse/">Klipse</a>
+            <a href="/loom-part-0-rationale/">Loom - Part 0 - Writing for the past me</a>
           </h3>
         </div>
         <div class="blog-title">
           <h4>
-          January 23, 2017
+          December 10, 2019
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          1 minutes read
+          3 minutes read
           </h4>
         </div>
         <div>
           <h4>
             
-            <span class="label label-success">blog</span>
+            <span class="label label-success">java</span>
             
-            <span class="label label-success">clojure</span>
-            
-            <span class="label label-success">klipse</span>
+            <span class="label label-success">concurrency</span>
             
           </h4>
         </div>
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              <p>Foo</p>
+              <blockquote>
+<p>Part 0 in a series of articles about Project Loom.<br />
+In this part I just talk about me, me, me, me and why I wrote this.</p>
 
-<div class="language-klipse"
-  
-  >
-  
+<p>If you&rsquo;d like you could head over to<br />
+<a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a></p>
+</blockquote>
 
-Bar
+<p>Finding good introduction level articles on parallel or concurrent programming is not easy because every post assumes
+some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free
+concurrency while you&rsquo;re <em>absolutely not</em> ready for this!</p>
 
-</div>
+<p>Luckily, a few months ago, we&rsquo;ve had an interesting use-case at work, where we had to implement a scheduler for a scarce
+resource in our system.</p>
 
+<p>We&rsquo;ve been using many concurrency &ldquo;techniques&rdquo; for the past two years, from simple <code>threads</code> and <code>executor services</code>
+to <code>reactive</code> (Rx) programming. And we were doing fine.</p>
+
+<p>But when the time came to implement this specific piece of algorithm, I&rsquo;m not ashamed to say that I didn&rsquo;t feel the
+nerves to implement it using any of those techniques. And because the problem lended itself well into an actor model,
+we looked around to see which library would help us in this endeavor. This was when we took a look at <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a>.</p>
+
+<p>My first introduction to <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a> was a few years ago, around 2014. At the time I was writing <a href="https://clojure.org/">Clojure</a> professionally
+and Clojure&rsquo;s <a href="https://clojure.org/news/2013/06/28/clojure-clore-async-channels">core.async</a> library just came out.<br />
+I didn&rsquo;t understand every aspect of the value proposition at first, but naively started using it.
+And because I was using <code>core.async</code>, I stumbled upon <a href="not Apache Pulsar!">Pulsar</a> which is itself built upon Quasar.<br />
+Yet again, I didn&rsquo;t understand the value proposition of Pulsar more than Quasar at that time, but I was interested
+in this &ldquo;lightweight concurrency&rdquo; and &ldquo;actor model&rdquo; along with all the <a href="http://www.paralleluniverse.co/">Parallel Universe</a> stack, and longed
+for the day I would have a use case for this.</p>
+
+<p>Fast forward a couple of years and with more experience in the field, Quasar and its actor model in particular seemed
+to be a great fit to solve our problem so we used it to great effect. And that&rsquo;s when I fell into this rabbit hole,
+trying to understand the underlying concepts and &ldquo;how it works&rdquo;.</p>
+
+<p>I gave a couple of presentations <a href="http://talks.arnaudbos.com/">at conferences</a> on this topic this year, so I&rsquo;ve had to research a lot.<br />
+This is by no mean a guide on all concurrent things as I&rsquo;m still struggling a lot to grok lock-free concurrency and
+low-level/advanced techniques such as <code>Unsafe</code>, <code>VarHandle</code> or <code>Conditions</code> for instance.<br />
+This series is about what I&rsquo;ve learnt and what I would have liked to read when I begun my research on concurrent
+programming, Reactive Streams, lightweight concurrency and Project Loom specifically.</p>
+
+<p>I&rsquo;m basically writing for the past me.</p>
+
+<p>For people already familiar, I&rsquo;m not promising you&rsquo;ll learn anything new, but hopefully you&rsquo;ll be interested in
+another point of view.</p>
+
+<p>In the <a href="../loom-part-1-scheduling">next part</a>, we talk history!</p>
 
               <hr>
               <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
@@ -111,42 +145,29 @@ Bar
                   <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
                       <h6 style="text-align: right">
-                        November 28, 2017
+                        December 10, 2019
                       </h6>
                     </div>
                     <div class="col-sm-8 col-md-8 col-lg-8">
                       <h6 style="text-align: left">
-                        <strong><a href="/water-pouring-in-clojure/">Water Pouring Problem in Clojure</a></strong>
+                        <strong><a href="/loom-part-1-scheduling/">Loom - Part 1 - It&rsquo;s all about Scheduling</a></strong>
                       </h6>
                     </div>
                   </div>
                 
                 
                 
-                  <div class="row">
-                    <div class="col-sm-4 col-md-4 col-lg-4">
-                      <h6 style="text-align: right">
-                        November 20, 2017
-                      </h6>
-                    </div>
-                    <div class="col-sm-8 col-md-8 col-lg-8">
-                      <h6 style="text-align: left">
-                        <strong><a href="/feedback-on-giving-a-talk/">Feedback on giving a talk</a></strong>
-                      </h6>
-                    </div>
-                  </div>
-                
                 
                 
                   <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
                       <h6 style="text-align: right">
-                        November 13, 2017
+                        February 7, 2017
                       </h6>
                     </div>
                     <div class="col-sm-8 col-md-8 col-lg-8">
                       <h6 style="text-align: left">
-                        <strong><a href="/happy-birthday-clojure/">Happy birthday Clojure!</a></strong>
+                        <strong><a href="/2d-transformations-android-java/">2D Transformations with Android and Java</a></strong>
                       </h6>
                     </div>
                   </div>
@@ -205,25 +226,6 @@ Bar
 
 
 
-<link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css">
-<link rel="stylesheet" type="text/css" href="/css/klipse-theme.css">
-<script>
-    window.klipse_settings = {
-        selector: '.language-klipse',
-        codemirror_options_in: {
-          theme: "twilight",
-          lineWrapping: false,
-          lineNumbers: true,
-          autoCloseBrackets: true
-        },
-        codemirror_options_out: {
-          theme: "twilight",
-          lineWrapping: false,
-          lineNumbers: true
-        }
-    };
-</script>
-<script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
 
 
 

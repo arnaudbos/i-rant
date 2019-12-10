@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Java on Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/tags/java/</link>
-    <description>Recent content in Java on Arnaud Bos</description>
+    <title>Concurrency on Arnaud Bos</title>
+    <link>http://i-rant.arnaudbos.com/tags/concurrency/</link>
+    <description>Recent content in Concurrency on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Tue, 10 Dec 2019 14:27:57 +0100</lastBuildDate>
     
-	<atom:link href="http://i-rant.arnaudbos.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://i-rant.arnaudbos.com/tags/concurrency/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -48,17 +48,6 @@ If you&amp;rsquo;re interested in an introduction and some context continue read
 otherwise skip to the TOC.
   foo  Stephencdickson CC BY-SA 4.0    I&amp;rsquo;ve been interested with parallel and concurrent programming for the past few years because everybody says it&amp;rsquo;s complicated and stuff.
 Finding good introduction level articles on the matter is not easy because every post assumes some prior knowledge.</description>
-    </item>
-    
-    <item>
-      <title>2D Transformations with Android and Java</title>
-      <link>http://i-rant.arnaudbos.com/2d-transformations-android-java/</link>
-      <pubDate>Tue, 07 Feb 2017 02:30:04 +0100</pubDate>
-      
-      <guid>http://i-rant.arnaudbos.com/2d-transformations-android-java/</guid>
-      <description>I my previous post, &amp;ldquo;Matrices for developers&amp;rdquo;, I&amp;rsquo;ve talked about matrices and how they can be used to compute 2D transformations.
-In this post, I want to talk about how to apply what we know about matrices in order to perform 2D transformations, first using Java AWT and then with the Android SDK.
-Affine transformations with Java When I was working on the project I mentioned at the beginning of the previous article, I was constantly moving back and forth between the JDK&amp;rsquo;s implementation of affine transformations and the Android SDK&amp;rsquo;s implementation of matrices.</description>
     </item>
     
   </channel>

@@ -19,7 +19,7 @@
       <guid>http://i-rant.arnaudbos.com/2d-transformations-android-java/</guid>
       <description>I my previous post, &amp;ldquo;Matrices for developers&amp;rdquo;, I&amp;rsquo;ve talked about matrices and how they can be used to compute 2D transformations.
 In this post, I want to talk about how to apply what we know about matrices in order to perform 2D transformations, first using Java AWT and then with the Android SDK.
-Table of contents  Affine transformations with Java When I was working on the project I mentioned at the beginning of the previous article, I was constantly moving back and forth between the JDK&amp;rsquo;s implementation of affine transformations and the Android SDK&amp;rsquo;s implementation of matrices.</description>
+Affine transformations with Java When I was working on the project I mentioned at the beginning of the previous article, I was constantly moving back and forth between the JDK&amp;rsquo;s implementation of affine transformations and the Android SDK&amp;rsquo;s implementation of matrices.</description>
     </item>
     
     <item>

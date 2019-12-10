@@ -3,6 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://i-rant.arnaudbos.com/loom-part-1-scheduling/</loc>
+    <lastmod>2019-12-10T14:27:57+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/loom-part-0-rationale/</loc>
+    <lastmod>2019-12-10T14:27:43+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://i-rant.arnaudbos.com/loom/</loc>
+    <lastmod>2019-11-04T12:23:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://i-rant.arnaudbos.com/setup-audio-recording-osx/</loc>
     <lastmod>2019-02-07T02:59:53+01:00</lastmod>
   </url>
@@ -116,7 +131,7 @@
   
   <url>
     <loc>http://i-rant.arnaudbos.com/</loc>
-    <lastmod>2019-02-07T02:59:53+01:00</lastmod>
+    <lastmod>2019-12-10T14:27:57+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -157,6 +172,12 @@
   </url>
   
   <url>
+    <loc>http://i-rant.arnaudbos.com/tags/concurrency/</loc>
+    <lastmod>2019-12-10T14:27:57+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://i-rant.arnaudbos.com/tags/conference/</loc>
     <lastmod>2018-09-25T22:56:42+01:00</lastmod>
     <priority>0</priority>
@@ -193,13 +214,13 @@
   
   <url>
     <loc>http://i-rant.arnaudbos.com/tags/java/</loc>
-    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
+    <lastmod>2019-12-10T14:27:57+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://i-rant.arnaudbos.com/categories/java/</loc>
-    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
+    <lastmod>2019-12-10T14:27:57+01:00</lastmod>
     <priority>0</priority>
   </url>
   

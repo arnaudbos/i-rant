@@ -169,6 +169,52 @@ be able to view the crag which was composed of:</p>
 <p>The user had to have the ability to pan and zoom at will and have the routes
 layer <em>&ldquo;follow&rdquo;</em> the picture.</p>
 
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#technical-challenge">Technical challenge</a></li>
+<li><a href="#what-is-a-matrix">What is a matrix?</a>
+<ul>
+<li><a href="#anatomy">Anatomy</a></li>
+<li><a href="#addition-subtraction">Addition/Subtraction</a></li>
+<li><a href="#matrix-multiplication">Matrix multiplication</a></li>
+</ul></li>
+<li><a href="#transformation-matrices">Transformation matrices</a>
+<ul>
+<li><a href="#transforming-points">Transforming points</a></li>
+<li><a href="#more-math-stuff">More math stuff</a></li>
+<li><a href="#the-identity-matrix">The identity matrix</a></li>
+<li><a href="#combining-transformations">Combining transformations</a></li>
+</ul></li>
+<li><a href="#types-of-transformations">Types of transformations</a>
+<ul>
+<li><a href="#scaling">Scaling</a></li>
+<li><a href="#reflexion">Reflexion</a></li>
+<li><a href="#shearing">Shearing</a></li>
+<li><a href="#rotation">Rotation</a></li>
+</ul></li>
+<li><a href="#3x3-transformation-matrices">3x3 transformation matrices</a>
+<ul>
+<li><a href="#scaling-1">Scaling</a></li>
+<li><a href="#reflexion-1">Reflexion</a></li>
+<li><a href="#shearing-1">Shearing</a></li>
+<li><a href="#rotating">Rotating</a></li>
+<li><a href="#translation">Translation</a></li>
+</ul></li>
+<li><a href="#matrices-wrap-up">Matrices wrap-up</a>
+<ul>
+<li><a href="#reminder">Reminder</a></li>
+<li><a href="#combination-use-case-pinch-zoom">Combination use-case: pinch-zoom</a></li>
+<li><a href="#combination-use-case-rotate-image">Combination use-case: rotate image</a></li>
+</ul></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#links">Links</a></li>
+</ul></li>
+</ul>
+</nav></div>
+
 <h2 id="technical-challenge">Technical challenge</h2>
 
 <p>In order to have the overlay of routes follow the user&rsquo;s actions, I found I
@@ -223,57 +269,6 @@ so I thought I&rsquo;d write an article.</p>
 is about how to apply what you know about matrices in code, with Java and
 on Android.</p>
 
-<h2 id="table-of-contents">Table of contents</h2>
-
-<div id="toc" class="well col-md-12">
-  <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#technical-challenge">Technical challenge</a></li>
-<li><a href="#table-of-contents">Table of contents</a></li>
-<li><a href="#what-is-a-matrix">What is a matrix?</a>
-<ul>
-<li><a href="#anatomy">Anatomy</a></li>
-<li><a href="#addition-subtraction">Addition/Subtraction</a></li>
-<li><a href="#matrix-multiplication">Matrix multiplication</a></li>
-</ul></li>
-<li><a href="#transformation-matrices">Transformation matrices</a>
-<ul>
-<li><a href="#transforming-points">Transforming points</a></li>
-<li><a href="#more-math-stuff">More math stuff</a></li>
-<li><a href="#the-identity-matrix">The identity matrix</a></li>
-<li><a href="#combining-transformations">Combining transformations</a></li>
-</ul></li>
-<li><a href="#types-of-transformations">Types of transformations</a>
-<ul>
-<li><a href="#scaling">Scaling</a></li>
-<li><a href="#reflexion">Reflexion</a></li>
-<li><a href="#shearing">Shearing</a></li>
-<li><a href="#rotation">Rotation</a></li>
-</ul></li>
-<li><a href="#3x3-transformation-matrices">3x3 transformation matrices</a>
-<ul>
-<li><a href="#scaling-1">Scaling</a></li>
-<li><a href="#reflexion-1">Reflexion</a></li>
-<li><a href="#shearing-1">Shearing</a></li>
-<li><a href="#rotating">Rotating</a></li>
-<li><a href="#translation">Translation</a></li>
-</ul></li>
-<li><a href="#matrices-wrap-up">Matrices wrap-up</a>
-<ul>
-<li><a href="#reminder">Reminder</a></li>
-<li><a href="#combination-use-case-pinch-zoom">Combination use-case: pinch-zoom</a></li>
-<li><a href="#combination-use-case-rotate-image">Combination use-case: rotate image</a></li>
-</ul></li>
-<li><a href="#acknowledgements">Acknowledgements</a></li>
-<li><a href="#resources">Resources</a></li>
-<li><a href="#links">Links</a></li>
-</ul></li>
-</ul>
-</nav>
-</div>
-
 <h2 id="what-is-a-matrix">What is a matrix?</h2>
 
 <p>The first resource you might encounter when trying to understand 2D
@@ -290,7 +285,7 @@ transformations are articles about <em>&ldquo;Transformation matrix&rdquo;</em> 
 
 
 <figure  style="text-align: center;">
-    <a href="https://en.wikipedia.org/wiki/Chewbacca_defense">
+    <a target="_blank" href="https://en.wikipedia.org/wiki/Chewbacca_defense">
         <img src="/img/matrices-for-developers/chewbacca-defense.jpg" alt="Chewbacca defense - It does not make sense"
             width="80%"
             />
@@ -2974,6 +2969,9 @@ advices:</p>
 </ul>
 
               <hr>
+              <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
+              <p>You can <em>annotate</em> or <em>highlight</em> words or paragraphs directly by selecting the text!</p>
+              <p>If you want to leave a general comment or read what others have to say, please use the collapsible panel on the right of this page.</p>
               <div class="related-posts">
                 <h5>Related Posts</h5>
                 
@@ -2996,25 +2994,11 @@ advices:</p>
             </div>
           </div>
           <hr>
-        <div class="disqus">
-  <div id="disqus_thread"></div>
-  <script type="text/javascript">
-
-    (function() {
-      
-      
-      if (window.location.hostname == "localhost")
-        return;
-
-      var disqus_shortname = 'i-rant';
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
+        <!-- Hypothes.is -->
+<script type="application/json" class="js-hypothesis-config">
+    {"showHighlights": false}
+</script>
+<script src="https://hypothes.is/embed.js" async></script>
         </div>
       </div>
     </div>

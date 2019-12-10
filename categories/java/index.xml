@@ -6,10 +6,49 @@
     <description>Recent content in Java on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 07 Feb 2017 02:30:04 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 10 Dec 2019 14:27:57 +0100</lastBuildDate>
     
 	<atom:link href="http://i-rant.arnaudbos.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Loom - Part 1 - It&#39;s all about Scheduling</title>
+      <link>http://i-rant.arnaudbos.com/loom-part-1-scheduling/</link>
+      <pubDate>Tue, 10 Dec 2019 14:27:57 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/loom-part-1-scheduling/</guid>
+      <description>Part 1 in a series of articles about Project Loom.
+In this part we skim the surface of scheduling history before diving into the JVM.
+If you&amp;rsquo;d like you could head over to
+Part 0 - Writing for the past me
+   Jacquard Loom  Stephencdickson CC BY-SA 4.0    There&amp;rsquo;s only one hard problem The first problem there is with concurrency (and generally in computer science/programming really), is that we&amp;rsquo;re extremely bad at naming things.</description>
+    </item>
+    
+    <item>
+      <title>Loom - Part 0 - Writing for the past me</title>
+      <link>http://i-rant.arnaudbos.com/loom-part-0-rationale/</link>
+      <pubDate>Tue, 10 Dec 2019 14:27:43 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/loom-part-0-rationale/</guid>
+      <description>Part 0 in a series of articles about Project Loom.
+In this part I just talk about me, me, me, me and why I wrote this.
+If you&amp;rsquo;d like you could head over to
+Part 1 - It&amp;rsquo;s all about Scheduling
+ Finding good introduction level articles on parallel or concurrent programming is not easy because every post assumes some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free concurrency while you&amp;rsquo;re absolutely not ready for this!</description>
+    </item>
+    
+    <item>
+      <title>Loom</title>
+      <link>http://i-rant.arnaudbos.com/loom/</link>
+      <pubDate>Mon, 04 Nov 2019 12:23:00 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/loom/</guid>
+      <description>WARNING: Long article, because I like to read and write long blog posts. Sue me.
+If you&amp;rsquo;re interested in an introduction and some context continue reading,
+otherwise skip to the TOC.
+  foo  Stephencdickson CC BY-SA 4.0    I&amp;rsquo;ve been interested with parallel and concurrent programming for the past few years because everybody says it&amp;rsquo;s complicated and stuff.
+Finding good introduction level articles on the matter is not easy because every post assumes some prior knowledge.</description>
+    </item>
     
     <item>
       <title>2D Transformations with Android and Java</title>
@@ -19,7 +58,7 @@
       <guid>http://i-rant.arnaudbos.com/2d-transformations-android-java/</guid>
       <description>I my previous post, &amp;ldquo;Matrices for developers&amp;rdquo;, I&amp;rsquo;ve talked about matrices and how they can be used to compute 2D transformations.
 In this post, I want to talk about how to apply what we know about matrices in order to perform 2D transformations, first using Java AWT and then with the Android SDK.
-Table of contents  Affine transformations with Java When I was working on the project I mentioned at the beginning of the previous article, I was constantly moving back and forth between the JDK&amp;rsquo;s implementation of affine transformations and the Android SDK&amp;rsquo;s implementation of matrices.</description>
+Affine transformations with Java When I was working on the project I mentioned at the beginning of the previous article, I was constantly moving back and forth between the JDK&amp;rsquo;s implementation of affine transformations and the Android SDK&amp;rsquo;s implementation of matrices.</description>
     </item>
     
   </channel>
