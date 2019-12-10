@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+        
+    <meta property="og:title" content="Loom" />
+    <meta property="og:description" content="Loom" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://i-rant.arnaudbos.com/loom-part-2-blocking/" />
+    
+    <meta property="og:image" content="http://i-rant.arnaudbos.com/img/loom/loom.png" />
+    
+
+    <meta name="description" content="My corner of teh interweb.">
+    <link rel="shortcut icon" type="image/x-icon" href="http://i-rant.arnaudbos.com/img/favicon.ico">
+    <title>Loom</title>
+    <meta name="generator" content="Hugo 0.54.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="http://i-rant.arnaudbos.com/css/main.css" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://www.arnaudbos.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="http://i-rant.arnaudbos.com/">BLOG</a></li>
+        
+        <li><a href="http://side-effects.arnaudbos.com/">PROJECTS</a></li>
+        
+        <li><a href="http://talks.arnaudbos.com/">TALKS</a></li>
+        
+        <li><a href="http://level-up.arnaudbos.com/">LEVEL-UP</a></li>
+        
+        <li><a href="http://vitae.arnaudbos.com/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <a href="/loom-part-2-blocking/">Loom</a>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          December 10, 2019
+          &nbsp;&nbsp;
+          —
+          &nbsp;&nbsp;
+          8 minutes read
+          </h4>
+        </div>
+        <div>
+          <h4>
+            
+            <span class="label label-success">java</span>
+            
+            <span class="label label-success">concurrency</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+<hr />
+
+<blockquote>
+<p>Part 2 in a series of articles about Project Loom.<br />
+In this part we implement a proxy service, the easiest way possible.</p>
+
+<p>If you&rsquo;d like you could head over to<br />
+[Part 0 - Writing for the past me][part-0]
+[Part 1 - It&rsquo;s all about Scheduling][part-1]</p>
+</blockquote>
+
+
+<figure  >
+    
+        <img src="/img/loom/loom.jpg" alt="Loom"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <h6><em>foo</em></h6>
+        <p>
+        Stephencdickson
+        <a href="https://creativecommons.org/licenses/by-sa/4.0"> 
+            CC BY-SA 4.0
+        </a> 
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+
+<hr />
+
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#a-simple-use-case">A simple use case</a></li>
+<li><a href="#first-approach">First approach</a></li>
+<li><a href="#first-approach-1">First approach</a>
+<ul>
+<li><a href="#there-s-only-one-hard-problem">There&rsquo;s only one hard problem</a></li>
+</ul></li>
+<li><a href="#two-types-of-code">Two types of code</a></li>
+</ul></li>
+</ul>
+</nav></div>
+
+<h2 id="a-simple-use-case">A simple use case</h2>
+
+<h2 id="first-approach">First approach</h2>
+
+<h2 id="first-approach-1">First approach</h2>
+
+<h3 id="there-s-only-one-hard-problem">There&rsquo;s only one hard problem</h3>
+
+<p>On the JVM, the threads we manipulate are actually kernel threads (TODO: rework, in my presentations I used to mention the kernel
+threads when talking about the CachedThreadPoolExecutor, maybe this is right here and should be a remainider aka &ldquo;*&rdquo;
+when talking about the code later.).</p>
+
+<p>&ldquo;Pausing&rdquo; (TODO: make sure of the terms for suspending a thread and their states (ready, runnable, etc.)) a thread from
+the kernel&rsquo;s point of view is a task requiring to get out of user-mode (TODO talk about rings?) into privileged mode
+to execute reserved instructions in order to save the execution state of the thread, schedule another one, load its
+state and go back to user mode (TODO: maybe introduce &ldquo;wankel&rdquo; diagrams here).<br />
+This is also known as context switching and is detrimental to performance (TODO add link, see pocket) because the cycles
+spent on &ldquo;book keeping&rdquo; are not spent running your tasks.</p>
+
+<h2 id="two-types-of-code">Two types of code</h2>
+
+<p>In this part</p>
+
+<p>Today, in our tool belts, we have processors much (much!) more powerful than in the sixties or seventies. We have
+<strong>multiprocessor</strong> computers and even <strong>multi-core</strong> processors. What do we have on the software side?</p>
+
+<p>When the scheduler time-slices a long-running thread there&rsquo;s not much we can do about it (TODO: open to unikernels?).
+But we can maximize efficiency by being careful to avoid blocking calls and use async APIs.</p>
+
+<p>[TODO] if this wasn&rsquo;t too obvious at this point, here I really get back in track with my recent presentation at the
+moment where I introduce async programming. In the talk a talk just a bit more about how sync is great while here I
+don&rsquo;t talk about programming styles/APIs at all, this must be fixed.</p>
+
+<p>The thing with async APIs is that it&rsquo;s not obvious to differentiate async from non-blocking, and vice-versa.<br />
+An asynchronous call can still be thread-blocking. (TODO: yes, this should be illustrated with content from my talks).
+It may of may not block the current thread but run the distinct control stack on another thread, managed in a library
+specific thread pool.</p>
+
+<p>So asynchronous thread blocking APIs are nice because they&rsquo;re blocking other threads, but the problem of memory
+footprint of kernel threads and context switches still remains.</p>
+
+<p>Truly non-blocking asynchronous APIs rely on event loops and fine tuned implementation techniques such as work
+stealing and drain loops in order to maximize CPU utilisation.<br />
+But they rely on callbacks too, which leads to the infamous callback-hell that.</p>
+
+<p>TODO: Yup, rework this part, heavily.</p>
+
+<p>But we&rsquo;re in 2019 so we have libraries now to lift this problem off of our shoulders, namely Reactive Streams libraries
+such as RxJava or Pivotal&rsquo;s Project Reactor.</p>
+
+<p>Reactive Streams APIs are a great solution to the inefficient use of CPU but they come as a whole new programming style.
+A new paradigm on a platform that may not be suited for it.</p>
+
+<p>And becauseit&rsquo;s 2019, we&rsquo;re stating to get feedback on these libraries, hinting they&rsquo;re not the best for all use-cases,
+most notably because of debugging and profiling and interoperability with existing (blocking) code.</p>
+
+<p>Even after almost two years I sometimes have to think hard about which Reactor operator to use, am I messing up
+ordering, am I blocking here, am I lazy there, am I stack safe?</p>
+
+<p>So it&rsquo;s interesting to ask, is there another way? Can we write non-blocking, efficient code without Reactive Streams
+APIs while still avoiding async APIs and callback hell?<br />
+Project Loom is one possible answer.</p>
+
+<p>Again, you can see this scheduling story has been running for quite some time now. (TODO link to beginning, possible
+distinct article).</p>
+
+<p>TODO: Note: unrelated to this specific location: synchronized -&gt; doog lea -&gt; reactive -&gt; loom</p>
+
+<p>The lightweight concurrency mechanisms that Loom aims to bring to the JVM are also known as user-threads.<br />
+TODO: Checkboxes again.</p>
+
+<p>Contrary to Kernel threads, which are managed by the kernel, user threads are manager by the language or runtime and
+are named this way because they un in user space.</p>
+
+<p>We&rsquo;ll see why they&rsquo;re interesting and how they work, but I think it&rsquo;s time to check a few boxes now:</p>
+
+<ul>
+<li>lightweight threads</li>
+<li>user threads</li>
+<li>fibers</li>
+<li>coroutnies</li>
+<li>erlang processes</li>
+<li>goroutines</li>
+<li>async/await
+are all, basically, user thread mechanisms and they differ in their implementation details or whether they&rsquo;re
+first-class citizens or language syntax.</li>
+</ul>
+
+<p>All those details matter from a language implementer&rsquo;s point of view and are really interesting, but if you&rsquo;re not that
+much of a language geek, hopefully I can save you some research time with this statement.</p>
+
+<p>The only bow I&rsquo;m not goiing to tick here is green-threads because they have a specific meaning in the Java world, so
+I&rsquo;m leaving this as an exercise to the reader.</p>
+
+<p>Bak to user-threads.<br />
+The conceptual model for user-threads is often referred to in the literature (TODO link) as the M:N model, where M
+represents the number of user-threads running on top of N kernel threads.</p>
+
+<p>Just to give a little bit more details, we can add the letter P in M:N:P to explicit the fact that M user-threads run
+on N kernel threads on top of P processor cores. Where N would be as close to P as possible, ideally.</p>
+
+<p>In Project Loom, user-threads are called lightweight/virtual threads, so I&rsquo;ll stick with this name from now on.</p>
+
+<p>The reason why fibers are interesting is because the cost of creating, suspending and resuming those fibers is
+massively reduced by the scheduler running in user-space, which means no extra kernel/user mode context-switches.</p>
+
+<p>How does it work&hellip;<br />
+Implementations vary: Kotlin transforms suspendable functions bytecode during compilation, Clojure transforms code at
+macro-expansion time, etc.</p>
+
+<p>It turns out that Java in particular, and Kotlin too actually, even before it had coroutines, Fibers have exsited for
+quite some time. Since 2013 at least, thanks to a library named <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a>.</p>
+
+<p>Quasar has been developed by a company named <a href="http://www.paralleluniverse.co/">Parallel Universe</a> who, sadly, no longer exists, but whose
+CTO and core developer is now Project Loom&rsquo;s lead developer: Ron Pressler.<br />
+Quasar implements fibers by instrumenting the Java bytecode and scans methods annotated as &ldquo;suspendable&rdquo; and turns them
+into continuations that run on a Fiber scheduler. Those continuations have the ability to <code>yield</code>, or relinquish the
+thread they are currently running on when encountering a blocking call.</p>
+
+<p>On my last project, we implemented a service whose responsibility was to proxy requests to remote backends through
+a limited number of connections. The goal of this scheduler was to maximize the use of connections, or in other words,
+minimize the time during which a given connection would sit idle, unused.<br />
+I&rsquo;m not ashamed to say that even after almost two years of using Reactor daily, I didn&rsquo;t feel the nerves to do it with
+a Reactive Streams implementation.</p>
+
+<p>My colleague Guillaume started the Spring Boot 2 project, implemented the first REST endpoints and other background
+tasks necessary for the service, but when it was my turn to implement the logic of the scheduler and states and
+transitions, I went for Quasar and fiber-blocking, imperative code, and an actor model, but it&rsquo;s another story.</p>
+
+<p>I&rsquo;m not saying Reactor wasn&rsquo;t a good fit for this problem or that it couldn&rsquo;t be done. In fact I&rsquo;m sure it could be,
+just not by me, and I still think it was a good idea to find another way.</p>
+
+<p>So when you&rsquo;ve followed the work of Ron Pressler, it&rsquo;s not surprising that the way he proposed to approach implementing
+Fibers on the JVM is through the use of continuations.<br />
+Now, what&rsquo;s a continuation?</p>
+
+<p>Conceptually, a continuation represents the rest of the execution of a process from a certain point in time.<br />
+More practically, when looking at the following code:</p>
+
+<p>TODO: insert code sample with &ldquo;suspension point&rdquo;.</p>
+
+<p>Who&rsquo;s  already heard about continuations?<br />
+Most programming languages today do not expose continuations and ways to create them as first-class citizens. Pretty
+much like many languages did not expose functions as first-class until the resurgence of functional programming.<br />
+Continuations are very fundamental and extremely powerful, and after preparing this talk I now find them more interesting
+by themselves then their use in the context of fibers. But anyways.</p>
+
+<p>The way continuations allow fibers implementation is via the yielding mechanism.<br />
+As soon as a running continuation encounters a blocking call, it calls this yield instruction.</p>
+
+<p>The runtime will then know that this continuation&rsquo;s stack can be saved, put aside for when its execution can be
+restarted, and will pick another continuation, which is ready to be restarted, if any, restore its control stack and
+assign it to the CPU.</p>
+
+<p>So Fibers in Loom are the association of continuations, and a scheduler.</p>
+
+              <hr>
+              <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
+              <p>You can <em>annotate</em> or <em>highlight</em> words or paragraphs directly by selecting the text!</p>
+              <p>If you want to leave a general comment or read what others have to say, please use the collapsible panel on the right of this page.</p>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+                
+                
+                
+                
+                
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <!-- Hypothes.is -->
+<script type="application/json" class="js-hypothesis-config">
+    {"showHighlights": false}
+</script>
+<script src="https://hypothes.is/embed.js" async></script>
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/arnaudbos/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+<div class="scroll-to-top">
+  <a href="#">Scroll<br>to Top</a>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://i-rant.arnaudbos.com/js/docs.min.js"></script>
+<script src="http://i-rant.arnaudbos.com/js/main.js"></script>
+
+<script src="http://i-rant.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- EmojiOne -->
+<script src="https://cdn.jsdelivr.net/emojione/2.2.7/lib/js/emojione.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/2.2.7/assets/css/emojione.min.css"/>
+
+<script>
+(function (){
+  var emojis = document.getElementsByClassName('emoji');
+  for(var i=0; i<emojis.length; i++){
+	  var content = emojis[i].textContent;
+    emojis[i].innerHTML = emojione.shortnameToImage(content);
+  }
+})();
+</script>
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/clojure.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<link rel="stylesheet" href="/css/photoswipe.css">
+<link rel="stylesheet" href="/css/default-skin/default-skin.css">
+<script src="/js/photoswipe.min.js"></script>
+<script src="/js/photoswipe-ui-default.min.js"></script>
+<script src="/js/initphotoswipe.js"></script>
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+<style>
+    .gallery { float: right; margin-bottom: 10px; text-align: center; }
+    .gallery img { height: auto; }
+    .gallery .title { text-align: center; text-decoration: underline; }
+    .gallery figure { display: block; float: left; margin: 0 5px 5px 0; }
+    .gallery figcaption { display: none; }
+</style>
+
+<script>initPhotoSwipeFromDOM('.gallery');</script>
+
+
+
+
+
+
+
+  </body>
+</html>

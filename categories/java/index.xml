@@ -6,10 +6,23 @@
     <description>Recent content in Java on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 10 Dec 2019 14:27:57 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 10 Dec 2019 15:10:10 +0100</lastBuildDate>
     
 	<atom:link href="http://i-rant.arnaudbos.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Loom</title>
+      <link>http://i-rant.arnaudbos.com/loom-part-2-blocking/</link>
+      <pubDate>Tue, 10 Dec 2019 15:10:10 +0100</pubDate>
+      
+      <guid>http://i-rant.arnaudbos.com/loom-part-2-blocking/</guid>
+      <description>Part 2 in a series of articles about Project Loom.
+In this part we implement a proxy service, the easiest way possible.
+If you&amp;rsquo;d like you could head over to
+[Part 0 - Writing for the past me][part-0] [Part 1 - It&amp;rsquo;s all about Scheduling][part-1]
+  foo  Stephencdickson CC BY-SA 4.0    A simple use case First approach First approach There&amp;rsquo;s only one hard problem On the JVM, the threads we manipulate are actually kernel threads (TODO: rework, in my presentations I used to mention the kernel threads when talking about the CachedThreadPoolExecutor, maybe this is right here and should be a remainider aka &amp;ldquo;*&amp;rdquo; when talking about the code later.</description>
+    </item>
     
     <item>
       <title>Loom - Part 1 - It&#39;s all about Scheduling</title>
