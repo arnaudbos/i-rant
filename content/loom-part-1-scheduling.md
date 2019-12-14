@@ -1,11 +1,11 @@
 ---
 title: Loom - Part 1 - It's all about Scheduling
-date: 2019-12-10T14:27:57+01:00
+date: 2019-12-14T15:38:37+01:00
 description: Part 1 on a series of articles about OpenJDK's Project Loom
 parent: blog
 categories: ["java"]
 tags: ["java", "concurrency"]
-draft: true
+draft: false
 seoimage: img/loom/jacquard_loom.jpg
 highlight: true
 gallery: true
@@ -15,7 +15,8 @@ gallery: true
 > In this part we skim the surface of scheduling history before diving into the JVM.
 >
 > If you'd like you could head over to  
-> [Part 0 - Writing for the past me][part-0]
+> [Part 0 - Writing for the past me][part-0]  
+> [Part 2 - Blocking code][part-2]
 
 {{< img center="true" src="/img/loom/jacquard_loom.jpg" alt="Jacquard Loom" width="100%" title="Jacquard Loom" caption="Stephencdickson" attr="CC BY-SA 4.0" attrlink="https://creativecommons.org/licenses/by-sa/4.0" link="https://commons.wikimedia.org/wiki/File:A_Jacquard_loom_showing_information_punchcards,_National_Museum_of_Scotland.jpg" >}}
 
@@ -56,7 +57,7 @@ Let me drop a few terms in a conspicuous attempt to show off:
 * [ ] Green Thread
 * [ ] Fiber
 * [ ] Knot
-* [ ] Go(/Co)routine
+* [ ] Goroutine/Coroutine
 * [ ] Async/await
 
 Quick questions:
@@ -243,7 +244,7 @@ process is typically faster than switching between processes.
 > Nowadays a context switch is almost synonymous with switching between threads rather than between processes.  
 > But "context switch" is also used, in many many blog posts and articles, to talk about _process switches_,
 > _thread switches_ or _mode switches_ almost indistinguishably.  
-> We'll touch on these differences in the [next part][part-2].
+> We'll touch on these differences in the next part.
 
 Let's talk about time-sharing a bit more.
 
@@ -258,7 +259,7 @@ In order to do that, time-sharing employed both
 * multitasking: programs would run one after the other, in **short** bursts (to avoid greedy programs to monopolize the CPU).
 
 There are several techniques that can lead to effective multitasking and fair (or not) sharing of CPU cycles, but they
-can grouped in two main categories: `Preemptive multitasking` and `Cooperative multitasking`; and their properties are
+can be grouped in two main categories: `Preemptive multitasking` and `Cooperative multitasking`; and their properties are
 enforced by scheduler policies.
 
 ### Preemptive scheduling
@@ -312,8 +313,8 @@ In the diagram above, we can see two threads, Thread 1 and Thread 2, both contai
 (that is, any code that this thread is supposed to run) and instructions containing a `yield` statement.
 
 With cooperative scheduling, there is no intervention from the kernel to pause a thread and schedule the next one, this
-is all done by each task deliberately relinquishing CPU time when it is not using computing resources so that another
-task can run.
+is all done by each task deliberately relinquishing CPU time when it is not using computing resources (waiting on I/O
+after an asynchronous call, for example) so that another task can run.
 
 As you see, with this scheduling policy it requires **ALL** programs to cooperate and fairness is not ensured, which
 explains why most operating systems nowadays implement preemptive scheduling.
@@ -336,6 +337,7 @@ the dates and pre-historic computer names. Thought you might find it interesting
 In the next part, we will experiment!
 
 [part-0]: ../loom-part-0-rationale
+[part-2]: ../loom-part-2-blocking
 [Quasar]: https://docs.paralleluniverse.co/quasar/
 [Clojure]: https://clojure.org/
 [core.async]: https://clojure.org/news/2013/06/28/clojure-clore-async-channels
