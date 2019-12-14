@@ -20,9 +20,9 @@
     <meta name="generator" content="Hugo 0.54.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
-    
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
     <link rel="stylesheet" type="text/css" href="http://i-rant.arnaudbos.com/css/main.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
     
     <!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -69,7 +69,7 @@
         </div>
         <div class="blog-title">
           <h4>
-          December 10, 2019
+          December 14, 2019
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
@@ -95,7 +95,8 @@
 In this part we skim the surface of scheduling history before diving into the JVM.</p>
 
 <p>If you&rsquo;d like you could head over to<br />
-<a href="../loom-part-0-rationale">Part 0 - Writing for the past me</a></p>
+<a href="../loom-part-0-rationale">Part 0 - Writing for the past me</a><br />
+<a href="../loom-part-2-blocking">Part 2 - Blocking code</a></p>
 </blockquote>
 
 
@@ -110,7 +111,7 @@ In this part we skim the surface of scheduling history before diving into the JV
         <h6><em>Jacquard Loom</em></h6>
         <p>
         Stephencdickson
-        <a href="https://creativecommons.org/licenses/by-sa/4.0"> 
+        <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0"> 
             CC BY-SA 4.0
         </a> 
         </p> 
@@ -182,7 +183,7 @@ systems past and present (Unix System V, SunOS, really?).</p>
 <li><label><input type="checkbox" disabled class="task-list-item"> Green Thread</label></li>
 <li><label><input type="checkbox" disabled class="task-list-item"> Fiber</label></li>
 <li><label><input type="checkbox" disabled class="task-list-item"> Knot</label></li>
-<li><label><input type="checkbox" disabled class="task-list-item"> Go(/Co)routine</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Goroutine/Coroutine</label></li>
 <li><label><input type="checkbox" disabled class="task-list-item"> Async/await</label></li>
 </ul>
 
@@ -483,7 +484,7 @@ process is typically faster than switching between processes.</p>
 <p>Nowadays a context switch is almost synonymous with switching between threads rather than between processes.<br />
 But &ldquo;context switch&rdquo; is also used, in many many blog posts and articles, to talk about <em>process switches</em>,
 <em>thread switches</em> or <em>mode switches</em> almost indistinguishably.<br />
-We&rsquo;ll touch on these differences in the [next part][part-2].</p>
+We&rsquo;ll touch on these differences in the next part.</p>
 </blockquote>
 
 <p>Let&rsquo;s talk about time-sharing a bit more.</p>
@@ -501,7 +502,7 @@ by their users and that connecting more users to one would amortize its cost.</p
 </ul>
 
 <p>There are several techniques that can lead to effective multitasking and fair (or not) sharing of CPU cycles, but they
-can grouped in two main categories: <code>Preemptive multitasking</code> and <code>Cooperative multitasking</code>; and their properties are
+can be grouped in two main categories: <code>Preemptive multitasking</code> and <code>Cooperative multitasking</code>; and their properties are
 enforced by scheduler policies.</p>
 
 <h3 id="preemptive-scheduling">Preemptive scheduling</h3>
@@ -606,8 +607,8 @@ cooperate for the entire scheduling scheme to work</strong>.<br />
 (that is, any code that this thread is supposed to run) and instructions containing a <code>yield</code> statement.</p>
 
 <p>With cooperative scheduling, there is no intervention from the kernel to pause a thread and schedule the next one, this
-is all done by each task deliberately relinquishing CPU time when it is not using computing resources so that another
-task can run.</p>
+is all done by each task deliberately relinquishing CPU time when it is not using computing resources (waiting on I/O
+after an asynchronous call, for example) so that another task can run.</p>
 
 <p>As you see, with this scheduling policy it requires <strong>ALL</strong> programs to cooperate and fairness is not ensured, which
 explains why most operating systems nowadays implement preemptive scheduling.</p>
@@ -638,6 +639,19 @@ the dates and pre-historic computer names. Thought you might find it interesting
               <div class="related-posts">
                 <h5>Related Posts</h5>
                 
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 14, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-0-rationale/">Loom - Part 0 - Writing for the past me</a></strong>
+                      </h6>
+                    </div>
+                  </div>
                 
                 
                 

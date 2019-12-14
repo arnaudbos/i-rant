@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="map[]" />
         
-    <meta property="og:title" content="Loom" />
+    <meta property="og:title" content="Loom - Part 2 - Blocking code" />
     <meta property="og:description" content="Loom" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://i-rant.arnaudbos.com/loom-part-2-blocking/" />
@@ -16,13 +16,13 @@
 
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="http://i-rant.arnaudbos.com/img/favicon.ico">
-    <title>Loom</title>
+    <title>Loom - Part 2 - Blocking code</title>
     <meta name="generator" content="Hugo 0.54.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
-    
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
     <link rel="stylesheet" type="text/css" href="http://i-rant.arnaudbos.com/css/main.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
     
     <!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -64,7 +64,7 @@
       <div class="container">
         <div class="blog-post">
           <h3>
-            <a href="/loom-part-2-blocking/">Loom</a>
+            <a href="/loom-part-2-blocking/">Loom - Part 2 - Blocking code</a>
           </h3>
         </div>
         <div class="blog-title">
@@ -73,7 +73,7 @@
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          8 minutes read
+          12 minutes read
           </h4>
         </div>
         <div>
@@ -97,24 +97,24 @@
 In this part we implement a proxy service, the easiest way possible.</p>
 
 <p>If you&rsquo;d like you could head over to<br />
-[Part 0 - Writing for the past me][part-0]
-[Part 1 - It&rsquo;s all about Scheduling][part-1]</p>
+<a href="../loom-part-0-rationale">Part 0 - Writing for the past me</a><br />
+<a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a></p>
 </blockquote>
 
 
-<figure  >
-    
+<figure  style="text-align: center;">
+    <a target="_blank" href="https://www.maxpixels.net/Post-Impressionist-Post-Impressionism-Fine-Art-Dutch-1428139">
         <img src="/img/loom/loom.jpg" alt="Loom"
             width="100%"
             />
-    
+    </a>
     
     <figcaption>
-        <h6><em>foo</em></h6>
+        <h6><em>Weaving</em></h6>
         <p>
-        Stephencdickson
-        <a href="https://creativecommons.org/licenses/by-sa/4.0"> 
-            CC BY-SA 4.0
+        Max Pixel
+        <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/deed.en"> 
+            CC0 1.0
         </a> 
         </p> 
     </figcaption>
@@ -130,11 +130,10 @@ In this part we implement a proxy service, the easiest way possible.</p>
 <li>
 <ul>
 <li><a href="#a-simple-use-case">A simple use case</a></li>
-<li><a href="#first-approach">First approach</a></li>
-<li><a href="#first-approach-1">First approach</a>
-<ul>
-<li><a href="#there-s-only-one-hard-problem">There&rsquo;s only one hard problem</a></li>
-</ul></li>
+<li><a href="#first-implementation">First implementation</a></li>
+<li><a href="#profiling">Profiling</a></li>
+<li><a href="#context-switches">Context switches</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
 <li><a href="#two-types-of-code">Two types of code</a></li>
 </ul></li>
 </ul>
@@ -142,11 +141,207 @@ In this part we implement a proxy service, the easiest way possible.</p>
 
 <h2 id="a-simple-use-case">A simple use case</h2>
 
-<h2 id="first-approach">First approach</h2>
+<p>One of the biggest pain points I had when I started to learn about concurrent programming, was the emphasis put on
+<code>Blocking</code>, <code>Non-blocking</code>, <code>Synchronous</code> and <code>Asynchronous</code> code.<br />
+We&rsquo;ll touch on all four of them in the next parts of this series.</p>
 
-<h2 id="first-approach-1">First approach</h2>
+<p>After reading a lot I figured that implementing a simple use case would comfort my understandings and help me convey
+what I wanted to explain. So here&rsquo;s a not totally made up, simple use case:</p>
 
-<h3 id="there-s-only-one-hard-problem">There&rsquo;s only one hard problem</h3>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/demo.png" itemprop="contentUrl" data-size="2198x994">
+      <img src="/img/loom/demo.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Sequence diagram, also detailed in text in the following paragraphs.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Use case: A proxy server</div>
+</div>
+
+
+<p>We want to offer access to some resource out of our domain to Web clients, but the resource is kind of &ldquo;precious&rdquo; so
+we want to restrict its access. Clients will not have direct access to the data source but will pass through a proxying
+service responsible to manage accesses.</p>
+
+<p>Here&rsquo;s the scenario:</p>
+
+<ol>
+<li>A client addresses a download request to the proxy service</li>
+<li>The proxy service registers the request to a coordinator</li>
+<li>The coordinator is responsible for the scheduling logic, managing some sort of priority queue for instance. Its logic
+is irrelevant.</li>
+<li>The coordinator responds either &ldquo;Unavailable&rdquo; or &ldquo;Available&rdquo;</li>
+<li>&ldquo;Unavailable&rdquo; means that the client can&rsquo;t download the resource just yet so the responses&rsquo; payload contains a token</li>
+<li>The payload also contains an &ldquo;ETA&rdquo; so the service can decide to abort or to retry, using the token to keep its place
+in the coordinator&rsquo;s queue</li>
+<li>The payload also contains a &ldquo;wait&rdquo; time to rate-limit the retry requests to the coordinator</li>
+<li>The proxy may have to retry a couple of times, on behalf of the client, but will eventually receive an &ldquo;Available&rdquo;
+response</li>
+<li>With an &ldquo;Available&rdquo; response and the token contained in its payload, the proxy service can initiate a download
+request to the data source</li>
+<li>The proxy service streams the content of the download request back to its client</li>
+<li>While at the same time sending periodic &ldquo;heartbeat&rdquo; requests to the coordinator to ensure its token is not revoked</li>
+</ol>
+
+<p>We are going to use in the next parts of the series. We will implement this proxy service in
+various ways, simulate  a few (200) clients connecting simultaneously and see the pros and cons of each implementation.</p>
+
+<blockquote>
+<p>Bear in mind that this is not a benchmark, it&rsquo;s just an experiment.<br />
+200 clients is a really low number but is enough to observe a few interesting things.</p>
+</blockquote>
+
+<h2 id="first-implementation">First implementation</h2>
+
+<p>I am now going to show you the easiest way I came up with to implement this proxy service.</p>
+
+<p>Let&rsquo;s first simulate a few clients:</p>
+
+<pre><code class="language-java">for(int i=0; i&lt;MAX_CLIENTS; i++) {
+    elasticServiceExecutor.submit(() -&gt; {
+        try {
+            getThingy();
+        } catch (EtaExceededException e) {
+            err(&quot;Couldn't getThingy because ETA exceeded: &quot; + e);
+        } catch (Exception e) {
+            err(&quot;Couldn't getThingy because something failed: &quot; + e);
+        }
+    });
+}
+</code></pre>
+
+<p>In this implementation, <code>elasticServiceExecutor</code> is a &ldquo;cached&rdquo; <code>ThreadPoolExecutor</code>:</p>
+
+<pre><code class="language-java">elasticServiceExecutor = Executors.newCachedThreadPool(new PrefixedThreadFactory(&quot;service&quot;));
+</code></pre>
+
+<p>I will explain why in a little bit.</p>
+
+<p><code>getThingy()</code> is the download endpoint in this example. Each client &ldquo;connecting&rdquo; to the proxy hits this method.</p>
+
+<pre><code class="language-java">private void getThingy() throws EtaExceededException, IOException {
+    println(&quot;Start getThingy.&quot;);
+
+    try {
+        Connection.Available conn = getConnection();
+        println(&quot;Got token, &quot; + conn.getToken());
+
+        Thread pulse = makePulse(conn);
+        try (InputStream content = gateway.downloadThingy()) {
+            pulse.start();
+
+            ignoreContent(content);
+        } catch (IOException e) {
+            err(&quot;Download failed.&quot;);
+            throw e;
+        }
+        finally {
+            pulse.interrupt();
+        }
+    } catch (InterruptedException e) {
+        // D'oh!
+        err(&quot;Task interrupted.&quot;);
+        Thread.currentThread().interrupt();
+        throw new RuntimeException(e);
+    }
+    println(&quot;Download finished&quot;)
+}
+</code></pre>
+
+<p>First we retrieve an &ldquo;Available&rdquo; connection <code>conn</code> from the coordinator, then we initiate the download request to the
+data source (called <code>gateway</code> in this example, just to make it confusing&hellip;).<br />
+Once the download has begun we start the heartbeat requests while consuming the content (here we simply drop it, but in
+a real scenario we would forward to the client).<br />
+Once the download ends (successfully or not) we stop sending heartbeat requests and the call ends.</p>
+
+<p>There are a few things to unpack, but the least interesting first, <code>makePulse</code>:</p>
+
+<pre><code class="language-java">private Thread makePulse(Connection.Available conn) {
+    return new Thread(() -&gt; {
+        while(!Thread.currentThread().isInterrupted()) {
+            try {
+                // Periodic heartbeat
+                Thread.sleep(2_000L);
+
+                println(&quot;Pulse!&quot;);
+                coordinator.heartbeat(conn.getToken());
+            } catch (InterruptedException e) {
+                // D'oh!
+                Thread.currentThread().interrupt();
+            }
+        }
+    });
+}
+</code></pre>
+
+<p>Nothing fancy here, we sleep for a while, then send a request, sleep for a while, &hellip;</p>
+
+<p>You may have noticed that <code>getThingy</code> uses the <code>gateway</code> service to talk to the data source and that <code>makePulse</code> uses
+the <code>coordinator</code> service to talk to the coordinator. So what is this <code>getConnection</code> method and why does <code>getThingy</code>
+not use <code>coordinator</code> directly?</p>
+
+<p>The reason is the retry logic than we&rsquo;ve talked about before. <code>getConnection</code> is actually a helper to handle
+the &ldquo;Unavailable&rdquo; responses from the coordinator and only return when an <code>Available</code> response has been received. Here&rsquo;s
+the code:</p>
+
+<pre><code class="language-java">private Connection.Available getConnection() throws EtaExceededException, InterruptedException {
+    return getConnection(0, 0, null);
+}
+
+private Connection.Available getConnection(long eta, long wait, String token) throws EtaExceededException, InterruptedException {
+    for(;;) {
+        if (eta &gt; MAX_ETA_MS) {
+            throw new EtaExceededException();
+        }
+
+        if (wait &gt; 0) {
+            Thread.sleep(wait);
+        }
+
+        println(&quot;Retrying download after &quot; + wait + &quot;ms wait.&quot;);
+
+        Connection c = coordinator.requestConnection(token);
+        if (c instanceof Connection.Available) {
+            return (Connection.Available) c;
+        }
+        Connection.Unavailable unavail = (Connection.Unavailable) c;
+        eta = unavail.getEta();
+        wait = unavail.getWait();
+        token = unavail.getToken();
+    }
+}
+</code></pre>
+
+<p>We start with initial <code>eta</code> and <code>wait</code> times at zero and no token (<code>null</code>).<br />
+Then we try to get a grant from the coordinator.<br />
+If the coordinator rejects us with an <code>Unavailable</code> response, we update the eta, wait and token and loop, otherwise we
+can return the <code>Available</code> response.</p>
+
+<p>As I said: <strong>the easiest implementation I came up with</strong>.</p>
+
+<p>This code is not perfect, but it has this one particularly interesting property: any Java developer at any level from
+junior to expert can understand what this does!<br />
+It is classic, old, boring, imperative Java code which does the job.</p>
+
+<p>And <em>easy</em> is important, right?</p>
+
+<h2 id="profiling">Profiling</h2>
+
+<h2 id="context-switches">Context switches</h2>
+
+<h2 id="conclusion">Conclusion</h2>
 
 <p>On the JVM, the threads we manipulate are actually kernel threads (TODO: rework, in my presentations I used to mention the kernel
 threads when talking about the CachedThreadPoolExecutor, maybe this is right here and should be a remainider aka &ldquo;*&rdquo;
@@ -251,9 +446,9 @@ Implementations vary: Kotlin transforms suspendable functions bytecode during co
 macro-expansion time, etc.</p>
 
 <p>It turns out that Java in particular, and Kotlin too actually, even before it had coroutines, Fibers have exsited for
-quite some time. Since 2013 at least, thanks to a library named <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a>.</p>
+quite some time. Since 2013 at least, thanks to a library named [Quasar].</p>
 
-<p>Quasar has been developed by a company named <a href="http://www.paralleluniverse.co/">Parallel Universe</a> who, sadly, no longer exists, but whose
+<p>Quasar has been developed by a company named [Parallel Universe][puniverse] who, sadly, no longer exists, but whose
 CTO and core developer is now Project Loom&rsquo;s lead developer: Ron Pressler.<br />
 Quasar implements fibers by instrumenting the Java bytecode and scans methods annotated as &ldquo;suspendable&rdquo; and turns them
 into continuations that run on a Fiber scheduler. Those continuations have the ability to <code>yield</code>, or relinquish the
@@ -304,7 +499,33 @@ assign it to the CPU.</p>
                 <h5>Related Posts</h5>
                 
                 
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 14, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-1-scheduling/">Loom - Part 1 - It&rsquo;s all about Scheduling</a></strong>
+                      </h6>
+                    </div>
+                  </div>
                 
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 14, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-0-rationale/">Loom - Part 0 - Writing for the past me</a></strong>
+                      </h6>
+                    </div>
+                  </div>
                 
                 
                 
