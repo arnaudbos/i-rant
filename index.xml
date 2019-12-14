@@ -21,7 +21,6 @@
 In this part we skim the surface of scheduling history before diving into the JVM.
 If you&amp;rsquo;d like you could head over to
 Part 0 - Writing for the past me
-Part 2 - Blocking code
    Jacquard Loom  Stephencdickson CC BY-SA 4.0    There&amp;rsquo;s only one hard problem The first problem there is with concurrency (and generally in computer science/programming really), is that we&amp;rsquo;re extremely bad at naming things.</description>
     </item>
     
@@ -35,7 +34,6 @@ Part 2 - Blocking code
 In this part I just talk about me, me, me, me and why I wrote this.
 If you&amp;rsquo;d like you could head over to
 Part 1 - It&amp;rsquo;s all about Scheduling
-Part 2 - Blocking code
  Finding good introduction level articles on parallel or concurrent programming is not easy because every post assumes some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free concurrency while you&amp;rsquo;re absolutely not ready for this!</description>
     </item>
     
