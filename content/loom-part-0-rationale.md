@@ -65,6 +65,6 @@ In the [next part][part-1], we talk history!
 [core.async]: https://clojure.org/news/2013/06/28/clojure-clore-async-channels
 [Pulsar]: https://docs.paralleluniverse.co/pulsar/
 [puniverse]: http://www.paralleluniverse.co/
-[talks]: http://talks.arnaudbos.com/
+[talks]: https://talks.arnaudbos.com/
 [Ron Pressler]: https://twitter.com/pressron
 [wiki]: https://wiki.openjdk.java.net/display/loom/Main

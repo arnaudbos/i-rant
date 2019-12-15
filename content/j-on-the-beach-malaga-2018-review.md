@@ -272,7 +272,7 @@ Link: [A Conflict-Free Replicated JSON Datatype](https://arxiv.org/abs/1608.0396
 
 ## Sergey Bykov — Distributed Transactions are dead, long live distributed transaction!
 
-Last year I've been really impressed by [Dharma Shukla's talk about CosmosDB](http://i-rant.arnaudbos.com/j-on-the-beach-malaga-2017-review/#dharma-shukla-lessons-learnt-from-building-a-globally-distributed-database-service-from-the-ground-up) and the
+Last year I've been really impressed by [Dharma Shukla's talk about CosmosDB](https://i-rant.arnaudbos.com/j-on-the-beach-malaga-2017-review/#dharma-shukla-lessons-learnt-from-building-a-globally-distributed-database-service-from-the-ground-up) and the
 engineering effort put by Microsoft.
 
 In this talk, [Sergey Bykov](https://twitter.com/sergeybykov) gives an
