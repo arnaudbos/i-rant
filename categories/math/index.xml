@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Math on Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/categories/math/</link>
+    <link>https://i-rant.arnaudbos.com/categories/math/</link>
     <description>Recent content in Math on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Mon, 23 Jan 2017 13:11:45 +0100</lastBuildDate>
     
-	<atom:link href="http://i-rant.arnaudbos.com/categories/math/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://i-rant.arnaudbos.com/categories/math/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Matrices for developers</title>
-      <link>http://i-rant.arnaudbos.com/matrices-for-developers/</link>
+      <link>https://i-rant.arnaudbos.com/matrices-for-developers/</link>
       <pubDate>Mon, 23 Jan 2017 13:11:45 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/matrices-for-developers/</guid>
+      <guid>https://i-rant.arnaudbos.com/matrices-for-developers/</guid>
       <description>WARNING: Long article, big images, heavy GIFs.
  A few weeks ago I was on an android-user-group channel, when someone posted a question about Android&amp;rsquo;s Matrix.postScale(sx, sy, px, py) method and how it works because it was &amp;ldquo;hard to grasp&amp;rdquo;.
 Coincidence: in the beginning of 2016, I finished a freelance project on an Android application where I had to implement an exciting feature:

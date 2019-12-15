@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Clojure on Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/categories/clojure/</link>
+    <link>https://i-rant.arnaudbos.com/categories/clojure/</link>
     <description>Recent content in Clojure on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Tue, 28 Nov 2017 06:23:11 +0100</lastBuildDate>
     
-	<atom:link href="http://i-rant.arnaudbos.com/categories/clojure/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://i-rant.arnaudbos.com/categories/clojure/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Water Pouring Problem in Clojure</title>
-      <link>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</link>
+      <link>https://i-rant.arnaudbos.com/water-pouring-in-clojure/</link>
       <pubDate>Tue, 28 Nov 2017 06:23:11 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</guid>
+      <guid>https://i-rant.arnaudbos.com/water-pouring-in-clojure/</guid>
       <description>Die Hard with a Vengeance — Water puzzle scene   This post is the first or a series where I explore Clojure features and start a discussion with my colleague Igor about Clojure and Kotlin.
 This summer, Igor offered to make a live Kotlin demo of a nice problem he&amp;rsquo;s been working on that can serve as a fine exercise to discover and experiment a programming language: the Water pouring puzzle.</description>
     </item>
     
     <item>
       <title>Feedback on giving a talk</title>
-      <link>http://i-rant.arnaudbos.com/feedback-on-giving-a-talk/</link>
+      <link>https://i-rant.arnaudbos.com/feedback-on-giving-a-talk/</link>
       <pubDate>Mon, 20 Nov 2017 03:09:02 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/feedback-on-giving-a-talk/</guid>
+      <guid>https://i-rant.arnaudbos.com/feedback-on-giving-a-talk/</guid>
       <description>OMW to my first ever local meetup talk. I will be presenting #Clojure.
 /me nervous as fuck pic.twitter.com/sFqpDa0Iqz
 &amp;mdash; Arnaud Bos (@arnaud_bos) November 9, 2017  Last week I gave a talk at a local meetup, the Toulouse Java User Group, where I presented Lisp and Clojure.
@@ -36,10 +36,10 @@ In the beginning of May 2017, I sent a &amp;ldquo;Call for paper&amp;rdquo; to o
     
     <item>
       <title>Happy birthday Clojure!</title>
-      <link>http://i-rant.arnaudbos.com/happy-birthday-clojure/</link>
+      <link>https://i-rant.arnaudbos.com/happy-birthday-clojure/</link>
       <pubDate>Mon, 13 Nov 2017 13:50:14 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/happy-birthday-clojure/</guid>
+      <guid>https://i-rant.arnaudbos.com/happy-birthday-clojure/</guid>
       <description>This year is the tenth birthday of the release of Clojure.
 Although Clojure is gaining momentum and the community is growing at a steady pace worldwide, after ten years the number of places where active communities have formed is small and Clojure enthusiasts are still struggling to use their favorite language professionally.
 In Europe for instance (which is my point of view), I can see strong communities have formed in northern Europe, in London for example, Finland, Netherlands or Germany, with conference taking place every year and companies supporting them and the Clojure job market.</description>
@@ -47,10 +47,10 @@ In Europe for instance (which is my point of view), I can see strong communities
     
     <item>
       <title>Just use Clojure already!</title>
-      <link>http://i-rant.arnaudbos.com/use-clojure-already/</link>
+      <link>https://i-rant.arnaudbos.com/use-clojure-already/</link>
       <pubDate>Fri, 10 Nov 2017 13:41:21 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/use-clojure-already/</guid>
+      <guid>https://i-rant.arnaudbos.com/use-clojure-already/</guid>
       <description>Lisp as a secret weapon   I hear a lot of talking going on about Kotlin around me lately.
 There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot has happened around it from the Google announcement that Kotlin would benefit from first class support on Android, up to the hiring of Jake Wharton (a figure in the world of Android developers).
 I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at MonkeyPatch seem to be following the hype (muahaha&amp;hellip;) and are becoming more and more addicted to it.</description>
@@ -58,10 +58,10 @@ I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at M
     
     <item>
       <title>Klipse</title>
-      <link>http://i-rant.arnaudbos.com/test-klipse/</link>
+      <link>https://i-rant.arnaudbos.com/test-klipse/</link>
       <pubDate>Mon, 23 Jan 2017 13:23:08 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/test-klipse/</guid>
+      <guid>https://i-rant.arnaudbos.com/test-klipse/</guid>
       <description>Foo
 Bar  </description>
     </item>

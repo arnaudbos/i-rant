@@ -2,201 +2,201 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/tags/</link>
+    <link>https://i-rant.arnaudbos.com/tags/</link>
     <description>Recent content in Tags on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Tue, 07 Feb 2017 02:30:04 +0100</lastBuildDate>
     
-	<atom:link href="http://i-rant.arnaudbos.com/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://i-rant.arnaudbos.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Android</title>
-      <link>http://i-rant.arnaudbos.com/tags/android/</link>
+      <link>https://i-rant.arnaudbos.com/tags/android/</link>
       <pubDate>Tue, 07 Feb 2017 02:30:04 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/android/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/android/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Blog</title>
-      <link>http://i-rant.arnaudbos.com/tags/blog/</link>
+      <link>https://i-rant.arnaudbos.com/tags/blog/</link>
       <pubDate>Mon, 23 Jan 2017 13:23:08 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/blog/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/blog/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Capture</title>
-      <link>http://i-rant.arnaudbos.com/tags/capture/</link>
+      <link>https://i-rant.arnaudbos.com/tags/capture/</link>
       <pubDate>Thu, 07 Feb 2019 02:59:53 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/capture/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/capture/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Clojure</title>
-      <link>http://i-rant.arnaudbos.com/tags/clojure/</link>
+      <link>https://i-rant.arnaudbos.com/tags/clojure/</link>
       <pubDate>Tue, 28 Nov 2017 06:23:11 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/clojure/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/clojure/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Concurrency</title>
-      <link>http://i-rant.arnaudbos.com/tags/concurrency/</link>
+      <link>https://i-rant.arnaudbos.com/tags/concurrency/</link>
       <pubDate>Sat, 14 Dec 2019 15:38:37 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/concurrency/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/concurrency/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Conference</title>
-      <link>http://i-rant.arnaudbos.com/tags/conference/</link>
+      <link>https://i-rant.arnaudbos.com/tags/conference/</link>
       <pubDate>Tue, 25 Sep 2018 22:56:42 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/conference/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/conference/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Idris</title>
-      <link>http://i-rant.arnaudbos.com/tags/idris/</link>
+      <link>https://i-rant.arnaudbos.com/tags/idris/</link>
       <pubDate>Fri, 10 Nov 2017 13:41:21 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/idris/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/idris/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Iot</title>
-      <link>http://i-rant.arnaudbos.com/tags/iot/</link>
+      <link>https://i-rant.arnaudbos.com/tags/iot/</link>
       <pubDate>Mon, 06 Jun 2016 15:00:36 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/iot/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/iot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Java</title>
-      <link>http://i-rant.arnaudbos.com/tags/java/</link>
+      <link>https://i-rant.arnaudbos.com/tags/java/</link>
       <pubDate>Sat, 14 Dec 2019 15:38:37 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/java/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/java/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Jepsen</title>
-      <link>http://i-rant.arnaudbos.com/tags/jepsen/</link>
+      <link>https://i-rant.arnaudbos.com/tags/jepsen/</link>
       <pubDate>Mon, 07 Aug 2017 16:23:04 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/jepsen/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/jepsen/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Jug</title>
-      <link>http://i-rant.arnaudbos.com/tags/jug/</link>
+      <link>https://i-rant.arnaudbos.com/tags/jug/</link>
       <pubDate>Thu, 07 Feb 2019 02:59:53 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/jug/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/jug/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Klipse</title>
-      <link>http://i-rant.arnaudbos.com/tags/klipse/</link>
+      <link>https://i-rant.arnaudbos.com/tags/klipse/</link>
       <pubDate>Mon, 23 Jan 2017 13:23:08 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/klipse/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/klipse/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Kotlin</title>
-      <link>http://i-rant.arnaudbos.com/tags/kotlin/</link>
+      <link>https://i-rant.arnaudbos.com/tags/kotlin/</link>
       <pubDate>Tue, 28 Nov 2017 06:23:11 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/kotlin/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/kotlin/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Math</title>
-      <link>http://i-rant.arnaudbos.com/tags/math/</link>
+      <link>https://i-rant.arnaudbos.com/tags/math/</link>
       <pubDate>Mon, 23 Jan 2017 13:11:45 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/math/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/math/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Matrix</title>
-      <link>http://i-rant.arnaudbos.com/tags/matrix/</link>
+      <link>https://i-rant.arnaudbos.com/tags/matrix/</link>
       <pubDate>Tue, 07 Feb 2017 02:30:04 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/matrix/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/matrix/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Meta</title>
-      <link>http://i-rant.arnaudbos.com/tags/meta/</link>
+      <link>https://i-rant.arnaudbos.com/tags/meta/</link>
       <pubDate>Mon, 07 Nov 2016 12:55:28 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/meta/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/meta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Nabaztag</title>
-      <link>http://i-rant.arnaudbos.com/tags/nabaztag/</link>
+      <link>https://i-rant.arnaudbos.com/tags/nabaztag/</link>
       <pubDate>Mon, 06 Jun 2016 15:00:36 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/nabaztag/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/nabaztag/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Osx</title>
-      <link>http://i-rant.arnaudbos.com/tags/osx/</link>
+      <link>https://i-rant.arnaudbos.com/tags/osx/</link>
       <pubDate>Thu, 07 Feb 2019 02:59:53 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/osx/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/osx/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Repl</title>
-      <link>http://i-rant.arnaudbos.com/tags/repl/</link>
+      <link>https://i-rant.arnaudbos.com/tags/repl/</link>
       <pubDate>Tue, 28 Nov 2017 06:23:11 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/repl/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/repl/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Review</title>
-      <link>http://i-rant.arnaudbos.com/tags/review/</link>
+      <link>https://i-rant.arnaudbos.com/tags/review/</link>
       <pubDate>Tue, 25 Sep 2018 22:56:42 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/review/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/review/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Talk</title>
-      <link>http://i-rant.arnaudbos.com/tags/talk/</link>
+      <link>https://i-rant.arnaudbos.com/tags/talk/</link>
       <pubDate>Mon, 20 Nov 2017 03:09:02 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/tags/talk/</guid>
+      <guid>https://i-rant.arnaudbos.com/tags/talk/</guid>
       <description></description>
     </item>
     

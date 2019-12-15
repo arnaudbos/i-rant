@@ -2,61 +2,49 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/</link>
+    <link>https://i-rant.arnaudbos.com/</link>
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Sat, 14 Dec 2019 15:38:37 +0100</lastBuildDate>
     
-	<atom:link href="http://i-rant.arnaudbos.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://i-rant.arnaudbos.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Loom - Part 1 - It&#39;s all about Scheduling</title>
-      <link>http://i-rant.arnaudbos.com/loom-part-1-scheduling/</link>
+      <link>https://i-rant.arnaudbos.com/loom-part-1-scheduling/</link>
       <pubDate>Sat, 14 Dec 2019 15:38:37 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/loom-part-1-scheduling/</guid>
+      <guid>https://i-rant.arnaudbos.com/loom-part-1-scheduling/</guid>
       <description>Part 1 in a series of articles about Project Loom.
 In this part we skim the surface of scheduling history before diving into the JVM.
 If you&amp;rsquo;d like you could head over to
 Part 0 - Writing for the past me
+Part 2 - Blocking code
    Jacquard Loom  Stephencdickson CC BY-SA 4.0    There&amp;rsquo;s only one hard problem The first problem there is with concurrency (and generally in computer science/programming really), is that we&amp;rsquo;re extremely bad at naming things.</description>
     </item>
     
     <item>
       <title>Loom - Part 0 - Writing for the past me</title>
-      <link>http://i-rant.arnaudbos.com/loom-part-0-rationale/</link>
+      <link>https://i-rant.arnaudbos.com/loom-part-0-rationale/</link>
       <pubDate>Sat, 14 Dec 2019 15:38:21 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/loom-part-0-rationale/</guid>
+      <guid>https://i-rant.arnaudbos.com/loom-part-0-rationale/</guid>
       <description>Part 0 in a series of articles about Project Loom.
 In this part I just talk about me, me, me, me and why I wrote this.
 If you&amp;rsquo;d like you could head over to
 Part 1 - It&amp;rsquo;s all about Scheduling
+Part 2 - Blocking code
  Finding good introduction level articles on parallel or concurrent programming is not easy because every post assumes some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free concurrency while you&amp;rsquo;re absolutely not ready for this!</description>
     </item>
     
     <item>
-      <title>Loom - Part 2 - Blocking code</title>
-      <link>http://i-rant.arnaudbos.com/loom-part-2-blocking/</link>
-      <pubDate>Tue, 10 Dec 2019 15:10:10 +0100</pubDate>
-      
-      <guid>http://i-rant.arnaudbos.com/loom-part-2-blocking/</guid>
-      <description>Part 2 in a series of articles about Project Loom.
-In this part we implement a proxy service, the easiest way possible.
-If you&amp;rsquo;d like you could head over to
-Part 0 - Writing for the past me
-Part 1 - It&amp;rsquo;s all about Scheduling
-   Weaving  Max Pixel CC0 1.0    A simple use case One of the biggest pain points I had when I started to learn about concurrent programming, was the emphasis put on Blocking, Non-blocking, Synchronous and Asynchronous code.</description>
-    </item>
-    
-    <item>
       <title>Loom</title>
-      <link>http://i-rant.arnaudbos.com/loom/</link>
+      <link>https://i-rant.arnaudbos.com/loom/</link>
       <pubDate>Mon, 04 Nov 2019 12:23:00 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/loom/</guid>
+      <guid>https://i-rant.arnaudbos.com/loom/</guid>
       <description>WARNING: Long article, because I like to read and write long blog posts. Sue me.
 If you&amp;rsquo;re interested in an introduction and some context continue reading,
 otherwise skip to the TOC.
@@ -66,19 +54,19 @@ Finding good introduction level articles on the matter is not easy because every
     
     <item>
       <title>Setup audio recording on OSX</title>
-      <link>http://i-rant.arnaudbos.com/setup-audio-recording-osx/</link>
+      <link>https://i-rant.arnaudbos.com/setup-audio-recording-osx/</link>
       <pubDate>Thu, 07 Feb 2019 02:59:53 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/setup-audio-recording-osx/</guid>
+      <guid>https://i-rant.arnaudbos.com/setup-audio-recording-osx/</guid>
       <description>The goal: something like that   Created: February 7th, 2019 Object: As I was preparing the next evening of the ToulouseJUG I found myself lacking a second mic for our next duet. This post is a note to myself about the setup for recording audio of one or two speakers with the pieces of equipment I have at my disposal, with pictures, so I can come back later and relearn how to do this.</description>
     </item>
     
     <item>
       <title>ClojuTRE &amp; SmallFP 2018 — Review</title>
-      <link>http://i-rant.arnaudbos.com/clojutre-finland-2018-review/</link>
+      <link>https://i-rant.arnaudbos.com/clojutre-finland-2018-review/</link>
       <pubDate>Tue, 25 Sep 2018 22:56:42 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/clojutre-finland-2018-review/</guid>
+      <guid>https://i-rant.arnaudbos.com/clojutre-finland-2018-review/</guid>
       <description>Helsinki   ClojuTRE is a Clojure conference happening in Finland since 2012.
 I was super eager to attend a Clojure conference this year, so the addition of SmallFP just before ClojuTRE finally amortized the travel cost.
 tl;dr  SmallFP did deliver a great experience by allowing an audience of Clojure developers to hear about other functional programming languages and concepts.
@@ -87,10 +75,10 @@ tl;dr  SmallFP did deliver a great experience by allowing an audience of Clojure
     
     <item>
       <title>J On The Beach 2018 — Review</title>
-      <link>http://i-rant.arnaudbos.com/j-on-the-beach-malaga-2018-review/</link>
+      <link>https://i-rant.arnaudbos.com/j-on-the-beach-malaga-2018-review/</link>
       <pubDate>Thu, 05 Jul 2018 23:12:11 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/j-on-the-beach-malaga-2018-review/</guid>
+      <guid>https://i-rant.arnaudbos.com/j-on-the-beach-malaga-2018-review/</guid>
       <description>360 Photo — Plaza del Obispo   J On The Beach (JOTB) is &amp;ldquo;A Big Data Conference On The Beach&amp;rdquo; happening in Malaga (Spain) and this year (2018) was its third edition.
 tl;dr  The staff was great, the speakers awesome and the talks interesting.
  I felt very comfortable and almost at home during the three days. The atmosphere felt like being at a local conference or meetup but with famous and renowned speakers from around the world.</description>
@@ -98,20 +86,20 @@ tl;dr  The staff was great, the speakers awesome and the talks interesting.
     
     <item>
       <title>Water Pouring Problem in Clojure</title>
-      <link>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</link>
+      <link>https://i-rant.arnaudbos.com/water-pouring-in-clojure/</link>
       <pubDate>Tue, 28 Nov 2017 06:23:11 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/water-pouring-in-clojure/</guid>
+      <guid>https://i-rant.arnaudbos.com/water-pouring-in-clojure/</guid>
       <description>Die Hard with a Vengeance — Water puzzle scene   This post is the first or a series where I explore Clojure features and start a discussion with my colleague Igor about Clojure and Kotlin.
 This summer, Igor offered to make a live Kotlin demo of a nice problem he&amp;rsquo;s been working on that can serve as a fine exercise to discover and experiment a programming language: the Water pouring puzzle.</description>
     </item>
     
     <item>
       <title>Feedback on giving a talk</title>
-      <link>http://i-rant.arnaudbos.com/feedback-on-giving-a-talk/</link>
+      <link>https://i-rant.arnaudbos.com/feedback-on-giving-a-talk/</link>
       <pubDate>Mon, 20 Nov 2017 03:09:02 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/feedback-on-giving-a-talk/</guid>
+      <guid>https://i-rant.arnaudbos.com/feedback-on-giving-a-talk/</guid>
       <description>OMW to my first ever local meetup talk. I will be presenting #Clojure.
 /me nervous as fuck pic.twitter.com/sFqpDa0Iqz
 &amp;mdash; Arnaud Bos (@arnaud_bos) November 9, 2017  Last week I gave a talk at a local meetup, the Toulouse Java User Group, where I presented Lisp and Clojure.
@@ -121,10 +109,10 @@ In the beginning of May 2017, I sent a &amp;ldquo;Call for paper&amp;rdquo; to o
     
     <item>
       <title>Happy birthday Clojure!</title>
-      <link>http://i-rant.arnaudbos.com/happy-birthday-clojure/</link>
+      <link>https://i-rant.arnaudbos.com/happy-birthday-clojure/</link>
       <pubDate>Mon, 13 Nov 2017 13:50:14 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/happy-birthday-clojure/</guid>
+      <guid>https://i-rant.arnaudbos.com/happy-birthday-clojure/</guid>
       <description>This year is the tenth birthday of the release of Clojure.
 Although Clojure is gaining momentum and the community is growing at a steady pace worldwide, after ten years the number of places where active communities have formed is small and Clojure enthusiasts are still struggling to use their favorite language professionally.
 In Europe for instance (which is my point of view), I can see strong communities have formed in northern Europe, in London for example, Finland, Netherlands or Germany, with conference taking place every year and companies supporting them and the Clojure job market.</description>
@@ -132,10 +120,10 @@ In Europe for instance (which is my point of view), I can see strong communities
     
     <item>
       <title>Just use Clojure already!</title>
-      <link>http://i-rant.arnaudbos.com/use-clojure-already/</link>
+      <link>https://i-rant.arnaudbos.com/use-clojure-already/</link>
       <pubDate>Fri, 10 Nov 2017 13:41:21 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/use-clojure-already/</guid>
+      <guid>https://i-rant.arnaudbos.com/use-clojure-already/</guid>
       <description>Lisp as a secret weapon   I hear a lot of talking going on about Kotlin around me lately.
 There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot has happened around it from the Google announcement that Kotlin would benefit from first class support on Android, up to the hiring of Jake Wharton (a figure in the world of Android developers).
 I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at MonkeyPatch seem to be following the hype (muahaha&amp;hellip;) and are becoming more and more addicted to it.</description>
@@ -143,10 +131,10 @@ I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at M
     
     <item>
       <title>J On The Beach 2017 — Review</title>
-      <link>http://i-rant.arnaudbos.com/j-on-the-beach-malaga-2017-review/</link>
+      <link>https://i-rant.arnaudbos.com/j-on-the-beach-malaga-2017-review/</link>
       <pubDate>Tue, 08 Aug 2017 16:23:15 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/j-on-the-beach-malaga-2017-review/</guid>
+      <guid>https://i-rant.arnaudbos.com/j-on-the-beach-malaga-2017-review/</guid>
       <description>Panoramic view — Seaside of Malaga — Hiking the day after the conference   J On The Beach (JOTB) is &amp;ldquo;A Big Data Conference On The Beach&amp;rdquo; happening in Malaga (Spain) and this year (2017) was its second edition.
 tl;dr  The staff was great, the speakers awesome and the talks interesting.
  I felt very comfortable and almost at home during the three days. The atmosphere felt like being at a local conference but with famous and renowned speakers from around the world.</description>
@@ -154,20 +142,20 @@ tl;dr  The staff was great, the speakers awesome and the talks interesting.
     
     <item>
       <title>J On The Beach 2017 — Jepsen Workshop</title>
-      <link>http://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</link>
+      <link>https://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</link>
       <pubDate>Mon, 07 Aug 2017 16:23:04 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</guid>
+      <guid>https://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</guid>
       <description>Network&amp;#39;s Laggy     Store it maybe    Photos shamelessly stolen from Kyle Kinsburry&amp;#39;s website  The first book I&amp;rsquo;ve read about distributed systems was Distributed Systems: Principles and Paradigms by Andrew S. Tanenbaum and Maarten van Steen.
 I was reading at the library on my last year of study and I remember being confused very often, and to be honest I didn&amp;rsquo;t even finish it&amp;hellip;</description>
     </item>
     
     <item>
       <title>2D Transformations with Android and Java</title>
-      <link>http://i-rant.arnaudbos.com/2d-transformations-android-java/</link>
+      <link>https://i-rant.arnaudbos.com/2d-transformations-android-java/</link>
       <pubDate>Tue, 07 Feb 2017 02:30:04 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/2d-transformations-android-java/</guid>
+      <guid>https://i-rant.arnaudbos.com/2d-transformations-android-java/</guid>
       <description>I my previous post, &amp;ldquo;Matrices for developers&amp;rdquo;, I&amp;rsquo;ve talked about matrices and how they can be used to compute 2D transformations.
 In this post, I want to talk about how to apply what we know about matrices in order to perform 2D transformations, first using Java AWT and then with the Android SDK.
 Affine transformations with Java When I was working on the project I mentioned at the beginning of the previous article, I was constantly moving back and forth between the JDK&amp;rsquo;s implementation of affine transformations and the Android SDK&amp;rsquo;s implementation of matrices.</description>
@@ -175,20 +163,20 @@ Affine transformations with Java When I was working on the project I mentioned a
     
     <item>
       <title>Klipse</title>
-      <link>http://i-rant.arnaudbos.com/test-klipse/</link>
+      <link>https://i-rant.arnaudbos.com/test-klipse/</link>
       <pubDate>Mon, 23 Jan 2017 13:23:08 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/test-klipse/</guid>
+      <guid>https://i-rant.arnaudbos.com/test-klipse/</guid>
       <description>Foo
 Bar  </description>
     </item>
     
     <item>
       <title>Matrices for developers</title>
-      <link>http://i-rant.arnaudbos.com/matrices-for-developers/</link>
+      <link>https://i-rant.arnaudbos.com/matrices-for-developers/</link>
       <pubDate>Mon, 23 Jan 2017 13:11:45 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/matrices-for-developers/</guid>
+      <guid>https://i-rant.arnaudbos.com/matrices-for-developers/</guid>
       <description>WARNING: Long article, big images, heavy GIFs.
  A few weeks ago I was on an android-user-group channel, when someone posted a question about Android&amp;rsquo;s Matrix.postScale(sx, sy, px, py) method and how it works because it was &amp;ldquo;hard to grasp&amp;rdquo;.
 Coincidence: in the beginning of 2016, I finished a freelance project on an Android application where I had to implement an exciting feature:
@@ -197,20 +185,20 @@ Coincidence: in the beginning of 2016, I finished a freelance project on an Andr
     
     <item>
       <title>I blog</title>
-      <link>http://i-rant.arnaudbos.com/start-blog/</link>
+      <link>https://i-rant.arnaudbos.com/start-blog/</link>
       <pubDate>Mon, 07 Nov 2016 12:55:28 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/start-blog/</guid>
+      <guid>https://i-rant.arnaudbos.com/start-blog/</guid>
       <description>What&amp;rsquo;s this post about? Publishing stuff and things.
 Is it any good? Yes.</description>
     </item>
     
     <item>
       <title>EclipseCon France 2016 — Review</title>
-      <link>http://i-rant.arnaudbos.com/eclipsecon-france-2016-review/</link>
+      <link>https://i-rant.arnaudbos.com/eclipsecon-france-2016-review/</link>
       <pubDate>Wed, 13 Jul 2016 12:55:28 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/eclipsecon-france-2016-review/</guid>
+      <guid>https://i-rant.arnaudbos.com/eclipsecon-france-2016-review/</guid>
       <description>Keynote   This ear, I&amp;rsquo;ve been given the opportunity to attend the French edition of the EclipseCon. It&amp;rsquo;s been the first time I could attend an event of this nature with Keynotes, workshops, talks and demos on various topics, informal talks with other attendees and speakers.
 Bellow is a feedback on my experience of the EclipseCon France 2016.
 Schedule: https://www.eclipsecon.org/france2016/conference/schedule/session/2016-06-07
@@ -219,65 +207,65 @@ Connecting low power IoT devices with LoRa, MQTT, and The Things Network</descri
     
     <item>
       <title>Nabaztag/tag internals</title>
-      <link>http://i-rant.arnaudbos.com/nabaztagtag-internals/</link>
+      <link>https://i-rant.arnaudbos.com/nabaztagtag-internals/</link>
       <pubDate>Mon, 06 Jun 2016 15:00:36 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/nabaztagtag-internals/</guid>
+      <guid>https://i-rant.arnaudbos.com/nabaztagtag-internals/</guid>
       <description>Nabaztag/tag    Updated: June 15th, 2016 Created: June 6th, 2016 Object: Detail what&amp;rsquo;s inside a Nabaztag/tag, with components references when possible.  I&amp;rsquo;m obviously not the first one trying to recycle my Nabaztag. Previous dissections have been done by others so I will reuse what they have done and will keep it here as a reference for my own usage.
 Most of the information on this page come from this guy, so thank you.</description>
     </item>
     
     <item>
       <title>MR. P — Project outline</title>
-      <link>http://i-rant.arnaudbos.com/mr-p-outline/</link>
+      <link>https://i-rant.arnaudbos.com/mr-p-outline/</link>
       <pubDate>Sun, 05 Jun 2016 00:22:34 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/mr-p-outline/</guid>
+      <guid>https://i-rant.arnaudbos.com/mr-p-outline/</guid>
       <description>Nabaztag/tags    Updated: June 15th, 2016 Created: June 5th, 2016 Object: Kick-off of &amp;ldquo;Mr. P&amp;rdquo; project for Nabaztag/tag rabbit resurection with a Raspberry Pi. Naming  Nabaztag means &amp;ldquo;rabbit&amp;rdquo; ; There&amp;rsquo;s a rabbit whose name is &amp;ldquo;Mr. Rabbit&amp;rdquo; in Fantastic Mr. Fox film, which I love ; There&amp;rsquo;s also a &amp;ldquo;Mr. Rabbit&amp;rdquo; in the Utopia TV series, which I&amp;rsquo;m an absolute fan of ; I&amp;rsquo;ll use a Raspberry Pi.</description>
     </item>
     
     <item>
       <title></title>
-      <link>http://i-rant.arnaudbos.com/drafts/architecture-decision-records/</link>
+      <link>https://i-rant.arnaudbos.com/drafts/architecture-decision-records/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/drafts/architecture-decision-records/</guid>
+      <guid>https://i-rant.arnaudbos.com/drafts/architecture-decision-records/</guid>
       <description></description>
     </item>
     
     <item>
       <title></title>
-      <link>http://i-rant.arnaudbos.com/drafts/automated-diagrams-in-documentation-with-boot/</link>
+      <link>https://i-rant.arnaudbos.com/drafts/automated-diagrams-in-documentation-with-boot/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/drafts/automated-diagrams-in-documentation-with-boot/</guid>
+      <guid>https://i-rant.arnaudbos.com/drafts/automated-diagrams-in-documentation-with-boot/</guid>
       <description>https://github.com/boot-clj/boot https://github.com/ztellman/rhizome https://github.com/drcode/vijual https://github.com/daveray/dorothy https://github.com/Macroz/tangle http://www.graphviz.org/content/dot-language</description>
     </item>
     
     <item>
       <title></title>
-      <link>http://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</link>
+      <link>https://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</guid>
+      <guid>https://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</guid>
       <description>Comment from discussion The Inconvenient Truth About Dynamic vs. Static Typing.</description>
     </item>
     
     <item>
       <title></title>
-      <link>http://i-rant.arnaudbos.com/drafts/monkeytechday-flink-kstreams/</link>
+      <link>https://i-rant.arnaudbos.com/drafts/monkeytechday-flink-kstreams/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/drafts/monkeytechday-flink-kstreams/</guid>
+      <guid>https://i-rant.arnaudbos.com/drafts/monkeytechday-flink-kstreams/</guid>
       <description></description>
     </item>
     
     <item>
       <title></title>
-      <link>http://i-rant.arnaudbos.com/drafts/pseudo-uris-and-custom-url-scheme/</link>
+      <link>https://i-rant.arnaudbos.com/drafts/pseudo-uris-and-custom-url-scheme/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/drafts/pseudo-uris-and-custom-url-scheme/</guid>
+      <guid>https://i-rant.arnaudbos.com/drafts/pseudo-uris-and-custom-url-scheme/</guid>
       <description>http://philcalcado.com/2017/03/22/pattern_using_seudo-uris_with_microservices.html https://www.confluent.io/blog/publishing-apache-kafka-new-york-times/</description>
     </item>
     

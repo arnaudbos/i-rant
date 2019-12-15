@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Matrix on Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/tags/matrix/</link>
+    <link>https://i-rant.arnaudbos.com/tags/matrix/</link>
     <description>Recent content in Matrix on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Tue, 07 Feb 2017 02:30:04 +0100</lastBuildDate>
     
-	<atom:link href="http://i-rant.arnaudbos.com/tags/matrix/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://i-rant.arnaudbos.com/tags/matrix/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>2D Transformations with Android and Java</title>
-      <link>http://i-rant.arnaudbos.com/2d-transformations-android-java/</link>
+      <link>https://i-rant.arnaudbos.com/2d-transformations-android-java/</link>
       <pubDate>Tue, 07 Feb 2017 02:30:04 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/2d-transformations-android-java/</guid>
+      <guid>https://i-rant.arnaudbos.com/2d-transformations-android-java/</guid>
       <description>I my previous post, &amp;ldquo;Matrices for developers&amp;rdquo;, I&amp;rsquo;ve talked about matrices and how they can be used to compute 2D transformations.
 In this post, I want to talk about how to apply what we know about matrices in order to perform 2D transformations, first using Java AWT and then with the Android SDK.
 Affine transformations with Java When I was working on the project I mentioned at the beginning of the previous article, I was constantly moving back and forth between the JDK&amp;rsquo;s implementation of affine transformations and the Android SDK&amp;rsquo;s implementation of matrices.</description>
@@ -24,10 +24,10 @@ Affine transformations with Java When I was working on the project I mentioned a
     
     <item>
       <title>Matrices for developers</title>
-      <link>http://i-rant.arnaudbos.com/matrices-for-developers/</link>
+      <link>https://i-rant.arnaudbos.com/matrices-for-developers/</link>
       <pubDate>Mon, 23 Jan 2017 13:11:45 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/matrices-for-developers/</guid>
+      <guid>https://i-rant.arnaudbos.com/matrices-for-developers/</guid>
       <description>WARNING: Long article, big images, heavy GIFs.
  A few weeks ago I was on an android-user-group channel, when someone posted a question about Android&amp;rsquo;s Matrix.postScale(sx, sy, px, py) method and how it works because it was &amp;ldquo;hard to grasp&amp;rdquo;.
 Coincidence: in the beginning of 2016, I finished a freelance project on an Android application where I had to implement an exciting feature:

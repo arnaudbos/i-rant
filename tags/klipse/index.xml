@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Klipse on Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/tags/klipse/</link>
+    <link>https://i-rant.arnaudbos.com/tags/klipse/</link>
     <description>Recent content in Klipse on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Mon, 23 Jan 2017 13:23:08 +0100</lastBuildDate>
     
-	<atom:link href="http://i-rant.arnaudbos.com/tags/klipse/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://i-rant.arnaudbos.com/tags/klipse/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Klipse</title>
-      <link>http://i-rant.arnaudbos.com/test-klipse/</link>
+      <link>https://i-rant.arnaudbos.com/test-klipse/</link>
       <pubDate>Mon, 23 Jan 2017 13:23:08 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/test-klipse/</guid>
+      <guid>https://i-rant.arnaudbos.com/test-klipse/</guid>
       <description>Foo
 Bar  </description>
     </item>

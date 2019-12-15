@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Meta on Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/tags/meta/</link>
+    <link>https://i-rant.arnaudbos.com/tags/meta/</link>
     <description>Recent content in Meta on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Mon, 07 Nov 2016 12:55:28 +0100</lastBuildDate>
     
-	<atom:link href="http://i-rant.arnaudbos.com/tags/meta/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://i-rant.arnaudbos.com/tags/meta/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>I blog</title>
-      <link>http://i-rant.arnaudbos.com/start-blog/</link>
+      <link>https://i-rant.arnaudbos.com/start-blog/</link>
       <pubDate>Mon, 07 Nov 2016 12:55:28 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/start-blog/</guid>
+      <guid>https://i-rant.arnaudbos.com/start-blog/</guid>
       <description>What&amp;rsquo;s this post about? Publishing stuff and things.
 Is it any good? Yes.</description>
     </item>

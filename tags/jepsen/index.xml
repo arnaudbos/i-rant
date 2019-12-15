@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jepsen on Arnaud Bos</title>
-    <link>http://i-rant.arnaudbos.com/tags/jepsen/</link>
+    <link>https://i-rant.arnaudbos.com/tags/jepsen/</link>
     <description>Recent content in Jepsen on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Mon, 07 Aug 2017 16:23:04 +0100</lastBuildDate>
     
-	<atom:link href="http://i-rant.arnaudbos.com/tags/jepsen/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://i-rant.arnaudbos.com/tags/jepsen/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>J On The Beach 2017 — Jepsen Workshop</title>
-      <link>http://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</link>
+      <link>https://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</link>
       <pubDate>Mon, 07 Aug 2017 16:23:04 +0100</pubDate>
       
-      <guid>http://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</guid>
+      <guid>https://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</guid>
       <description>Network&amp;#39;s Laggy     Store it maybe    Photos shamelessly stolen from Kyle Kinsburry&amp;#39;s website  The first book I&amp;rsquo;ve read about distributed systems was Distributed Systems: Principles and Paradigms by Andrew S. Tanenbaum and Maarten van Steen.
 I was reading at the library on my last year of study and I remember being confused very often, and to be honest I didn&amp;rsquo;t even finish it&amp;hellip;</description>
     </item>
