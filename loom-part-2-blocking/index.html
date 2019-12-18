@@ -9,19 +9,19 @@
     <meta property="og:title" content="Loom - Part 2 - Blocking code" />
     <meta property="og:description" content="Loom" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://i-rant.arnaudbos.com/loom-part-2-blocking/" />
+    <meta property="og:url" content="https://i-rant.arnaudbos.com/loom-part-2-blocking/" />
     
-    <meta property="og:image" content="http://i-rant.arnaudbos.com/img/loom/loom.png" />
+    <meta property="og:image" content="https://i-rant.arnaudbos.com/img/loom/loom.png" />
     
 
     <meta name="description" content="My corner of teh interweb.">
-    <link rel="shortcut icon" type="image/x-icon" href="http://i-rant.arnaudbos.com/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
     <title>Loom - Part 2 - Blocking code</title>
     <meta name="generator" content="Hugo 0.54.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
-    <link rel="stylesheet" type="text/css" href="http://i-rant.arnaudbos.com/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://i-rant.arnaudbos.com/css/main.css" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
     
     <!--[if lt IE 9]>
@@ -39,21 +39,21 @@
       <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" href="http://www.arnaudbos.com/"><i class="fa fa-home"></i></a>
+      <a class="navbar-brand" href="https://www.arnaudbos.com/"><i class="fa fa-home"></i></a>
     </div>
     <div id="navbar">
       <ul class="nav navbar-nav navbar-right">
       
         
-        <li><a href="http://i-rant.arnaudbos.com/">BLOG</a></li>
+        <li><a href="https://i-rant.arnaudbos.com/">BLOG</a></li>
         
-        <li><a href="http://side-effects.arnaudbos.com/">PROJECTS</a></li>
+        <li><a href="https://side-effects.arnaudbos.com/">PROJECTS</a></li>
         
-        <li><a href="http://talks.arnaudbos.com/">TALKS</a></li>
+        <li><a href="https://talks.arnaudbos.com/">TALKS</a></li>
         
-        <li><a href="http://level-up.arnaudbos.com/">LEVEL-UP</a></li>
+        <li><a href="https://level-up.arnaudbos.com/">LEVEL-UP</a></li>
         
-        <li><a href="http://vitae.arnaudbos.com/">RESUME</a></li>
+        <li><a href="https://vitae.arnaudbos.com/">RESUME</a></li>
         
       
       </ul>
@@ -73,7 +73,7 @@
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          12 minutes read
+          15 minutes read
           </h4>
         </div>
         <div>
@@ -131,10 +131,17 @@ In this part we implement a proxy service, the easiest way possible.</p>
 <ul>
 <li><a href="#a-simple-use-case">A simple use case</a></li>
 <li><a href="#first-implementation">First implementation</a></li>
-<li><a href="#profiling">Profiling</a></li>
-<li><a href="#context-switches">Context switches</a></li>
+<li><a href="#profiling">Profiling</a>
+<ul>
+<li><a href="#cpu-usage">CPU usage</a></li>
+<li><a href="#threads">Threads</a></li>
+</ul></li>
+<li><a href="#context-switches">Context switches</a>
+<ul>
+<li><a href="#what-they-are">What they are</a></li>
+<li><a href="#why-they-are-bad">Why they are bad</a></li>
+</ul></li>
 <li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#two-types-of-code">Two types of code</a></li>
 </ul></li>
 </ul>
 </nav></div>
@@ -151,7 +158,7 @@ what I wanted to explain. So here&rsquo;s a not totally made up, simple use case
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
-  <a href="/img/loom/demo.png" itemprop="contentUrl" data-size="2198x994">
+  <a href="/img/loom/demo.png" itemprop="contentUrl" data-size="2530x1180">
       <img src="/img/loom/demo.png" itemprop="thumbnail"
         
         
@@ -195,7 +202,7 @@ request to the data source</li>
 <li>While at the same time sending periodic &ldquo;heartbeat&rdquo; requests to the coordinator to ensure its token is not revoked</li>
 </ol>
 
-<p>We are going to use in the next parts of the series. We will implement this proxy service in
+<p>We are going to use this scenario in the next parts of the series. We will implement this proxy service in
 various ways, simulate  a few (200) clients connecting simultaneously and see the pros and cons of each implementation.</p>
 
 <blockquote>
@@ -207,29 +214,7 @@ various ways, simulate  a few (200) clients connecting simultaneously and see th
 
 <p>I am now going to show you the easiest way I came up with to implement this proxy service.</p>
 
-<p>Let&rsquo;s first simulate a few clients:</p>
-
-<pre><code class="language-java">for(int i=0; i&lt;MAX_CLIENTS; i++) {
-    elasticServiceExecutor.submit(() -&gt; {
-        try {
-            getThingy();
-        } catch (EtaExceededException e) {
-            err(&quot;Couldn't getThingy because ETA exceeded: &quot; + e);
-        } catch (Exception e) {
-            err(&quot;Couldn't getThingy because something failed: &quot; + e);
-        }
-    });
-}
-</code></pre>
-
-<p>In this implementation, <code>elasticServiceExecutor</code> is a &ldquo;cached&rdquo; <code>ThreadPoolExecutor</code>:</p>
-
-<pre><code class="language-java">elasticServiceExecutor = Executors.newCachedThreadPool(new PrefixedThreadFactory(&quot;service&quot;));
-</code></pre>
-
-<p>I will explain why in a little bit.</p>
-
-<p><code>getThingy()</code> is the download endpoint in this example. Each client &ldquo;connecting&rdquo; to the proxy hits this method.</p>
+<p><code>getThingy()</code> is the download endpoint in this example. Each client &ldquo;connecting&rdquo; to the proxy hits this method:</p>
 
 <pre><code class="language-java">private void getThingy() throws EtaExceededException, IOException {
     println(&quot;Start getThingy.&quot;);
@@ -262,11 +247,46 @@ various ways, simulate  a few (200) clients connecting simultaneously and see th
 
 <p>First we retrieve an &ldquo;Available&rdquo; connection <code>conn</code> from the coordinator, then we initiate the download request to the
 data source (called <code>gateway</code> in this example, just to make it confusing&hellip;).<br />
-Once the download has begun we start the heartbeat requests while consuming the content (here we simply drop it, but in
-a real scenario we would forward to the client).<br />
+Once the download has begun we start the heartbeat requests (<em>pulse</em> thread) while consuming the content (<code>InputStream</code>,
+here we simply drop it, but in a real scenario we would forward to the client).<br />
 Once the download ends (successfully or not) we stop sending heartbeat requests and the call ends.</p>
 
-<p>There are a few things to unpack, but the least interesting first, <code>makePulse</code>:</p>
+<p>This may not be what you had expected. Maybe you were hoping to see some kind of framework here, some <em>@Controller</em>
+or <em>@GET</em> annotation perhaps?</p>
+
+<p>In this series, I&rsquo;m not going to bother with a framework or anything like that. Because the number of clients is so
+small and because, again, this is not a benchmark, I am just simulating the client calls from within the same JVM.</p>
+
+<p>This way, I am able to use the kind of <code>ExecutorService</code> I want, for each implementation, in order to outline a few
+things. This executor and its thread pool will simulate the Web Server thread pool that could be found inside any Web
+Framework anyways and it is more illustrative to have it directly at hand.</p>
+
+<p>Let&rsquo;s simulate a few clients shall we?</p>
+
+<pre><code class="language-java">for(int i=0; i&lt;MAX_CLIENTS; i++) {
+    elasticServiceExecutor.submit(() -&gt; {
+        try {
+            getThingy();
+        } catch (EtaExceededException e) {
+            err(&quot;Couldn't getThingy because ETA exceeded: &quot; + e);
+        } catch (Exception e) {
+            err(&quot;Couldn't getThingy because something failed: &quot; + e);
+        }
+    });
+}
+</code></pre>
+
+<p>In this implementation, <code>elasticServiceExecutor</code> is a &ldquo;cached&rdquo; <code>ThreadPoolExecutor</code>, and I will explain why in a
+little bit.</p>
+
+<pre><code class="language-java">elasticServiceExecutor =
+    Executors.newCachedThreadPool(new PrefixedThreadFactory(&quot;service&quot;));
+</code></pre>
+
+<p>We have a &ldquo;Web Server&rdquo;, we have clients and we have our download controller.</p>
+
+<p>There are a few things to unpack from this controller.<br />
+Let&rsquo;s start with the least interesting bit first, <code>makePulse</code>:</p>
 
 <pre><code class="language-java">private Thread makePulse(Connection.Available conn) {
     return new Thread(() -&gt; {
@@ -286,21 +306,26 @@ Once the download ends (successfully or not) we stop sending heartbeat requests 
 }
 </code></pre>
 
-<p>Nothing fancy here, we sleep for a while, then send a request, sleep for a while, &hellip;</p>
+<p>Nothing fancy here: sleep for a while, send a request, sleep for a while, send a request, &hellip;</p>
 
-<p>You may have noticed that <code>getThingy</code> uses the <code>gateway</code> service to talk to the data source and that <code>makePulse</code> uses
-the <code>coordinator</code> service to talk to the coordinator. So what is this <code>getConnection</code> method and why does <code>getThingy</code>
-not use <code>coordinator</code> directly?</p>
+<p>You may have noticed that <em>getThingy</em> uses the <code>gateway</code> service to talk to the data source and that <em>makePulse</em> uses
+the <code>coordinator</code> service to talk to the coordinator.<br />
+So what is this <code>getConnection</code> method and why does <em>getThingy</em> not use <code>coordinator</code> directly?</p>
 
-<p>The reason is the retry logic than we&rsquo;ve talked about before. <code>getConnection</code> is actually a helper to handle
-the &ldquo;Unavailable&rdquo; responses from the coordinator and only return when an <code>Available</code> response has been received. Here&rsquo;s
+<p>Because of the retry logic we&rsquo;ve talked about before!<br />
+<code>getConnection</code> is actually a helper to handle
+the <em>Unavailable</em> responses from the coordinator and only return when an <em>Available</em> response has been received. Here&rsquo;s
 the code:</p>
 
-<pre><code class="language-java">private Connection.Available getConnection() throws EtaExceededException, InterruptedException {
+<pre><code class="language-java">private Connection.Available getConnection()
+    throws EtaExceededException, InterruptedException
+{
     return getConnection(0, 0, null);
 }
 
-private Connection.Available getConnection(long eta, long wait, String token) throws EtaExceededException, InterruptedException {
+private Connection.Available getConnection(long eta, long wait, String token)
+    throws EtaExceededException, InterruptedException
+{
     for(;;) {
         if (eta &gt; MAX_ETA_MS) {
             throw new EtaExceededException();
@@ -324,172 +349,580 @@ private Connection.Available getConnection(long eta, long wait, String token) th
 }
 </code></pre>
 
-<p>We start with initial <code>eta</code> and <code>wait</code> times at zero and no token (<code>null</code>).<br />
-Then we try to get a grant from the coordinator.<br />
-If the coordinator rejects us with an <code>Unavailable</code> response, we update the eta, wait and token and loop, otherwise we
-can return the <code>Available</code> response.</p>
+<p>We start with initial <code>eta</code> and <code>wait</code> times at zero and no token (<code>null</code>).</p>
 
-<p>As I said: <strong>the easiest implementation I came up with</strong>.</p>
+<p>Then we try to get a grant from the coordinator.<br />
+If the coordinator rejects us with an <code>Unavailable</code> response, we update the <em>eta</em>, <em>wait</em> and <em>token</em> and loop,
+otherwise we can return the <code>Available</code> response.</p>
 
-<p>This code is not perfect, but it has this one particularly interesting property: any Java developer at any level from
-junior to expert can understand what this does!<br />
-It is classic, old, boring, imperative Java code which does the job.</p>
+<p>As I said: the <strong>easiest</strong> implementation I could come up with.</p>
 
-<p>And <em>easy</em> is important, right?</p>
+<p><strong>Any Java developer at any level from junior to expert can understand what this does!</strong><br />
+It is <em>classic</em>, <em>old</em>, <em>boring</em>, <em>imperative</em> Java code which <strong><em>does the job</em></strong>.</p>
+
+<p>And <em>easy</em> is important, right? With this example I&rsquo;m 100% confident that all of you know what the service does and
+how it does it and we can build from here with all the subsequent implementations, using different paradigms and APIs.</p>
+
+<p>Let&rsquo;s now see what this code <em>actually</em> does.</p>
 
 <h2 id="profiling">Profiling</h2>
 
+<p>The first tool I turned to is <a href="https://visualvm.github.io/">VisualVM</a>. In the absence of metrics from the code, defaulting to VisualVM gives a basic
+understanding of the behaviour of a JVM application regarding its thread and objects allocation, CPU utilization, GC
+pressure, etc.</p>
+
+<h3 id="cpu-usage">CPU usage</h3>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl1-cpu.png" itemprop="contentUrl" data-size="3124x1730">
+      <img src="/img/loom/impl1-cpu.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">CPU utilization is low</div>
+</div>
+
+
+<p>CPU usage is really limited in this example (at a guess, I&rsquo;d say the 95 percentile is less than 3% with an outlier at
+about 8% for a very short time during startup). Which makes sense, right?</p>
+
+<p>Indeed, this use case is designed to be <em>I/O bound</em>: it&rsquo;s not like we&rsquo;re computing any math. Instead
+what we do is send a bunch or requests, wait a little in between, then some more requests to forward content from
+buffers and done.</p>
+
+<p>None of this requires a lot of CPU power so this screenshot should not be surprising. In fact, it will be the same
+for all the other implementations we will see in the next parts so I am not going to embed it again.</p>
+
+<p>Looking at the threads is much more interesting.</p>
+
+<h3 id="threads">Threads</h3>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl1-threads.png" itemprop="contentUrl" data-size="3110x1830">
+      <img src="/img/loom/impl1-threads.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">We&#39;re creating a lot of threads</div>
+</div>
+
+
+<p>We can see in the figure above that when the application starts, meaning &ldquo;when our clients connect&rdquo;, it is going to
+create a first batch of about 200 threads. And then progressively start 200 more over a period of about 5 seconds.</p>
+
+<p>The last 200 are pretty obvious given the implementation of <code>makePulse</code>: once the proxy begins to receive <em>Available</em>
+responses from the coordinator, it starts the threads instantiated by the calls to <em>makePulse</em>. So this is just an
+implementation detail. A wrong one for sure, but still a detail.</p>
+
+<p>What should be more intriguing are the first 200 (the 10 additional ones are created by the JVM itself, the net
+addition from our application is of 200). Why are 200 clients creating 200 threads?</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl1-threads-running.png" itemprop="contentUrl" data-size="2820x1786">
+      <img src="/img/loom/impl1-threads-running.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">200&#43; threads &#34;running&#34;</div>
+</div>
+
+
+<p>They all seem pretty busy (green means &ldquo;running&rdquo; in VisualVM), which is weird! We&rsquo;ve seen that CPU usage is really low,
+so our cores don&rsquo;t actually do much in practice.</p>
+
+<p>We must to take a closer look at what those threads actually do. Let&rsquo;s get a <em>thread dump</em>.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl1-thread-dump.png" itemprop="contentUrl" data-size="2898x976">
+      <img src="/img/loom/impl1-thread-dump.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Typical thread from this application</div>
+</div>
+
+
+<p>In this screenshot I am just showing one of the many threads described in the thread dump because they all look alike.</p>
+
+<p>The typical thread in this application seems to be running this <code>SocketDispatch#read0</code> native method. And they aren&rsquo;t
+&ldquo;just&rdquo; running this method but in fact spending <strong>most of their time</strong> running it.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl1-flame.png" itemprop="contentUrl" data-size="2158x1548">
+      <img src="/img/loom/impl1-flame.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Flame Graph</div>
+</div>
+
+
+<p>This <a href="http://www.brendangregg.com/flamegraphs.html">flame graph</a> was acquired using <a href="https://github.com/jvm-profiling-tools/async-profiler">async-profiler</a> and shows that time spent running <code>SocketDispatcher#read0</code>&rsquo;s
+underlying <code>read</code> system call dominates our application.</p>
+
+<p>If we track its call stack to find its origin, we stumble upon <code>lambda$run$1</code> which, in fact, is the call to the
+astutely named <code>blockingRequest</code> method inside of the <em>gateway</em> service:</p>
+
+<pre><code class="language-java">class SyncGatewayService {
+    InputStream downloadThingy() throws IOException {
+        return blockingRequest(
+            &quot;http://localhost:7000&quot;,
+            String.format(HEADERS_TEMPLATE,
+                          &quot;GET&quot;,
+                          &quot;download&quot;,
+                          &quot;text/*&quot;,
+                          String.valueOf(0))
+        );
+    }
+}
+</code></pre>
+
+<p>And without further suspense, here&rsquo;s its code:</p>
+
+<pre><code class="language-java">public static InputStream blockingRequest(String url, String headers)
+    throws IOException
+{
+    println(&quot;Starting request to &quot; + url);
+    URL uri = new URL(url);
+    SocketAddress serverAddress =
+        new InetSocketAddress(uri.getHost(), uri.getPort());
+    SocketChannel channel = SocketChannel.open(serverAddress);
+    ByteBuffer buffer = ByteBuffer.wrap(
+        (headers + &quot;Host: &quot; + uri.getHost() + &quot;\r\n\r\n&quot;).getBytes()
+    );
+    do {
+        channel.write(buffer);
+    } while(buffer.hasRemaining());
+
+    return channel.socket().getInputStream();
+}
+</code></pre>
+
+<p>You can see in the call chain that <code>read0</code> originates from calling <code>InputStream#read</code>. The <em>InputStream</em> itself is
+obtained from the <code>SocketChannel</code>. And this, dear reader, is the ugly detail that makes this application not
+efficient and is the reason why we end up with as many threads as clients.</p>
+
+<p>Because this socket channel is written to and read from in <strong>blocking mode</strong>.</p>
+
 <h2 id="context-switches">Context switches</h2>
+
+<h3 id="what-they-are">What they are</h3>
+
+<p>What&rsquo;s a blocking call and why is it bad? Let&rsquo;s talk about what happens when one of our threads encounters a thread
+blocking call.</p>
+
+<p>For the sake of simplicity, I am going to assume here that our CPUs run two kinds of instructions.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/engine.png" itemprop="contentUrl" data-size="1928x770">
+      <img src="/img/loom/engine.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Legend</div>
+</div>
+
+
+<p>Instructions coming from what we&rsquo;ll call our &ldquo;user code&rdquo; represented by the triangle, hexagon, square and round shapes.<br />
+And instructions coming from the kernel whose goals are to enforce scheduling policies represented by the circle and
+cross shapes.<br />
+The CPU will be represented by a Wankel engine.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/context-switch-1.png" itemprop="contentUrl" data-size="3080x1046">
+      <img src="/img/loom/context-switch-1.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Kernel threads</div>
+</div>
+
+
+<p>On the JVM, the threads we manipulate are actually kernel threads. The threads which are instantiated and managed by
+the various flavors of <code>ExecutorService</code> available via the helper <code>java.util.concurrent.Executors</code> are an abstraction
+over native threads with additional thread pool logic, tasks queues management and scheduling mechanisms.</p>
+
+<p>As said earlier, the executor I&rsquo;ve used in this implementation is a &ldquo;cached&rdquo; <code>ThreadPoolExecutor</code>.</p>
+
+<pre><code class="language-java">elasticServiceExecutor =
+    Executors.newCachedThreadPool(new PrefixedThreadFactory(&quot;service&quot;));
+</code></pre>
+
+<p>This executor handles an initial pool of threads as well as a task queue (<code>SynchronousQueue</code>).<br />
+It also has a reference to a <code>ThreadFactory</code>, because this executor will try to match each <code>Runnable</code> that is submitted
+to it via its <code>submit</code> method to a runnable thread in its pool. If no thread is available to run the next <em>Runnable</em> in
+the queue, it will use the <em>ThreadFactory</em> to create a new thread and hand the <em>Runnable</em> object to it.</p>
+
+<p>The threads thus created are managed by the kernel, which itself manages its own priority queue and acts according to
+its scheduling policy (we&rsquo;ve talked about this in the <a href="../loom-part-1-scheduling">part 1 of this series</a>). The priority queue shown in the
+illustration above is the kernel&rsquo;s.</p>
+
+<p>So, in a nutshell, when a thread is scheduled to run, its instructions are executed one after the other by the CPU.<br />
+Up until it finishes or a blocking call is made.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/context-switch-2.png" itemprop="contentUrl" data-size="3038x1014">
+      <img src="/img/loom/context-switch-2.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Close Encounters of the Blocking Kind</div>
+</div>
+
+
+<p>In the illustration above, the &ldquo;round&rdquo; instructions come from the currently scheduled thread. We can see that the
+current instruction is in fact a blocking OS call (syscall, such as <code>read</code>).</p>
+
+<p>What will actually happen here, is a <strong>context switch</strong>.<br />
+Because the thread is currently trying to execute an action <em>outside</em> its current <a href="https://en.wikipedia.org/wiki/Protection_ring">protection ring</a>.</p>
+
+<p>JVM applications run in <em>user space</em> (ring 3) to ensure memory and hardware protection.<br />
+The kernel runs in <em>kernel space</em> (ring 0) and is responsible to ensure computer security and that processes behave,
+basically.</p>
+
+<p>When executing syscalls such as blocking <code>read</code>s, <em>kernel space</em> access level is required. Kernel instructions will be
+run on behalf of the &ldquo;user code&rdquo; and will, for instance, ensure that this thread does not hold onto the CPU while
+waiting for its call to return and that another thread has a chance to run in the mean time, hence ensuring compliance
+with the scheduling policies.</p>
+
+<p>For the sake of simplicity, I&rsquo;m representing a context switch as a 2 step process.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/context-switch-3.png" itemprop="contentUrl" data-size="3016x1036">
+      <img src="/img/loom/context-switch-3.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">A context switch</div>
+</div>
+
+
+<p>During the first step, the kernel is going to <em>suspend</em> the execution of the current thread. In order to do this,
+it is going to save a few things such as the current instruction or process counter (on which instruction did the
+thread pause), the thread&rsquo;s current call stack, the state of CPU registers it was accessing, etc.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/context-switch-4.png" itemprop="contentUrl" data-size="2990x1024">
+      <img src="/img/loom/context-switch-4.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">1/2: save execution state</div>
+</div>
+
+
+<p>The kernel is going to save all this in a data structure (see <a href="https://www.tutorialspoint.com/what-is-process-control-block-pcb">PCB</a>, for Process Control Block), and put the thread
+back into the priority queue.</p>
+
+<blockquote>
+<p>Also for the sake of simplicity, I am representing the &ldquo;not ready&rdquo; state of a thread as if flagged and put back into
+a priority queue. But the actual logic may be more complicated, including several distinct queues for different
+&ldquo;waiting&rdquo; purposes or any arbitrary logic as kernel developers see fit.</p>
+</blockquote>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/context-switch-5.png" itemprop="contentUrl" data-size="2996x1014">
+      <img src="/img/loom/context-switch-5.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">2/2: schedule next</div>
+</div>
+
+
+<p>In the second step, the kernel decides which thread should be scheduled next according to its policies, and this thread
+is allocated to the CPU. If this thread had been scheduled before, its state would have to be restored first, of
+course.</p>
+
+<p>This thread itself may contain instructions pointing at a blocking syscall, which would trigger a new context switch,
+and so on and so forth until eventually the result of the blocking syscall made by the round instruction above is
+available and this thread is scheduled again.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/context-switch-6.png" itemprop="contentUrl" data-size="3036x1052">
+      <img src="/img/loom/context-switch-6.png" itemprop="thumbnail"
+        
+        
+        width="395px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/context-switch-7.png" itemprop="contentUrl" data-size="3014x1002">
+      <img src="/img/loom/context-switch-7.png" itemprop="thumbnail"
+        
+        
+        width="395px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/context-switch-8.png" itemprop="contentUrl" data-size="3046x1016">
+      <img src="/img/loom/context-switch-8.png" itemprop="thumbnail"
+        
+        
+        width="396px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/context-switch-9.png" itemprop="contentUrl" data-size="3066x1034">
+      <img src="/img/loom/context-switch-9.png" itemprop="thumbnail"
+        
+        
+        width="390px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+
+</div>
+
+
+<p>Now it&rsquo;s time to connect the dots and understand why blocking calls deserve such hatred.</p>
+
+<h3 id="why-they-are-bad">Why they are bad</h3>
+
+<p>One of the blog posts I like the most to explain this issue is
+<em>&ldquo;Little&rsquo;s Law, Scalability and Fault Tolerance: The OS is your bottleneck (and what you can do about it)&rdquo;</em> by
+<a href="https://twitter.com/pressron" title="pressron" target="_blank">@pressron</a>.</p>
+
+
+<figure  style="text-align: center;">
+    <a target="_blank" href="https://blog.paralleluniverse.co/2014/02/04/littles-law/">
+        <img src="/img/loom/little.png" alt="Little&#39;s Law, Scalability and Fault Tolerance: The OS is your bottleneck (and what you can do about it)"
+            width="100%"
+            />
+    </a>
+    
+</figure>
+
+
+
+<p>I&rsquo;m trying to do half as good in this series, so I strongly suggest that you take a look at it and read <em>at least</em> the
+first 3 parts of the article: <em>&ldquo;Our Little Service&rdquo;</em>, <em>&ldquo;Little’s Law&rdquo;</em> and <em>&ldquo;What Dominates the Capacity&rdquo;</em>.</p>
+
+<p>What this explains is basically that the number of connections our services can handle when executing blocking code is
+not limited by the number of network connections our OS can keep open, but by the number of threads we create.<br />
+Each kernel thread stack takes memory space and thread scheduling (context switches explained above) wastes CPU cycles
+and adds latency to requests.</p>
+
+<blockquote>
+<p>Allowing the software to spawn thread willy-nilly may bring our application to its knees, so we usually set a hard
+limit on the number of threads we let the application spawn.<br />
+— R. Pressler</p>
+</blockquote>
+
+<p>So we know that we can&rsquo;t let the number of threads grow too much.<br />
+But why is this code creating one thread-per-connection (not to mention the additional &ldquo;pulsing&rdquo; thread)?</p>
+
+<p>The answer is: because of the cached <code>ThreadPoolExecutor</code>!<br />
+As I said:</p>
+
+<blockquote>
+<p>If no thread is available to run the next <em>Runnable</em> in the queue, it will use the <em>ThreadFactory</em> to create a new
+thread and hand the <em>Runnable</em> object to it.</p>
+</blockquote>
+
+<p>In this implementation, each request issues blocking writes and reads to and from the <code>SocketChannel</code>.<br />
+Each of these calls lead to context switches during which the current thread will be paused.<br />
+So connection requests added to the <code>ThreadPoolExecutor</code> waiting queue will quickly drain the number of threads
+cached in the pool, because they are paused!<br />
+This triggers the creation of more threads by the executor and <span class="emoji">:boom:</span>
+</p>
+
+<p>We could use a different executor, such as <code>Executors.newFixedThreadPool(int, ThreadFactory)</code> in order to <em>&ldquo;limit the
+number of threads we let the application spawn&rdquo;</em>. By doing so we explicitly limit the number of connections our service
+can handle.</p>
+
+<blockquote>
+<p>We could, of course, buy more servers, but those cost money and incur many other hidden costs. We might be
+particularly reluctant to buy extra servers when we realize that software is the problem, and those servers we
+already have are under-utilized.<br />
+— R. Pressler</p>
+</blockquote>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>On the JVM, the threads we manipulate are actually kernel threads (TODO: rework, in my presentations I used to mention the kernel
-threads when talking about the CachedThreadPoolExecutor, maybe this is right here and should be a remainider aka &ldquo;*&rdquo;
-when talking about the code later.).</p>
+<p>This part of the series was intended at laying out the context: present a use case from which we can build upon and
+experiment to try various solutions to the problem of blocking calls and scalability.</p>
 
-<p>&ldquo;Pausing&rdquo; (TODO: make sure of the terms for suspending a thread and their states (ready, runnable, etc.)) a thread from
-the kernel&rsquo;s point of view is a task requiring to get out of user-mode (TODO talk about rings?) into privileged mode
-to execute reserved instructions in order to save the execution state of the thread, schedule another one, load its
-state and go back to user mode (TODO: maybe introduce &ldquo;wankel&rdquo; diagrams here).<br />
-This is also known as context switching and is detrimental to performance (TODO add link, see pocket) because the cycles
-spent on &ldquo;book keeping&rdquo; are not spent running your tasks.</p>
+<p>I hope you understand a little more about blocking calls and context switches after reading this.</p>
 
-<h2 id="two-types-of-code">Two types of code</h2>
-
-<p>In this part</p>
-
-<p>Today, in our tool belts, we have processors much (much!) more powerful than in the sixties or seventies. We have
-<strong>multiprocessor</strong> computers and even <strong>multi-core</strong> processors. What do we have on the software side?</p>
-
-<p>When the scheduler time-slices a long-running thread there&rsquo;s not much we can do about it (TODO: open to unikernels?).
-But we can maximize efficiency by being careful to avoid blocking calls and use async APIs.</p>
-
-<p>[TODO] if this wasn&rsquo;t too obvious at this point, here I really get back in track with my recent presentation at the
-moment where I introduce async programming. In the talk a talk just a bit more about how sync is great while here I
-don&rsquo;t talk about programming styles/APIs at all, this must be fixed.</p>
-
-<p>The thing with async APIs is that it&rsquo;s not obvious to differentiate async from non-blocking, and vice-versa.<br />
-An asynchronous call can still be thread-blocking. (TODO: yes, this should be illustrated with content from my talks).
-It may of may not block the current thread but run the distinct control stack on another thread, managed in a library
-specific thread pool.</p>
-
-<p>So asynchronous thread blocking APIs are nice because they&rsquo;re blocking other threads, but the problem of memory
-footprint of kernel threads and context switches still remains.</p>
-
-<p>Truly non-blocking asynchronous APIs rely on event loops and fine tuned implementation techniques such as work
-stealing and drain loops in order to maximize CPU utilisation.<br />
-But they rely on callbacks too, which leads to the infamous callback-hell that.</p>
-
-<p>TODO: Yup, rework this part, heavily.</p>
-
-<p>But we&rsquo;re in 2019 so we have libraries now to lift this problem off of our shoulders, namely Reactive Streams libraries
-such as RxJava or Pivotal&rsquo;s Project Reactor.</p>
-
-<p>Reactive Streams APIs are a great solution to the inefficient use of CPU but they come as a whole new programming style.
-A new paradigm on a platform that may not be suited for it.</p>
-
-<p>And becauseit&rsquo;s 2019, we&rsquo;re stating to get feedback on these libraries, hinting they&rsquo;re not the best for all use-cases,
-most notably because of debugging and profiling and interoperability with existing (blocking) code.</p>
-
-<p>Even after almost two years I sometimes have to think hard about which Reactor operator to use, am I messing up
-ordering, am I blocking here, am I lazy there, am I stack safe?</p>
-
-<p>So it&rsquo;s interesting to ask, is there another way? Can we write non-blocking, efficient code without Reactive Streams
-APIs while still avoiding async APIs and callback hell?<br />
-Project Loom is one possible answer.</p>
-
-<p>Again, you can see this scheduling story has been running for quite some time now. (TODO link to beginning, possible
-distinct article).</p>
-
-<p>TODO: Note: unrelated to this specific location: synchronized -&gt; doog lea -&gt; reactive -&gt; loom</p>
-
-<p>The lightweight concurrency mechanisms that Loom aims to bring to the JVM are also known as user-threads.<br />
-TODO: Checkboxes again.</p>
-
-<p>Contrary to Kernel threads, which are managed by the kernel, user threads are manager by the language or runtime and
-are named this way because they un in user space.</p>
-
-<p>We&rsquo;ll see why they&rsquo;re interesting and how they work, but I think it&rsquo;s time to check a few boxes now:</p>
-
-<ul>
-<li>lightweight threads</li>
-<li>user threads</li>
-<li>fibers</li>
-<li>coroutnies</li>
-<li>erlang processes</li>
-<li>goroutines</li>
-<li>async/await
-are all, basically, user thread mechanisms and they differ in their implementation details or whether they&rsquo;re
-first-class citizens or language syntax.</li>
-</ul>
-
-<p>All those details matter from a language implementer&rsquo;s point of view and are really interesting, but if you&rsquo;re not that
-much of a language geek, hopefully I can save you some research time with this statement.</p>
-
-<p>The only bow I&rsquo;m not goiing to tick here is green-threads because they have a specific meaning in the Java world, so
-I&rsquo;m leaving this as an exercise to the reader.</p>
-
-<p>Bak to user-threads.<br />
-The conceptual model for user-threads is often referred to in the literature (TODO link) as the M:N model, where M
-represents the number of user-threads running on top of N kernel threads.</p>
-
-<p>Just to give a little bit more details, we can add the letter P in M:N:P to explicit the fact that M user-threads run
-on N kernel threads on top of P processor cores. Where N would be as close to P as possible, ideally.</p>
-
-<p>In Project Loom, user-threads are called lightweight/virtual threads, so I&rsquo;ll stick with this name from now on.</p>
-
-<p>The reason why fibers are interesting is because the cost of creating, suspending and resuming those fibers is
-massively reduced by the scheduler running in user-space, which means no extra kernel/user mode context-switches.</p>
-
-<p>How does it work&hellip;<br />
-Implementations vary: Kotlin transforms suspendable functions bytecode during compilation, Clojure transforms code at
-macro-expansion time, etc.</p>
-
-<p>It turns out that Java in particular, and Kotlin too actually, even before it had coroutines, Fibers have exsited for
-quite some time. Since 2013 at least, thanks to a library named [Quasar].</p>
-
-<p>Quasar has been developed by a company named [Parallel Universe][puniverse] who, sadly, no longer exists, but whose
-CTO and core developer is now Project Loom&rsquo;s lead developer: Ron Pressler.<br />
-Quasar implements fibers by instrumenting the Java bytecode and scans methods annotated as &ldquo;suspendable&rdquo; and turns them
-into continuations that run on a Fiber scheduler. Those continuations have the ability to <code>yield</code>, or relinquish the
-thread they are currently running on when encountering a blocking call.</p>
-
-<p>On my last project, we implemented a service whose responsibility was to proxy requests to remote backends through
-a limited number of connections. The goal of this scheduler was to maximize the use of connections, or in other words,
-minimize the time during which a given connection would sit idle, unused.<br />
-I&rsquo;m not ashamed to say that even after almost two years of using Reactor daily, I didn&rsquo;t feel the nerves to do it with
-a Reactive Streams implementation.</p>
-
-<p>My colleague Guillaume started the Spring Boot 2 project, implemented the first REST endpoints and other background
-tasks necessary for the service, but when it was my turn to implement the logic of the scheduler and states and
-transitions, I went for Quasar and fiber-blocking, imperative code, and an actor model, but it&rsquo;s another story.</p>
-
-<p>I&rsquo;m not saying Reactor wasn&rsquo;t a good fit for this problem or that it couldn&rsquo;t be done. In fact I&rsquo;m sure it could be,
-just not by me, and I still think it was a good idea to find another way.</p>
-
-<p>So when you&rsquo;ve followed the work of Ron Pressler, it&rsquo;s not surprising that the way he proposed to approach implementing
-Fibers on the JVM is through the use of continuations.<br />
-Now, what&rsquo;s a continuation?</p>
-
-<p>Conceptually, a continuation represents the rest of the execution of a process from a certain point in time.<br />
-More practically, when looking at the following code:</p>
-
-<p>TODO: insert code sample with &ldquo;suspension point&rdquo;.</p>
-
-<p>Who&rsquo;s  already heard about continuations?<br />
-Most programming languages today do not expose continuations and ways to create them as first-class citizens. Pretty
-much like many languages did not expose functions as first-class until the resurgence of functional programming.<br />
-Continuations are very fundamental and extremely powerful, and after preparing this talk I now find them more interesting
-by themselves then their use in the context of fibers. But anyways.</p>
-
-<p>The way continuations allow fibers implementation is via the yielding mechanism.<br />
-As soon as a running continuation encounters a blocking call, it calls this yield instruction.</p>
-
-<p>The runtime will then know that this continuation&rsquo;s stack can be saved, put aside for when its execution can be
-restarted, and will pick another continuation, which is ready to be restarted, if any, restore its control stack and
-assign it to the CPU.</p>
-
-<p>So Fibers in Loom are the association of continuations, and a scheduler.</p>
+<p>In the next part, we will take a look at asynchronous calls.</p>
 
               <hr>
               <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
@@ -562,10 +995,10 @@ assign it to the CPU.</p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="http://i-rant.arnaudbos.com/js/docs.min.js"></script>
-<script src="http://i-rant.arnaudbos.com/js/main.js"></script>
+<script src="https://i-rant.arnaudbos.com/js/docs.min.js"></script>
+<script src="https://i-rant.arnaudbos.com/js/main.js"></script>
 
-<script src="http://i-rant.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
+<script src="https://i-rant.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
 
 <!-- EmojiOne -->
 <script src="https://cdn.jsdelivr.net/emojione/2.2.7/lib/js/emojione.min.js"></script>

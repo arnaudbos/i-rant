@@ -40,6 +40,20 @@ Part 2 - Blocking code
     </item>
     
     <item>
+      <title>Loom - Part 2 - Blocking code</title>
+      <link>https://i-rant.arnaudbos.com/loom-part-2-blocking/</link>
+      <pubDate>Tue, 10 Dec 2019 15:10:10 +0100</pubDate>
+      
+      <guid>https://i-rant.arnaudbos.com/loom-part-2-blocking/</guid>
+      <description>Part 2 in a series of articles about Project Loom.
+In this part we implement a proxy service, the easiest way possible.
+If you&amp;rsquo;d like you could head over to
+Part 0 - Writing for the past me
+Part 1 - It&amp;rsquo;s all about Scheduling
+   Weaving  Max Pixel CC0 1.0    A simple use case One of the biggest pain points I had when I started to learn about concurrent programming, was the emphasis put on Blocking, Non-blocking, Synchronous and Asynchronous code.</description>
+    </item>
+    
+    <item>
       <title>Loom</title>
       <link>https://i-rant.arnaudbos.com/loom/</link>
       <pubDate>Mon, 04 Nov 2019 12:23:00 +0100</pubDate>
