@@ -244,7 +244,7 @@ process is typically faster than switching between processes.
 > Nowadays a context switch is almost synonymous with switching between threads rather than between processes.  
 > But "context switch" is also used, in many many blog posts and articles, to talk about _process switches_,
 > _thread switches_ or _mode switches_ almost indistinguishably.  
-> We'll touch on these differences in the next part.
+> We'll touch on these differences in the [next part][part-2].
 
 Let's talk about time-sharing a bit more.
 
