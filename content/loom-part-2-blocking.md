@@ -6,7 +6,7 @@ parent: blog
 categories: ["java"]
 tags: ["java", "concurrency"]
 draft: false
-seoimage: img/loom/loom.png
+seoimage: img/loom/loom.jpg
 highlight: true
 gallery: true
 ---
@@ -18,6 +18,7 @@ gallery: true
 > If you'd like you could head over to  
 > [Part 0 - Writing for the past me][part-0]  
 > [Part 1 - It's all about Scheduling][part-1]  
+> [Part 3 - Asynchronous code][part-3]  
 
 {{< img center="true" src="/img/loom/loom.jpg" alt="Loom" width="100%" title="Weaving" caption="Max Pixel" attr="CC0 1.0" attrlink="https://creativecommons.org/publicdomain/zero/1.0/deed.en" link="https://www.maxpixels.net/Post-Impressionist-Post-Impressionism-Fine-Art-Dutch-1428139">}}
 
@@ -530,6 +531,7 @@ In the next part, we will take a look at asynchronous calls.
 
 [part-0]: ../loom-part-0-rationale
 [part-1]: ../loom-part-1-scheduling
+[part-3]: ../loom-part-3-async
 [VisualVM]: https://visualvm.github.io/
 [flame graph]: http://www.brendangregg.com/flamegraphs.html
 [async-profiler]: https://github.com/jvm-profiling-tools/async-profiler

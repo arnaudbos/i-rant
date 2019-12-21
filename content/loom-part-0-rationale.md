@@ -14,7 +14,8 @@ seoimage: img/loom/jacquard_loom.jpg
 >
 > If you'd like you could head over to  
 > [Part 1 - It's all about Scheduling][part-1]  
-> [Part 2 - Blocking code][part-2]
+> [Part 2 - Blocking code][part-2]  
+> [Part 3 - Asynchronous code][part-3]  
 
 Finding good introduction level articles on parallel or concurrent programming is not easy because every post assumes
 some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free
@@ -60,6 +61,7 @@ In the [next part][part-1], we talk history!
 
 [part-1]: ../loom-part-1-scheduling
 [part-2]: ../loom-part-2-blocking
+[part-3]: ../loom-part-3-async
 [Quasar]: https://docs.paralleluniverse.co/quasar/
 [Clojure]: https://clojure.org/
 [core.async]: https://clojure.org/news/2013/06/28/clojure-clore-async-channels
