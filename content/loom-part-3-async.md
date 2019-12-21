@@ -5,7 +5,7 @@ description: Loom
 parent: blog
 categories: ["java"]
 tags: ["java", "concurrency"]
-draft: false
+draft: true
 seoimage: img/loom/handweaving.jpg
 highlight: true
 gallery: true

@@ -17,7 +17,6 @@ gallery: true
 > If you'd like you could head over to  
 > [Part 0 - Writing for the past me][part-0]  
 > [Part 2 - Blocking code][part-2]  
-> [Part 3 - Asynchronous code][part-3]  
 
 {{< img center="true" src="/img/loom/jacquard_loom.jpg" alt="Jacquard Loom" width="100%" title="Jacquard Loom" caption="Stephencdickson" attr="CC BY-SA 4.0" attrlink="https://creativecommons.org/licenses/by-sa/4.0" link="https://commons.wikimedia.org/wiki/File:A_Jacquard_loom_showing_information_punchcards,_National_Museum_of_Scotland.jpg" >}}
 

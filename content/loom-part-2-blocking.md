@@ -18,7 +18,6 @@ gallery: true
 > If you'd like you could head over to  
 > [Part 0 - Writing for the past me][part-0]  
 > [Part 1 - It's all about Scheduling][part-1]  
-> [Part 3 - Asynchronous code][part-3]  
 
 {{< img center="true" src="/img/loom/loom.jpg" alt="Loom" width="100%" title="Weaving" caption="Max Pixel" attr="CC0 1.0" attrlink="https://creativecommons.org/publicdomain/zero/1.0/deed.en" link="https://www.maxpixels.net/Post-Impressionist-Post-Impressionism-Fine-Art-Dutch-1428139">}}
 
@@ -41,9 +40,8 @@ what I wanted to explain. So here's a not totally made up, simple use case:
   width="100%" %}}
 {{< /gallery >}}
 
-We want to offer access to some resource out of our domain to Web clients, but the resource is kind of "precious" so
-we want to restrict its access. Clients will not have direct access to the data source but will pass through a proxying
-service responsible to manage accesses.
+Clients need access to some restricted resources. A proxying service will rate-limit the clients access, based on a
+token policy.
 
 Here's the scenario:
 
@@ -266,8 +264,8 @@ Looking at the threads is much more interesting.
 We can see in the figure above that when the application starts, meaning "when our clients connect", it is going to
 create a first batch of about 200 threads. And then progressively start 200 more over a period of about 5 seconds.
 
-The last 200 are pretty obvious given the implementation of `makePulse`: once the proxy begins to receive _Available_
-responses from the coordinator, it starts the threads instantiated by the calls to _makePulse_. So this is just an
+The last 200 are pretty obvious given the implementation of `makePulse`: once the proxy begins to receive `Available`
+responses from the coordinator, it starts the threads instantiated by the calls to `makePulse`. So this is just an
 implementation detail. A wrong one for sure, but still a detail.
 
 What should be more intriguing are the first 200 (the 10 additional ones are created by the JVM itself, the net
@@ -368,7 +366,7 @@ For the sake of simplicity, I am going to assume here that our CPUs run two kind
 Instructions coming from what we'll call our "user code" represented by the triangle, hexagon, square and round shapes.  
 And instructions coming from the kernel whose goals are to enforce scheduling policies represented by the circle and
 cross shapes.  
-The CPU will be represented by a Wankel engine.
+The CPU will be represented by a [Wankel engine].
 
 {{< gallery title="Kernel threads" >}}
   {{% galleryimage file="/img/loom/context-switch-1.png"
@@ -522,7 +520,7 @@ can handle.
 
 ## Conclusion
 
-This part of the series was intended at laying out the context: present a use case from which we can build upon and
+This part of the series presented a use case from which we can build upon and
 experiment to try various solutions to the problem of blocking calls and scalability.
 
 I hope you understand a little more about blocking calls and context switches after reading this.
@@ -537,3 +535,4 @@ In the next part, we will take a look at asynchronous calls.
 [async-profiler]: https://github.com/jvm-profiling-tools/async-profiler
 [PCB]: https://www.tutorialspoint.com/what-is-process-control-block-pcb
 [protection ring]: https://en.wikipedia.org/wiki/Protection_ring
+[Wankel engine]: https://en.wikipedia.org/wiki/Wankel_engine
