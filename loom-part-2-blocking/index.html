@@ -11,7 +11,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://i-rant.arnaudbos.com/loom-part-2-blocking/" />
     
-    <meta property="og:image" content="https://i-rant.arnaudbos.com/img/loom/loom.png" />
+    <meta property="og:image" content="https://i-rant.arnaudbos.com/img/loom/loom.jpg" />
     
 
     <meta name="description" content="My corner of teh interweb.">
@@ -73,7 +73,7 @@
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          15 minutes read
+          14 minutes read
           </h4>
         </div>
         <div>
@@ -178,9 +178,8 @@ what I wanted to explain. So here&rsquo;s a not totally made up, simple use case
 </div>
 
 
-<p>We want to offer access to some resource out of our domain to Web clients, but the resource is kind of &ldquo;precious&rdquo; so
-we want to restrict its access. Clients will not have direct access to the data source but will pass through a proxying
-service responsible to manage accesses.</p>
+<p>Clients need access to some restricted resources. A proxying service will rate-limit the clients access, based on a
+token policy.</p>
 
 <p>Here&rsquo;s the scenario:</p>
 
@@ -436,8 +435,8 @@ for all the other implementations we will see in the next parts so I am not goin
 <p>We can see in the figure above that when the application starts, meaning &ldquo;when our clients connect&rdquo;, it is going to
 create a first batch of about 200 threads. And then progressively start 200 more over a period of about 5 seconds.</p>
 
-<p>The last 200 are pretty obvious given the implementation of <code>makePulse</code>: once the proxy begins to receive <em>Available</em>
-responses from the coordinator, it starts the threads instantiated by the calls to <em>makePulse</em>. So this is just an
+<p>The last 200 are pretty obvious given the implementation of <code>makePulse</code>: once the proxy begins to receive <code>Available</code>
+responses from the coordinator, it starts the threads instantiated by the calls to <code>makePulse</code>. So this is just an
 implementation detail. A wrong one for sure, but still a detail.</p>
 
 <p>What should be more intriguing are the first 200 (the 10 additional ones are created by the JVM itself, the net
@@ -604,7 +603,7 @@ blocking call.</p>
 <p>Instructions coming from what we&rsquo;ll call our &ldquo;user code&rdquo; represented by the triangle, hexagon, square and round shapes.<br />
 And instructions coming from the kernel whose goals are to enforce scheduling policies represented by the circle and
 cross shapes.<br />
-The CPU will be represented by a Wankel engine.</p>
+The CPU will be represented by a <a href="https://en.wikipedia.org/wiki/Wankel_engine">Wankel engine</a>.</p>
 
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
@@ -917,7 +916,7 @@ already have are under-utilized.<br />
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>This part of the series was intended at laying out the context: present a use case from which we can build upon and
+<p>This part of the series presented a use case from which we can build upon and
 experiment to try various solutions to the problem of blocking calls and scalability.</p>
 
 <p>I hope you understand a little more about blocking calls and context switches after reading this.</p>
@@ -930,6 +929,8 @@ experiment to try various solutions to the problem of blocking calls and scalabi
               <p>If you want to leave a general comment or read what others have to say, please use the collapsible panel on the right of this page.</p>
               <div class="related-posts">
                 <h5>Related Posts</h5>
+                
+                
                 
                 
                   <div class="row">
@@ -959,8 +960,6 @@ experiment to try various solutions to the problem of blocking calls and scalabi
                       </h6>
                     </div>
                   </div>
-                
-                
                 
                 
               </div>

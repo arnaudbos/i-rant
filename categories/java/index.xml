@@ -6,10 +6,25 @@
     <description>Recent content in Java on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 18 Dec 2019 12:11:16 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 19 Dec 2019 10:19:35 +0100</lastBuildDate>
     
 	<atom:link href="https://i-rant.arnaudbos.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Loom - Part 3 - Asynchronous code</title>
+      <link>https://i-rant.arnaudbos.com/loom-part-3-async/</link>
+      <pubDate>Thu, 19 Dec 2019 10:19:35 +0100</pubDate>
+      
+      <guid>https://i-rant.arnaudbos.com/loom-part-3-async/</guid>
+      <description>Part 3 in a series of articles about Project Loom.
+In this part we re-implement our proxy service with an asynchronous API.
+If you&amp;rsquo;d like you could head over to
+Part 0 - Writing for the past me
+Part 1 - It&amp;rsquo;s all about Scheduling
+Part 2 - Blocking code
+   Atelier de couture  J. Trayer 1854 CC0 1.0    We&amp;rsquo;ve covered a lot of ground in the previous entries and we&amp;rsquo;ve come to the conclusion that blocking code &amp;ldquo;is bad&amp;rdquo; ©.</description>
+    </item>
     
     <item>
       <title>Loom - Part 2 - Blocking code</title>
@@ -59,11 +74,8 @@ Part 2 - Blocking code
       <pubDate>Mon, 04 Nov 2019 12:23:00 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/loom/</guid>
-      <description>WARNING: Long article, because I like to read and write long blog posts. Sue me.
-If you&amp;rsquo;re interested in an introduction and some context continue reading,
-otherwise skip to the TOC.
-  foo  Stephencdickson CC BY-SA 4.0    I&amp;rsquo;ve been interested with parallel and concurrent programming for the past few years because everybody says it&amp;rsquo;s complicated and stuff.
-Finding good introduction level articles on the matter is not easy because every post assumes some prior knowledge.</description>
+      <description>When the scheduler time-slices a long-running thread there&amp;rsquo;s not much we can do about it (TODO: open to unikernels?). But we can maximize efficiency by being careful to avoid blocking calls and use async APIs.
+[TODO] if this wasn&amp;rsquo;t too obvious at this point, here I really get back in track with my recent presentation at the moment where I introduce async programming. In the talk a talk just a bit more about how sync is great while here I don&amp;rsquo;t talk about programming styles/APIs at all, this must be fixed.</description>
     </item>
     
     <item>

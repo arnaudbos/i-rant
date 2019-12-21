@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+        
+    <meta property="og:title" content="Loom - Part 3 - Asynchronous code" />
+    <meta property="og:description" content="Loom" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://i-rant.arnaudbos.com/loom-part-3-async/" />
+    
+    <meta property="og:image" content="https://i-rant.arnaudbos.com/img/loom/handweaving.jpg" />
+    
+
+    <meta name="description" content="My corner of teh interweb.">
+    <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
+    <title>Loom - Part 3 - Asynchronous code</title>
+    <meta name="generator" content="Hugo 0.54.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    <link rel="stylesheet" type="text/css" href="https://i-rant.arnaudbos.com/css/main.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://www.arnaudbos.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="https://i-rant.arnaudbos.com/">BLOG</a></li>
+        
+        <li><a href="https://side-effects.arnaudbos.com/">PROJECTS</a></li>
+        
+        <li><a href="https://talks.arnaudbos.com/">TALKS</a></li>
+        
+        <li><a href="https://level-up.arnaudbos.com/">LEVEL-UP</a></li>
+        
+        <li><a href="https://vitae.arnaudbos.com/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <a href="/loom-part-3-async/">Loom - Part 3 - Asynchronous code</a>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          December 19, 2019
+          &nbsp;&nbsp;
+          —
+          &nbsp;&nbsp;
+          11 minutes read
+          </h4>
+        </div>
+        <div>
+          <h4>
+            
+            <span class="label label-success">java</span>
+            
+            <span class="label label-success">concurrency</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+<hr />
+
+<blockquote>
+<p>Part 3 in a series of articles about Project Loom.<br />
+In this part we re-implement our proxy service with an asynchronous API.</p>
+
+<p>If you&rsquo;d like you could head over to<br />
+<a href="../loom-part-0-rationale">Part 0 - Writing for the past me</a><br />
+<a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br />
+<a href="../loom-part-2-blocking">Part 2 - Blocking code</a></p>
+</blockquote>
+
+
+<figure  style="text-align: center;">
+    <a target="_blank" href="https://commons.wikimedia.org/wiki/File:Jean_Baptiste_Jules_Trayer_Bretonische_Schneiderinnen_1854.jpg">
+        <img src="/img/loom/handweaving.jpg" alt="Seamstresses in a shop"
+            width="100%"
+            />
+    </a>
+    
+    <figcaption>
+        <h6><em>Atelier de couture</em></h6>
+        <p>
+        J. Trayer 1854
+        <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/deed.en"> 
+            CC0 1.0
+        </a> 
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+
+<hr />
+
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#async-api">Async API</a></li>
+<li><a href="#profiling">Profiling</a>
+<ul>
+<li><a href="#request-threads">Request threads</a></li>
+<li><a href="#pulse-threads">Pulse threads</a></li>
+<li><a href="#service-threads">Service threads</a></li>
+<li><a href="#a-word-about-scheduledthreadpoolexecutor">A word about ScheduledThreadPoolExecutor</a></li>
+</ul></li>
+<li><a href="#beware-of-the-lurking-blocking-call">Beware of the lurking blocking call</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul></li>
+</ul>
+</nav></div>
+
+<p>We&rsquo;ve covered a lot of ground in the previous entries and we&rsquo;ve come to the conclusion that blocking code <em>&ldquo;is bad&rdquo; ©</em>.<br />
+But what can we do about it?</p>
+
+<p>When I was researching, I&rsquo;ve read a lot of blog posts talking about <code>asynchronous</code> code and <em>asynchronous programming</em>
+as a solution. Thinking about it, it easily makes sense: our kernels use preemptive scheduling, so when the scheduler
+time-slices a long-running thread there&rsquo;s not much we can do about it, but we <strong>can</strong> maximize efficiency by <em>being
+careful</em> to avoid blocking calls and use asynchronous APIs!</p>
+
+<p>What we are going to do is write code that, instead of blocking while waiting for a result, will start a task with a
+call from an API which will return the control of execution immediately (so we can go on and execute other instructions)
+but will notify us when the result is ready.</p>
+
+<p>Let&rsquo;s take a look at the second implementation I&rsquo;ve made of the proxy service I&rsquo;ve presented in the <a href="../loom-part-2-blocking">previous entry</a>:</p>
+
+<h2 id="async-api">Async API</h2>
+
+<p>Changing an API from synchronous to asynchronous seems pretty simple at first.<br />
+Starting from the inner out, we create a new function, <code>asyncRequest</code>, as an asynchronous alternative to
+<code>blockingRequest</code>.</p>
+
+<pre><code class="language-java">public void asyncRequest(ExecutorService, String, String, CompletionHandler)
+</code></pre>
+
+<p>Because <em>asyncRequest</em> has to return immediately in order to not block the calling thread, we give it an
+<code>ExecutorService</code> just to be explicit about which pool is going to be used, a <em>String</em> for the URL, another for the
+headers, and also a <code>CompletionHandler</code>.<br />
+<em>CompletionHandler</em> is an interface one has to implement, that is going to be called by the code inside <em>asyncRequest</em>
+once the result of the request is available: one callback in case of success, another in case of error.</p>
+
+<pre><code class="language-java">public interface CompletionHandler&lt;V&gt; {
+    void completed(V result);
+    void failed(Throwable t);
+}
+</code></pre>
+
+<p>I&rsquo;ll save you the details of actually passing a URL and parameters hidden inside the intermediary
+<code>CoordinatorService#requestConnection(String, CompletionHandler, ExecutorService)</code> and get directly to the new version
+of <code>getConnection</code> that we&rsquo;ve talked about in the previous entry:</p>
+
+<pre><code class="language-java">private void getConnection(CompletionHandler&lt;Connection.Available&gt; handler) {
+    getConnection(0, 0, null, handler);
+}
+
+private void getConnection(long eta,
+                           long wait,
+                           String token,
+                           CompletionHandler&lt;Connection.Available&gt; handler)
+{
+    if (eta &gt; MAX_ETA_MS) {
+        if (handler!=null) handler.failed(new EtaExceededException());
+    }
+
+    boundedServiceExecutor.schedule(() -&gt; {
+        println(&quot;Retrying download after &quot; + wait + &quot;ms wait.&quot;);
+
+        coordinator.requestConnection(
+            token,
+            new CompletionHandler&lt;&gt;() {
+                // ... We'll see this later
+            },
+            boundedServiceExecutor);
+    }, wait, TimeUnit.MILLISECONDS);
+}
+</code></pre>
+
+<p>The signatures are similar to the synchronous ones, except for the extra <code>CompletionHandler&lt;Connection.Available&gt;</code>
+handler.<br />
+The difference here is that instead of making the connection request directly we submit (<code>schedule</code>) it to this
+<code>boundedServiceExecutor</code>.</p>
+
+<p><em>boundedServiceExecutor</em> is an instance of <code>ScheduledThreadPoolExecutor</code>.</p>
+
+<pre><code class="language-java">boundedRequestsExecutor =
+    Executors.newScheduledThreadPool(10, new PrefixedThreadFactory(&quot;requests&quot;));
+</code></pre>
+
+<p>In fact, <em>boundedServiceExecutor</em> is not the only thread pool used in this second implementation of the proxy service.<br />
+Just to make things more explicit regarding where each task runs, I&rsquo;ve create three dedicated executors:</p>
+
+<pre><code class="language-java">// One from which service methods are called and coordinator requests are sent
+boundedServiceExecutor =
+    Executors.newScheduledThreadPool(10, new PrefixedThreadFactory(&quot;service&quot;));
+// One from which gateway (download) requests are sent
+boundedRequestsExecutor =
+    Executors.newScheduledThreadPool(10, new PrefixedThreadFactory(&quot;requests&quot;));
+// One from which heartbeat resquests are scheduled
+boundedPulseExecutor =
+    Executors.newScheduledThreadPool(10, new PrefixedThreadFactory(&quot;pulse&quot;));
+</code></pre>
+
+<blockquote>
+<p>Note that both <code>boundedServiceExecutor</code> and <code>boundedRequestsExecutor</code> could have been instances of
+<code>ThreadPoolExecutor</code> (using <code>Executors#newFixedThreadPool(int, ThreadFactory)</code>)<br />
+rather than <code>ScheduledThreadPoolExecutor</code>;<br />
+because only heartbeat requests (using <code>boundedPulseExecutor</code>) need to be delayed.<br />
+But both being fixed-sized pools, the result is the same in this case.</p>
+</blockquote>
+
+<p>Similarly to the synchronous example, <code>getConnection</code> deals with the retry logic. But because
+<code>CoordinatorService#requestConnection</code> is asynchronous and takes a <em>CompletionHandler</em> (because it itself calls to
+<code>asyncRequest</code>), we have to implement both success and error callback methods.</p>
+
+<pre><code class="language-java">private void getConnection(long eta,
+                           long wait,
+                           String token,
+                           CompletionHandler&lt;Connection.Available&gt; handler)
+    if (eta &gt; MAX_ETA_MS) {
+        if (handler!=null) handler.failed(new EtaExceededException());
+    }
+
+    boundedServiceExecutor.schedule(() -&gt; {
+        println(&quot;Retrying download after &quot; + wait + &quot;ms wait.&quot;);
+
+        coordinator.requestConnection(
+            token,
+            new CompletionHandler&lt;&gt;() {
+                @Override
+                public void completed(Connection c) {
+                    if (c instanceof Connection.Available) {
+                        if (handler!=null)
+                            handler.completed((Connection.Available) c);
+                    } else {
+                        Connection.Unavailable unavail = (Connection.Unavailable) c;
+                        getConnection(
+                            unavail.getEta(),
+                            unavail.getWait(),
+                            unavail.getToken(),
+                            handler);
+                    }
+                }
+
+                @Override
+                public void failed(Throwable t) {
+                    if (handler!=null) handler.failed(t);
+                }
+            },
+            boundedServiceExecutor);
+    }, wait, TimeUnit.MILLISECONDS);
+}
+</code></pre>
+
+<p>In case of success of the underlying <em>requestConnection &gt; asyncRequest</em> call chain, the <code>completed</code> method will be
+called with the response from the coordinator. The answer could be positive or negative.<br />
+In case of <code>Available</code>, we&rsquo;re done; so we can complete the completion <em>handler</em> which was given to <code>getConnection</code> so
+its caller can be notified of the success and proceed (with the download).<br />
+In case of <code>Unavailable</code>, we hide the retry logic and <em>reschedule</em> the call to <em>requestConnection</em> to the executor
+by recursively calling <code>getConnection</code> with updated parameters.</p>
+
+<p>In case of failure we simply propagate the error to <code>getConnection</code>&rsquo;s caller.</p>
+
+<p>The callbacks already make this logic cluttered enough; but we&rsquo;re not done! We must now implement <code>getThingy</code>, our
+service method which calls to <code>getConnection</code> and then start the download request.</p>
+
+<pre><code class="language-java">private void getThingy(int i, CompletionHandler&lt;Void&gt; handler) {
+    println(&quot;Start getThingy.&quot;);
+
+    getConnection(new CompletionHandler&lt;&gt;() {
+        @Override
+        public void completed(Connection.Available conn) {
+            println(&quot;Got token, &quot; + conn.getToken());
+
+            CompletableFuture&lt;Void&gt; downloadFut = new CompletableFuture&lt;&gt;();
+            gateway.downloadThingy(new CompletionHandler&lt;&gt;() {
+                @Override
+                public void completed(InputStream content) {
+                    // Download started
+                }
+
+                @Override
+                public void failed(Throwable t) {
+                    if (t instanceof EtaExceededException) {
+                        err(&quot;Couldn't getThingy because ETA exceeded: &quot; + t);
+                    } else {
+                        err(&quot;Couldn't getThingy because something failed: &quot; + t);
+                    }
+                    if (handler!=null) handler.failed(t);
+                }
+            }, boundedServiceExecutor);
+
+        }
+
+        @Override
+        public void failed(Throwable t) {
+            err(&quot;Task failed.&quot;);
+            if (handler!=null) handler.failed(t);
+        }
+    });
+}
+</code></pre>
+
+<p>We&rsquo;ve seen above that <code>getConnection</code> takes a completion handler which will be called when we successfully get a
+download authorization from the coordinator or when an error happens, so <code>getThingy</code> implements an ad-hoc handler to
+handle the logic that should ensue.</p>
+
+<p>On <em>successful</em> completion, we are authorized to start the download, which is done by calling <code>gateway.downloadThingy</code>.<br />
+<code>downloadThingy</code> is, itself, asynchronous because it also calls down to <code>asyncRequest</code>, so we must give it a new
+<em>CompletionHandler</em>.<br />
+This completion handler will be given an <code>InputStream</code> once the connection to the data source is established, so we
+can read the content and forward it to this service&rsquo;s client. The consumption of the <em>InputStream</em> and forwarding to
+the client is omitted for now and replaced by the &ldquo;Download started&rdquo; comment.<br />
+<code>downloadThingy</code>&rsquo;s last parameter is an optional executor, used to specify on which pool will the completion handler
+be executed. If omitted, it is the calling thread, but in this case we specify that we want the content
+consumption/forwarding to happen on the <code>boundedServiceExecutor</code>.</p>
+
+<p>In case of failure from <code>getConnection</code> or <code>downloadThingy</code>, we complete <code>getThingy</code>&rsquo;s completion handler with a
+failure.</p>
+
+<p>Now that we have the structure, we can handle the content, but also start the periodic heartbeat requests!</p>
+
+<pre><code class="language-java">Runnable pulse = new PulseRunnable(i, downloadFut, conn);
+int total = 0;
+try(content) {
+    println(i + &quot; :: Starting pulse &quot;);
+    boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);
+
+    // Get read=-1 quickly and not all content
+    // because of HTTP 1.1 but really don't care
+    byte[] buffer = new byte[8192];
+    while(true) {
+        int read = content.read(buffer);
+        // drop it
+        if (read==-1 || (total+=read)&gt;=MAX_SIZE) break;
+    }
+
+    println(&quot;Download finished&quot;);
+
+    if (handler!=null)
+        handler.completed(null);
+} catch (IOException e) {
+    err(&quot;Download failed.&quot;);
+    if (handler!=null)
+        handler.failed(e);
+} finally {
+    downloadFut.complete(null);
+}
+</code></pre>
+
+<p>Remember this code executes inside <code>downloadThingy</code>&rsquo;s completion handler, so when this code runs, the connection
+to the data source has been established.<br />
+We encapsulate the logic inside a <code>try-with-resource</code> block around <code>content</code> (the <em>InputStream</em>) because it can
+fail at any moment.</p>
+
+<p>We&rsquo;ve initialized a <code>PulseRunnable</code> which we can now schedule to send heartbeat requests (it will reschedule itself
+upon completion). The reason why we give it a reference to the <em>Future</em> <code>downloadFut</code> it to stop sending heartbeats
+when the download ends, but we&rsquo;ll see <code>PulseRunnable</code> later.</p>
+
+<p>In the mean time, we consume the <em>InputStream</em> and just ignore the content once again (not important).</p>
+
+<p>Finally, when the download is finished, successfully or on error, we <em>complete</em> <code>getThingy</code>&rsquo;s handler accordingly and don&rsquo;t
+forget to complete <code>downloadFut</code> so that the heartbeats stop.</p>
+
+<p>Almost done. We now take a look at <code>PulseRunnable</code>:</p>
+
+<pre><code class="language-java">class PulseRunnable implements Runnable {
+    private int i;
+    private Future&lt;Void&gt; download;
+    private Connection.Available conn;
+
+    PulseRunnable(int i, Future&lt;Void&gt; download, Connection.Available conn) {
+        this.i = i;
+        this.download = download;
+        this.conn = conn;
+    }
+
+    @Override
+    public void run() {
+        if (!download.isDone()) {
+            println(i + &quot; :: Pulse!&quot;);
+            coordinator.heartbeat(
+                conn.getToken(),
+                new CompletionHandler&lt;&gt;() {
+                    @Override
+                    public void completed(Connection result) {
+                        if (!download.isDone()) {
+                            boundedPulseExecutor
+                                .schedule(PulseRunnable.this, 2_000L, TimeUnit.MILLISECONDS);
+                        }
+                    }
+
+                    @Override
+                    public void failed(Throwable t) {
+                        if (!download.isDone()) {
+                            boundedPulseExecutor
+                                .schedule(PulseRunnable.this, 2_000L, TimeUnit.MILLISECONDS);
+                        }
+                    }
+                },
+                boundedPulseExecutor
+            );
+        } else {
+            println(i + &quot; :: Pulse stopped.&quot;);
+        }
+    }
+}
+</code></pre>
+
+<p>Nothing too fancy. When started, the runnable calls the asynchronous <code>CoordinatorService#heartbeat</code> method with the
+token, a <em>completion handler</em> and an executor responsible to run the handler&rsquo;s methods (<code>boundedServiceExecutor</code> in
+this case, just like when calling <code>GatewayService#downloadThingy</code> above).</p>
+
+<p>Heartbeat results, whether successes or failures, are simply ignored, and a new heartbeat request is scheduled, as
+long as the download <em>Future</em> is not done.</p>
+
+<p>Finally, the last piece of the puzzle, the clients calling the service:</p>
+
+<pre><code class="language-java">CompletableFuture&lt;Void&gt;[] futures = new CompletableFuture[MAX_CLIENTS];
+for(int i=0; i&lt;MAX_CLIENTS; i++) {
+    int finalI = i;
+    futures[i] = new CompletableFuture&lt;&gt;();
+    getThingy(finalI, new CompletionHandler&lt;&gt;() {
+        @Override
+        public void completed(Void result) {
+            futures[finalI].complete(result);
+        }
+
+        @Override
+        public void failed(Throwable t) {
+            futures[finalI].completeExceptionally(t);
+        }
+    });
+}
+</code></pre>
+
+<p>Phew&hellip;</p>
+
+<p>That certainly wasn&rsquo;t easy code. Not like the synchronous code we&rsquo;ve seen in the <a href="../loom-part-2-blocking">previous entry</a>! The problem
+is still simple though, so it tells a lot about asynchronous programming: it&rsquo;s a <strong>pain in the butt</strong>.</p>
+
+<p>The logic is all over the place! Asynchronous APIs forces us to split our logic into pieces, but not the pieces we&rsquo;d
+like. A perfectly self-contained function in synchronous programming would have to be split into two to three (if not more)
+callbacks and suddenly it&rsquo;s not easy to reason about the code anymore.<br />
+This problem has a name: <strong><a href="http://callbackhell.com/">Callback Hell</a></strong> (and no, it&rsquo;s not just JavaScript, I mean just look at the code above).</p>
+
+<h2 id="profiling">Profiling</h2>
+
+<p>If async is the answer to write efficient services that make the most out of server resources, maybe it&rsquo;s worth the
+pain!</p>
+
+<p>Profiling this code revealed that CPU usage was still really low, more or less like in the previous implementation.
+Threads are more interesting:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl2-threads.png" itemprop="contentUrl" data-size="2522x1496">
+      <img src="/img/loom/impl2-threads.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Not too many threads</div>
+</div>
+
+
+<p>200 clients, 30 threads, everything is proceeding as I have foreseen. But wait&hellip; this is very slow!<br />
+This screenshot shows only the first minute of runtime and then the rest of the chart looks the same.</p>
+
+<p>The previous implementation created a bunch of threads but at least finished quickly, less than a minute.<br />
+Why is it so slow?</p>
+
+<p><a href="https://visualvm.github.io/">VisualVM</a> to the rescue:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl2-threads-running.png" itemprop="contentUrl" data-size="2602x1730">
+      <img src="/img/loom/impl2-threads-running.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">&#34;Service&#34; thread pool&#39;s threads are busy</div>
+</div>
+
+
+<p>Let&rsquo;s refer to the implementation to find what threads, from each thread pool (<code>request</code>, <code>pulse</code> and <code>service</code>)
+is doing what.</p>
+
+<h3 id="request-threads">Request threads</h3>
+
+<p>Threads whose names begin with <code>request</code> come from <code>boundedRequestsExecutor</code>. The only place where this <em>Executor</em> is
+used is inside <code>downloadThingy</code>, which I had omitted before. Here it is:</p>
+
+<pre><code class="language-java">class GatewayService {
+    void downloadThingy(CompletionHandler&lt;InputStream&gt; handler,
+                        ExecutorService handlerExecutor)
+{
+    asyncRequest(
+        boundedRequestsExecutor,
+        &quot;http://localhost:7000&quot;,
+        String.format(HEADERS_TEMPLATE, &quot;GET&quot;, &quot;download&quot;, &quot;text/*&quot;, String.valueOf(0)),
+        new CompletionHandler&lt;&gt;() {
+            @Override
+            public void completed(InputStream result) {
+                if (handler != null)
+                    if (handlerExecutor!=null) {
+                        handlerExecutor.submit(
+                          () -&gt; handler.completed(result)
+                        );
+                    } else {
+                        handler.completed(result);
+                    }
+            }
+
+            @Override
+            public void failed(Throwable t) {
+                if (handler != null)
+                    if (handlerExecutor!=null) {
+                        handlerExecutor.submit(
+                            () -&gt; handler.failed(t)
+                        );
+                    } else {
+                        handler.failed(t);
+                    }
+            }
+        });
+    }
+}
+</code></pre>
+
+<p>The code of <code>asyncRequest</code> is secret sauce for the moment, suffice to say that the executor it is given
+(<code>boundedRequestsExecutor</code> in this case) is used only to call its <code>submit(Runnable)</code> method.</p>
+
+<p>So the <code>request-*</code> threads in the VisualVM screenshot above are all doing the same thing: execute an <code>asyncRequest</code>.</p>
+
+<h3 id="pulse-threads">Pulse threads</h3>
+
+<p>Threads whose names begin with <code>pulse</code> come from <code>boundedPulseExecutor</code>. The only places where this <em>Executor</em> is
+used is when scheduling the heartbeat requests from within <code>getThingy</code> and from the &ldquo;pulse&rdquo; <em>Runnable</em> itself:</p>
+
+<p><code>boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);</code></p>
+
+<p>And it is also given as the last parameter to <code>CoordinatorService#heartbeat</code> in order to execute its <em>completion
+handler</em>:</p>
+
+<pre><code class="language-java">@Override
+public void completed(InputStream is) {
+    Runnable r = () -&gt; {
+        if (handler != null)
+            handler.completed(parseToken(() -&gt; is));
+    };
+    if (handlerExecutor!=null) {
+        handlerExecutor.submit(r);
+    } else {
+        r.run();
+    }
+}
+</code></pre>
+
+<p>So the <code>pulse-*</code> threads in the VisualVM screenshot above are doing small things too: execute a heartbeat
+<code>asyncRequest</code> and sometimes doing a bit of <code>parseToken</code> which consists in decoding a few bytes.</p>
+
+<h3 id="service-threads">Service threads</h3>
+
+<p>Threads whose names begin with <code>service</code> come from <code>boundedServiceExecutor</code> and are used in a couple of places.</p>
+
+<ul>
+<li>in <code>getConnection</code> in order to submit the call to <code>CoordinatorService#requestConnection</code></li>
+<li>to execute the <em>completion handler</em> of <code>CoordinatorService#requestConnection</code></li>
+<li>to execute the <em>completion handler</em> of <code>GatewayService#downloadThingy</code></li>
+<li>to execute the calls to <code>asyncRequest</code> inside <code>CoordinatorService#requestConnection</code> and <code>CoordinatorService#heartbeat</code></li>
+</ul>
+
+<p>So the <code>service-*</code> threads in the VisualVM screenshot above are doing a few asynchronous calls and also a bit of
+callback execution.</p>
+
+<h3 id="a-word-about-scheduledthreadpoolexecutor">A word about ScheduledThreadPoolExecutor</h3>
+
+<p>I think it&rsquo;s time to introduce the <code>ScheduledThreadPoolExecutor</code> properly.</p>
+
+<p>Contrary to cached <code>ThreadPoolExecutor</code>, this one doesn&rsquo;t doesn&rsquo;t spawn new threads to match the number of <em>Runnable</em>
+it is submitted. Instead it stays with the number or threads it is passed when create.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/async-all-the-things.png" itemprop="contentUrl" data-size="2990x1288">
+      <img src="/img/loom/async-all-the-things.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Async all the things!</div>
+</div>
+
+
+<p>When using this kind of executor, the goal is to execute non blocking calls</p>
+
+<h2 id="beware-of-the-lurking-blocking-call">Beware of the lurking blocking call</h2>
+
+<h2 id="conclusion">Conclusion</h2>
+
+              <hr>
+              <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
+              <p>You can <em>annotate</em> or <em>highlight</em> words or paragraphs directly by selecting the text!</p>
+              <p>If you want to leave a general comment or read what others have to say, please use the collapsible panel on the right of this page.</p>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 18, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-2-blocking/">Loom - Part 2 - Blocking code</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 14, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-1-scheduling/">Loom - Part 1 - It&rsquo;s all about Scheduling</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 14, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-0-rationale/">Loom - Part 0 - Writing for the past me</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <!-- Hypothes.is -->
+<script type="application/json" class="js-hypothesis-config">
+    {"showHighlights": false}
+</script>
+<script src="https://hypothes.is/embed.js" async></script>
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/arnaudbos/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+<div class="scroll-to-top">
+  <a href="#">Scroll<br>to Top</a>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://i-rant.arnaudbos.com/js/docs.min.js"></script>
+<script src="https://i-rant.arnaudbos.com/js/main.js"></script>
+
+<script src="https://i-rant.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- EmojiOne -->
+<script src="https://cdn.jsdelivr.net/emojione/2.2.7/lib/js/emojione.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/2.2.7/assets/css/emojione.min.css"/>
+
+<script>
+(function (){
+  var emojis = document.getElementsByClassName('emoji');
+  for(var i=0; i<emojis.length; i++){
+	  var content = emojis[i].textContent;
+    emojis[i].innerHTML = emojione.shortnameToImage(content);
+  }
+})();
+</script>
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/clojure.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<link rel="stylesheet" href="/css/photoswipe.css">
+<link rel="stylesheet" href="/css/default-skin/default-skin.css">
+<script src="/js/photoswipe.min.js"></script>
+<script src="/js/photoswipe-ui-default.min.js"></script>
+<script src="/js/initphotoswipe.js"></script>
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+<style>
+    .gallery { float: right; margin-bottom: 10px; text-align: center; }
+    .gallery img { height: auto; }
+    .gallery .title { text-align: center; text-decoration: underline; }
+    .gallery figure { display: block; float: left; margin: 0 5px 5px 0; }
+    .gallery figcaption { display: none; }
+</style>
+
+<script>initPhotoSwipeFromDOM('.gallery');</script>
+
+
+
+
+
+
+
+  </body>
+</html>
