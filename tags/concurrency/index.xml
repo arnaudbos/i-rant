@@ -6,7 +6,7 @@
     <description>Recent content in Concurrency on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Thu, 19 Dec 2019 10:19:35 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 23 Dec 2019 18:56:06 +0100</lastBuildDate>
     
 	<atom:link href="https://i-rant.arnaudbos.com/tags/concurrency/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Loom - Part 3 - Asynchronous code</title>
       <link>https://i-rant.arnaudbos.com/loom-part-3-async/</link>
-      <pubDate>Thu, 19 Dec 2019 10:19:35 +0100</pubDate>
+      <pubDate>Mon, 23 Dec 2019 18:56:06 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/loom-part-3-async/</guid>
       <description>Part 3 in a series of articles about Project Loom.
@@ -23,7 +23,7 @@ If you&amp;rsquo;d like you could head over to
 Part 0 - Writing for the past me
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
-   Atelier de couture  J. Trayer 1854 CC0 1.0    We&amp;rsquo;ve covered a lot of ground in the previous entries and we&amp;rsquo;ve come to the conclusion that blocking code &amp;ldquo;is bad&amp;rdquo; ©.</description>
+   Atelier de couture  J. Trayer 1854 CC0 1.0    We&amp;rsquo;ve covered a lot of ground in the previous entries and we concluded that blocking code &amp;ldquo;is bad&amp;rdquo; ©.</description>
     </item>
     
     <item>
@@ -37,7 +37,8 @@ In this part we implement a proxy service, the easiest way possible.
 If you&amp;rsquo;d like you could head over to
 Part 0 - Writing for the past me
 Part 1 - It&amp;rsquo;s all about Scheduling
-   Weaving  Max Pixel CC0 1.0    A simple use case One of the biggest pain points I had when I started to learn about concurrent programming, was the emphasis put on Blocking, Non-blocking, Synchronous and Asynchronous code.</description>
+Part 3 - Asynchronous code
+   Weaving  Max Pixel CC0 1.0    A simple use case One of the biggest pain points I had learning about concurrent programming was the emphasis put on Blocking, Non-blocking, Synchronous and Asynchronous code.</description>
     </item>
     
     <item>
@@ -51,7 +52,8 @@ In this part we skim the surface of scheduling history before diving into the JV
 If you&amp;rsquo;d like you could head over to
 Part 0 - Writing for the past me
 Part 2 - Blocking code
-   Jacquard Loom  Stephencdickson CC BY-SA 4.0    There&amp;rsquo;s only one hard problem The first problem there is with concurrency (and generally in computer science/programming really), is that we&amp;rsquo;re extremely bad at naming things.</description>
+Part 3 - Asynchronous code
+   Jacquard Loom  Stephencdickson CC BY-SA 4.0    There&amp;rsquo;s only one hard problem The first problem with concurrency (and computer science in general), is that we&amp;rsquo;re extremely bad at naming things.</description>
     </item>
     
     <item>
@@ -65,7 +67,8 @@ In this part I just talk about me, me, me, me and why I wrote this.
 If you&amp;rsquo;d like you could head over to
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
- Finding good introduction level articles on parallel or concurrent programming is not easy because every post assumes some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free concurrency while you&amp;rsquo;re absolutely not ready for this!</description>
+Part 3 - Asynchronous code
+ Finding good introduction level articles on concurrent programming is difficult because every post assumes some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free concurrency while you&amp;rsquo;re absolutely not ready for this!</description>
     </item>
     
     <item>

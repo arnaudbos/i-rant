@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Fira+Code&display=swap">
     <link rel="stylesheet" type="text/css" href="https://i-rant.arnaudbos.com/css/main.css" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
     
@@ -98,7 +99,8 @@ In this part we implement a proxy service, the easiest way possible.</p>
 
 <p>If you&rsquo;d like you could head over to<br />
 <a href="../loom-part-0-rationale">Part 0 - Writing for the past me</a><br />
-<a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a></p>
+<a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br />
+<a href="../loom-part-3-async">Part 3 - Asynchronous code</a></p>
 </blockquote>
 
 
@@ -148,9 +150,9 @@ In this part we implement a proxy service, the easiest way possible.</p>
 
 <h2 id="a-simple-use-case">A simple use case</h2>
 
-<p>One of the biggest pain points I had when I started to learn about concurrent programming, was the emphasis put on
+<p>One of the biggest pain points I had learning about concurrent programming was the emphasis put on
 <code>Blocking</code>, <code>Non-blocking</code>, <code>Synchronous</code> and <code>Asynchronous</code> code.<br />
-We&rsquo;ll touch on all four of them in the next parts of this series.</p>
+We&rsquo;ll touch on all four in the next parts of this series.</p>
 
 <p>After reading a lot I figured that implementing a simple use case would comfort my understandings and help me convey
 what I wanted to explain. So here&rsquo;s a not totally made up, simple use case:</p>
@@ -181,28 +183,25 @@ what I wanted to explain. So here&rsquo;s a not totally made up, simple use case
 <p>Clients need access to some restricted resources. A proxying service will rate-limit the clients access, based on a
 token policy.</p>
 
-<p>Here&rsquo;s the scenario:</p>
-
 <ol>
-<li>A client addresses a download request to the proxy service</li>
-<li>The proxy service registers the request to a coordinator</li>
-<li>The coordinator is responsible for the scheduling logic, managing some sort of priority queue for instance. Its logic
-is irrelevant.</li>
-<li>The coordinator responds either &ldquo;Unavailable&rdquo; or &ldquo;Available&rdquo;</li>
-<li>&ldquo;Unavailable&rdquo; means that the client can&rsquo;t download the resource just yet so the responses&rsquo; payload contains a token</li>
+<li>A client addresses a download request to the proxy service.</li>
+<li>The proxy service registers the request to a coordinator.</li>
+<li>The coordinator is responsible for the scheduling logic using a priority queue. Its logic is irrelevant.</li>
+<li>The coordinator responds either &ldquo;Unavailable&rdquo; or &ldquo;Available&rdquo;.</li>
+<li>&ldquo;Unavailable&rdquo; means that the client can&rsquo;t download the resource just yet (responses&rsquo; payload contains a token).</li>
 <li>The payload also contains an &ldquo;ETA&rdquo; so the service can decide to abort or to retry, using the token to keep its place
-in the coordinator&rsquo;s queue</li>
-<li>The payload also contains a &ldquo;wait&rdquo; time to rate-limit the retry requests to the coordinator</li>
+in the coordinator&rsquo;s queue.</li>
+<li>The payload also contains a &ldquo;wait&rdquo; time to rate-limit the retry requests to the coordinator.</li>
 <li>The proxy may have to retry a couple of times, on behalf of the client, but will eventually receive an &ldquo;Available&rdquo;
-response</li>
+response.</li>
 <li>With an &ldquo;Available&rdquo; response and the token contained in its payload, the proxy service can initiate a download
-request to the data source</li>
-<li>The proxy service streams the content of the download request back to its client</li>
-<li>While at the same time sending periodic &ldquo;heartbeat&rdquo; requests to the coordinator to ensure its token is not revoked</li>
+request to the data source.</li>
+<li>The proxy service streams the content of the download request back to its client;</li>
+<li>While at the same time sending periodic &ldquo;heartbeat&rdquo; requests to the coordinator to ensure its token is not revoked.</li>
 </ol>
 
 <p>We are going to use this scenario in the next parts of the series. We will implement this proxy service in
-various ways, simulate  a few (200) clients connecting simultaneously and see the pros and cons of each implementation.</p>
+various ways, simulate a few (200) clients connecting simultaneously and see the pros and cons of each implementation.</p>
 
 <blockquote>
 <p>Bear in mind that this is not a benchmark, it&rsquo;s just an experiment.<br />
@@ -219,20 +218,20 @@ various ways, simulate  a few (200) clients connecting simultaneously and see th
     println(&quot;Start getThingy.&quot;);
 
     try {
-        Connection.Available conn = getConnection();
+        Connection.Available conn = getConnection(); //(1)
         println(&quot;Got token, &quot; + conn.getToken());
 
         Thread pulse = makePulse(conn);
-        try (InputStream content = gateway.downloadThingy()) {
-            pulse.start();
+        try (InputStream content = gateway.downloadThingy()) { //(2)
+            pulse.start(); //(3)
 
-            ignoreContent(content);
+            ignoreContent(content); //(4)
         } catch (IOException e) {
             err(&quot;Download failed.&quot;);
             throw e;
         }
         finally {
-            pulse.interrupt();
+            pulse.interrupt(); //(5)
         }
     } catch (InterruptedException e) {
         // D'oh!
@@ -244,23 +243,25 @@ various ways, simulate  a few (200) clients connecting simultaneously and see th
 }
 </code></pre>
 
-<p>First we retrieve an &ldquo;Available&rdquo; connection <code>conn</code> from the coordinator, then we initiate the download request to the
-data source (called <code>gateway</code> in this example, just to make it confusing&hellip;).<br />
-Once the download has begun we start the heartbeat requests (<em>pulse</em> thread) while consuming the content (<code>InputStream</code>,
-here we simply drop it, but in a real scenario we would forward to the client).<br />
-Once the download ends (successfully or not) we stop sending heartbeat requests and the call ends.</p>
+<ol>
+<li>We retrieve an &ldquo;Available&rdquo; connection <code>conn</code> from the coordinator</li>
+<li>We initiate the download request to the data source (called <code>gateway</code> in this example).</li>
+<li>Once the download has begun we start the heartbeat requests (<em>pulse</em> thread).</li>
+<li>While at the same time consuming the content (<code>InputStream</code>, here we simply drop it, but in a real scenario we
+would forward to the client).<br /></li>
+<li>Once the download ends (successfully or not) we stop sending heartbeat requests and the call ends.</li>
+</ol>
 
-<p>This may not be what you had expected. Maybe you were hoping to see some kind of framework here, some <em>@Controller</em>
-or <em>@GET</em> annotation perhaps?</p>
+<p>Maybe you were hoping to see some kind of framework here, some <em>@Controller</em> or <em>@GET</em> annotation perhaps?</p>
 
-<p>In this series, I&rsquo;m not going to bother with a framework or anything like that. Because the number of clients is so
-small and because, again, this is not a benchmark, I am just simulating the client calls from within the same JVM.</p>
+<p>In this series, I&rsquo;m not going to bother with a framework. Because the number of clients is so small and this is not a
+benchmark, I am just simulating the client calls from within the same JVM.</p>
 
-<p>This way, I am able to use the kind of <code>ExecutorService</code> I want, for each implementation, in order to outline a few
+<p>This way, I am able to use the kind of <code>ExecutorService</code> I want for each implementation, in order to outline a few
 things. This executor and its thread pool will simulate the Web Server thread pool that could be found inside any Web
-Framework anyways and it is more illustrative to have it directly at hand.</p>
+Framework. In the end it is more illustrative to have it directly at hand.</p>
 
-<p>Let&rsquo;s simulate a few clients shall we?</p>
+<p>Let&rsquo;s simulate a few clients, shall we?</p>
 
 <pre><code class="language-java">for(int i=0; i&lt;MAX_CLIENTS; i++) {
     elasticServiceExecutor.submit(() -&gt; {
@@ -282,7 +283,7 @@ little bit.</p>
     Executors.newCachedThreadPool(new PrefixedThreadFactory(&quot;service&quot;));
 </code></pre>
 
-<p>We have a &ldquo;Web Server&rdquo;, we have clients and we have our download controller.</p>
+<p>We have a &ldquo;Web Server&rdquo;, clients and our download controller.</p>
 
 <p>There are a few things to unpack from this controller.<br />
 Let&rsquo;s start with the least interesting bit first, <code>makePulse</code>:</p>
@@ -319,7 +320,7 @@ the code:</p>
 <pre><code class="language-java">private Connection.Available getConnection()
     throws EtaExceededException, InterruptedException
 {
-    return getConnection(0, 0, null);
+    return getConnection(0, 0, null); //(1)
 }
 
 private Connection.Available getConnection(long eta, long wait, String token)
@@ -336,11 +337,11 @@ private Connection.Available getConnection(long eta, long wait, String token)
 
         println(&quot;Retrying download after &quot; + wait + &quot;ms wait.&quot;);
 
-        Connection c = coordinator.requestConnection(token);
+        Connection c = coordinator.requestConnection(token); //(2)
         if (c instanceof Connection.Available) {
-            return (Connection.Available) c;
+            return (Connection.Available) c; //(4)
         }
-        Connection.Unavailable unavail = (Connection.Unavailable) c;
+        Connection.Unavailable unavail = (Connection.Unavailable) c; //(3)
         eta = unavail.getEta();
         wait = unavail.getWait();
         token = unavail.getToken();
@@ -348,21 +349,22 @@ private Connection.Available getConnection(long eta, long wait, String token)
 }
 </code></pre>
 
-<p>We start with initial <code>eta</code> and <code>wait</code> times at zero and no token (<code>null</code>).</p>
-
-<p>Then we try to get a grant from the coordinator.<br />
-If the coordinator rejects us with an <code>Unavailable</code> response, we update the <em>eta</em>, <em>wait</em> and <em>token</em> and loop,
-otherwise we can return the <code>Available</code> response.</p>
+<ol>
+<li>We start with initial <code>eta</code> and <code>wait</code> times at zero and no token (<code>null</code>).</li>
+<li>We try to get a grant from the coordinator.</li>
+<li>If the coordinator rejects us with an <code>Unavailable</code> response, we update the <em>eta</em>, <em>wait</em> and <em>token</em> and loop;</li>
+<li>Otherwise we can return the <code>Available</code> response.</li>
+</ol>
 
 <p>As I said: the <strong>easiest</strong> implementation I could come up with.</p>
 
-<p><strong>Any Java developer at any level from junior to expert can understand what this does!</strong><br />
+<p><strong>Any Java developer from junior to expert can understand this code!</strong><br />
 It is <em>classic</em>, <em>old</em>, <em>boring</em>, <em>imperative</em> Java code which <strong><em>does the job</em></strong>.</p>
 
-<p>And <em>easy</em> is important, right? With this example I&rsquo;m 100% confident that all of you know what the service does and
-how it does it and we can build from here with all the subsequent implementations, using different paradigms and APIs.</p>
+<p>And <em>easy</em> is important, right? I&rsquo;m 100% confident that all of you know what the service does and how it does it. We
+can now build from here with all the subsequent implementations, using different paradigms and APIs.</p>
 
-<p>Let&rsquo;s now see what this code <em>actually</em> does.</p>
+<p>Before that, let&rsquo;s now see what this code <em>actually</em> does.</p>
 
 <h2 id="profiling">Profiling</h2>
 
@@ -399,8 +401,8 @@ pressure, etc.</p>
 about 8% for a very short time during startup). Which makes sense, right?</p>
 
 <p>Indeed, this use case is designed to be <em>I/O bound</em>: it&rsquo;s not like we&rsquo;re computing any math. Instead
-what we do is send a bunch or requests, wait a little in between, then some more requests to forward content from
-buffers and done.</p>
+we send a bunch or requests, wait a little in between, then some more requests to forward content from
+buffers and&hellip; Done.</p>
 
 <p>None of this requires a lot of CPU power so this screenshot should not be surprising. In fact, it will be the same
 for all the other implementations we will see in the next parts so I am not going to embed it again.</p>
@@ -436,8 +438,8 @@ for all the other implementations we will see in the next parts so I am not goin
 create a first batch of about 200 threads. And then progressively start 200 more over a period of about 5 seconds.</p>
 
 <p>The last 200 are pretty obvious given the implementation of <code>makePulse</code>: once the proxy begins to receive <code>Available</code>
-responses from the coordinator, it starts the threads instantiated by the calls to <code>makePulse</code>. So this is just an
-implementation detail. A wrong one for sure, but still a detail.</p>
+responses from the coordinator, it starts the threads instantiated by the calls to <code>makePulse</code>. This is just an
+implementation detail. A wrong one for sure, but a minor detail.</p>
 
 <p>What should be more intriguing are the first 200 (the 10 additional ones are created by the JVM itself, the net
 addition from our application is of 200). Why are 200 clients creating 200 threads?</p>
@@ -465,10 +467,10 @@ addition from our application is of 200). Why are 200 clients creating 200 threa
 </div>
 
 
-<p>They all seem pretty busy (green means &ldquo;running&rdquo; in VisualVM), which is weird! We&rsquo;ve seen that CPU usage is really low,
-so our cores don&rsquo;t actually do much in practice.</p>
+<p>They all seem pretty busy (green means &ldquo;running&rdquo; in VisualVM), which is weird. We&rsquo;ve seen that CPU usage is really low,
+so our cores don&rsquo;t actually do much in practice!</p>
 
-<p>We must to take a closer look at what those threads actually do. Let&rsquo;s get a <em>thread dump</em>.</p>
+<p>We must take a closer look at what those threads actually do. Let&rsquo;s get a <em>thread dump</em>.</p>
 
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
@@ -493,7 +495,7 @@ so our cores don&rsquo;t actually do much in practice.</p>
 </div>
 
 
-<p>In this screenshot I am just showing one of the many threads described in the thread dump because they all look alike.</p>
+<p>This screenshot shows only one of the many threads described in the thread dump because they all look alike.</p>
 
 <p>The typical thread in this application seems to be running this <code>SocketDispatch#read0</code> native method. And they aren&rsquo;t
 &ldquo;just&rdquo; running this method but in fact spending <strong>most of their time</strong> running it.</p>
@@ -524,7 +526,7 @@ so our cores don&rsquo;t actually do much in practice.</p>
 <p>This <a href="http://www.brendangregg.com/flamegraphs.html">flame graph</a> was acquired using <a href="https://github.com/jvm-profiling-tools/async-profiler">async-profiler</a> and shows that time spent running <code>SocketDispatcher#read0</code>&rsquo;s
 underlying <code>read</code> system call dominates our application.</p>
 
-<p>If we track its call stack to find its origin, we stumble upon <code>lambda$run$1</code> which, in fact, is the call to the
+<p>If we track its call stack to find its origin, we stumble upon <code>lambda$run$1</code>. Which, in fact, is the call to the
 astutely named <code>blockingRequest</code> method inside of the <em>gateway</em> service:</p>
 
 <pre><code class="language-java">class SyncGatewayService {
@@ -541,7 +543,7 @@ astutely named <code>blockingRequest</code> method inside of the <em>gateway</em
 }
 </code></pre>
 
-<p>And without further suspense, here&rsquo;s its code:</p>
+<p>Without further suspense, here&rsquo;s its code:</p>
 
 <pre><code class="language-java">public static InputStream blockingRequest(String url, String headers)
     throws IOException
@@ -874,7 +876,7 @@ available and this thread is scheduled again.</p>
 <p>I&rsquo;m trying to do half as good in this series, so I strongly suggest that you take a look at it and read <em>at least</em> the
 first 3 parts of the article: <em>&ldquo;Our Little Service&rdquo;</em>, <em>&ldquo;Little’s Law&rdquo;</em> and <em>&ldquo;What Dominates the Capacity&rdquo;</em>.</p>
 
-<p>What this explains is basically that the number of connections our services can handle when executing blocking code is
+<p>It explains that the number of connections our services can handle when executing blocking code is
 not limited by the number of network connections our OS can keep open, but by the number of threads we create.<br />
 Each kernel thread stack takes memory space and thread scheduling (context switches explained above) wastes CPU cycles
 and adds latency to requests.</p>
@@ -930,6 +932,19 @@ experiment to try various solutions to the problem of blocking calls and scalabi
               <div class="related-posts">
                 <h5>Related Posts</h5>
                 
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 23, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-3-async/">Loom - Part 3 - Asynchronous code</a></strong>
+                      </h6>
+                    </div>
+                  </div>
                 
                 
                 

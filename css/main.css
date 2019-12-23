@@ -6,7 +6,7 @@ html,
 body {
   height: 100%;
   background-color: #fff;
-  font-family: Helvetica,Georgia,Cambria,"Times New Roman",Times,serif;
+  font-family: "Raleway",Helvetica,Georgia,Cambria,"Times New Roman",Times,serif;
   -webkit-font-smoothing: antialiased;
   /* The html and body elements cannot have any padding or margin. */
   border-top: 3px solid #27A822;
@@ -28,18 +28,18 @@ body {
 }
 
 /* About
--------------------------------------------------- */
+--------------------------------------------------
 #about {
   font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
 }
 
 /* Navbar
--------------------------------------------------- */
+--------------------------------------------------
 
 .navbar {
   font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
   font-weight: bold;
-}
+}*/
 .navbar-static-top {
   margin-bottom: 10px;
 }
@@ -139,7 +139,7 @@ body {
 }
 .panel-default h4 a, .panel-default h5 a {
   color: #27A822;
-  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  /*font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;*/
 }
 .panel-default h4 a:hover, .panel-default h5 a:hover {
   color: #267723;
@@ -161,9 +161,12 @@ body {
 .avatar {
   padding-top: 5%;
 }
+p {
+  margin: 0 0 1em;
+}
 .blog-post{
   padding-top: 15px;
-  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  /*font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;*/
   font-style: normal;
   letter-spacing: -0.018em;
 }
@@ -177,7 +180,7 @@ body {
   padding-bottom: 15px;
 }
 .label {
-  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  /*font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;*/
 }
 .blogpost {
   text-align: left;
@@ -185,8 +188,8 @@ body {
   font-size: 18px;
 }
 .blogpost h1, .blogpost h2, .blogpost h3, .blogpost h4, .blogpost h5, .blogpost h6, .blogpost .h1, .blogpost .h2, .blogpost .h3, .blogpost .h4, .blogpost .h5, .blogpost .h6 {
-  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
-  font-style: normal;
+  font-family: "Open Sans",sans-serif;
+  font-style: italic;
   letter-spacing: -0.018em;
   margin-top: 50px;
 }
@@ -204,10 +207,10 @@ figcaption h6 {
 }
 .related-posts h6 {
   text-align: center;
-  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+  /*font-family: Georgia,Cambria,"Times New Roman",Times,serif;*/
 }
 .related-posts h6 a {
-  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  /*font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;*/
 }
 .list h5{
   text-align: left;
@@ -235,34 +238,13 @@ figcaption h6 {
 .blogpost pre {
   display: block;
   position: relative;
-  margin: .5em 0 1em;
-  -webkit-box-shadow: -1px 0 0 0 #358ccb,0 0 0 1px #dfdfdf;
-  -moz-box-shadow: -1px 0 0 0 #358ccb,0 0 0 1px #dfdfdf;
-  box-shadow: -1px 0 0 0 #358ccb,0 0 0 1px #dfdfdf;
-  border-left: 10px solid #18a3b9;
-  border-top: none;
-  border-right: none;
-  border-bottom: none;
-  background-image: -webkit-linear-gradient(transparent 50%,rgba(69,142,209,.04) 50%);
-  background-image: -moz-linear-gradient(transparent 50%,rgba(69,142,209,.04) 50%);
-  background-image: -ms-linear-gradient(transparent 50%,rgba(69,142,209,.04) 50%);
-  background-image: -o-linear-gradient(transparent 50%,rgba(69,142,209,.04) 50%);
-  background-image: linear-gradient(transparent 50%,rgba(69,142,209,.04) 50%);
-  background-size: 2.99em 2.99em;
-  background-origin: content-box;
-  overflow: auto;
-  max-height: 50rem;
-  height: 100%;
   padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   border-radius: 0;
 }
 .blogpost pre > code[class^=hljs] {
   color: #000;
   background-color: #fdfdfd;
-  font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
+  font-family: 'Fira Code',Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
   font-size: 13px;
   direction: ltr;
   text-align: left;
@@ -287,7 +269,7 @@ figcaption h6 {
   -webkit-box-shadow: -1px 0 0 0 #358ccb,0 0 0 1px #dfdfdf;
   -moz-box-shadow: -1px 0 0 0 #358ccb,0 0 0 1px #dfdfdf;
   box-shadow: -1px 0 0 0 #358ccb,0 0 0 1px #dfdfdf;
-  border-left: 10px solid #18a3b9;
+  border-left: 5px solid #18a3b9;
   overflow: auto;
   max-height: 50rem;
   height: 100%;
@@ -301,6 +283,7 @@ figcaption h6 {
     padding-bottom: 10px;
 }
 .hljs {
+  font-family: 'Fira Code', inconsolata, monospace;
   font-size: 15px;
   background: inherit;
   padding: 0;
@@ -320,7 +303,7 @@ figcaption h6 {
   border-left: 1px solid #333;
 }
 #toc {
-  font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  /*font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;*/
   font-style: normal;
   letter-spacing: -0.018em;
 }

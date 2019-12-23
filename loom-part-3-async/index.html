@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Fira+Code&display=swap">
     <link rel="stylesheet" type="text/css" href="https://i-rant.arnaudbos.com/css/main.css" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
     
@@ -69,11 +70,11 @@
         </div>
         <div class="blog-title">
           <h4>
-          December 19, 2019
+          December 23, 2019
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          11 minutes read
+          14 minutes read
           </h4>
         </div>
         <div>
@@ -140,37 +141,37 @@ In this part we re-implement our proxy service with an asynchronous API.</p>
 </ul></li>
 <li><a href="#beware-of-the-lurking-blocking-call">Beware of the lurking blocking call</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#post-scriptum">Post Scriptum</a></li>
 </ul></li>
 </ul>
 </nav></div>
 
-<p>We&rsquo;ve covered a lot of ground in the previous entries and we&rsquo;ve come to the conclusion that blocking code <em>&ldquo;is bad&rdquo; ©</em>.<br />
+<p>We&rsquo;ve covered a lot of ground in the previous entries and we concluded that blocking code <em>&ldquo;is bad&rdquo; ©</em>.<br />
 But what can we do about it?</p>
 
-<p>When I was researching, I&rsquo;ve read a lot of blog posts talking about <code>asynchronous</code> code and <em>asynchronous programming</em>
-as a solution. Thinking about it, it easily makes sense: our kernels use preemptive scheduling, so when the scheduler
-time-slices a long-running thread there&rsquo;s not much we can do about it, but we <strong>can</strong> maximize efficiency by <em>being
-careful</em> to avoid blocking calls and use asynchronous APIs!</p>
+<p>While researching, I&rsquo;ve read many blog posts presenting <code>asynchronous</code> programming
+as a solution. It makes sense: our kernels use preemptive scheduling. So there&rsquo;s nothing to do when the scheduler
+time-slices a long-running thread. But we <strong>can</strong> maximize efficiency! By <em>being
+careful</em> to avoid blocking calls and use asynchronous APIs.</p>
 
-<p>What we are going to do is write code that, instead of blocking while waiting for a result, will start a task with a
-call from an API which will return the control of execution immediately (so we can go on and execute other instructions)
-but will notify us when the result is ready.</p>
+<p>We will write code that, instead of blocking, will call an async API. This call will return the control of execution
+immediately (so we can execute other instructions) and only notify us when the result is ready.</p>
 
 <p>Let&rsquo;s take a look at the second implementation I&rsquo;ve made of the proxy service I&rsquo;ve presented in the <a href="../loom-part-2-blocking">previous entry</a>:</p>
 
 <h2 id="async-api">Async API</h2>
 
-<p>Changing an API from synchronous to asynchronous seems pretty simple at first.<br />
-Starting from the inner out, we create a new function, <code>asyncRequest</code>, as an asynchronous alternative to
+<p>Changing an API from synchronous to asynchronous seems simple at first.<br />
+From the inner out, we create a new function, <code>asyncRequest</code>, as an asynchronous alternative to
 <code>blockingRequest</code>.</p>
 
 <pre><code class="language-java">public void asyncRequest(ExecutorService, String, String, CompletionHandler)
 </code></pre>
 
-<p>Because <em>asyncRequest</em> has to return immediately in order to not block the calling thread, we give it an
-<code>ExecutorService</code> just to be explicit about which pool is going to be used, a <em>String</em> for the URL, another for the
+<p><em>asyncRequest</em> has to return immediately to not block the calling thread, so we give it an
+<code>ExecutorService</code>. This also benefits us to explicit about which pool is used. It also takes a <em>String</em> for the URL, another for the
 headers, and also a <code>CompletionHandler</code>.<br />
-<em>CompletionHandler</em> is an interface one has to implement, that is going to be called by the code inside <em>asyncRequest</em>
+<em>CompletionHandler</em> is an interface one has to implement. Its methods are called by <em>asyncRequest</em>
 once the result of the request is available: one callback in case of success, another in case of error.</p>
 
 <pre><code class="language-java">public interface CompletionHandler&lt;V&gt; {
@@ -179,9 +180,9 @@ once the result of the request is available: one callback in case of success, an
 }
 </code></pre>
 
-<p>I&rsquo;ll save you the details of actually passing a URL and parameters hidden inside the intermediary
-<code>CoordinatorService#requestConnection(String, CompletionHandler, ExecutorService)</code> and get directly to the new version
-of <code>getConnection</code> that we&rsquo;ve talked about in the previous entry:</p>
+<p>I&rsquo;ll spare you the request details hidden inside the intermediary
+<code>CoordinatorService#requestConnection(String, CompletionHandler, ExecutorService)</code>. Instead, let&rsquo;s get to the new version
+of <code>getConnection</code> we&rsquo;ve talked about in the previous entry:</p>
 
 <pre><code class="language-java">private void getConnection(CompletionHandler&lt;Connection.Available&gt; handler) {
     getConnection(0, 0, null, handler);
@@ -209,10 +210,9 @@ private void getConnection(long eta,
 }
 </code></pre>
 
-<p>The signatures are similar to the synchronous ones, except for the extra <code>CompletionHandler&lt;Connection.Available&gt;</code>
+<p>The signatures are like the synchronous ones, except for the extra <code>CompletionHandler&lt;Connection.Available&gt;</code>
 handler.<br />
-The difference here is that instead of making the connection request directly we submit (<code>schedule</code>) it to this
-<code>boundedServiceExecutor</code>.</p>
+But instead of making the request we <code>schedule</code> it to the <code>boundedServiceExecutor</code>.</p>
 
 <p><em>boundedServiceExecutor</em> is an instance of <code>ScheduledThreadPoolExecutor</code>.</p>
 
@@ -220,8 +220,8 @@ The difference here is that instead of making the connection request directly we
     Executors.newScheduledThreadPool(10, new PrefixedThreadFactory(&quot;requests&quot;));
 </code></pre>
 
-<p>In fact, <em>boundedServiceExecutor</em> is not the only thread pool used in this second implementation of the proxy service.<br />
-Just to make things more explicit regarding where each task runs, I&rsquo;ve create three dedicated executors:</p>
+<p>In fact, <em>boundedServiceExecutor</em> is not the only thread pool used in this implementation.<br />
+To make things explicit about where each task runs, I&rsquo;ve create 3 dedicated executors:</p>
 
 <pre><code class="language-java">// One from which service methods are called and coordinator requests are sent
 boundedServiceExecutor =
@@ -238,13 +238,13 @@ boundedPulseExecutor =
 <p>Note that both <code>boundedServiceExecutor</code> and <code>boundedRequestsExecutor</code> could have been instances of
 <code>ThreadPoolExecutor</code> (using <code>Executors#newFixedThreadPool(int, ThreadFactory)</code>)<br />
 rather than <code>ScheduledThreadPoolExecutor</code>;<br />
-because only heartbeat requests (using <code>boundedPulseExecutor</code>) need to be delayed.<br />
-But both being fixed-sized pools, the result is the same in this case.</p>
+because only heartbeat requests (using <code>boundedPulseExecutor</code>) must be delayed.<br />
+But both being fix-sized pools, the result is the same in this case.</p>
 </blockquote>
 
-<p>Similarly to the synchronous example, <code>getConnection</code> deals with the retry logic. But because
-<code>CoordinatorService#requestConnection</code> is asynchronous and takes a <em>CompletionHandler</em> (because it itself calls to
-<code>asyncRequest</code>), we have to implement both success and error callback methods.</p>
+<p>Like the synchronous example, <code>getConnection</code> deals with the retry logic. But
+<code>CoordinatorService#requestConnection</code> is asynchronous and takes a <em>CompletionHandler</em>, because it calls to
+<code>asyncRequest</code>. So we have to implement both success and error callback methods.</p>
 
 <pre><code class="language-java">private void getConnection(long eta,
                            long wait,
@@ -257,16 +257,17 @@ But both being fixed-sized pools, the result is the same in this case.</p>
     boundedServiceExecutor.schedule(() -&gt; {
         println(&quot;Retrying download after &quot; + wait + &quot;ms wait.&quot;);
 
-        coordinator.requestConnection(
+        coordinator.requestConnection( //(1)
             token,
             new CompletionHandler&lt;&gt;() {
                 @Override
-                public void completed(Connection c) {
+                public void completed(Connection c) { //(2)
                     if (c instanceof Connection.Available) {
                         if (handler!=null)
-                            handler.completed((Connection.Available) c);
+                            handler.completed((Connection.Available) c); //(3)
                     } else {
-                        Connection.Unavailable unavail = (Connection.Unavailable) c;
+                        Connection.Unavailable unavail =
+                            (Connection.Unavailable) c; //(4)
                         getConnection(
                             unavail.getEta(),
                             unavail.getWait(),
@@ -276,7 +277,7 @@ But both being fixed-sized pools, the result is the same in this case.</p>
                 }
 
                 @Override
-                public void failed(Throwable t) {
+                public void failed(Throwable t) { //(5)
                     if (handler!=null) handler.failed(t);
                 }
             },
@@ -285,14 +286,15 @@ But both being fixed-sized pools, the result is the same in this case.</p>
 }
 </code></pre>
 
-<p>In case of success of the underlying <em>requestConnection &gt; asyncRequest</em> call chain, the <code>completed</code> method will be
-called with the response from the coordinator. The answer could be positive or negative.<br />
-In case of <code>Available</code>, we&rsquo;re done; so we can complete the completion <em>handler</em> which was given to <code>getConnection</code> so
-its caller can be notified of the success and proceed (with the download).<br />
-In case of <code>Unavailable</code>, we hide the retry logic and <em>reschedule</em> the call to <em>requestConnection</em> to the executor
-by recursively calling <code>getConnection</code> with updated parameters.</p>
-
-<p>In case of failure we simply propagate the error to <code>getConnection</code>&rsquo;s caller.</p>
+<ol>
+<li>In case of success of the underlying <em>requestConnection &gt; asyncRequest</em> call chain.</li>
+<li>The <code>completed</code> method will be called with the response from the coordinator. The answer could be positive or negative.</li>
+<li>In case of <code>Available</code>, we&rsquo;re done; we can complete the completion <em>handler</em> passed to <code>getConnection</code>. Its caller can
+be notified of the success and proceed (with the download).</li>
+<li>In case of <code>Unavailable</code>, we hide the retry logic and <em>reschedule</em> the call to <em>requestConnection</em> to the executor
+by recursively calling <code>getConnection</code> with updated parameters.</li>
+<li>In case of failure we simply propagate the error to <code>getConnection</code>&rsquo;s caller.</li>
+</ol>
 
 <p>The callbacks already make this logic cluttered enough; but we&rsquo;re not done! We must now implement <code>getThingy</code>, our
 service method which calls to <code>getConnection</code> and then start the download request.</p>
@@ -300,20 +302,20 @@ service method which calls to <code>getConnection</code> and then start the down
 <pre><code class="language-java">private void getThingy(int i, CompletionHandler&lt;Void&gt; handler) {
     println(&quot;Start getThingy.&quot;);
 
-    getConnection(new CompletionHandler&lt;&gt;() {
+    getConnection(new CompletionHandler&lt;&gt;() { //(1)
         @Override
-        public void completed(Connection.Available conn) {
+        public void completed(Connection.Available conn) { //(2)
             println(&quot;Got token, &quot; + conn.getToken());
 
             CompletableFuture&lt;Void&gt; downloadFut = new CompletableFuture&lt;&gt;();
-            gateway.downloadThingy(new CompletionHandler&lt;&gt;() {
+            gateway.downloadThingy(new CompletionHandler&lt;&gt;() { //(3)
                 @Override
-                public void completed(InputStream content) {
+                public void completed(InputStream content) { //(4)
                     // Download started
                 }
 
                 @Override
-                public void failed(Throwable t) {
+                public void failed(Throwable t) { //(6)
                     if (t instanceof EtaExceededException) {
                         err(&quot;Couldn't getThingy because ETA exceeded: &quot; + t);
                     } else {
@@ -321,12 +323,12 @@ service method which calls to <code>getConnection</code> and then start the down
                     }
                     if (handler!=null) handler.failed(t);
                 }
-            }, boundedServiceExecutor);
+            }, boundedServiceExecutor); //(5)
 
         }
 
         @Override
-        public void failed(Throwable t) {
+        public void failed(Throwable t) { //(6)
             err(&quot;Task failed.&quot;);
             if (handler!=null) handler.failed(t);
         }
@@ -334,35 +336,34 @@ service method which calls to <code>getConnection</code> and then start the down
 }
 </code></pre>
 
-<p>We&rsquo;ve seen above that <code>getConnection</code> takes a completion handler which will be called when we successfully get a
-download authorization from the coordinator or when an error happens, so <code>getThingy</code> implements an ad-hoc handler to
-handle the logic that should ensue.</p>
-
-<p>On <em>successful</em> completion, we are authorized to start the download, which is done by calling <code>gateway.downloadThingy</code>.<br />
+<ol>
+<li>We&rsquo;ve seen above that <code>getConnection</code> takes a completion handler.</li>
+<li>Its <code>complete</code> method will be called when we successfully get a download authorization from the coordinator.</li>
+<li>On <em>successful</em> completion, the download starts, which materializes calling <code>gateway.downloadThingy</code>.
 <code>downloadThingy</code> is, itself, asynchronous because it also calls down to <code>asyncRequest</code>, so we must give it a new
-<em>CompletionHandler</em>.<br />
-This completion handler will be given an <code>InputStream</code> once the connection to the data source is established, so we
-can read the content and forward it to this service&rsquo;s client. The consumption of the <em>InputStream</em> and forwarding to
-the client is omitted for now and replaced by the &ldquo;Download started&rdquo; comment.<br />
-<code>downloadThingy</code>&rsquo;s last parameter is an optional executor, used to specify on which pool will the completion handler
-be executed. If omitted, it is the calling thread, but in this case we specify that we want the content
-consumption/forwarding to happen on the <code>boundedServiceExecutor</code>.</p>
-
-<p>In case of failure from <code>getConnection</code> or <code>downloadThingy</code>, we complete <code>getThingy</code>&rsquo;s completion handler with a
-failure.</p>
+<em>CompletionHandler</em>.</li>
+<li>This completion handler is passed an <code>InputStream</code> once we connect to the data source. We
+can then read the content and forward it to this service&rsquo;s client. The consumption of the <em>InputStream</em> and
+forwarding to the client is omitted for now and replaced by the &ldquo;Download started&rdquo; comment.</li>
+<li><code>downloadThingy</code>&rsquo;s last parameter is an optional executor, used to specify which pool is used to run the completion
+handler. If omitted, it is the calling thread, but in this case, we specify that we want the content
+consumption/forwarding to happen on the <code>boundedServiceExecutor</code>.</li>
+<li>In case of failure from <code>getConnection</code> or <code>downloadThingy</code>, we complete <code>getThingy</code>&rsquo;s completion handler with a
+failure.</li>
+</ol>
 
 <p>Now that we have the structure, we can handle the content, but also start the periodic heartbeat requests!</p>
 
-<pre><code class="language-java">Runnable pulse = new PulseRunnable(i, downloadFut, conn);
+<pre><code class="language-java">Runnable pulse = new PulseRunnable(i, downloadFut, conn); //(2)
 int total = 0;
-try(content) {
+try(content) { //(1)
     println(i + &quot; :: Starting pulse &quot;);
-    boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);
+    boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS); //(2)
 
     // Get read=-1 quickly and not all content
     // because of HTTP 1.1 but really don't care
     byte[] buffer = new byte[8192];
-    while(true) {
+    while(true) { //(3)
         int read = content.read(buffer);
         // drop it
         if (read==-1 || (total+=read)&gt;=MAX_SIZE) break;
@@ -371,31 +372,31 @@ try(content) {
     println(&quot;Download finished&quot;);
 
     if (handler!=null)
-        handler.completed(null);
+        handler.completed(null); //(4)
 } catch (IOException e) {
     err(&quot;Download failed.&quot;);
     if (handler!=null)
-        handler.failed(e);
+        handler.failed(e); //(4)
 } finally {
-    downloadFut.complete(null);
+    downloadFut.complete(null); //(5)
 }
 </code></pre>
 
 <p>Remember this code executes inside <code>downloadThingy</code>&rsquo;s completion handler, so when this code runs, the connection
-to the data source has been established.<br />
-We encapsulate the logic inside a <code>try-with-resource</code> block around <code>content</code> (the <em>InputStream</em>) because it can
-fail at any moment.</p>
+to the data source is established.</p>
 
-<p>We&rsquo;ve initialized a <code>PulseRunnable</code> which we can now schedule to send heartbeat requests (it will reschedule itself
-upon completion). The reason why we give it a reference to the <em>Future</em> <code>downloadFut</code> it to stop sending heartbeats
-when the download ends, but we&rsquo;ll see <code>PulseRunnable</code> later.</p>
+<ol>
+<li>We encapsulate the logic inside a <code>try-with-resource</code> block around <code>content</code> (the <em>InputStream</em>) because it can
+fail at any moment.</li>
+<li>We&rsquo;ve initialized a <code>PulseRunnable</code>, which we can now schedule to send heartbeat requests. It will reschedule itself
+upon completion. The reference to the <em>Future</em> <code>downloadFut</code> allows to stop sending heartbeats
+when the download ends. We&rsquo;ll see <code>PulseRunnable</code> later.</li>
+<li>In the mean time, we consume the <em>InputStream</em> and just ignore the content once again (not important).</li>
+<li>Finally, when the download stops, on success or on error, we <em>complete</em> <code>getThingy</code>&rsquo;s handler accordingly.</li>
+<li>We don&rsquo;t forget to complete <code>downloadFut</code> either, so the heartbeats stop.</li>
+</ol>
 
-<p>In the mean time, we consume the <em>InputStream</em> and just ignore the content once again (not important).</p>
-
-<p>Finally, when the download is finished, successfully or on error, we <em>complete</em> <code>getThingy</code>&rsquo;s handler accordingly and don&rsquo;t
-forget to complete <code>downloadFut</code> so that the heartbeats stop.</p>
-
-<p>Almost done. We now take a look at <code>PulseRunnable</code>:</p>
+<p>Almost done. We now look at <code>PulseRunnable</code>:</p>
 
 <pre><code class="language-java">class PulseRunnable implements Runnable {
     private int i;
@@ -412,20 +413,20 @@ forget to complete <code>downloadFut</code> so that the heartbeats stop.</p>
     public void run() {
         if (!download.isDone()) {
             println(i + &quot; :: Pulse!&quot;);
-            coordinator.heartbeat(
+            coordinator.heartbeat( //(1)
                 conn.getToken(),
                 new CompletionHandler&lt;&gt;() {
                     @Override
-                    public void completed(Connection result) {
-                        if (!download.isDone()) {
+                    public void completed(Connection result) { //(2)
+                        if (!download.isDone()) { //(3)
                             boundedPulseExecutor
                                 .schedule(PulseRunnable.this, 2_000L, TimeUnit.MILLISECONDS);
                         }
                     }
 
                     @Override
-                    public void failed(Throwable t) {
-                        if (!download.isDone()) {
+                    public void failed(Throwable t) { //(2)
+                        if (!download.isDone()) { //(3)
                             boundedPulseExecutor
                                 .schedule(PulseRunnable.this, 2_000L, TimeUnit.MILLISECONDS);
                         }
@@ -440,12 +441,15 @@ forget to complete <code>downloadFut</code> so that the heartbeats stop.</p>
 }
 </code></pre>
 
-<p>Nothing too fancy. When started, the runnable calls the asynchronous <code>CoordinatorService#heartbeat</code> method with the
-token, a <em>completion handler</em> and an executor responsible to run the handler&rsquo;s methods (<code>boundedServiceExecutor</code> in
-this case, just like when calling <code>GatewayService#downloadThingy</code> above).</p>
+<p>Nothing too fancy.</p>
 
-<p>Heartbeat results, whether successes or failures, are simply ignored, and a new heartbeat request is scheduled, as
-long as the download <em>Future</em> is not done.</p>
+<ol>
+<li>When started, the runnable calls the asynchronous <code>CoordinatorService#heartbeat</code> method with the token,
+<em>completion handler</em> and executor. The executor is responsible to run the handler&rsquo;s methods (<code>boundedServiceExecutor</code> in
+this case, like when calling <code>GatewayService#downloadThingy</code> above).</li>
+<li>We ignore heartbeat results, whether successes or failures,</li>
+<li>And schedule a new heartbeat request as long as the download <em>Future</em> is not &ldquo;done&rdquo;.</li>
+</ol>
 
 <p>Finally, the last piece of the puzzle, the clients calling the service:</p>
 
@@ -482,7 +486,7 @@ This problem has a name: <strong><a href="http://callbackhell.com/">Callback Hel
 <p>If async is the answer to write efficient services that make the most out of server resources, maybe it&rsquo;s worth the
 pain!</p>
 
-<p>Profiling this code revealed that CPU usage was still really low, more or less like in the previous implementation.
+<p>Profiling this code revealed that CPU usage was still low, more or less like in the previous implementation.
 Threads are more interesting:</p>
 
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
@@ -535,7 +539,7 @@ Why is it so slow?</p>
 </figure>
 
 
-<div class="title">&#34;Service&#34; thread pool&#39;s threads are busy</div>
+<div class="title">Three thread pools</div>
 </div>
 
 
@@ -585,9 +589,10 @@ used is inside <code>downloadThingy</code>, which I had omitted before. Here it 
 </code></pre>
 
 <p>The code of <code>asyncRequest</code> is secret sauce for the moment, suffice to say that the executor it is given
-(<code>boundedRequestsExecutor</code> in this case) is used only to call its <code>submit(Runnable)</code> method.</p>
+(<code>boundedRequestsExecutor</code> in this case) serves only to call its <code>submit(Runnable)</code> method.</p>
 
-<p>So the <code>request-*</code> threads in the VisualVM screenshot above are all doing the same thing: execute an <code>asyncRequest</code>.</p>
+<p>So the <code>request-*</code> threads in the VisualVM screenshot above are all doing the same thing: execute an <code>asyncRequest</code>
+and pass the result to whoever the caller is.</p>
 
 <h3 id="pulse-threads">Pulse threads</h3>
 
@@ -596,7 +601,7 @@ used is when scheduling the heartbeat requests from within <code>getThingy</code
 
 <p><code>boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);</code></p>
 
-<p>And it is also given as the last parameter to <code>CoordinatorService#heartbeat</code> in order to execute its <em>completion
+<p>It is also given as the last parameter to <code>CoordinatorService#heartbeat</code> to execute its <em>completion
 handler</em>:</p>
 
 <pre><code class="language-java">@Override
@@ -614,14 +619,14 @@ public void completed(InputStream is) {
 </code></pre>
 
 <p>So the <code>pulse-*</code> threads in the VisualVM screenshot above are doing small things too: execute a heartbeat
-<code>asyncRequest</code> and sometimes doing a bit of <code>parseToken</code> which consists in decoding a few bytes.</p>
+<code>asyncRequest</code> and a bit of <code>parseToken</code>, which consists in decoding a few bytes.</p>
 
 <h3 id="service-threads">Service threads</h3>
 
-<p>Threads whose names begin with <code>service</code> come from <code>boundedServiceExecutor</code> and are used in a couple of places.</p>
+<p>Threads whose names begin with <code>service</code> come from <code>boundedServiceExecutor</code> and are used in several places.</p>
 
 <ul>
-<li>in <code>getConnection</code> in order to submit the call to <code>CoordinatorService#requestConnection</code></li>
+<li>in <code>getConnection</code>, to submit the call to <code>CoordinatorService#requestConnection</code></li>
 <li>to execute the <em>completion handler</em> of <code>CoordinatorService#requestConnection</code></li>
 <li>to execute the <em>completion handler</em> of <code>GatewayService#downloadThingy</code></li>
 <li>to execute the calls to <code>asyncRequest</code> inside <code>CoordinatorService#requestConnection</code> and <code>CoordinatorService#heartbeat</code></li>
@@ -632,10 +637,10 @@ callback execution.</p>
 
 <h3 id="a-word-about-scheduledthreadpoolexecutor">A word about ScheduledThreadPoolExecutor</h3>
 
-<p>I think it&rsquo;s time to introduce the <code>ScheduledThreadPoolExecutor</code> properly.</p>
+<p>It&rsquo;s time to introduce the <code>ScheduledThreadPoolExecutor</code>.</p>
 
-<p>Contrary to cached <code>ThreadPoolExecutor</code>, this one doesn&rsquo;t doesn&rsquo;t spawn new threads to match the number of <em>Runnable</em>
-it is submitted. Instead it stays with the number or threads it is passed when create.</p>
+<p>Contrary to cached <code>ThreadPoolExecutor</code>, it doesn&rsquo;t spawn new threads to keep up with the number of <em>Runnable</em>.
+Instead, it stays with the number of threads it is passed when created.</p>
 
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
@@ -660,11 +665,189 @@ it is submitted. Instead it stays with the number or threads it is passed when c
 </div>
 
 
-<p>When using this kind of executor, the goal is to execute non blocking calls</p>
+<p>Each thread runs an infinite loop, executing <em>Runnable</em> after <em>Runnable</em>.<br />
+When using this kind of executor, the goal is to execute non-blocking calls. Blocking calls suspend the
+thread until the result is available, thus preventing the following runnables from executing!</p>
+
+<p>As seen in <a href="../loom-part-2-blocking">Part 2</a>, we want to avoid blocking calls. Especially with this kind of executor, because
+it becomes possible to bring the whole application to a halt!</p>
+
+<p>Fortunately, our whole implementation is asynchronous!<br />
+Every method of our service submits tasks to an executor and there are callbacks all over the place.</p>
 
 <h2 id="beware-of-the-lurking-blocking-call">Beware of the lurking blocking call</h2>
 
+<p>We now have a bit more context on what each thread does. Let&rsquo;s take another look at the VisualVM screenshot:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl2-threads-running.png" itemprop="contentUrl" data-size="2602x1730">
+      <img src="/img/loom/impl2-threads-running.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">&#34;Service&#34; thread pool&#39;s threads are busy</div>
+</div>
+
+
+<p>The <code>request-*</code> and <code>pulse-*</code> threads spend most of their time <code>parked</code>.</p>
+
+<p>Each thread in those pools looks for tasks to execute (<em>runnables</em>) coming down the executor&rsquo;s queue.
+But because the only tasks submitted to them are asynchronous, their execution are quick! Soon, the
+queue is drained, and when there&rsquo;s nothing to do, the executor will park the threads so they don&rsquo;t
+<a href="https://en.wikipedia.org/wiki/Busy_waiting">busy wait</a>.</p>
+
+<p>The <code>service-*</code> threads, however, spend all their time running. And it is as weird as in the previous entry:
+we&rsquo;ve supposed to execute only asynchronous methods and compute nothing. I&rsquo;ll spare you the thread dump, let&rsquo;s
+jump to the <a href="http://www.brendangregg.com/flamegraphs.html">flame graph</a>:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl2-flame.png" itemprop="contentUrl" data-size="2910x1520">
+      <img src="/img/loom/impl2-flame.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Bummer!</div>
+</div>
+
+
+<p><strong>There&rsquo;s a blocking call lurking in a dark corner of our &ldquo;beautiful&rdquo; asynchronous API!</strong></p>
+
+<p>And if you didn&rsquo;t see it coming, maybe you understand why I didn&rsquo;t show the code of <code>asyncRequest</code> before.
+Let&rsquo;s look:</p>
+
+<pre><code class="language-java">public static void asyncRequest(ExecutorService executor,
+                                String url,
+                                String headers,
+                                CompletionHandler&lt;InputStream&gt; handler)
+{
+    executor.submit(() -&gt; {
+        try {
+            InputStream is = blockingRequest(url, headers);
+            if (handler!=null)
+                handler.completed(is);
+        } catch (Exception e) {
+            if (handler!=null)
+                handler.failed(e);
+        }
+    });
+}
+</code></pre>
+
+<p>Yup, <em>&ldquo;Mischief managed&rdquo;</em>.<br />
+Under the hood, <code>asyncRequest</code> calls down to <code>blockingRequest</code> and its blocking <code>SocketChannel</code>/<code>InputStream</code>!</p>
+
+<p>The reason why the <code>service-*</code> threads look busy is that they are actually blocked. And this explains the question I
+was asking before: &ldquo;Why is it so slow?&rdquo;. Which is, because those threads are from a pool managed by a fixed-size
+<code>ScheduledThreadPoolExecutor</code>, so no more than 10 simultaneous requests can be running. But the threads are being
+blocked, preventing other tasks submitted to the executor from running.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/still-thread-blocking.png" itemprop="contentUrl" data-size="3086x1558">
+      <img src="/img/loom/still-thread-blocking.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Still thread-blocking</div>
+</div>
+
+
+<p>Thus, the net effect of changing this API from synchronous to asynchronous has been a latency increase. Because the
+jobs keep piling up in the executor&rsquo;s queue!</p>
+
 <h2 id="conclusion">Conclusion</h2>
+
+<p>Some blog posts present asynchronous programming as a solution to the problem of scaling a service. This bothers me.</p>
+
+<p>They often use <code>asynchronous</code> in opposition to <code>blocking</code>. But the opposite to <code>blocking</code> is <code>non-blocking</code>.
+However, using <em>non-blocking</em> alone conflates not blocking the <strong><em>current thread</em></strong> with not blocking <strong><em>any thread</em></strong>.
+<code>Non-blocking</code> is not synonymous to <code>non-thread-blocking</code>!</p>
+
+<p>As seen above, using an asynchronous API doesn&rsquo;t mean anything about its thread-blocking properties.
+An asynchronous call submitted to an executor doesn&rsquo;t block the current thread, for sure, but it may very well block
+the thread it is running on!<br />
+This is usually where you read comments such as &ldquo;use a dedicated thread pool&rdquo;. Indeed, you
+want to dedicate a thread pool for those blocking calls to avoid impacting the rest of your application. But you&rsquo;re left
+with two choices. Either use an unbounded thread pool, risking unpredictable behaviour, or use a bounded one, risking
+increased latency for those tasks.</p>
+
+<p>I prefer to think about <em>blocking</em> and <em>non-blocking</em> as runtime properties.<br />
+Likewise, I much prefer using <em>asynchronous</em> in opposition to <em>synchronous</em> when talking about an API or <em>programming
+style</em>. <strong>Conflating sync/async and blocking/non-blocking is a source of confusion.</strong> In fact, I argue that both are
+orthogonal.</p>
+
+<p>But there&rsquo;s a reason why both are often mixed-up.<br />
+Today, the only—i.e. built-in— way to execute <code>non-thread-blocking</code> code <em>on the JVM</em> is to use <code>asynchronous</code> API.</p>
+
+<p>In the next part, we&rsquo;ll re-implement <code>asyncRequest</code> to be truly non-blocking.</p>
+
+<h2 id="post-scriptum">Post Scriptum</h2>
+
+<p>Writing asynchronous code is hard.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/vegeta.png" itemprop="contentUrl" data-size="3016x1822">
+      <img src="/img/loom/vegeta.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">It&#39;s over 800!</div>
+</div>
+
+
+<p>On the left a peak to 122 live threads when I did a small mistake.<br />
+On the right a peak to more that 800 live threads when I messed up on purpose to see the result (I swear!).</p>
 
               <hr>
               <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
