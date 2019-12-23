@@ -18,6 +18,7 @@ gallery: true
 > If you'd like you could head over to  
 > [Part 0 - Writing for the past me][part-0]  
 > [Part 1 - It's all about Scheduling][part-1]  
+> [Part 3 - Asynchronous code][part-3]  
 
 {{< img center="true" src="/img/loom/loom.jpg" alt="Loom" width="100%" title="Weaving" caption="Max Pixel" attr="CC0 1.0" attrlink="https://creativecommons.org/publicdomain/zero/1.0/deed.en" link="https://www.maxpixels.net/Post-Impressionist-Post-Impressionism-Fine-Art-Dutch-1428139">}}
 
@@ -27,9 +28,9 @@ gallery: true
 
 ## A simple use case
 
-One of the biggest pain points I had when I started to learn about concurrent programming, was the emphasis put on
+One of the biggest pain points I had learning about concurrent programming was the emphasis put on
 `Blocking`, `Non-blocking`, `Synchronous` and `Asynchronous` code.    
-We'll touch on all four of them in the next parts of this series.
+We'll touch on all four in the next parts of this series.
 
 After reading a lot I figured that implementing a simple use case would comfort my understandings and help me convey
 what I wanted to explain. So here's a not totally made up, simple use case:
@@ -43,26 +44,23 @@ what I wanted to explain. So here's a not totally made up, simple use case:
 Clients need access to some restricted resources. A proxying service will rate-limit the clients access, based on a
 token policy.
 
-Here's the scenario:
-
-1. A client addresses a download request to the proxy service
-2. The proxy service registers the request to a coordinator
-3. The coordinator is responsible for the scheduling logic, managing some sort of priority queue for instance. Its logic
-   is irrelevant.
-4. The coordinator responds either "Unavailable" or "Available"
-5. "Unavailable" means that the client can't download the resource just yet so the responses' payload contains a token
+1. A client addresses a download request to the proxy service.
+2. The proxy service registers the request to a coordinator.
+3. The coordinator is responsible for the scheduling logic using a priority queue. Its logic is irrelevant.
+4. The coordinator responds either "Unavailable" or "Available".
+5. "Unavailable" means that the client can't download the resource just yet (responses' payload contains a token).
 6. The payload also contains an "ETA" so the service can decide to abort or to retry, using the token to keep its place
-   in the coordinator's queue
-7. The payload also contains a "wait" time to rate-limit the retry requests to the coordinator
+   in the coordinator's queue.
+7. The payload also contains a "wait" time to rate-limit the retry requests to the coordinator.
 8. The proxy may have to retry a couple of times, on behalf of the client, but will eventually receive an "Available"
-   response
+   response.
 9. With an "Available" response and the token contained in its payload, the proxy service can initiate a download
-   request to the data source
-10. The proxy service streams the content of the download request back to its client
-11. While at the same time sending periodic "heartbeat" requests to the coordinator to ensure its token is not revoked
+   request to the data source.
+10. The proxy service streams the content of the download request back to its client;
+11. While at the same time sending periodic "heartbeat" requests to the coordinator to ensure its token is not revoked.
 
 We are going to use this scenario in the next parts of the series. We will implement this proxy service in
-various ways, simulate  a few (200) clients connecting simultaneously and see the pros and cons of each implementation.
+various ways, simulate a few (200) clients connecting simultaneously and see the pros and cons of each implementation.
 
 > Bear in mind that this is not a benchmark, it's just an experiment.  
 > 200 clients is a really low number but is enough to observe a few interesting things. 
@@ -78,20 +76,20 @@ private void getThingy() throws EtaExceededException, IOException {
     println("Start getThingy.");
 
     try {
-        Connection.Available conn = getConnection();
+        Connection.Available conn = getConnection(); //(1)
         println("Got token, " + conn.getToken());
 
         Thread pulse = makePulse(conn);
-        try (InputStream content = gateway.downloadThingy()) {
-            pulse.start();
+        try (InputStream content = gateway.downloadThingy()) { //(2)
+            pulse.start(); //(3)
 
-            ignoreContent(content);
+            ignoreContent(content); //(4)
         } catch (IOException e) {
             err("Download failed.");
             throw e;
         }
         finally {
-            pulse.interrupt();
+            pulse.interrupt(); //(5)
         }
     } catch (InterruptedException e) {
         // D'oh!
@@ -103,23 +101,23 @@ private void getThingy() throws EtaExceededException, IOException {
 }
 ```
 
-First we retrieve an "Available" connection `conn` from the coordinator, then we initiate the download request to the
-data source (called `gateway` in this example, just to make it confusing...).  
-Once the download has begun we start the heartbeat requests (_pulse_ thread) while consuming the content (`InputStream`,
-here we simply drop it, but in a real scenario we would forward to the client).  
-Once the download ends (successfully or not) we stop sending heartbeat requests and the call ends.
+1. We retrieve an "Available" connection `conn` from the coordinator
+2. We initiate the download request to the data source (called `gateway` in this example).
+3. Once the download has begun we start the heartbeat requests (_pulse_ thread).
+4. While at the same time consuming the content (`InputStream`, here we simply drop it, but in a real scenario we
+   would forward to the client).  
+5. Once the download ends (successfully or not) we stop sending heartbeat requests and the call ends.
 
-This may not be what you had expected. Maybe you were hoping to see some kind of framework here, some _@Controller_
-or _@GET_ annotation perhaps?
+Maybe you were hoping to see some kind of framework here, some _@Controller_ or _@GET_ annotation perhaps?
 
-In this series, I'm not going to bother with a framework or anything like that. Because the number of clients is so
-small and because, again, this is not a benchmark, I am just simulating the client calls from within the same JVM.
+In this series, I'm not going to bother with a framework. Because the number of clients is so small and this is not a
+benchmark, I am just simulating the client calls from within the same JVM.
 
-This way, I am able to use the kind of `ExecutorService` I want, for each implementation, in order to outline a few
+This way, I am able to use the kind of `ExecutorService` I want for each implementation, in order to outline a few
 things. This executor and its thread pool will simulate the Web Server thread pool that could be found inside any Web
-Framework anyways and it is more illustrative to have it directly at hand.
+Framework. In the end it is more illustrative to have it directly at hand.
 
-Let's simulate a few clients shall we?
+Let's simulate a few clients, shall we?
 
 ```java
 for(int i=0; i<MAX_CLIENTS; i++) {
@@ -143,7 +141,7 @@ elasticServiceExecutor =
     Executors.newCachedThreadPool(new PrefixedThreadFactory("service"));
 ```
 
-We have a "Web Server", we have clients and we have our download controller.  
+We have a "Web Server", clients and our download controller.
 
 There are a few things to unpack from this controller.  
 Let's start with the least interesting bit first, `makePulse`:
@@ -182,7 +180,7 @@ the code:
 private Connection.Available getConnection()
     throws EtaExceededException, InterruptedException
 {
-    return getConnection(0, 0, null);
+    return getConnection(0, 0, null); //(1)
 }
 
 private Connection.Available getConnection(long eta, long wait, String token)
@@ -199,11 +197,11 @@ private Connection.Available getConnection(long eta, long wait, String token)
 
         println("Retrying download after " + wait + "ms wait.");
 
-        Connection c = coordinator.requestConnection(token);
+        Connection c = coordinator.requestConnection(token); //(2)
         if (c instanceof Connection.Available) {
-            return (Connection.Available) c;
+            return (Connection.Available) c; //(4)
         }
-        Connection.Unavailable unavail = (Connection.Unavailable) c;
+        Connection.Unavailable unavail = (Connection.Unavailable) c; //(3)
         eta = unavail.getEta();
         wait = unavail.getWait();
         token = unavail.getToken();
@@ -211,21 +209,20 @@ private Connection.Available getConnection(long eta, long wait, String token)
 }
 ```
 
-We start with initial `eta` and `wait` times at zero and no token (`null`).
-
-Then we try to get a grant from the coordinator.  
-If the coordinator rejects us with an `Unavailable` response, we update the _eta_, _wait_ and _token_ and loop,
-otherwise we can return the `Available` response.
+1. We start with initial `eta` and `wait` times at zero and no token (`null`).
+2. We try to get a grant from the coordinator.
+3. If the coordinator rejects us with an `Unavailable` response, we update the _eta_, _wait_ and _token_ and loop;
+4. Otherwise we can return the `Available` response.
 
 As I said: the **easiest** implementation I could come up with.
 
-**Any Java developer at any level from junior to expert can understand what this does!**  
+**Any Java developer from junior to expert can understand this code!**  
 It is _classic_, _old_, _boring_, _imperative_ Java code which ***does the job***.
 
-And _easy_ is important, right? With this example I'm 100% confident that all of you know what the service does and
-how it does it and we can build from here with all the subsequent implementations, using different paradigms and APIs.
+And _easy_ is important, right? I'm 100% confident that all of you know what the service does and how it does it. We
+can now build from here with all the subsequent implementations, using different paradigms and APIs.
 
-Let's now see what this code _actually_ does.
+Before that, let's now see what this code _actually_ does.
 
 ## Profiling
 
@@ -245,8 +242,8 @@ CPU usage is really limited in this example (at a guess, I'd say the 95 percenti
 about 8% for a very short time during startup). Which makes sense, right?
 
 Indeed, this use case is designed to be _I/O bound_: it's not like we're computing any math. Instead
-what we do is send a bunch or requests, wait a little in between, then some more requests to forward content from
-buffers and done.
+we send a bunch or requests, wait a little in between, then some more requests to forward content from
+buffers and... Done.
 
 None of this requires a lot of CPU power so this screenshot should not be surprising. In fact, it will be the same
 for all the other implementations we will see in the next parts so I am not going to embed it again.
@@ -265,8 +262,8 @@ We can see in the figure above that when the application starts, meaning "when o
 create a first batch of about 200 threads. And then progressively start 200 more over a period of about 5 seconds.
 
 The last 200 are pretty obvious given the implementation of `makePulse`: once the proxy begins to receive `Available`
-responses from the coordinator, it starts the threads instantiated by the calls to `makePulse`. So this is just an
-implementation detail. A wrong one for sure, but still a detail.
+responses from the coordinator, it starts the threads instantiated by the calls to `makePulse`. This is just an
+implementation detail. A wrong one for sure, but a minor detail.
 
 What should be more intriguing are the first 200 (the 10 additional ones are created by the JVM itself, the net
 addition from our application is of 200). Why are 200 clients creating 200 threads?
@@ -277,10 +274,10 @@ addition from our application is of 200). Why are 200 clients creating 200 threa
   width="100%" %}}
 {{< /gallery >}}
 
-They all seem pretty busy (green means "running" in VisualVM), which is weird! We've seen that CPU usage is really low,
-so our cores don't actually do much in practice.
+They all seem pretty busy (green means "running" in VisualVM), which is weird. We've seen that CPU usage is really low,
+so our cores don't actually do much in practice!
 
-We must to take a closer look at what those threads actually do. Let's get a _thread dump_.
+We must take a closer look at what those threads actually do. Let's get a _thread dump_.
 
 {{< gallery title="Typical thread from this application" >}}
   {{% galleryimage file="/img/loom/impl1-thread-dump.png"
@@ -288,7 +285,7 @@ We must to take a closer look at what those threads actually do. Let's get a _th
   width="100%" %}}
 {{< /gallery >}}
 
-In this screenshot I am just showing one of the many threads described in the thread dump because they all look alike.
+This screenshot shows only one of the many threads described in the thread dump because they all look alike.
 
 The typical thread in this application seems to be running this `SocketDispatch#read0` native method. And they aren't
 "just" running this method but in fact spending **most of their time** running it.
@@ -302,7 +299,7 @@ The typical thread in this application seems to be running this `SocketDispatch#
 This [flame graph] was acquired using [async-profiler] and shows that time spent running `SocketDispatcher#read0`'s
 underlying `read` system call dominates our application.
 
-If we track its call stack to find its origin, we stumble upon `lambda$run$1` which, in fact, is the call to the
+If we track its call stack to find its origin, we stumble upon `lambda$run$1`. Which, in fact, is the call to the
 astutely named `blockingRequest` method inside of the _gateway_ service:
 
 ```java
@@ -320,7 +317,7 @@ class SyncGatewayService {
 }
 ```
 
-And without further suspense, here's its code:
+Without further suspense, here's its code:
 
 ```java
 public static InputStream blockingRequest(String url, String headers)
@@ -485,7 +482,7 @@ _"Little's Law, Scalability and Fault Tolerance: The OS is your bottleneck (and 
 I'm trying to do half as good in this series, so I strongly suggest that you take a look at it and read _at least_ the
 first 3 parts of the article: _"Our Little Service"_, _"Little’s Law"_ and _"What Dominates the Capacity"_.
 
-What this explains is basically that the number of connections our services can handle when executing blocking code is
+It explains that the number of connections our services can handle when executing blocking code is
 not limited by the number of network connections our OS can keep open, but by the number of threads we create.  
 Each kernel thread stack takes memory space and thread scheduling (context switches explained above) wastes CPU cycles
 and adds latency to requests.

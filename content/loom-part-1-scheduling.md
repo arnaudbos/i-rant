@@ -17,6 +17,7 @@ gallery: true
 > If you'd like you could head over to  
 > [Part 0 - Writing for the past me][part-0]  
 > [Part 2 - Blocking code][part-2]  
+> [Part 3 - Asynchronous code][part-3]  
 
 {{< img center="true" src="/img/loom/jacquard_loom.jpg" alt="Jacquard Loom" width="100%" title="Jacquard Loom" caption="Stephencdickson" attr="CC BY-SA 4.0" attrlink="https://creativecommons.org/licenses/by-sa/4.0" link="https://commons.wikimedia.org/wiki/File:A_Jacquard_loom_showing_information_punchcards,_National_Museum_of_Scotland.jpg" >}}
 
@@ -26,12 +27,12 @@ gallery: true
 
 ## There's only one hard problem
 
-The first problem there is with concurrency (and generally in computer science/programming really), is that
+The first problem with concurrency (and computer science in general), is that
 we're extremely bad at naming things. We sometimes use the same word to describe several distinct concepts,
 different words to describe one and only thing or even different words to describe different things but swap
 meanings {{< emoji content=":twisted_rightwards_arrows:" >}} depending on context!
 
-To make sure we're on the same page, let's read what "Wikipedia" has to say (as of today) on one particular concept:
+To make sure we're on the same page, let's read what Wikipedia has to say (as of today) about Light-Weight Processes:
 
 > In some operating systems there is no separate LWP _(Ed.: Light-Weight Process)_ layer between kernel threads and user threads.  
 > This means that user threads are implemented directly on top of kernel threads.  
@@ -43,8 +44,8 @@ To make sure we're on the same page, let's read what "Wikipedia" has to say (as 
 > — from https://en.wikipedia.org/wiki/Light-weight_process (emphasis mine)
 
 I find that confusing to say the least, especially from an application developers' point of view: I'm not that very
-interested in all the details of implementation and tiny semantic or implementation differences between operating
-systems past and present (Unix System V, SunOS, really?).
+interested in knowing the implementation differences between operating systems past and present
+(Unix System V, SunOS, really?).
 
 Let me drop a few terms in a conspicuous attempt to show off:
 
@@ -66,7 +67,7 @@ Quick questions:
 2. Do you know what concept each of those terms refer to?
 3. If yes, are you sure you know them well enough to explain their meaning to somebody?
 
-If you've answered yes three times, stop reading and go do something else. {{< emoji content=":wave:" >}}
+If you've answered yes three times, stop reading and go do something else! {{< emoji content=":wave:" >}}
 
 -----
 
@@ -87,7 +88,7 @@ in history.
 ### Sequential execution
 
 The first computers were capable of running one set of instructions, a program, sequentially and would sit idle the rest
-of the time. Up until another program is executed. Kind of like a sewing machine (or a loom!).
+of the time. Up until another program was executed. Kind of like a sewing machine (or a loom!).
 
 The diagram below shows the execution of two distinct programs on such a computing machine.
 
@@ -99,24 +100,20 @@ The diagram below shows the execution of two distinct programs on such a computi
 
 > "Operators" were the names of the first computers, who used _computers_.
 
-Here we have two operators. The first one starts "writing a program", which actually consists in wiring cables and
-turning switches (among other things) to make the computer calculate the solution to a problem.
+We have two operators. The first starts "writing a program" (wiring cables, turning switches, etc) to make the
+computer calculate the solution to a problem.
 
-Once the computer is working, Operator1 must wait the end of the program to get the result and only then Operator2 can
-access the computer to write her program and make it run. There is no ability for Operator1 and Operator2 to parallelize
-their work, their programs are executed sequentially.
+Operator1 must wait the end of the program to get the result. Only then can Operator2 write her program and make it run.
+There is no possibility for parallelism: the programs are executed sequentially.
 
-This worked well for people to see the value added, and the Red Queen's race started... Sequential execution became
-a problem!
-
-Because the bottleneck to solve problems faster shifted, from computers, to humans, being too slow: even with new ways to
+Soon, the bottleneck to solve problems faster shifted from computers to humans. Even with new ways to
 write programs (punch cards, magnetic tapes) the time taken by each programmer to "insert" its program into the machine
 became unacceptable—i.e., too expensive.
 
 In this situation, a good scheduler has to do something. Right?
 
 ### Batch processing
-  
+
 In this case, the schedulers were computer scientists and manufacturers. They came up with this really sensible idea
 that, to amortize the cost of running many jobs sequentially, one could ["batch"][batch] them.
 
@@ -129,26 +126,25 @@ programs to a waiting queue of jobs to be performed.
   width="100%" %}}
 {{< /gallery >}}
 
-In the diagram above, Program1 and Program2 are submitted one after the other, so Program1 runs first and Program2 will
-run after.
+In the diagram above, Program1 and Program2 are submitted one after the other, so Program1 runs first and thenProgram2.
 
 But having to append a program into a "giant" batch of jobs for the program to compute, and then wait for the computer
-to return all the results of all those jobs in order to get one was a massive pain in the butt!  
+to return all the results was a massive pain in the butt!  
 Imagine debugging your programs **with a 24 hours feedback loop...**
 
 {{< img src="/img/loom/kropotchev.png" title="\"Batch processing\" spoof movie — Stanford" alt="Silent spoof movie relating the adventures of a programmer waiting on batch processing." width="100%" link="https://www.computerhistory.org/revolution/punched-cards/2/211/2253">}}
 
 It was not only painful for programmers though. It was also painful for _users_ who would have to run the programs!
 
-It's a common problem in scheduling: optimising for a use case/parameter (less computer idle time) ends up
+It's a common problem in scheduling: optimising for a use case (less computer idle time) ends up
 making it worse from another point of view (more programmer idle time).
 
 Computers kept getting faster and faster for sure, and although programmers tried to make the best of the computing
 power they could get, any single user wouldn't make efficient use of a computer by herself!
 
-Indeed, processes, to do something useful, have to be fed with inputs and produce any kind of output, otherwise they'd
+Indeed, processes, to do something useful, have to be fed with inputs and produce any kind of output. Otherwise they'd
 just be raising the temperature of the room.  
-Consuming inputs today can be reading from a keyboard, hard drive or network card. But in the sixties it mostly meant
+Consuming inputs today can be reading from a keyboard, hard drive or network card. In the sixties, it mostly meant
 reading from magnetic tape or a teletypewriter. Similarly, producing output meant writing to magnetic tape, printing
 to a teletypewriter or a "high-speed" Xerox printer.
 
@@ -158,9 +154,9 @@ to a teletypewriter or a "high-speed" Xerox printer.
   width="100%" %}}
 {{< /gallery >}}
 
-In the above diagram, we can see Program1 starting and finishing before Program2, but there are _gaps_ between bursts
+In the above diagram, we can see Program1 finishing before Program2 can start, but there are _gaps_ between bursts
 of execution. Same for Program2.  
-And all the time during which a processor is waiting for I/O (polling, [busy waiting]) rather than "crunching numbers"
+And all the time during which a processor is waiting for I/O (polling, [busy waiting]) rather than "crunching numbers",
 is wasted.
 
 Schedulers to the rescue!
@@ -174,7 +170,7 @@ In it, you can see Turing Award winner ~~Buddy Holly~~ [Fernando Corbató] expla
 {{< youtube Q07PhW5sCEk >}}
 <br />
 
-With it, processes wouldn't spin on I/O but rather be _parked_, while another process would be allocated
+Processes won't spin on I/O but rather be _parked_, while another process would be allocated
 CPU time. Time-sharing allows **concurrency**: the **illusion of parallelism** and **efficient use of physical
 resources**.
 
@@ -204,9 +200,10 @@ to the kind of work they do.
 _CPU-bound_ tasks that don't require much (if any) communication could be tackled by multiple processes (instances
 of a program communicating through IPC).
 
-But tasks requiring communication, such as coupled cooperative processes for which IPC may be too expensive, or tasks
-requiring many I/O operations (_I/O bound_), the time to _switch_ from `P1` to `P2` and back to `P1` (for instance)
-may hamper its fast realization and/or drain physical resources...
+But some tasks require communication. Coupled cooperative processes for which IPC may be too expensive are an example.
+Tasks requiring many I/O operations (_I/O bound_) also.  
+For such applications, the time to _switch_ from e.g. `P1` to `P2` and back to `P1`, may hamper its fast realization
+and/or drain physical resources...
 
 From a scheduling perspective, it would be nice to have a mechanism so that cooperative processes (of which there were
 more and more) could communicate without being taxed by "expensive" communication mechanisms. Similarly, it would be
@@ -216,7 +213,7 @@ nice to have a mechanism so that I/O bound processes wouldn't undergo excessivel
 > As the name may suggest, it is a special mechanism for kernels to switch a process by another to achieve concurrency.   
 > As usual with names, "context switch" is overloaded, and we'll mention this in the next sections.
 
-That's where threads get introduced: nowadays the most widespread fundamental unit of concurrency is not the
+That's how threads got introduced: nowadays the most widespread fundamental unit of concurrency is not the
 process, it's the **thread**.  
 And threads have interesting characteristics with regard to the previous points.
 
@@ -229,14 +226,14 @@ And threads have interesting characteristics with regard to the previous points.
 {{< /gallery >}}
 
 Conceptually, a thread is like a process: it embodies the execution of a set of instructions and, at runtime, gets
-its own [control stack] filled with stack frames. But what's really remarkable about threads is their ability (for
+its own [control stack] filled with stack frames. What's really remarkable about threads however, is their ability (for
 better or worse) to share the memory of their parent process.
 
-And because each thread has its own call stack, it's possible for multiple threads, while in a single process, to
-execute **different sets of instructions** running **in parallel** on distinct processors and cores.
+Each thread having has its own call stack makes it possible for multiple threads, while in a single process, to
+execute **different sets of instructions** running **in parallel** on distinct cores.
 
-So cooperative processes can now be implemented as a single process, but with multiple threads communicating directly
-by sharing memory places, by sharing data.
+Therefore, cooperative processes can be implemented as a single process, with multiple threads communicating directly
+by sharing memory places (data).
 
 I/O bound processes also benefit from this new layer of indirection because switching between threads of the same
 process is typically faster than switching between processes.
@@ -282,17 +279,16 @@ other tasks a "fair" chance to run.
   width="395px" %}}
 {{< /gallery >}}
 
-The first figure, the one on the left, illustrates a thread/task being preempted by the kernel, using a _context-switch_
+The first figure (left) illustrates a thread/task being preempted by the kernel, using a _context-switch_
 when a blocking call occurs, in order to satisfy the scheduling policy.  
 The first thread is parked while the next thread is executed. Eventually (hopefully), the first thread is going to be
-unparked and resume its execution.
+unparked and its execution resumed.
 
-The second figure, on the right, illustrates a thread being preempted because its execution duration is longer than the
-time it is authorized to run on the CPU, also named its _quantum_.  
+The second figure (right) illustrates a thread being preempted because its execution duration is longer than the
+time it is authorized to run on the CPU (also named its _quantum_).
 
-Preemptive multitasking is what we get from our modern operating systems, or kernels. And in practice, the preemption
-is specified inside the kernel scheduler's algorithm and could use any number of techniques or policies to determine
-when the current task could/should be preempted and which task gets to run next.
+Preemptive multitasking is what we get from our modern operating systems, or kernels. The preemption is specified
+inside the kernel scheduler's algorithm.
 
 ### Cooperative scheduling
 
@@ -309,32 +305,32 @@ when the current task could/should be preempted and which task gets to run next.
   width="100%" %}}
 {{< /gallery >}}
 
-In the diagram above, we can see two threads, Thread 1 and Thread 2, both containing interleaved "random" instructions
-(that is, any code that this thread is supposed to run) and instructions containing a `yield` statement.
+In the diagram above we can see two threads. Both containing interleaved "random" instructions
+(any code that this thread is supposed to run) and `yield` statements.
 
-With cooperative scheduling, there is no intervention from the kernel to pause a thread and schedule the next one, this
-is all done by each task deliberately relinquishing CPU time when it is not using computing resources (waiting on I/O
-after an asynchronous call, for example) so that another task can run.
+With cooperative scheduling, there is no intervention from the kernel to pause a thread and schedule the next one. This
+is all done by each task, deliberately relinquishing CPU time when it is not using computing resources (e.g. waiting on
+I/O after an asynchronous call).
 
-As you see, with this scheduling policy it requires **ALL** programs to cooperate and fairness is not ensured, which
-explains why most operating systems nowadays implement preemptive scheduling.
+Cooperative multitasking requires **ALL** programs to cooperate. Consequently, fairness is not ensured, which
+explains why most modern operating systems implement preemptive scheduling.
 
 ## To be continued
 
 I think we've covered most of the ground work necessary to understand where we're at from a scheduling
 point of view regarding modern computers.
 
-I obviously took a great detour to explain some fundamentals.  
-On the other hand, there's been so much innovation in computer systems in the last 60 years that I had to cut corners
-and feel like I didn't do it any justice. If it picked your curiosity, start with the links I've provided and follow
-those threads (pun intended).
+I obviously took a great detour to explain some fundamentals. There's been so much innovation in computer systems in
+the last 60 years that I had to cut corners and didn't do it any justice.
 
-Alternatively, I've just stumbled upon this Twitter thread which cover about the same period but with more details on
-the dates and pre-historic computer names. Thought you might find it interesting:
+If it picked your curiosity, start with the links I've provided and follow those threads (pun intended).
+
+Alternatively, this Twitter thread covers about the same period but with more details (dates, pre-historic computer
+names, etc):
 
 {{< tweet 1201956309941116928 >}}
 
-In the next part, we will experiment!
+In the [next part][part-2], we will experiment!
 
 [part-0]: ../loom-part-0-rationale
 [part-2]: ../loom-part-2-blocking

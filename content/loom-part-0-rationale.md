@@ -15,43 +15,39 @@ seoimage: img/loom/jacquard_loom.jpg
 > If you'd like you could head over to  
 > [Part 1 - It's all about Scheduling][part-1]  
 > [Part 2 - Blocking code][part-2]  
+> [Part 3 - Asynchronous code][part-3]  
 
-Finding good introduction level articles on parallel or concurrent programming is not easy because every post assumes
+Finding good introduction level articles on concurrent programming is difficult because every post assumes
 some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free
 concurrency while you're _absolutely not_ ready for this!
 
-Luckily, a few months ago, we've had an interesting use-case at work, where we had to implement a scheduler for a scarce
+Luckily, a few months ago, we've had an interesting use-case at work. We had to implement a scheduler for a scarce
 resource in our system.
 
-We've been using many concurrency "techniques" for the past two years, from simple `threads` and `executor services`
-to `reactive` (Rx) programming. And we were doing fine.
+We've been using a good deal of concurrency "techniques" for the past two years: simple `threads`,
+`executor services`, `reactive` (Rx) programming; we were doing fine.
 
-But when the time came to implement this specific piece of algorithm, I'm not ashamed to say that I didn't feel the
-nerves to implement it using any of those techniques. And because the problem lended itself well into an actor model,
-we looked around to see which library would help us in this endeavor. This was when we took a look at [Quasar].
+However, for this service, I wasn't convinced by any of those techniques. The problem lent itself well into an actor
+model, so we searched for a library to help us and found [Quasar].  
+My first introduction to [Quasar] was around 2014. At the time Clojure's [core.async] library just came out.
 
-My first introduction to [Quasar] was a few years ago, around 2014. At the time I was writing [Clojure] professionally
-and Clojure's [core.async] library just came out.  
-I didn't understand every aspect of the value proposition at first, but naively started using it.
+I didn't understand every aspect of the value proposition, but naively started using it.  
 And because I was using `core.async`, I stumbled upon [Pulsar] (not Apache Pulsar!) which is itself built upon Quasar.  
-Yet again, I didn't understand the value proposition of Pulsar more than Quasar at that time, but I was interested
-in this "lightweight concurrency" and "actor model" along with all the [Parallel Universe][puniverse] stack, and longed
-for the day I would have a use case for this.
+I missed the value proposition of Pulsar, like I did with Quasar, but I was interested
+in this concept of "lightweight concurrency" and the "actor model".  
+I longed for the day I would have a use case for this.
 
-Fast forward a couple of years and with more experience in the field, Quasar and its actor model in particular seemed
-to be a great fit to solve our problem, so we used it to great effect. And that's when I fell into this rabbit hole,
-trying to understand the underlying concepts and "how it works" and stumbling upon Project Loom.
+Fast forward five years and more experience in the field, Quasar and its actor model were
+a great fit to solve our problem and we used it to great effect. That's when I fell into the rabbit hole: trying to
+understand the underlying concepts and "how it works", I stumbling upon Project Loom.
 
-Unfortunately the [OpenJDK wiki][wiki] and the many videos by [Ron Pressler] all take for granted a great deal of
-knowledge and start from there. What I was interested in was to acquire this fundamental knowledge in order to grok
-Project Loom, and then share with other people so they can connect the dots between the project's rationale and its
-implementation. So I gave a couple of [conference talks][talks] on this topic this year, for which I've had to research
-a lot.
+Unfortunately, the [OpenJDK wiki][wiki] and the many videos by [Ron Pressler] take for granted a great deal of
+knowledge and start from there. That's when I decided to gain this fundamental knowledge in order to grok
+Project Loom, and share with others so they, too, can connect the dots. I ended up giving a couple of [conference talks][talks]
+on this topic in 2019, for which I've had to research a lot.
 
 This series is about what I've learnt and what I would have liked to read when I began my research on concurrent
-programming, Reactive Streams, lightweight concurrency and Project Loom specifically.  
-
-I'm basically writing for the past me.
+programming, Reactive Streams, lightweight concurrency and Project Loom: I'm writing for the past me.
 
 For people already familiar, I'm not promising you'll learn anything new, but hopefully you'll be interested in
 another point of view.
