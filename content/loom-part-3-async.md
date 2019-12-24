@@ -141,17 +141,17 @@ private void getConnection(long eta,
     boundedServiceExecutor.schedule(() -> {
         println("Retrying download after " + wait + "ms wait.");
 
-        coordinator.requestConnection( //(1)
+/*1*/   coordinator.requestConnection(
             token,
             new CompletionHandler<>() {
                 @Override
-                public void completed(Connection c) { //(2)
+/*2*/           public void completed(Connection c) {
                     if (c instanceof Connection.Available) {
                         if (handler!=null)
-                            handler.completed((Connection.Available) c); //(3)
+/*3*/                       handler.completed((Connection.Available) c);
                     } else {
                         Connection.Unavailable unavail =
-                            (Connection.Unavailable) c; //(4)
+/*4*/                       (Connection.Unavailable) c;
                         getConnection(
                             unavail.getEta(),
                             unavail.getWait(),
@@ -161,7 +161,7 @@ private void getConnection(long eta,
                 }
 
                 @Override
-                public void failed(Throwable t) { //(5)
+/*5*/           public void failed(Throwable t) {
                     if (handler!=null) handler.failed(t);
                 }
             },
@@ -185,20 +185,20 @@ service method which calls to `getConnection` and then start the download reques
 private void getThingy(int i, CompletionHandler<Void> handler) {
     println("Start getThingy.");
 
-    getConnection(new CompletionHandler<>() { //(1)
+/*1*/getConnection(new CompletionHandler<>() {
         @Override
-        public void completed(Connection.Available conn) { //(2)
+/*2*/   public void completed(Connection.Available conn) {
             println("Got token, " + conn.getToken());
 
             CompletableFuture<Void> downloadFut = new CompletableFuture<>();
-            gateway.downloadThingy(new CompletionHandler<>() { //(3)
+/*3*/       gateway.downloadThingy(new CompletionHandler<>() {
                 @Override
-                public void completed(InputStream content) { //(4)
+/*4*/           public void completed(InputStream content) {
                     // Download started
                 }
 
                 @Override
-                public void failed(Throwable t) { //(6)
+/*6*/           public void failed(Throwable t) {
                     if (t instanceof EtaExceededException) {
                         err("Couldn't getThingy because ETA exceeded: " + t);
                     } else {
@@ -206,12 +206,12 @@ private void getThingy(int i, CompletionHandler<Void> handler) {
                     }
                     if (handler!=null) handler.failed(t);
                 }
-            }, boundedServiceExecutor); //(5)
+/*5*/       }, boundedServiceExecutor);
 
         }
 
         @Override
-        public void failed(Throwable t) { //(6)
+/*6*/   public void failed(Throwable t) {
             err("Task failed.");
             if (handler!=null) handler.failed(t);
         }
@@ -236,32 +236,32 @@ private void getThingy(int i, CompletionHandler<Void> handler) {
 Now that we have the structure, we can handle the content, but also start the periodic heartbeat requests!
 
 ```java
-Runnable pulse = new PulseRunnable(i, downloadFut, conn); //(2)
-int total = 0;
-try(content) { //(1)
-    println(i + " :: Starting pulse ");
-    boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS); //(2)
-
-    // Get read=-1 quickly and not all content
-    // because of HTTP 1.1 but really don't care
-    byte[] buffer = new byte[8192];
-    while(true) { //(3)
-        int read = content.read(buffer);
-        // drop it
-        if (read==-1 || (total+=read)>=MAX_SIZE) break;
+    Runnable pulse = new PulseRunnable(i, downloadFut, conn);
+    int total = 0;
+/*1*/try(content) {
+        println(i + " :: Starting pulse ");
+/*2*/   boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);
+    
+        // Get read=-1 quickly and not all content
+        // because of HTTP 1.1 but really don't care
+        byte[] buffer = new byte[8192];
+/*3*/   while(true) {
+            int read = content.read(buffer);
+            // drop it
+            if (read==-1 || (total+=read)>=MAX_SIZE) break;
+        }
+    
+        println("Download finished");
+    
+        if (handler!=null)
+/*4*/       handler.completed(null);
+    } catch (IOException e) {
+        err("Download failed.");
+        if (handler!=null)
+/*4*/       handler.failed(e);
+    } finally {
+/*5*/   downloadFut.complete(null);
     }
-
-    println("Download finished");
-
-    if (handler!=null)
-        handler.completed(null); //(4)
-} catch (IOException e) {
-    err("Download failed.");
-    if (handler!=null)
-        handler.failed(e); //(4)
-} finally {
-    downloadFut.complete(null); //(5)
-}
 ```
 
 Remember this code executes inside `downloadThingy`'s completion handler, so when this code runs, the connection
@@ -294,20 +294,20 @@ class PulseRunnable implements Runnable {
     public void run() {
         if (!download.isDone()) {
             println(i + " :: Pulse!");
-            coordinator.heartbeat( //(1)
+/*1*/       coordinator.heartbeat(
                 conn.getToken(),
                 new CompletionHandler<>() {
                     @Override
-                    public void completed(Connection result) { //(2)
-                        if (!download.isDone()) { //(3)
+/*2*/               public void completed(Connection result) {
+/*3*/                   if (!download.isDone()) {
                             boundedPulseExecutor
                                 .schedule(PulseRunnable.this, 2_000L, TimeUnit.MILLISECONDS);
                         }
                     }
 
                     @Override
-                    public void failed(Throwable t) { //(2)
-                        if (!download.isDone()) { //(3)
+/*2*/               public void failed(Throwable t) {
+/*3*/                   if (!download.isDone()) {
                             boundedPulseExecutor
                                 .schedule(PulseRunnable.this, 2_000L, TimeUnit.MILLISECONDS);
                         }

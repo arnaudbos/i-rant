@@ -76,20 +76,20 @@ private void getThingy() throws EtaExceededException, IOException {
     println("Start getThingy.");
 
     try {
-        Connection.Available conn = getConnection(); //(1)
+/*1*/   Connection.Available conn = getConnection();
         println("Got token, " + conn.getToken());
 
         Thread pulse = makePulse(conn);
-        try (InputStream content = gateway.downloadThingy()) { //(2)
-            pulse.start(); //(3)
+/*2*/   try (InputStream content = gateway.downloadThingy()) {
+/*3*/       pulse.start();
 
-            ignoreContent(content); //(4)
+/*4*/       ignoreContent(content);
         } catch (IOException e) {
             err("Download failed.");
             throw e;
         }
         finally {
-            pulse.interrupt(); //(5)
+/*5*/       pulse.interrupt();
         }
     } catch (InterruptedException e) {
         // D'oh!
@@ -180,7 +180,7 @@ the code:
 private Connection.Available getConnection()
     throws EtaExceededException, InterruptedException
 {
-    return getConnection(0, 0, null); //(1)
+/*1*/return getConnection(0, 0, null);
 }
 
 private Connection.Available getConnection(long eta, long wait, String token)
@@ -197,11 +197,11 @@ private Connection.Available getConnection(long eta, long wait, String token)
 
         println("Retrying download after " + wait + "ms wait.");
 
-        Connection c = coordinator.requestConnection(token); //(2)
+/*2*/   Connection c = coordinator.requestConnection(token);
         if (c instanceof Connection.Available) {
-            return (Connection.Available) c; //(4)
+/*4*/       return (Connection.Available) c;
         }
-        Connection.Unavailable unavail = (Connection.Unavailable) c; //(3)
+/*3*/   Connection.Unavailable unavail = (Connection.Unavailable) c;
         eta = unavail.getEta();
         wait = unavail.getWait();
         token = unavail.getToken();
