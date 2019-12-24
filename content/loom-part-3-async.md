@@ -1,7 +1,7 @@
 ---
 title: Loom - Part 3 - Asynchronous code
 date: 2019-12-23T18:56:06+01:00
-description: Loom
+description: Part 3 on a series of articles about OpenJDK's Project Loom
 parent: blog
 categories: ["java"]
 tags: ["java", "concurrency"]
@@ -10,13 +10,12 @@ seoimage: img/loom/handweaving.jpg
 highlight: true
 gallery: true
 ---
----
 
 > Part 3 in a series of articles about Project Loom.  
 > In this part we re-implement our proxy service with an asynchronous API.
 >
 > If you'd like you could head over to  
-> [Part 0 - Writing for the past me][part-0]  
+> [Part 0 - Rationale][part-0]  
 > [Part 1 - It's all about Scheduling][part-1]  
 > [Part 2 - Blocking code][part-2]  
 
@@ -614,6 +613,7 @@ On the right a peak to more that 800 live threads when I messed up on purpose to
 [part-0]: ../loom-part-0-rationale
 [part-1]: ../loom-part-1-scheduling
 [part-2]: ../loom-part-2-blocking
+[part-4]: ../loom-part-4-nio
 [VisualVM]: https://visualvm.github.io/
 [flame graph]: http://www.brendangregg.com/flamegraphs.html
 [async-profiler]: https://github.com/jvm-profiling-tools/async-profiler

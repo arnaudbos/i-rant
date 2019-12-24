@@ -12,18 +12,6 @@ gallery: true
 ---
 
 
-When the scheduler time-slices a long-running thread there's not much we can do about it (TODO: open to unikernels?).
-But we can maximize efficiency by being careful to avoid blocking calls and use async APIs.
-
-[TODO] if this wasn't too obvious at this point, here I really get back in track with my recent presentation at the
-moment where I introduce async programming. In the talk a talk just a bit more about how sync is great while here I
-don't talk about programming styles/APIs at all, this must be fixed.
-
-The thing with async APIs is that it's not obvious to differentiate async from non-blocking, and vice-versa.  
-An asynchronous call can still be thread-blocking. (TODO: yes, this should be illustrated with content from my talks).
-It may of may not block the current thread but run the distinct control stack on another thread, managed in a library
-specific thread pool.
-
 So asynchronous thread blocking APIs are nice because they're blocking other threads, but the problem of memory
 footprint of kernel threads and context switches still remains.
 

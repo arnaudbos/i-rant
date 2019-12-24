@@ -1,5 +1,5 @@
 ---
-title: Loom - Part 0 - Writing for the past me
+title: Loom - Part 0 - Rationale
 date: 2019-12-14T15:38:21+01:00
 description: Part 0 on a series of articles about OpenJDK's Project Loom
 parent: blog
@@ -57,6 +57,7 @@ In the [next part][part-1], we talk history!
 [part-1]: ../loom-part-1-scheduling
 [part-2]: ../loom-part-2-blocking
 [part-3]: ../loom-part-3-async
+[part-4]: ../loom-part-4-nio
 [Quasar]: https://docs.paralleluniverse.co/quasar/
 [Clojure]: https://clojure.org/
 [core.async]: https://clojure.org/news/2013/06/28/clojure-clore-async-channels

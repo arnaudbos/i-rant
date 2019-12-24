@@ -15,7 +15,7 @@ gallery: true
 > In this part we skim the surface of scheduling history before diving into the JVM.
 >
 > If you'd like you could head over to  
-> [Part 0 - Writing for the past me][part-0]  
+> [Part 0 - Rationale][part-0]  
 > [Part 2 - Blocking code][part-2]  
 > [Part 3 - Asynchronous code][part-3]  
 
@@ -335,6 +335,7 @@ In the [next part][part-2], we will experiment!
 [part-0]: ../loom-part-0-rationale
 [part-2]: ../loom-part-2-blocking
 [part-3]: ../loom-part-3-async
+[part-4]: ../loom-part-4-nio
 [Quasar]: https://docs.paralleluniverse.co/quasar/
 [Clojure]: https://clojure.org/
 [core.async]: https://clojure.org/news/2013/06/28/clojure-clore-async-channels
