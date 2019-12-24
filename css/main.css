@@ -179,8 +179,8 @@ p {
 .disqus {
   padding-bottom: 15px;
 }
-.label {
-  /*font-family: "Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;*/
+.label.tag {
+  text-transform: uppercase;
 }
 .blogpost {
   text-align: left;
