@@ -89,19 +89,7 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              <p>When the scheduler time-slices a long-running thread there&rsquo;s not much we can do about it (TODO: open to unikernels?).
-But we can maximize efficiency by being careful to avoid blocking calls and use async APIs.</p>
-
-<p>[TODO] if this wasn&rsquo;t too obvious at this point, here I really get back in track with my recent presentation at the
-moment where I introduce async programming. In the talk a talk just a bit more about how sync is great while here I
-don&rsquo;t talk about programming styles/APIs at all, this must be fixed.</p>
-
-<p>The thing with async APIs is that it&rsquo;s not obvious to differentiate async from non-blocking, and vice-versa.<br />
-An asynchronous call can still be thread-blocking. (TODO: yes, this should be illustrated with content from my talks).
-It may of may not block the current thread but run the distinct control stack on another thread, managed in a library
-specific thread pool.</p>
-
-<p>So asynchronous thread blocking APIs are nice because they&rsquo;re blocking other threads, but the problem of memory
+              <p>So asynchronous thread blocking APIs are nice because they&rsquo;re blocking other threads, but the problem of memory
 footprint of kernel threads and context switches still remains.</p>
 
 <p>Truly non-blocking asynchronous APIs rely on event loops and fine tuned implementation techniques such as work
@@ -227,6 +215,8 @@ assign it to the CPU.</p>
                 <h5>Related Posts</h5>
                 
                 
+                
+                
                   <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
                       <h6 style="text-align: right">
@@ -251,21 +241,6 @@ assign it to the CPU.</p>
                     <div class="col-sm-8 col-md-8 col-lg-8">
                       <h6 style="text-align: left">
                         <strong><a href="/loom-part-2-blocking/">Loom - Part 2 - Blocking code</a></strong>
-                      </h6>
-                    </div>
-                  </div>
-                
-                
-                
-                  <div class="row">
-                    <div class="col-sm-4 col-md-4 col-lg-4">
-                      <h6 style="text-align: right">
-                        December 14, 2019
-                      </h6>
-                    </div>
-                    <div class="col-sm-8 col-md-8 col-lg-8">
-                      <h6 style="text-align: left">
-                        <strong><a href="/loom-part-1-scheduling/">Loom - Part 1 - It&rsquo;s all about Scheduling</a></strong>
                       </h6>
                     </div>
                   </div>

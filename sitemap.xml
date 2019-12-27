@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://i-rant.arnaudbos.com/loom-part-4-nio/</loc>
+    <lastmod>2019-12-24T14:21:35+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://i-rant.arnaudbos.com/loom-part-3-async/</loc>
     <lastmod>2019-12-23T18:56:06+01:00</lastmod>
   </url>
@@ -128,32 +133,32 @@
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/tags/android/</loc>
-    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://i-rant.arnaudbos.com/categories/android/</loc>
     <lastmod>2017-02-07T02:30:04+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/</loc>
-    <lastmod>2019-12-23T18:56:06+01:00</lastmod>
+    <loc>https://i-rant.arnaudbos.com/tags/android/</loc>
+    <lastmod>2017-02-07T02:30:04+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/tags/blog/</loc>
-    <lastmod>2017-01-23T13:23:08+01:00</lastmod>
+    <loc>https://i-rant.arnaudbos.com/</loc>
+    <lastmod>2019-12-24T14:21:35+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://i-rant.arnaudbos.com/categories/blog/</loc>
     <lastmod>2016-11-07T12:55:28+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://i-rant.arnaudbos.com/tags/blog/</loc>
+    <lastmod>2017-01-23T13:23:08+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -170,31 +175,31 @@
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/tags/clojure/</loc>
-    <lastmod>2017-11-28T06:23:11+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://i-rant.arnaudbos.com/categories/clojure/</loc>
     <lastmod>2017-11-28T06:23:11+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/tags/concurrency/</loc>
-    <lastmod>2019-12-23T18:56:06+01:00</lastmod>
+    <loc>https://i-rant.arnaudbos.com/tags/clojure/</loc>
+    <lastmod>2017-11-28T06:23:11+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/tags/conference/</loc>
-    <lastmod>2018-09-25T22:56:42+01:00</lastmod>
+    <loc>https://i-rant.arnaudbos.com/tags/concurrency/</loc>
+    <lastmod>2019-12-24T14:21:35+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://i-rant.arnaudbos.com/categories/conference/</loc>
+    <lastmod>2018-09-25T22:56:42+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://i-rant.arnaudbos.com/tags/conference/</loc>
     <lastmod>2018-09-25T22:56:42+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -211,26 +216,26 @@
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/tags/iot/</loc>
-    <lastmod>2016-06-06T15:00:36+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://i-rant.arnaudbos.com/categories/iot/</loc>
     <lastmod>2016-06-06T15:00:36+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/tags/java/</loc>
-    <lastmod>2019-12-23T18:56:06+01:00</lastmod>
+    <loc>https://i-rant.arnaudbos.com/tags/iot/</loc>
+    <lastmod>2016-06-06T15:00:36+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://i-rant.arnaudbos.com/categories/java/</loc>
-    <lastmod>2019-12-23T18:56:06+01:00</lastmod>
+    <lastmod>2019-12-24T14:21:35+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://i-rant.arnaudbos.com/tags/java/</loc>
+    <lastmod>2019-12-24T14:21:35+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -241,13 +246,13 @@
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/tags/jug/</loc>
+    <loc>https://i-rant.arnaudbos.com/categories/jug/</loc>
     <lastmod>2019-02-07T02:59:53+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/categories/jug/</loc>
+    <loc>https://i-rant.arnaudbos.com/tags/jug/</loc>
     <lastmod>2019-02-07T02:59:53+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -265,13 +270,13 @@
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/tags/math/</loc>
+    <loc>https://i-rant.arnaudbos.com/categories/math/</loc>
     <lastmod>2017-01-23T13:11:45+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/categories/math/</loc>
+    <loc>https://i-rant.arnaudbos.com/tags/math/</loc>
     <lastmod>2017-01-23T13:11:45+01:00</lastmod>
     <priority>0</priority>
   </url>

@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="map[]" />
         
-    <meta property="og:title" content="Loom - Part 0 - Rationale" />
-    <meta property="og:description" content="Part 0 on a series of articles about OpenJDK&#39;s Project Loom" />
+    <meta property="og:title" content="Loom - Part 4 - Non-blocking Asynchronous I/O" />
+    <meta property="og:description" content="Part 4 on a series of articles about OpenJDK&#39;s Project Loom" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://i-rant.arnaudbos.com/loom-part-0-rationale/" />
+    <meta property="og:url" content="https://i-rant.arnaudbos.com/loom-part-4-nio/" />
     
-    <meta property="og:image" content="https://i-rant.arnaudbos.com/img/loom/jacquard_loom.jpg" />
+    <meta property="og:image" content="https://i-rant.arnaudbos.com/img/loom/japaneseweavera.jpg" />
     
 
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
-    <title>Loom - Part 0 - Rationale</title>
+    <title>Loom - Part 4 - Non-blocking Asynchronous I/O</title>
     <meta name="generator" content="Hugo 0.54.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
@@ -64,16 +64,16 @@
       <div class="container">
         <div class="blog-post">
           <h3>
-            <a href="/loom-part-0-rationale/">Loom - Part 0 - Rationale</a>
+            <a href="/loom-part-4-nio/">Loom - Part 4 - Non-blocking Asynchronous I/O</a>
           </h3>
         </div>
         <div class="blog-title">
           <h4>
-          December 14, 2019
+          December 24, 2019
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          3 minutes read
+          1 minutes read
           </h4>
         </div>
         <div>
@@ -88,52 +88,59 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              <blockquote>
-<p>Part 0 in a series of articles about Project Loom.<br />
-In this part I just talk about me, me, me, me and why I wrote this.</p>
+              
+
+<blockquote>
+<p>Part 4 in a series of articles about Project Loom.<br />
+In this part we re-implement our proxy service with non-thread-blocking asynchronous java NIO.</p>
 
 <p>If you&rsquo;d like you could head over to<br />
+<a href="../loom-part-0-rationale">Part 0 - Rationale</a><br />
 <a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br />
 <a href="../loom-part-2-blocking">Part 2 - Blocking code</a><br />
 <a href="../loom-part-3-async">Part 3 - Asynchronous code</a></p>
 </blockquote>
 
-<p>Finding good introduction level articles on concurrent programming is difficult because every post assumes
-some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free
-concurrency while you&rsquo;re <em>absolutely not</em> ready for this!</p>
 
-<p>Luckily, a few months ago, we&rsquo;ve had an interesting use-case at work. We had to implement a scheduler for a scarce
-resource in our system.</p>
+<figure  style="text-align: center;">
+    <a target="_blank" href="https://commons.wikimedia.org/wiki/File:Japaneseweavera.jpg">
+        <img src="/img/loom/japaneseweavera.jpg" alt="Japanese loom"
+            width="100%"
+            />
+    </a>
+    
+    <figcaption>
+        <h6><em>機織り</em></h6>
+        <p>
+        Yanagawa Shigenobu
+        <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/deed.en"> 
+            CC0 1.0
+        </a> 
+        </p> 
+    </figcaption>
+    
+</figure>
 
-<p>We&rsquo;ve been using a good deal of concurrency &ldquo;techniques&rdquo; for the past two years: simple <code>threads</code>,
-<code>executor services</code>, <code>reactive</code> (Rx) programming; we were doing fine.</p>
 
-<p>However, for this service, I wasn&rsquo;t convinced by any of those techniques. The problem lent itself well into an actor
-model, so we searched for a library to help us and found <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a>.<br />
-My first introduction to <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a> was around 2014. At the time Clojure&rsquo;s <a href="https://clojure.org/news/2013/06/28/clojure-clore-async-channels">core.async</a> library just came out.</p>
 
-<p>I didn&rsquo;t understand every aspect of the value proposition, but naively started using it.<br />
-And because I was using <code>core.async</code>, I stumbled upon <a href="not Apache Pulsar!">Pulsar</a> which is itself built upon Quasar.<br />
-I missed the value proposition of Pulsar, like I did with Quasar, but I was interested
-in this concept of &ldquo;lightweight concurrency&rdquo; and the &ldquo;actor model&rdquo;.<br />
-I longed for the day I would have a use case for this.</p>
+<hr />
 
-<p>Fast forward five years and more experience in the field, Quasar and its actor model were
-a great fit to solve our problem and we used it to great effect. That&rsquo;s when I fell into the rabbit hole: trying to
-understand the underlying concepts and &ldquo;how it works&rdquo;, I stumbling upon Project Loom.</p>
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#java-nio">Java NIO</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul></li>
+</ul>
+</nav></div>
 
-<p>Unfortunately, the <a href="https://wiki.openjdk.java.net/display/loom/Main">OpenJDK wiki</a> and the many videos by <a href="https://twitter.com/pressron">Ron Pressler</a> take for granted a great deal of
-knowledge and start from there. That&rsquo;s when I decided to gain this fundamental knowledge in order to grok
-Project Loom, and share with others so they, too, can connect the dots. I ended up giving a couple of <a href="https://talks.arnaudbos.com/">conference talks</a>
-on this topic in 2019, for which I&rsquo;ve had to research a lot.</p>
+<p>So asynchronous thread blocking APIs are nice because they&rsquo;re blocking other threads, but the problem of memory
+footprint of kernel threads and context switches still remains.</p>
 
-<p>This series is about what I&rsquo;ve learnt and what I would have liked to read when I began my research on concurrent
-programming, Reactive Streams, lightweight concurrency and Project Loom: I&rsquo;m writing for the past me.</p>
+<h2 id="java-nio">Java NIO</h2>
 
-<p>For people already familiar, I&rsquo;m not promising you&rsquo;ll learn anything new, but hopefully you&rsquo;ll be interested in
-another point of view.</p>
-
-<p>In the <a href="../loom-part-1-scheduling">next part</a>, we talk history!</p>
+<h2 id="conclusion">Conclusion</h2>
 
               <hr>
               <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
@@ -141,8 +148,6 @@ another point of view.</p>
               <p>If you want to leave a general comment or read what others have to say, please use the collapsible panel on the right of this page.</p>
               <div class="related-posts">
                 <h5>Related Posts</h5>
-                
-                
                 
                 
                   <div class="row">
@@ -169,6 +174,21 @@ another point of view.</p>
                     <div class="col-sm-8 col-md-8 col-lg-8">
                       <h6 style="text-align: left">
                         <strong><a href="/loom-part-2-blocking/">Loom - Part 2 - Blocking code</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 14, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-1-scheduling/">Loom - Part 1 - It&rsquo;s all about Scheduling</a></strong>
                       </h6>
                     </div>
                   </div>

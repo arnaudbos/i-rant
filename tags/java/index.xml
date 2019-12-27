@@ -6,10 +6,26 @@
     <description>Recent content in Java on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 23 Dec 2019 18:56:06 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 24 Dec 2019 14:21:35 +0100</lastBuildDate>
     
 	<atom:link href="https://i-rant.arnaudbos.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Loom - Part 4 - Non-blocking Asynchronous I/O</title>
+      <link>https://i-rant.arnaudbos.com/loom-part-4-nio/</link>
+      <pubDate>Tue, 24 Dec 2019 14:21:35 +0100</pubDate>
+      
+      <guid>https://i-rant.arnaudbos.com/loom-part-4-nio/</guid>
+      <description>Part 4 in a series of articles about Project Loom.
+In this part we re-implement our proxy service with non-thread-blocking asynchronous java NIO.
+If you&amp;rsquo;d like you could head over to
+Part 0 - Rationale
+Part 1 - It&amp;rsquo;s all about Scheduling
+Part 2 - Blocking code
+Part 3 - Asynchronous code
+   機織り  Yanagawa Shigenobu CC0 1.0    So asynchronous thread blocking APIs are nice because they&amp;rsquo;re blocking other threads, but the problem of memory footprint of kernel threads and context switches still remains.</description>
+    </item>
     
     <item>
       <title>Loom - Part 3 - Asynchronous code</title>
@@ -20,7 +36,7 @@
       <description>Part 3 in a series of articles about Project Loom.
 In this part we re-implement our proxy service with an asynchronous API.
 If you&amp;rsquo;d like you could head over to
-Part 0 - Writing for the past me
+Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
    Atelier de couture  J. Trayer 1854 CC0 1.0    We&amp;rsquo;ve covered a lot of ground in the previous entries and we concluded that blocking code &amp;ldquo;is bad&amp;rdquo; ©.</description>
@@ -35,7 +51,7 @@ Part 2 - Blocking code
       <description>Part 2 in a series of articles about Project Loom.
 In this part we implement a proxy service, the easiest way possible.
 If you&amp;rsquo;d like you could head over to
-Part 0 - Writing for the past me
+Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 3 - Asynchronous code
    Weaving  Max Pixel CC0 1.0    A simple use case One of the biggest pain points I had learning about concurrent programming was the emphasis put on Blocking, Non-blocking, Synchronous and Asynchronous code.</description>
@@ -50,14 +66,14 @@ Part 3 - Asynchronous code
       <description>Part 1 in a series of articles about Project Loom.
 In this part we skim the surface of scheduling history before diving into the JVM.
 If you&amp;rsquo;d like you could head over to
-Part 0 - Writing for the past me
+Part 0 - Rationale
 Part 2 - Blocking code
 Part 3 - Asynchronous code
    Jacquard Loom  Stephencdickson CC BY-SA 4.0    There&amp;rsquo;s only one hard problem The first problem with concurrency (and computer science in general), is that we&amp;rsquo;re extremely bad at naming things.</description>
     </item>
     
     <item>
-      <title>Loom - Part 0 - Writing for the past me</title>
+      <title>Loom - Part 0 - Rationale</title>
       <link>https://i-rant.arnaudbos.com/loom-part-0-rationale/</link>
       <pubDate>Sat, 14 Dec 2019 15:38:21 +0100</pubDate>
       
@@ -77,8 +93,10 @@ Part 3 - Asynchronous code
       <pubDate>Mon, 04 Nov 2019 12:23:00 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/loom/</guid>
-      <description>When the scheduler time-slices a long-running thread there&amp;rsquo;s not much we can do about it (TODO: open to unikernels?). But we can maximize efficiency by being careful to avoid blocking calls and use async APIs.
-[TODO] if this wasn&amp;rsquo;t too obvious at this point, here I really get back in track with my recent presentation at the moment where I introduce async programming. In the talk a talk just a bit more about how sync is great while here I don&amp;rsquo;t talk about programming styles/APIs at all, this must be fixed.</description>
+      <description>So asynchronous thread blocking APIs are nice because they&amp;rsquo;re blocking other threads, but the problem of memory footprint of kernel threads and context switches still remains.
+Truly non-blocking asynchronous APIs rely on event loops and fine tuned implementation techniques such as work stealing and drain loops in order to maximize CPU utilisation.
+But they rely on callbacks too, which leads to the infamous callback-hell that.
+TODO: Yup, rework this part, heavily.</description>
     </item>
     
     <item>
