@@ -95,6 +95,8 @@
 <p>Part 3 in a series of articles about Project Loom.<br />
 In this part we re-implement our proxy service with an asynchronous API.</p>
 
+<p>The companion code repository is at <a href="https://github.com/arnaudbos/untangled">arnaudbos/untangled</a></p>
+
 <p>If you&rsquo;d like you could head over to<br />
 <a href="../loom-part-0-rationale">Part 0 - Rationale</a><br />
 <a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br />
@@ -155,7 +157,9 @@ careful</em> to avoid blocking calls and use asynchronous APIs.</p>
 <p>We will write code that, instead of blocking, will call an async API. This call will return the control of execution
 immediately (so we can execute other instructions) and only notify us when the result is ready.</p>
 
-<p>Let&rsquo;s take a look at the second implementation I&rsquo;ve made of the proxy service I&rsquo;ve presented in the <a href="../loom-part-2-blocking">previous entry</a>:</p>
+<p>Let&rsquo;s take a look at the second implementation I&rsquo;ve made of the proxy service I&rsquo;ve presented in the <a href="../loom-part-2-blocking">previous entry</a>.</p>
+
+<p>You can find the complete source code for this sample <a href="https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter02bis_ScheduledFully.java">here</a>.</p>
 
 <h2 id="async-api">Async API</h2>
 

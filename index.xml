@@ -19,12 +19,13 @@
       <guid>https://i-rant.arnaudbos.com/loom-part-4-nio/</guid>
       <description>Part 4 in a series of articles about Project Loom.
 In this part we re-implement our proxy service with non-thread-blocking asynchronous java NIO.
+The companion code repository is at arnaudbos/untangled
 If you&amp;rsquo;d like you could head over to
 Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
 Part 3 - Asynchronous code
-   機織り  Yanagawa Shigenobu CC0 1.0    So asynchronous thread blocking APIs are nice because they&amp;rsquo;re blocking other threads, but the problem of memory footprint of kernel threads and context switches still remains.</description>
+   機織り  Yanagawa Shigenobu CC0 1.0    Asynchronous thread blocking API, seen in the previous entry, are nice because they block other threads.</description>
     </item>
     
     <item>
@@ -35,6 +36,7 @@ Part 3 - Asynchronous code
       <guid>https://i-rant.arnaudbos.com/loom-part-3-async/</guid>
       <description>Part 3 in a series of articles about Project Loom.
 In this part we re-implement our proxy service with an asynchronous API.
+The companion code repository is at arnaudbos/untangled
 If you&amp;rsquo;d like you could head over to
 Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
@@ -50,6 +52,7 @@ Part 2 - Blocking code
       <guid>https://i-rant.arnaudbos.com/loom-part-2-blocking/</guid>
       <description>Part 2 in a series of articles about Project Loom.
 In this part we implement a proxy service, the easiest way possible.
+The companion code repository is at arnaudbos/untangled
 If you&amp;rsquo;d like you could head over to
 Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
@@ -65,6 +68,7 @@ Part 3 - Asynchronous code
       <guid>https://i-rant.arnaudbos.com/loom-part-1-scheduling/</guid>
       <description>Part 1 in a series of articles about Project Loom.
 In this part we skim the surface of scheduling history before diving into the JVM.
+The companion code repository is at arnaudbos/untangled
 If you&amp;rsquo;d like you could head over to
 Part 0 - Rationale
 Part 2 - Blocking code
@@ -80,11 +84,12 @@ Part 3 - Asynchronous code
       <guid>https://i-rant.arnaudbos.com/loom-part-0-rationale/</guid>
       <description>Part 0 in a series of articles about Project Loom.
 In this part I just talk about me, me, me, me and why I wrote this.
+The companion code repository is at arnaudbos/untangled
 If you&amp;rsquo;d like you could head over to
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
 Part 3 - Asynchronous code
- Finding good introduction level articles on concurrent programming is difficult because every post assumes some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free concurrency while you&amp;rsquo;re absolutely not ready for this!</description>
+ Finding good introduction level articles on concurrent programming is difficult because every post assumes some prior knowledge.</description>
     </item>
     
     <item>

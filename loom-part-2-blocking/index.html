@@ -95,6 +95,8 @@
 <p>Part 2 in a series of articles about Project Loom.<br />
 In this part we implement a proxy service, the easiest way possible.</p>
 
+<p>The companion code repository is at <a href="https://github.com/arnaudbos/untangled">arnaudbos/untangled</a></p>
+
 <p>If you&rsquo;d like you could head over to<br />
 <a href="../loom-part-0-rationale">Part 0 - Rationale</a><br />
 <a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br />
@@ -209,6 +211,8 @@ various ways, simulate a few (200) clients connecting simultaneously and see the
 <h2 id="first-implementation">First implementation</h2>
 
 <p>I am now going to show you the easiest way I came up with to implement this proxy service.</p>
+
+<p>You can find the complete source code for this sample <a href="https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter01_SyncBlocking.java">here</a>.</p>
 
 <p><code>getThingy()</code> is the download endpoint in this example. Each client &ldquo;connecting&rdquo; to the proxy hits this method:</p>
 
