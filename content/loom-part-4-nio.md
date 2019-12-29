@@ -12,6 +12,8 @@ seoimage: img/loom/japaneseweavera.jpg
 > Part 4 in a series of articles about Project Loom.  
 > In this part we re-implement our proxy service with non-thread-blocking asynchronous java NIO.
 >
+> The companion code repository is at [arnaudbos/untangled](https://github.com/arnaudbos/untangled)
+>
 > If you'd like you could head over to  
 > [Part 0 - Rationale][part-0]  
 > [Part 1 - It's all about Scheduling][part-1]  
@@ -24,8 +26,8 @@ seoimage: img/loom/japaneseweavera.jpg
 
 <!-- toc -->
 
-So asynchronous thread blocking APIs are nice because they're blocking other threads, but the problem of memory
-footprint of kernel threads and context switches still remains.
+Asynchronous thread blocking API, seen in the [previous entry][part-3], are nice because they block other threads. Yet,
+the problem of memory footprint and context switches of kernel threads remains.
 
 ## Java NIO
 ## Conclusion

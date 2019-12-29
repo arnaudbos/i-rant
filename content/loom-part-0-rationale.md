@@ -12,6 +12,8 @@ seoimage: img/loom/jacquard_loom.jpg
 > Part 0 in a series of articles about Project Loom.  
 > In this part I just talk about me, me, me, me and why I wrote this.
 >
+> The companion code repository is at [arnaudbos/untangled](https://github.com/arnaudbos/untangled)
+>
 > If you'd like you could head over to  
 > [Part 1 - It's all about Scheduling][part-1]  
 > [Part 2 - Blocking code][part-2]  

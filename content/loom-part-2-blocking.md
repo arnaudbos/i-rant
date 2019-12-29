@@ -14,6 +14,8 @@ gallery: true
 > Part 2 in a series of articles about Project Loom.  
 > In this part we implement a proxy service, the easiest way possible.
 >
+> The companion code repository is at [arnaudbos/untangled](https://github.com/arnaudbos/untangled)
+>
 > If you'd like you could head over to  
 > [Part 0 - Rationale][part-0]  
 > [Part 1 - It's all about Scheduling][part-1]  
@@ -67,6 +69,8 @@ various ways, simulate a few (200) clients connecting simultaneously and see the
 ## First implementation
 
 I am now going to show you the easiest way I came up with to implement this proxy service.
+
+You can find the complete source code for this sample [here][chapter-1].
 
 `getThingy()` is the download endpoint in this example. Each client "connecting" to the proxy hits this method:
 
@@ -533,3 +537,4 @@ In the next part, we will take a look at asynchronous calls.
 [PCB]: https://www.tutorialspoint.com/what-is-process-control-block-pcb
 [protection ring]: https://en.wikipedia.org/wiki/Protection_ring
 [Wankel engine]: https://en.wikipedia.org/wiki/Wankel_engine
+[chapter-1]: https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter01_SyncBlocking.java

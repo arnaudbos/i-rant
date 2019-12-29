@@ -14,6 +14,8 @@ gallery: true
 > Part 1 in a series of articles about Project Loom.  
 > In this part we skim the surface of scheduling history before diving into the JVM.
 >
+> The companion code repository is at [arnaudbos/untangled](https://github.com/arnaudbos/untangled)
+>
 > If you'd like you could head over to  
 > [Part 0 - Rationale][part-0]  
 > [Part 2 - Blocking code][part-2]  
