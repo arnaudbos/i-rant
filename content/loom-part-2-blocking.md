@@ -525,7 +525,7 @@ experiment to try various solutions to the problem of blocking calls and scalabi
 
 I hope you understand a little more about blocking calls and context switches after reading this.
 
-In the next part, we will take a look at asynchronous calls.
+In the [next part][part-3], we will take a look at asynchronous calls.
 
 [part-0]: ../loom-part-0-rationale
 [part-1]: ../loom-part-1-scheduling
