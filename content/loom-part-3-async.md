@@ -593,7 +593,7 @@ increased latency for those tasks.
 
 I prefer to think about _blocking_ and _non-blocking_ as runtime properties.  
 Likewise, I much prefer using _asynchronous_ in opposition to _synchronous_ when talking about an API or _programming
-style_. **Conflating sync/async and blocking/non-blocking is a source of confusion.** In fact, I argue that both are
+style_. **Conflating sync/async as thread-blocking/non-thread-blocking is a source of confusion.** In fact, both are
 orthogonal.  
 
 But there's a reason why both are often mixed-up.  
@@ -620,7 +620,6 @@ On the right a peak to more that 800 live threads when I messed up on purpose to
 [part-4]: ../loom-part-4-nio
 [VisualVM]: https://visualvm.github.io/
 [flame graph]: http://www.brendangregg.com/flamegraphs.html
-[async-profiler]: https://github.com/jvm-profiling-tools/async-profiler
 [Callback Hell]: http://callbackhell.com/
 [busy-waiting]: https://en.wikipedia.org/wiki/Busy_waiting
 [chapter-2]: https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter02bis_ScheduledFully.java

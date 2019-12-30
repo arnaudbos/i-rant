@@ -346,7 +346,7 @@ You can see in the call chain that `read0` originates from calling `InputStream#
 obtained from the `SocketChannel`. And this, dear reader, is the ugly detail that makes this application not
 efficient and is the reason why we end up with as many threads as clients.
 
-Because this socket channel is written to and read from in **blocking mode**.
+Because this socket channel (analogous to a [file descriptor]) is written to and read from in **blocking mode**.
 
 ## Context switches
 
@@ -538,3 +538,4 @@ In the [next part][part-3], we will take a look at asynchronous calls.
 [protection ring]: https://en.wikipedia.org/wiki/Protection_ring
 [Wankel engine]: https://en.wikipedia.org/wiki/Wankel_engine
 [chapter-1]: https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter01_SyncBlocking.java
+[file descriptor]: https://en.wikipedia.org/wiki/File_descriptor
