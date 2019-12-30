@@ -570,7 +570,7 @@ astutely named <code>blockingRequest</code> method inside of the <em>gateway</em
 obtained from the <code>SocketChannel</code>. And this, dear reader, is the ugly detail that makes this application not
 efficient and is the reason why we end up with as many threads as clients.</p>
 
-<p>Because this socket channel is written to and read from in <strong>blocking mode</strong>.</p>
+<p>Because this socket channel (analogous to a <a href="https://en.wikipedia.org/wiki/File_descriptor">file descriptor</a>) is written to and read from in <strong>blocking mode</strong>.</p>
 
 <h2 id="context-switches">Context switches</h2>
 
