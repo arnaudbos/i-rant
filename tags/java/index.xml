@@ -6,15 +6,15 @@
     <description>Recent content in Java on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 24 Dec 2019 14:21:35 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 01 May 2020 16:57:35 +0200</lastBuildDate>
     
 	<atom:link href="https://i-rant.arnaudbos.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Loom - Part 4 - Non-blocking Asynchronous I/O</title>
+      <title>Loom - Part 4 - Non-thread-blocking async I/O</title>
       <link>https://i-rant.arnaudbos.com/loom-part-4-nio/</link>
-      <pubDate>Tue, 24 Dec 2019 14:21:35 +0100</pubDate>
+      <pubDate>Fri, 01 May 2020 16:57:35 +0200</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/loom-part-4-nio/</guid>
       <description>Part 4 in a series of articles about Project Loom.
@@ -25,7 +25,8 @@ Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
 Part 3 - Asynchronous code
-   機織り  Yanagawa Shigenobu CC0 1.0    Asynchronous thread blocking API, seen in the previous entry, are nice because they block other threads.</description>
+Part 4 - Non-thread-blocking async I/O (this page)
+   機織り  Yanagawa Shigenobu CC0 1.</description>
     </item>
     
     <item>
@@ -41,7 +42,8 @@ If you&amp;rsquo;d like you could head over to
 Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
-   Atelier de couture  J. Trayer 1854 CC0 1.0    We&amp;rsquo;ve covered a lot of ground in the previous entries and we concluded that blocking code &amp;ldquo;is bad&amp;rdquo; ©.</description>
+Part 3 - Asynchronous code (this page)
+   Atelier de couture  J. Trayer 1854 CC0 1.</description>
     </item>
     
     <item>
@@ -56,8 +58,9 @@ The companion code repository is at arnaudbos/untangled
 If you&amp;rsquo;d like you could head over to
 Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
+Part 2 - Blocking code (this page)
 Part 3 - Asynchronous code
-   Weaving  Max Pixel CC0 1.0    A simple use case One of the biggest pain points I had learning about concurrent programming was the emphasis put on Blocking, Non-blocking, Synchronous and Asynchronous code.</description>
+   Weaving  Max Pixel CC0 1.</description>
     </item>
     
     <item>
@@ -71,9 +74,10 @@ In this part we skim the surface of scheduling history before diving into the JV
 The companion code repository is at arnaudbos/untangled
 If you&amp;rsquo;d like you could head over to
 Part 0 - Rationale
+Part 1 - It&amp;rsquo;s all about Scheduling (this page)
 Part 2 - Blocking code
 Part 3 - Asynchronous code
-   Jacquard Loom  Stephencdickson CC BY-SA 4.0    There&amp;rsquo;s only one hard problem The first problem with concurrency (and computer science in general), is that we&amp;rsquo;re extremely bad at naming things.</description>
+   Jacquard Loom  Stephencdickson CC BY-SA 4.</description>
     </item>
     
     <item>
@@ -86,6 +90,7 @@ Part 3 - Asynchronous code
 In this part I just talk about me, me, me, me and why I wrote this.
 The companion code repository is at arnaudbos/untangled
 If you&amp;rsquo;d like you could head over to
+Part 0 - Rationale (this page)
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
 Part 3 - Asynchronous code
@@ -98,10 +103,10 @@ Part 3 - Asynchronous code
       <pubDate>Mon, 04 Nov 2019 12:23:00 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/loom/</guid>
-      <description>So asynchronous thread blocking APIs are nice because they&amp;rsquo;re blocking other threads, but the problem of memory footprint of kernel threads and context switches still remains.
-Truly non-blocking asynchronous APIs rely on event loops and fine tuned implementation techniques such as work stealing and drain loops in order to maximize CPU utilisation.
+      <description>Truly non-blocking asynchronous APIs rely on event loops and fine tuned implementation techniques such as work stealing and drain loops in order to maximize CPU utilisation.
 But they rely on callbacks too, which leads to the infamous callback-hell that.
-TODO: Yup, rework this part, heavily.</description>
+TODO: Yup, rework this part, heavily.
+But we&amp;rsquo;re in 2019 so we have libraries now to lift this problem off of our shoulders, namely Reactive Streams libraries such as RxJava or Pivotal&amp;rsquo;s Project Reactor.</description>
     </item>
     
     <item>

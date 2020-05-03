@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="map[]" />
         
-    <meta property="og:title" content="Loom - Part 4 - Non-blocking Asynchronous I/O" />
+    <meta property="og:title" content="Loom - Part 4 - Non-thread-blocking async I/O" />
     <meta property="og:description" content="Part 4 on a series of articles about OpenJDK&#39;s Project Loom" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://i-rant.arnaudbos.com/loom-part-4-nio/" />
@@ -16,13 +16,14 @@
 
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
-    <title>Loom - Part 4 - Non-blocking Asynchronous I/O</title>
+    <title>Loom - Part 4 - Non-thread-blocking async I/O</title>
     <meta name="generator" content="Hugo 0.54.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Fira+Code&display=swap">
     <link rel="stylesheet" type="text/css" href="https://i-rant.arnaudbos.com/css/main.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
     
     <!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -64,16 +65,16 @@
       <div class="container">
         <div class="blog-post">
           <h3>
-            <a href="/loom-part-4-nio/">Loom - Part 4 - Non-blocking Asynchronous I/O</a>
+            <a href="/loom-part-4-nio/">Loom - Part 4 - Non-thread-blocking async I/O</a>
           </h3>
         </div>
         <div class="blog-title">
           <h4>
-          December 24, 2019
+          May 1, 2020
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          1 minutes read
+          12 minutes read
           </h4>
         </div>
         <div>
@@ -100,7 +101,8 @@ In this part we re-implement our proxy service with non-thread-blocking asynchro
 <a href="../loom-part-0-rationale">Part 0 - Rationale</a><br />
 <a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br />
 <a href="../loom-part-2-blocking">Part 2 - Blocking code</a><br />
-<a href="../loom-part-3-async">Part 3 - Asynchronous code</a></p>
+<a href="../loom-part-3-async">Part 3 - Asynchronous code</a><br />
+<a href="../loom-part-4-nio">Part 4 - Non-thread-blocking async I/O</a> (this page)</p>
 </blockquote>
 
 
@@ -131,18 +133,524 @@ In this part we re-implement our proxy service with non-thread-blocking asynchro
 <ul>
 <li>
 <ul>
-<li><a href="#java-nio">Java NIO</a></li>
+<li><a href="#java-nio">Java NIO</a>
+<ul>
+<li><a href="#asyncnonblockingrequest">asyncNonBlockingRequest</a></li>
+<li><a href="#but-why">But why?</a></li>
+<li><a href="#new-callback-interface">New callback interface</a>
+<ul>
+<li><a href="#aggregating">Aggregating</a></li>
+<li><a href="#streaming">Streaming</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#profiling">Profiling</a></li>
+<li><a href="#mode-switches">Mode switches</a></li>
+<li><a href="#going-further">Going further</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
 </ul></li>
 </ul>
 </nav></div>
 
-<p>Asynchronous thread blocking API, seen in the <a href="../loom-part-3-async">previous entry</a>, are nice because they block other threads. Yet,
-the problem of memory footprint and context switches of kernel threads remains.</p>
+<p>Starting from where we left in the <a href="../loom-part-3-async">previous entry</a>, we can say that  <code>Asynchronous</code> API are nice
+because they don&rsquo;t block the calling thread. But an asynchronous API is not a guarantee that it will not block
+other underlying threads. Thus, the problem of memory footprint, context switches and cache misses of kernel
+threads remains.</p>
+
+<p>I also wrote this:</p>
+
+<blockquote>
+<p><strong>There&rsquo;s a reason why both sync/async and thread-blocking/non-thread-blocking are often mixed-up:<br />
+Today, the only—i.e. built-in— way to execute <code>non-thread-blocking</code> code <em>on the JVM</em> is to use <code>asynchronous</code> API.</strong></p>
+</blockquote>
+
+<p>Let&rsquo;s implement our use case once again (see <a href="..//loom-part-2-blocking/#a-simple-use-case">part-2</a>) with an asynchronous <strong>and</strong> non-thread-blocking API:
+<code>Java NIO</code>.</p>
+
+<p>You can find the complete source code for this sample <a href="https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter03_AsyncNonBlocking.java">here</a>.</p>
 
 <h2 id="java-nio">Java NIO</h2>
 
+<p>Actually, most of the code is the same as in the <a href="https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter02bis_ScheduledFully.java">previous implementation</a>. The API being asynchronous,
+we keep the many callbacks to pass around and business logic to cut into pieces.</p>
+
+<p>The crux of this API change lies in the code handling the HTTP requests and bubbles up in the callback interface.</p>
+
+<h3 id="asyncnonblockingrequest">asyncNonBlockingRequest</h3>
+
+<p>The code is <em>slightly</em> bulky and indented, which illustrates, for dramatic effect, what <a href="http://callbackhell.com/">callback hell</a>
+looks like.</p>
+
+<pre><code class="language-java">①  public static void asyncNonBlockingRequest(ExecutorService executor, String url, String headers, RequestHandler handler) {
+        executor.submit(() -&gt; {
+            try {
+                println(&quot;Starting request to &quot; + url);
+                URL uri = new URL(url);
+                SocketAddress serverAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
+②              AsynchronousSocketChannel channel = AsynchronousSocketChannel.open(group);
+
+③              channel.connect(serverAddress, null, new java.nio.channels.CompletionHandler&lt;Void, Void&gt;() {
+                    @Override
+                    public void completed(Void result, Void attachment) {
+                        ByteBuffer headersBuffer = ByteBuffer.wrap((headers + &quot;Host: &quot; + uri.getHost() + &quot;\r\n\r\n&quot;).getBytes());
+                        ByteBuffer responseBuffer = ByteBuffer.allocate(1024);
+
+④                      channel.write(headersBuffer, headersBuffer, new java.nio.channels.CompletionHandler&lt;&gt;() {
+                            @Override
+                            public void completed(Integer written, ByteBuffer attachment) {
+                                if (attachment.hasRemaining()) {
+⑤                                 channel.write(attachment, attachment, this);
+                                } else {
+⑥                                 channel.read(responseBuffer, responseBuffer, new java.nio.channels.CompletionHandler&lt;&gt;() {
+                                        @Override
+                                        public void completed(Integer read, ByteBuffer attachment) {
+⑦                                          if (handler.isCancelled()) {
+                                                read = -1;
+                                            }
+
+                                            if (read &gt; 0) {
+                                                attachment.flip();
+                                                byte[] data = new byte[attachment.limit()];
+                                                attachment.get(data);
+⑧                                              if (handler != null) handler.received(data);
+                                                attachment.flip();
+                                                attachment.clear();
+
+⑨                                              channel.read(attachment, attachment, this);
+                                            } else if (read &lt; 0) {
+                                                try {
+                                                    channel.close();
+                                                } catch (IOException e) {
+                                                }
+⑩                                               if (handler != null) handler.completed();
+                                            } else {
+                                                channel.read(attachment, attachment, this);
+                                            }
+                                        }
+
+                                        @Override
+⑪                                      public void failed(Throwable t, ByteBuffer attachment) {
+                                            err(&quot;Read failed&quot;);
+                                            try {
+                                                channel.close();
+                                            } catch (IOException e) {
+                                            }
+                                            if (handler != null) handler.failed(t);
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+⑫                          public void failed(Throwable t, ByteBuffer attachment) {
+                                err(&quot;Write failed&quot;);
+                                try {
+                                    channel.close();
+                                } catch (IOException e) {}
+                                if (handler != null) handler.failed(t);
+                            }
+                        });
+                    }
+
+                    @Override
+⑬                  public void failed(Throwable t, Void attachment) {
+                        err(&quot;Connect failed&quot;);
+                        try {
+                            channel.close();
+                        } catch (IOException e) {}
+                        if (handler != null) handler.failed(t);
+                    }
+                });
+            } catch (Exception e){
+                err(&quot;request failed&quot;);
+⑭              if (handler != null) handler.failed(e);
+            }
+        });
+    }
+</code></pre>
+
+<ol>
+<li>Unlike <code>asyncRequest</code> from the previous entry, <code>asyncNonBlockingRequest</code> doesn&rsquo;t take a
+<code>CompletionHandler&lt;InputStream&gt;</code> but a <code>RequestHandler</code> parameter. We&rsquo;ll see why shortly.</li>
+<li>Also unlike <code>asyncRequest</code>, which uses a <code>SocketChannel</code>, this code opens an <code>AsynchronousSocketChannel</code>.<br />
+<code>AsynchronousSocketChannel#open</code> opens a channel (analogous to a <a href="https://en.wikipedia.org/wiki/File_descriptor">file descriptor</a>) in <em>non-blocking mode</em> by default.</li>
+<li>We <em>asynchronously</em> establish a connection to the remote address.</li>
+<li>The connection has been established. We can <em>asynchronously</em> write data to the channel (i.e. send the request).</li>
+<li>However, we may not be able to write the whole request (slow network, congestion, who knows), so we should continue
+until we are sure that the request has been sent entirely.</li>
+<li>As soon as the request has been sent, we start listening for the answer, so we <em>asynchronously</em> read from the channel
+for incoming data.</li>
+<li>When data comes in, we have to make sure that the asynchronous call made by the caller has not been cancelled.
+Because if it has, there is no point in consuming the content.<br />
+This is the first reason why <code>RequestHandler</code> replaces <code>CompletionHandler</code>: more control.</li>
+<li>For each incoming data chunk, we send it to the caller so it can decide what to do (decode, aggregate, batch?, etc).<br />
+This is the second (and last) reason why <code>RequestHandler</code> replaces <code>CompletionHandler</code>: handling HTTP content as it
+arrives from the network.</li>
+<li>We may not have consumed the whole response, so we need to check if there is more.</li>
+<li>When we are sure that no more response data remains, we can notify the caller that the call is finished.</li>
+<li>In case a read operation has failed, we close the channel and fail the call.</li>
+<li>In case a write operation has failed, we close the channel and fail the call.</li>
+<li>In case the connect operation has failed, we close the channel and fail the call.</li>
+<li>We defensively wrap the whole call in a try/catch block to prevent any uncaught exception from killing the thread
+from the pool.</li>
+</ol>
+
+<p>The amount of incidental complexity contained in this implementation is incredible. We introduced asynchronous
+programming in the previous entry. Now we introduce a new callback interface with more methods: <code>RequestHandler</code>.<br />
+Why not stick with <code>CompletionHandler&lt;InputStream&gt;</code>?<br />
+Why add <code>void received(byte[] data);</code> and force callers to deal with byte array?</p>
+
+<h3 id="but-why">But why?</h3>
+
+<p>You may be thinking that using a non-blocking <code>SocketChannel</code> would have been enough. Like this:</p>
+
+<pre><code class="language-java">SocketChannel channel = SocketChannel.open(serverAddress);
+channel.configureBlocking(false);
+</code></pre>
+
+<p>And that <code>channel.socket().getInputStream()</code> on top of it would return a nice <code>InputStream</code>
+instance with <em>non-thread-blocking read, write, etc. operations</em>.</p>
+
+<p>Unfortunately, this is not possible. From <code>Socket#getInputStream</code> we can read:</p>
+
+<pre><code class="language-java">    /**
+     * Returns an input stream for this socket.
+     *
+     * If this socket has an associated channel then the resulting input
+     * stream delegates all of its operations to the channel.  If the channel
+     * is in non-blocking mode then the input stream's {@code read} operations
+     * will throw an {@link java.nio.channels.IllegalBlockingModeException}.
+     *
+     * etc.
+    */
+    public InputStream getInputStream() throws IOException {
+        // ...
+    }
+</code></pre>
+
+<p>We want a non-blocking channel/file descriptor, so we can&rsquo;t use this pattern. We are left with the choice of using
+<code>SocketChannel</code>&rsquo;s read and write operations, or <code>AsynchronousSocketChannel</code>&rsquo;s.</p>
+
+<p><code>SocketChannel</code>&rsquo;s read and write operations don&rsquo;t ensure that the given <code>ByteBuffer</code> will be fully filled or drained,
+respectively. Sending the whole request and reading the whole response would require either looping or submitting
+the operations to the executor.<br />
+Looping would be akin to busy waiting and would therefore hog the thread/CPU and prevent other tasks to run, so
+submitting read and write operations to the executor is the best approach.</p>
+
+<p><code>AsynchronousSocketChannel</code>&rsquo;s read and write operations work the same, but they are already asynchronous. Which means
+there&rsquo;s no need to submit the operations to the executor manually.<br />
+It doesn&rsquo;t make much of a difference, but that, plus not having to call <code>channel.configureBlocking(false);</code> was simpler
+so I choose the later.</p>
+
+<p><a name="note-on-AsynchronousSocketChannel"></a></p>
+
+<blockquote>
+<p>We&rsquo;ll see later why this is a mistake and has a major drawback related to its recursive nature.</p>
+</blockquote>
+
+<h3 id="new-callback-interface">New callback interface</h3>
+
+<p>There are only two <em>services</em> in our use case: <code>CoordinatorService</code> and <code>GatewayService</code>.</p>
+
+<p>In this implementation, both make HTTP calls using <code>asyncNonBlockingRequest</code> and must therefore provide a
+<code>RequestHandler</code>.</p>
+
+<h4 id="aggregating">Aggregating</h4>
+
+<p>Implementers not willing to stream the content to their callers should maintain an internal state aggregate of
+the data. This is what <code>CoordinatorService#requestConnection</code> does.</p>
+
+<p>It takes a simple <code>CompletionHandler&lt;Connection&gt;</code> parameter, because users of this service (<code>getConnection</code> callers) are
+only interested in the completion of the call: when the response has been fully received.</p>
+
+<pre><code class="language-java">void requestConnection(String token, CompletionHandler&lt;Connection&gt; handler, ExecutorService handlerExecutor) {
+①  AtomicReference&lt;StringBuilder&gt; result = new AtomicReference&lt;&gt;(new StringBuilder());
+
+②  asyncNonBlockingRequest(boundedServiceExecutor,
+        &quot;http://localhost:7000&quot;,
+        /*headers*/ String.format(HEADERS_TEMPLATE, &quot;GET&quot;, &quot;token?value=&quot; + (token == null ? &quot;nothing&quot; : token), &quot;text/*&quot;, String.valueOf(0)),
+        new RequestHandler() {
+
+            @Override
+            public void received(byte[] data) {
+                try {
+③                  result.updateAndGet(sb -&gt; sb.append(new String(data)));
+                } catch (Exception e) {
+                    failed(e);
+                }
+            }
+
+            @Override
+            public void completed() {
+                Runnable r = () -&gt; {
+                    if (handler != null)
+⑤                      Connection conn = parseConnection(
+                            result.get().toString().substring(34)
+                        );
+                };
+                if (handlerExecutor!=null) {
+④                  handlerExecutor.submit(r);
+                } else {
+                    r.run();
+                }
+            }
+
+            /* isCancelled and failed methods are trivial */
+        });
+}
+</code></pre>
+
+<ol>
+<li>Instantiate an <code>AtomicReference&lt;StringBuilder&gt;</code> to hold the content of the token response before parsing it.</li>
+<li>Execute the HTTP request from a thread in the <code>boundedServiceExecutor</code> pool.</li>
+<li>However small, there&rsquo;s absolutely no guaranty that the whole response will be filled
+into the buffer. That&rsquo;s just the way network buffers work.<br />
+The atomic ref references a <code>StringBuffer</code> used to aggregate the substrings received by each successful read operation.</li>
+<li>Execute the callback and parsing (see #5) from a thread in the given <code>handlerExecutor</code> pool.</li>
+<li>Complete the connection request callback with the parsed token.<br />
+(Notice the marvellous <code>.substring(34)</code> stripping the response header(s))</li>
+</ol>
+
+<p>The code of <code>getConnection</code> is unchanged.</p>
+
+<h4 id="streaming">Streaming</h4>
+
+<p>Implementers interested in streaming the content to their callers can simply take a <code>RequestHandler</code> themselves. This is
+what <code>GatewayService#downloadThingy</code> does.</p>
+
+<pre><code class="language-java">void downloadThingy(RequestHandler handler, ExecutorService handlerExecutor) {
+①  asyncNonBlockingRequest(boundedServiceExecutor,
+        &quot;http://localhost:7000&quot;,
+        /*headers*/ String.format(HEADERS_TEMPLATE, &quot;GET&quot;, &quot;download&quot;, &quot;application/octet-stream&quot;, String.valueOf(0)),
+        new RequestHandler() {
+
+            @Override
+            public void received(byte[] data) {
+                if (handler != null)
+                    if (handlerExecutor!=null) {
+②                      handlerExecutor.submit(() -&gt; handler.received(data));
+                    } else {
+                        handler.received(data);
+                    }
+            }
+
+            @Override
+            public void completed() {
+                if (handler != null)
+                    if (handlerExecutor!=null) {
+③                      handlerExecutor.submit(handler::completed);
+                    } else {
+                        handler.completed();
+                    }
+            }
+
+            /* isCancelled and failed methods are trivial */
+        });
+}
+</code></pre>
+
+<ol>
+<li>Execute the HTTP request from a thread in the <code>boundedServiceExecutor</code> pool.</li>
+<li>Simply forward the data to the connection request callback.</li>
+<li>Complete the connection request callback when finished.</li>
+</ol>
+
+<p>The code of <code>getThingy</code> handling the streaming of data is a tiny bit more complex because of the change from
+<code>CompletionHandler</code> to <code>RequestHandler</code> and the handling of <code>byte</code> arrays, but not worthy of being included here.</p>
+
+<p>We&rsquo;re done with implementation changes.</p>
+
+<h2 id="profiling">Profiling</h2>
+
+<p>We&rsquo;ve seen in the <a href="../loom-part-3-async">last entry</a> that an <strong><code>asynchronous</code> thread-blocking API</strong> doesn&rsquo;t perform any better
+than a <strong><code>synchronous</code> thread-blocking</strong> one. Its latency is actually worse due to blocked threads.</p>
+
+<p>Let&rsquo;s compare with an <strong><code>asynchronous</code>, <code>non-thread-blocking</code> API</strong>.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl3-threads.png" itemprop="contentUrl" data-size="2372x1286">
+      <img src="/img/loom/impl3-threads.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Java NIO implementation threads</div>
+</div>
+
+
+<p>I&rsquo;ve reduced the number of <code>ScheduledThreadPoolExecutor</code> from the <a href="../loom-part-3-async">last implementation</a> from 3 to 1. The whole
+simulation lasted less than a minute, like the <a href="../loom-part-2-blocking">first implementation</a>.<br />
+This time only 10 threads were used.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl3-threads-running.png" itemprop="contentUrl" data-size="3078x1276">
+      <img src="/img/loom/impl3-threads-running.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Ten threads</div>
+</div>
+
+
+<p><a href="https://visualvm.github.io/">VisualVM</a> confirms that the 10 threads were more than enough to handle such a small load. Indeed, the 10 threads of
+this pool spend most of their time parked&hellip; We do see short bursts of execution to handle <em>events</em> (i.e.
+asynchronous calls). But the tasks queue is drained quickly and the executor then parks the starved threads.<br />
+In fact, a single thread (e.g. <code>Executors#newSingleThreadExecutor</code>) could handle much more than those 200 connections.</p>
+
+<p>The statement above is supported by the following <a href="http://www.brendangregg.com/flamegraphs.html">flame graph</a>:</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl3-flame.png" itemprop="contentUrl" data-size="1998x1916">
+      <img src="/img/loom/impl3-flame.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">No more thread-blocking call</div>
+</div>
+
+
+<p>Scheduling tasks and awaiting to unpark threads dominates the execution time of this simulation. Which means our
+threads are underutilized.</p>
+
+<blockquote>
+<p>Notice the giant tower of calls on the left? As said <a href="#note-on-AsynchronousSocketChannel">above</a>, my
+implementation has a major drawback due to its recursive nature. The stack overflow is near&hellip;<br />
+It would have been wiser not to call the read/write methods of the channel recursively and instead
+submit them to the executor!</p>
+</blockquote>
+
+<p>The value added of <code>NIO</code> is to provide context-switch free syscalls, eventually allowing to handle multiple channels
+on a single thread. Those syscalls only require <strong>mode-switches</strong>.</p>
+
+<h2 id="mode-switches">Mode switches</h2>
+
+<p>When making blocking syscalls, the program running in <a href="https://en.wikipedia.org/wiki/User_space#Overview">userspace</a> requests privileges in order to access the resources
+it needs (see also: &ldquo;<a href="https://en.wikipedia.org/wiki/Protection_ring">Protection ring</a>&rdquo;).<br />
+And because it is a blocking call, the state of execution of the thread has to be saved. Both operations are
+<em>atomically</em> identified as a <strong>context-switch</strong>.</p>
+
+<p>Truly <strong>non-thread-blocking asynchronous API</strong> allow efficient utilization of the physical resources by allowing a
+program running in userspace to only request privileges. Contrary to blocking calls, the thread does not have to be
+suspended: <em>only the part relative to privilege request of a context switch is needed</em>.<br />
+This operation is known as a <strong>mode switch</strong>.</p>
+
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl3-mode-switch.png" itemprop="contentUrl" data-size="2910x1482">
+      <img src="/img/loom/impl3-mode-switch.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Mode switch</div>
+</div>
+
+
+<h2 id="going-further">Going further</h2>
+
+<p>As mentioned <a href="#note-on-asyncTower">before</a>, the implementation I have just shown is far from perfect and actually
+quite dumb: <em>Not only is it <strong>not stack-safe</strong>, it is also <strong>inefficient</strong></em>.</p>
+
+<p>Look how <code>asyncNonBlockingRequest</code> repetitively calls <code>read</code>, and <code>write</code>, even thought the number of bytes available to
+be read or written may be zero. The threads are not blocked by each call for sure, but this implementation also
+wastes a lot of CPU cycles issuing calls onto channel/file descriptors that may have nothing to offer.</p>
+
+<p>Fortunately, the <code>java.nio</code> package provides a way to monitor file descriptors in order to ask or get notified when an
+operation can be done, such as connecting, accepting connections, reading or writing.</p>
+
+<p>More specifically, I could have used a <code>java.nio.channels.Selector</code>. In fact I did, in <a href="https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/FiberEchoServer.java#L197">another part</a> of
+this repository. But it&rsquo;s not where I wanted my talks nor this series to go.</p>
+
+<blockquote>
+<p>You may still be interested in reading more about this API and the syscalls it may be based on:
+<code>select</code>, <code>poll</code>, <code>epoll</code> or its FreeBSD (OS X) equivalent, <code>kqueue</code>.<br />
+You can find more about file descriptors in
+<a href="https://medium.com/@copyconstruct/nonblocking-i-o-99948ad7c957">this article</a>, and epoll in
+<a href="https://medium.com/@copyconstruct/the-method-to-epolls-madness-d9d2d6378642">this article</a>.</p>
+</blockquote>
+
+<p>I only have a basic understanding of how the syscalls mentioned above work. But I&rsquo;m happy with what I know for the
+moment and to leave this implementation where it is today. Because: 1) It is complex and 2) I&rsquo;m not going to
+implement a Web server any time soon. And chances are you aren&rsquo;t either.</p>
+
+<p>Instead, you are probably going to decide to use any of the various flavors of Web servers available in the Java ecosystem.<br />
+You may end up using Spring WebFlux, Undertow, Vert.x, ServiceTalk, Armeria or the likes&hellip;</p>
+
+<p>What do all theses have in common? <a href="https://netty.io/"><strong><code>Netty</code></strong></a>!</p>
+
+<p>Netty is a wonderful piece of software. It&rsquo;s a highly efficient, performant and optimized networking library. In fact,
+it&rsquo;s probably true that Netty powers most of the JVM-based Web services and microservices out there in the world.</p>
+
+<p>Netty is also very much <a href="https://netty.io/4.1/xref/io/netty/example/proxy/HexDumpProxyFrontendHandler.html">an asynchronous API</a>. It&rsquo;s based on en <code>EventLoop</code> pattern,
+and the various flavors of &ldquo;transport&rdquo; mechanisms to open, close, accept, read from and write to sockets. To
+be more specific, it supports NIO transport (based on what you&rsquo;ve seen above, but better), native <code>epoll</code> on Linux
+hosts and native <code>kqueue</code> on BSD hosts. And it may provide an <a href="https://github.com/netty/netty/wiki/Google-Summer-of-Code-Ideas-2020#add-io_uring-based-transport">io_uring</a> transport one day.</p>
+
+<p>My point in saying this is that, although Netty is a fantastic library, it being asynchronous leaves
+us with in the same sad state of having to split our logic into pieces into callbacks, and manage the graph and
+dependencies between concurrent tasks.</p>
+
 <h2 id="conclusion">Conclusion</h2>
+
+<p><code>Non-kernel-thread-blocking</code> I/O calls are possible under the current JDK API. However, one has to write
+asynchronous handlers.</p>
+
+<p>As outlined in this post, asynchronous code is complex, but is also very much fragile.<br />
+I, for one, would rather avoid asynchronous API if given the choice. Alternatively, I&rsquo;d like to have it wrapped
+in an API I can reason about and build on top of, without pulling my hair out.</p>
+
+<p>Luckily, there&rsquo;s an <del>API</del> <a href="https://github.com/reactive-streams/reactive-streams-jvm">Specification</a> for that! And several libraries which implement it and
+provide composable, functional, declarative and lazy API. That&rsquo;s quite a mouthful.</p>
+
+<p>In the next part, we&rsquo;ll re-implement our use-case using on of these libraries.</p>
 
               <hr>
               <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
@@ -247,10 +755,75 @@ the problem of memory footprint and context switches of kernel threads remains.<
 })();
 </script>
 
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/clojure.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 
 
 
+<link rel="stylesheet" href="/css/photoswipe.css">
+<link rel="stylesheet" href="/css/default-skin/default-skin.css">
+<script src="/js/photoswipe.min.js"></script>
+<script src="/js/photoswipe-ui-default.min.js"></script>
+<script src="/js/initphotoswipe.js"></script>
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+<style>
+    .gallery { float: right; margin-bottom: 10px; text-align: center; }
+    .gallery img { height: auto; }
+    .gallery .title { text-align: center; text-decoration: underline; }
+    .gallery figure { display: block; float: left; margin: 0 5px 5px 0; }
+    .gallery figcaption { display: none; }
+</style>
+
+<script>initPhotoSwipeFromDOM('.gallery');</script>
 
 
 

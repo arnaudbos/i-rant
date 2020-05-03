@@ -100,7 +100,8 @@ In this part we re-implement our proxy service with an asynchronous API.</p>
 <p>If you&rsquo;d like you could head over to<br />
 <a href="../loom-part-0-rationale">Part 0 - Rationale</a><br />
 <a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br />
-<a href="../loom-part-2-blocking">Part 2 - Blocking code</a></p>
+<a href="../loom-part-2-blocking">Part 2 - Blocking code</a><br />
+<a href="../loom-part-3-async">Part 3 - Asynchronous code</a> (this page)</p>
 </blockquote>
 
 
@@ -259,17 +260,16 @@ But both being fix-sized pools, the result is the same in this case.</p>
     boundedServiceExecutor.schedule(() -&gt; {
         println(&quot;Retrying download after &quot; + wait + &quot;ms wait.&quot;);
 
-/*1*/   coordinator.requestConnection(
+①      coordinator.requestConnection(
             token,
             new CompletionHandler&lt;&gt;() {
                 @Override
-/*2*/           public void completed(Connection c) {
+②              public void completed(Connection c) {
                     if (c instanceof Connection.Available) {
                         if (handler!=null)
-/*3*/                       handler.completed((Connection.Available) c);
+③                          handler.completed((Connection.Available) c);
                     } else {
-                        Connection.Unavailable unavail =
-/*4*/                       (Connection.Unavailable) c;
+④                      Connection.Unavailable unavail = (Connection.Unavailable) c;
                         getConnection(
                             unavail.getEta(),
                             unavail.getWait(),
@@ -279,7 +279,7 @@ But both being fix-sized pools, the result is the same in this case.</p>
                 }
 
                 @Override
-/*5*/           public void failed(Throwable t) {
+⑤              public void failed(Throwable t) {
                     if (handler!=null) handler.failed(t);
                 }
             },
@@ -304,20 +304,20 @@ service method which calls to <code>getConnection</code> and then start the down
 <pre><code class="language-java">private void getThingy(int i, CompletionHandler&lt;Void&gt; handler) {
     println(&quot;Start getThingy.&quot;);
 
-/*1*/getConnection(new CompletionHandler&lt;&gt;() {
+①  getConnection(new CompletionHandler&lt;&gt;() {
         @Override
-/*2*/   public void completed(Connection.Available conn) {
+②      public void completed(Connection.Available conn) {
             println(&quot;Got token, &quot; + conn.getToken());
 
             CompletableFuture&lt;Void&gt; downloadFut = new CompletableFuture&lt;&gt;();
-/*3*/       gateway.downloadThingy(new CompletionHandler&lt;&gt;() {
+③          gateway.downloadThingy(new CompletionHandler&lt;&gt;() {
                 @Override
-/*4*/           public void completed(InputStream content) {
+④              public void completed(InputStream content) {
                     // Download started
                 }
 
                 @Override
-/*6*/           public void failed(Throwable t) {
+⑥              public void failed(Throwable t) {
                     if (t instanceof EtaExceededException) {
                         err(&quot;Couldn't getThingy because ETA exceeded: &quot; + t);
                     } else {
@@ -325,12 +325,12 @@ service method which calls to <code>getConnection</code> and then start the down
                     }
                     if (handler!=null) handler.failed(t);
                 }
-/*5*/       }, boundedServiceExecutor);
+⑤          }, boundedServiceExecutor);
 
         }
 
         @Override
-/*6*/   public void failed(Throwable t) {
+⑥      public void failed(Throwable t) {
             err(&quot;Task failed.&quot;);
             if (handler!=null) handler.failed(t);
         }
@@ -358,14 +358,14 @@ failure.</li>
 
 <pre><code class="language-java">    Runnable pulse = new PulseRunnable(i, downloadFut, conn);
     int total = 0;
-/*1*/try(content) {
+①  try(content) {
         println(i + &quot; :: Starting pulse &quot;);
-/*2*/   boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);
+②      boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);
     
         // Get read=-1 quickly and not all content
         // because of HTTP 1.1 but really don't care
         byte[] buffer = new byte[8192];
-/*3*/   while(true) {
+③      while(true) {
             int read = content.read(buffer);
             // drop it
             if (read==-1 || (total+=read)&gt;=MAX_SIZE) break;
@@ -374,13 +374,13 @@ failure.</li>
         println(&quot;Download finished&quot;);
     
         if (handler!=null)
-/*4*/       handler.completed(null);
+④          handler.completed(null);
     } catch (IOException e) {
         err(&quot;Download failed.&quot;);
         if (handler!=null)
-/*4*/       handler.failed(e);
+④          handler.failed(e);
     } finally {
-/*5*/   downloadFut.complete(null);
+⑤      downloadFut.complete(null);
     }
 </code></pre>
 
@@ -415,22 +415,28 @@ when the download ends. We&rsquo;ll see <code>PulseRunnable</code> later.</li>
     public void run() {
         if (!download.isDone()) {
             println(i + &quot; :: Pulse!&quot;);
-/*1*/       coordinator.heartbeat(
+①          coordinator.heartbeat(
                 conn.getToken(),
                 new CompletionHandler&lt;&gt;() {
                     @Override
-/*2*/               public void completed(Connection result) {
-/*3*/                   if (!download.isDone()) {
-                            boundedPulseExecutor
-                                .schedule(PulseRunnable.this, 2_000L, TimeUnit.MILLISECONDS);
+②                  public void completed(Connection result) {
+③                      if (!download.isDone()) {
+                            boundedPulseExecutor.schedule(
+                                PulseRunnable.this,
+                                2_000L,
+                                TimeUnit.MILLISECONDS
+                            );
                         }
                     }
 
                     @Override
-/*2*/               public void failed(Throwable t) {
-/*3*/                   if (!download.isDone()) {
-                            boundedPulseExecutor
-                                .schedule(PulseRunnable.this, 2_000L, TimeUnit.MILLISECONDS);
+②                  public void failed(Throwable t) {
+③                      if (!download.isDone()) {
+                            boundedPulseExecutor.schedule(
+                                PulseRunnable.this,
+                                2_000L,
+                                TimeUnit.MILLISECONDS
+                            );
                         }
                     }
                 },
@@ -819,7 +825,7 @@ orthogonal.</p>
 <p>But there&rsquo;s a reason why both are often mixed-up.<br />
 Today, the only—i.e. built-in— way to execute <code>non-thread-blocking</code> code <em>on the JVM</em> is to use <code>asynchronous</code> API.</p>
 
-<p>In the next part, we&rsquo;ll re-implement <code>asyncRequest</code> to be truly non-blocking.</p>
+<p>In the <a href="../loom-part-4-nio">next part</a>, we&rsquo;ll re-implement <code>asyncRequest</code> to be truly non-blocking.</p>
 
 <h2 id="post-scriptum">Post Scriptum</h2>
 
