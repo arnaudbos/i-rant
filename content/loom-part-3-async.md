@@ -20,6 +20,7 @@ gallery: true
 > [Part 0 - Rationale][part-0]  
 > [Part 1 - It's all about Scheduling][part-1]  
 > [Part 2 - Blocking code][part-2]  
+> [Part 3 - Asynchronous code][part-3] (this page)  
 
 {{< img center="true" src="/img/loom/handweaving.jpg" alt="Seamstresses in a shop" width="100%" title="Atelier de couture" caption="J. Trayer 1854" attr="CC0 1.0" attrlink="https://creativecommons.org/publicdomain/zero/1.0/deed.en" link="https://commons.wikimedia.org/wiki/File:Jean_Baptiste_Jules_Trayer_Bretonische_Schneiderinnen_1854.jpg">}}
 
@@ -144,17 +145,16 @@ private void getConnection(long eta,
     boundedServiceExecutor.schedule(() -> {
         println("Retrying download after " + wait + "ms wait.");
 
-/*1*/   coordinator.requestConnection(
+①      coordinator.requestConnection(
             token,
             new CompletionHandler<>() {
                 @Override
-/*2*/           public void completed(Connection c) {
+②              public void completed(Connection c) {
                     if (c instanceof Connection.Available) {
                         if (handler!=null)
-/*3*/                       handler.completed((Connection.Available) c);
+③                          handler.completed((Connection.Available) c);
                     } else {
-                        Connection.Unavailable unavail =
-/*4*/                       (Connection.Unavailable) c;
+④                      Connection.Unavailable unavail = (Connection.Unavailable) c;
                         getConnection(
                             unavail.getEta(),
                             unavail.getWait(),
@@ -164,7 +164,7 @@ private void getConnection(long eta,
                 }
 
                 @Override
-/*5*/           public void failed(Throwable t) {
+⑤              public void failed(Throwable t) {
                     if (handler!=null) handler.failed(t);
                 }
             },
@@ -188,20 +188,20 @@ service method which calls to `getConnection` and then start the download reques
 private void getThingy(int i, CompletionHandler<Void> handler) {
     println("Start getThingy.");
 
-/*1*/getConnection(new CompletionHandler<>() {
+①  getConnection(new CompletionHandler<>() {
         @Override
-/*2*/   public void completed(Connection.Available conn) {
+②      public void completed(Connection.Available conn) {
             println("Got token, " + conn.getToken());
 
             CompletableFuture<Void> downloadFut = new CompletableFuture<>();
-/*3*/       gateway.downloadThingy(new CompletionHandler<>() {
+③          gateway.downloadThingy(new CompletionHandler<>() {
                 @Override
-/*4*/           public void completed(InputStream content) {
+④              public void completed(InputStream content) {
                     // Download started
                 }
 
                 @Override
-/*6*/           public void failed(Throwable t) {
+⑥              public void failed(Throwable t) {
                     if (t instanceof EtaExceededException) {
                         err("Couldn't getThingy because ETA exceeded: " + t);
                     } else {
@@ -209,12 +209,12 @@ private void getThingy(int i, CompletionHandler<Void> handler) {
                     }
                     if (handler!=null) handler.failed(t);
                 }
-/*5*/       }, boundedServiceExecutor);
+⑤          }, boundedServiceExecutor);
 
         }
 
         @Override
-/*6*/   public void failed(Throwable t) {
+⑥      public void failed(Throwable t) {
             err("Task failed.");
             if (handler!=null) handler.failed(t);
         }
@@ -241,14 +241,14 @@ Now that we have the structure, we can handle the content, but also start the pe
 ```java
     Runnable pulse = new PulseRunnable(i, downloadFut, conn);
     int total = 0;
-/*1*/try(content) {
+①  try(content) {
         println(i + " :: Starting pulse ");
-/*2*/   boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);
+②      boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);
     
         // Get read=-1 quickly and not all content
         // because of HTTP 1.1 but really don't care
         byte[] buffer = new byte[8192];
-/*3*/   while(true) {
+③      while(true) {
             int read = content.read(buffer);
             // drop it
             if (read==-1 || (total+=read)>=MAX_SIZE) break;
@@ -257,13 +257,13 @@ Now that we have the structure, we can handle the content, but also start the pe
         println("Download finished");
     
         if (handler!=null)
-/*4*/       handler.completed(null);
+④          handler.completed(null);
     } catch (IOException e) {
         err("Download failed.");
         if (handler!=null)
-/*4*/       handler.failed(e);
+④          handler.failed(e);
     } finally {
-/*5*/   downloadFut.complete(null);
+⑤      downloadFut.complete(null);
     }
 ```
 
@@ -297,22 +297,28 @@ class PulseRunnable implements Runnable {
     public void run() {
         if (!download.isDone()) {
             println(i + " :: Pulse!");
-/*1*/       coordinator.heartbeat(
+①          coordinator.heartbeat(
                 conn.getToken(),
                 new CompletionHandler<>() {
                     @Override
-/*2*/               public void completed(Connection result) {
-/*3*/                   if (!download.isDone()) {
-                            boundedPulseExecutor
-                                .schedule(PulseRunnable.this, 2_000L, TimeUnit.MILLISECONDS);
+②                  public void completed(Connection result) {
+③                      if (!download.isDone()) {
+                            boundedPulseExecutor.schedule(
+                                PulseRunnable.this,
+                                2_000L,
+                                TimeUnit.MILLISECONDS
+                            );
                         }
                     }
 
                     @Override
-/*2*/               public void failed(Throwable t) {
-/*3*/                   if (!download.isDone()) {
-                            boundedPulseExecutor
-                                .schedule(PulseRunnable.this, 2_000L, TimeUnit.MILLISECONDS);
+②                  public void failed(Throwable t) {
+③                      if (!download.isDone()) {
+                            boundedPulseExecutor.schedule(
+                                PulseRunnable.this,
+                                2_000L,
+                                TimeUnit.MILLISECONDS
+                            );
                         }
                     }
                 },
@@ -599,7 +605,7 @@ orthogonal.
 But there's a reason why both are often mixed-up.  
 Today, the only—i.e. built-in— way to execute `non-thread-blocking` code *on the JVM* is to use `asynchronous` API.
 
-In the next part, we'll re-implement `asyncRequest` to be truly non-blocking.
+In the [next part][part-4], we'll re-implement `asyncRequest` to be truly non-blocking.
 
 ## Post Scriptum
 
@@ -617,6 +623,7 @@ On the right a peak to more that 800 live threads when I messed up on purpose to
 [part-0]: ../loom-part-0-rationale
 [part-1]: ../loom-part-1-scheduling
 [part-2]: ../loom-part-2-blocking
+[part-3]: ../loom-part-3-async
 [part-4]: ../loom-part-4-nio
 [VisualVM]: https://visualvm.github.io/
 [flame graph]: http://www.brendangregg.com/flamegraphs.html

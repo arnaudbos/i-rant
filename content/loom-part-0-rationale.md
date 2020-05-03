@@ -15,6 +15,7 @@ seoimage: img/loom/jacquard_loom.jpg
 > The companion code repository is at [arnaudbos/untangled](https://github.com/arnaudbos/untangled)
 >
 > If you'd like you could head over to  
+> [Part 0 - Rationale][part-0] (this page)  
 > [Part 1 - It's all about Scheduling][part-1]  
 > [Part 2 - Blocking code][part-2]  
 > [Part 3 - Asynchronous code][part-3]  
@@ -56,6 +57,7 @@ another point of view.
 
 In the [next part][part-1], we talk history!
 
+[part-0]: ../loom-part-0-rationale
 [part-1]: ../loom-part-1-scheduling
 [part-2]: ../loom-part-2-blocking
 [part-3]: ../loom-part-3-async

@@ -12,9 +12,6 @@ gallery: true
 ---
 
 
-So asynchronous thread blocking APIs are nice because they're blocking other threads, but the problem of memory
-footprint of kernel threads and context switches still remains.
-
 Truly non-blocking asynchronous APIs rely on event loops and fine tuned implementation techniques such as work
 stealing and drain loops in order to maximize CPU utilisation.  
 But they rely on callbacks too, which leads to the infamous callback-hell that.

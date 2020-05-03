@@ -19,6 +19,7 @@ gallery: true
 > If you'd like you could head over to  
 > [Part 0 - Rationale][part-0]  
 > [Part 1 - It's all about Scheduling][part-1]  
+> [Part 2 - Blocking code][part-2] (this page)  
 > [Part 3 - Asynchronous code][part-3]  
 
 {{< img center="true" src="/img/loom/loom.jpg" alt="Loom" width="100%" title="Weaving" caption="Max Pixel" attr="CC0 1.0" attrlink="https://creativecommons.org/publicdomain/zero/1.0/deed.en" link="https://www.maxpixels.net/Post-Impressionist-Post-Impressionism-Fine-Art-Dutch-1428139">}}
@@ -79,20 +80,20 @@ private void getThingy() throws EtaExceededException, IOException {
     println("Start getThingy.");
 
     try {
-/*1*/   Connection.Available conn = getConnection();
+①      Connection.Available conn = getConnection();
         println("Got token, " + conn.getToken());
 
         Thread pulse = makePulse(conn);
-/*2*/   try (InputStream content = gateway.downloadThingy()) {
-/*3*/       pulse.start();
+②      try (InputStream content = gateway.downloadThingy()) {
+③         pulse.start();
 
-/*4*/       ignoreContent(content);
+④          ignoreContent(content);
         } catch (IOException e) {
             err("Download failed.");
             throw e;
         }
         finally {
-/*5*/       pulse.interrupt();
+⑤          pulse.interrupt();
         }
     } catch (InterruptedException e) {
         // D'oh!
@@ -123,14 +124,20 @@ Framework. In the end it is more illustrative to have it directly at hand.
 Let's simulate a few clients, shall we?
 
 ```java
+CompletableFuture<Void>[] futures = new CompletableFuture[MAX_CLIENTS];
 for(int i=0; i<MAX_CLIENTS; i++) {
+    int finalI = i;
+    futures[i] = new CompletableFuture<>();
     elasticServiceExecutor.submit(() -> {
         try {
-            getThingy();
+            getThingy(finalI);
+            futures[finalI].complete(null);
         } catch (EtaExceededException e) {
             err("Couldn't getThingy because ETA exceeded: " + e);
+            futures[finalI].completeExceptionally(e);
         } catch (Exception e) {
             err("Couldn't getThingy because something failed: " + e);
+            futures[finalI].completeExceptionally(e);
         }
     });
 }
@@ -183,7 +190,7 @@ the code:
 private Connection.Available getConnection()
     throws EtaExceededException, InterruptedException
 {
-/*1*/return getConnection(0, 0, null);
+①  return getConnection(0, 0, null);
 }
 
 private Connection.Available getConnection(long eta, long wait, String token)
@@ -199,12 +206,12 @@ private Connection.Available getConnection(long eta, long wait, String token)
         }
 
         println("Retrying download after " + wait + "ms wait.");
-
-/*2*/   Connection c = coordinator.requestConnection(token);
+    
+②      Connection c = coordinator.requestConnection(token);
         if (c instanceof Connection.Available) {
-/*4*/       return (Connection.Available) c;
+④          return (Connection.Available) c;
         }
-/*3*/   Connection.Unavailable unavail = (Connection.Unavailable) c;
+③      Connection.Unavailable unavail = (Connection.Unavailable) c;
         eta = unavail.getEta();
         wait = unavail.getWait();
         token = unavail.getToken();
@@ -487,8 +494,8 @@ first 3 parts of the article: _"Our Little Service"_, _"Little’s Law"_ and _"W
 
 It explains that the number of connections our services can handle when executing blocking code is
 not limited by the number of network connections our OS can keep open, but by the number of threads we create.  
-Each kernel thread stack takes memory space and thread scheduling (context switches explained above) wastes CPU cycles
-and adds latency to requests.
+Each kernel thread stack takes memory space and thread scheduling (context switches explained above) wastes CPU cycles,
+induce CPU cache misses and adds latency to requests.
 
 > Allowing the software to spawn thread willy-nilly may bring our application to its knees, so we usually set a hard
 > limit on the number of threads we let the application spawn.  
@@ -529,6 +536,7 @@ In the [next part][part-3], we will take a look at asynchronous calls.
 
 [part-0]: ../loom-part-0-rationale
 [part-1]: ../loom-part-1-scheduling
+[part-2]: ../loom-part-2-blocking
 [part-3]: ../loom-part-3-async
 [part-4]: ../loom-part-4-nio
 [VisualVM]: https://visualvm.github.io/

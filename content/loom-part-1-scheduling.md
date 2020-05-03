@@ -18,6 +18,7 @@ gallery: true
 >
 > If you'd like you could head over to  
 > [Part 0 - Rationale][part-0]  
+> [Part 1 - It's all about Scheduling][part-1] (this page)  
 > [Part 2 - Blocking code][part-2]  
 > [Part 3 - Asynchronous code][part-3]  
 
@@ -335,6 +336,7 @@ names, etc):
 In the [next part][part-2], we will experiment!
 
 [part-0]: ../loom-part-0-rationale
+[part-1]: ../loom-part-1-scheduling
 [part-2]: ../loom-part-2-blocking
 [part-3]: ../loom-part-3-async
 [part-4]: ../loom-part-4-nio
