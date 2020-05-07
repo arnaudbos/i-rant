@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Idris on Arnaud Bos</title>
+    <title>idris on Arnaud Bos</title>
     <link>https://i-rant.arnaudbos.com/tags/idris/</link>
-    <description>Recent content in Idris on Arnaud Bos</description>
+    <description>Recent content in idris on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Fri, 10 Nov 2017 13:41:21 +0100</lastBuildDate>
@@ -17,9 +17,8 @@
       <pubDate>Fri, 10 Nov 2017 13:41:21 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/use-clojure-already/</guid>
-      <description>Lisp as a secret weapon   I hear a lot of talking going on about Kotlin around me lately.
-There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot has happened around it from the Google announcement that Kotlin would benefit from first class support on Android, up to the hiring of Jake Wharton (a figure in the world of Android developers).
-I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at MonkeyPatch seem to be following the hype (muahaha&amp;hellip;) and are becoming more and more addicted to it.</description>
+      <description>Lisp as a secret weapon    I hear a lot of talking going on about Kotlin around me lately.
+There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot has happened around it from the Google announcement that Kotlin would benefit from first class support on Android, up to the hiring of Jake Wharton (a figure in the world of Android developers).</description>
     </item>
     
   </channel>

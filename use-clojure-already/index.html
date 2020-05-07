@@ -17,7 +17,7 @@
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
     <title>Just use Clojure already!</title>
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.70.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
@@ -107,81 +107,61 @@
 </figure>
 
 
-
-<hr />
-
+<hr>
 <p>I hear a lot of talking going on about <a href="https://kotlinlang.org/">Kotlin</a> around me lately.</p>
-
 <p>There&rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot
 has happened around it from the Google announcement that
 Kotlin would benefit from
 <a href="https://blog.jetbrains.com/kotlin/2017/05/kotlin-on-android-now-official/">first class support on Android</a>, up to the
 hiring of <a href="https://twitter.com/JakeWharton">Jake Wharton</a> (a figure in the world of Android
 developers).</p>
-
 <p>I&rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at
 <a href="http://www.monkeypatch.io/">MonkeyPatch</a> seem to be following the hype (muahaha&hellip;) and are
 becoming more and more addicted to it.</p>
-
 <p><a href="https://twitter.com/ilaborie">Igor</a> offered to make a live demo in order to show me what it is they
 (he) like about Kotlin.</p>
-
 <blockquote class="twitter-tweet"><p lang="fr" dir="ltr">On profite de l&#39;été pour se faire des petites sessions de BBL <a href="https://twitter.com/hashtag/dev?src=hash&amp;ref_src=twsrc%5Etfw">#dev</a> <a href="https://twitter.com/hashtag/passion?src=hash&amp;ref_src=twsrc%5Etfw">#passion</a> <a href="https://twitter.com/hashtag/summer?src=hash&amp;ref_src=twsrc%5Etfw">#summer</a> <a href="https://t.co/54JG68txhs">pic.twitter.com/54JG68txhs</a></p>&mdash; MonkeyPatch (@MonkeyPatch_io) <a href="https://twitter.com/MonkeyPatch_io/status/893066399794556928?ref_src=twsrc%5Etfw">August 3, 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
 
 <p>During his presentation I&rsquo;ve noticed a few points that I disliked, but before
 jumping to conclusion I decided to dig a bit further, reading
 <a href="https://www.manning.com/books/kotlin-in-action">Kotlin in Action</a> during vacations two weeks later.</p>
-
 <p>I also asked on our private Slack team:
-<strong><em>&ldquo;What is Kotlin&rsquo;s value proposition?&rdquo;</em></strong></p>
-
+<em><strong>&ldquo;What is Kotlin&rsquo;s value proposition?&quot;</strong></em></p>
 <p>Amongst other small things, the consensus begun to build: <em>&ldquo;It&rsquo;s a better
-Java than Java&rdquo;</em>&hellip;<br />
+Java than Java&rdquo;</em>&hellip;<br>
 Exactly what I feared.</p>
-
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Finished. Nice book, <a href="https://twitter.com/hashtag/Kotlin?src=hash&amp;ref_src=twsrc%5Etfw">#Kotlin</a> is a better Java than <a href="https://twitter.com/hashtag/Java?src=hash&amp;ref_src=twsrc%5Etfw">#Java</a> and increases productivity. But I still prefer <a href="https://twitter.com/hashtag/Clojure?src=hash&amp;ref_src=twsrc%5Etfw">#Clojure</a>. I&#39;ll write about that soon <a href="https://t.co/4ZgHScppAA">pic.twitter.com/4ZgHScppAA</a></p>&mdash; Arnaud Bos (@arnaud_bos) <a href="https://twitter.com/arnaud_bos/status/898808015146627072?ref_src=twsrc%5Etfw">August 19, 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
 
 <p>To fulfill the promise made in this tweet, I took it as a game to code the
 same code example Igor showed me in <a href="https://clojure.org/">Clojure</a> in order to return
 the favor to my colleagues.</p>
-
 <p>And I&rsquo;ve decided to start a series of blog posts about Clojure&rsquo;s features and
-Kotlin&rsquo;s features in order to express why <strong><em>I</em></strong> don&rsquo;t see the later being that
+Kotlin&rsquo;s features in order to express why <em><strong>I</strong></em> don&rsquo;t see the later being that
 much of an improvement, despite its growth in popularity.</p>
-
-<p>But using Clojure is not like riding on unicorns all day long either.<br />
+<p>But using Clojure is not like riding on unicorns all day long either.<br>
 Although I fail to see if some other new languages solve real problems or just
 add more puzzles to solve to our daily share or incidental complexity, I will
 address some pain points I&rsquo;ve encountered too in Clojure.</p>
-
-<hr />
-
+<hr>
 <p>This post was actually in draft form since September 15th (I screwed up my
 publication planning) and in the mean time I&rsquo;ve had many occasions to express
 my <em>&ldquo;obsessive enthusiasm&rdquo;</em> of Clojure.</p>
-
 <p>And the static typing and type systems aficionados around me (who seem to be
 legion, interestingly) have come to discover and appreciate <a href="https://www.idris-lang.org/">Idris</a> and
 its <a href="https://en.wikipedia.org/wiki/Dependent_type">dependent types</a>:</p>
-
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Well... I&#39;d like to know fundamentally why... And anyway have you ever tried <a href="https://twitter.com/idrislang?ref_src=twsrc%5Etfw">@idrislang</a> ?</p>&mdash; Fred @ Home (@fcabestre) <a href="https://twitter.com/fcabestre/status/912183360285544448?ref_src=twsrc%5Etfw">September 25, 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-
 <p>I remember having heard about Idris around summer 2016 in this
-<a href="https://www.functionalgeekery.com/episode-54-edwin-brady/">podcast</a>.<br />
+<a href="https://www.functionalgeekery.com/episode-54-edwin-brady/">podcast</a>.<br>
 I even added the episode to my favorites: which means I wanted to get back to
 it and listen again later.</p>
-
-<p>It&rsquo;s nice to have people around ready to talk about these stuff.<br />
+<p>It&rsquo;s nice to have people around ready to talk about these stuff.<br>
 This tweet made me realize it would be a good way to also inject a bit of
 Idris dependent types and interactive editing features in the mix and see how
 Clojure compares on the matter (Kotlin being out of the equation here).</p>
-
 <p>I hope this post will be the first of a series where <a href="https://twitter.com/ilaborie">Igor</a> and I (and
 maybe <a href="https://twitter.com/fcabestre">Frederic</a> on Idris?) might go back and forth, answering
 each other. It&rsquo;s up to them.</p>

@@ -17,7 +17,7 @@
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
     <title>EclipseCon France 2016 — Review</title>
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.70.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
@@ -89,8 +89,6 @@
           <div class="panel-body">
             <div class="blogpost">
               
-
-
 <figure  >
     
         <img src="/img/eclipsecon-france-2016-review/eclipsecon.jpg" alt="Picture taken during the Keynote"
@@ -106,19 +104,12 @@
 </figure>
 
 
-
-<hr />
-
+<hr>
 <p>This ear, I&rsquo;ve been given the opportunity to attend the French edition of the EclipseCon. It&rsquo;s been the first time I could attend an event of this nature with Keynotes, workshops, talks and demos on various topics, informal talks with other attendees and speakers.</p>
-
 <p>Bellow is a feedback on <strong>my</strong> experience of the EclipseCon France 2016.</p>
-
 <p>Schedule: <a href="https://www.eclipsecon.org/france2016/conference/schedule/session/2016-06-07">https://www.eclipsecon.org/france2016/conference/schedule/session/2016-06-07</a></p>
-
-<hr />
-
+<hr>
 <h2 id="connecting-low-power-iot-devices-with-lora-mqtt-and-the-things-network">Connecting low power IoT devices with LoRa, MQTT, and The Things Network</h2>
-
 
 <figure  style="text-align: center;">
     
@@ -130,18 +121,12 @@
 </figure>
 
 
-
-<p><br />
+<p><!-- raw HTML omitted -->
 From my point of view, <a href="http://iot.eclipse.org/">IoT</a> really was an important topic this year in Toulouse, most notably because of the presence of <a href="https://www.thethingsnetwork.org/">The Things Network</a>, who&rsquo;s been invited by the Eclipse Foundation to lead a workshop and give the first Keynote of the conference.</p>
-
 <p>This team, from Amsterdam, wants to federate people and communities anywhere in the world around their worldwide network dedicated to connected devices, based on the LoRa technology.</p>
-
 <p>So, what is LoRa? And what is The Things Network?</p>
-
-<hr />
-
+<hr>
 <h3 id="lora">LoRa</h3>
-
 
 <figure  style="text-align: center;">
     
@@ -153,24 +138,16 @@ From my point of view, <a href="http://iot.eclipse.org/">IoT</a> really was an i
 </figure>
 
 
-
 <p>Taken from the <a href="https://www.lora-alliance.org/">LoRa Alliance</a> :</p>
-
 <pre><code>LoRa is a diminutive for LoRaWAN™: Low Power Wide Area Network (LPWAM).
 </code></pre>
-
 <p>Without going into too much details (that I don&rsquo;t master anyways), here&rsquo;s what I can say:</p>
-
 <ul>
-<li><em>LoRa is a free and open wireless specification based on ISM radios bands (<a href="https://en.wikipedia.org/wiki/ISM_band">https://en.wikipedia.org/wiki/ISM_band</a>).</em></li>
+<li><em>LoRa is a free and open wireless specification based on ISM radios bands (<a href="https://en.wikipedia.org/wiki/ISM_band)">https://en.wikipedia.org/wiki/ISM_band)</a>.</em></li>
 </ul>
-
 <p>This technology particularly fits in as a network layer for communication of small, connected devices because it allows for localization and mobility of devices, low consumption, does not need a big or existing previous installation, and communication can go both ways (bi-directional).</p>
-
 <p>With a single antenna on top of a building in an urban area, or in fields, LoRa allows the connection of thousands of devices without loss, far more than a classic wireless gateway (WiFi, Bluetooth) and energy consumption is kept low and is less costly that a 3G gateway.</p>
-
 <p>A few examples:</p>
-
 <ul>
 <li>Power networks: predict consumption and adapt to real needs</li>
 <li>Logistics: accurate delivery and moving targets</li>
@@ -178,11 +155,8 @@ From my point of view, <a href="http://iot.eclipse.org/">IoT</a> really was an i
 <li>Health: embedded measuring devices</li>
 <li>And a lot more&hellip; all that wirelessly.</li>
 </ul>
-
 <p>LoRa competes with the <a href="https://sigfox.com/">Sigfox</a> technology, that you&rsquo;re obviously aware of if you&rsquo;re working/living in Toulouse like I do. Nonetheless, the two have different approaches, as Sigfox&rsquo;s technology is proprietary and implies license costs, whereas the LoRa specification is free and open.</p>
-
 <p>Some measures made by The Things Network, as well as a few tech characteristics:</p>
-
 <ul>
 <li>Dense urban environment: 500m to 3km</li>
 <li>Rural environment: 10-50km (up to 92km over lands)</li>
@@ -193,20 +167,14 @@ From my point of view, <a href="http://iot.eclipse.org/">IoT</a> really was an i
 <li>No previous installation required</li>
 <li>Multi-coverage (multiple gateways can relay the information)</li>
 </ul>
-
 <p>Devices connecting to a LoRa network can be sorted into three categories:</p>
-
 <pre><code>A) Uplink only, device initiates the communication and server can answer;
 B) Device and network are in sync on a shooting window the data exchange;
 C) Device constantly listening for updates.
 </code></pre>
-
 <p>Of course consumption depends on device category.</p>
-
-<hr />
-
+<hr>
 <h3 id="the-things-network">The Things Network</h3>
-
 
 <figure  style="text-align: center;">
     
@@ -218,21 +186,13 @@ C) Device constantly listening for updates.
 </figure>
 
 
-
 <p><a href="https://www.thethingsnetwork.org/">The Things Network</a> is a project born in Amsterdam, the goal is to build a worldwide, open distributed network for IoT devices.</p>
-
 <p>Following a crowdfunding campaign, the team has started to create a Web platform in order to allow connection of devices via brokers.</p>
-
 <p>All the source code of The Things Network is <a href="https://github.com/TheThingsNetwork/">open source and available on Github</a>, according to their commitment to allow a vast adoption of these technologies.</p>
-
 <p>In parallel, their business entity sells <a href="https://shop.thethingsnetwork.com/">Starter kits</a> for education purposes as well as gateways, and participates in workshops and trainings to allow people to equip their homes/neighborhoods/towns and initiate a global coverage movement.</p>
-
 <p>There already are communities around the world, mostly in Europe at this time. Those communities were sometimes initiated by the team members of The Things Network, who travel a lot to advocate for their project and the LoRa technology, and sometimes communities are spontaneously created by local people.</p>
-
-<hr />
-
+<hr>
 <h2 id="what-every-java-developer-should-know-about-angularjs">What every Java developer should know about AngularJS</h2>
-
 
 <figure  style="text-align: center;">
     
@@ -244,43 +204,24 @@ C) Device constantly listening for updates.
 </figure>
 
 
-
 <p>Everything&rsquo;s in the title.</p>
-
 <p>This workshop was intended to developers who are more familiar with backend technologies and wanted to have an introduction at the most famous front-end framework of the moment: <a href="https://angularjs.org/">AngularJS</a>.</p>
-
 <p>The was articulated about an introduction to controllers, scopes, services and directives, based on a tiny project example.</p>
-
 <p>As a full-stack developer I think this workshop was well adapted to its audience, with an iterative process in order to introduce new concepts in turn on the tiny project.</p>
-
 <p>The speakers chose to have <a href="https://www.typescriptlang.org/">TypeScript</a> at the basis of their example, in order to keep their audience, more used to classical object architectures than ECMAScript, in their comfort zone. My co-attendees had the occasion to have their feet wet in a project architecture modeled around interfaces and implementations, with generic types and inheritance. On the other hand, they&rsquo;ve had to deal with the poor front-end development tooling of the Eclipse IDE.</p>
-
 <p>Let&rsquo;s talk about tooling.</p>
-
-<hr />
-
+<hr>
 <h2 id="tooling">Tooling</h2>
-
 <p>This year we (the attendees) had a lot of choice regarding sessions about the Eclipse tooling. Here are is a feedback on the tools I&rsquo;ve been presented.</p>
-
-<h3 id="jsdt-2-0">JSDT 2.0</h3>
-
+<h3 id="jsdt-20">JSDT 2.0</h3>
 <p>This talk was dedicated to the new version of the JavaScript Development Tools (JSDT), currently under development.</p>
-
 <p>The objectives of JSDT 2.0 are to support the tools and methods of the current state of the art of modern JavaScript development.</p>
-
 <p>At the moment, JSDT 2.0 benefits from a new parser, more powerful and robust than the previous one, which is able to handle the ECMAScript 6 specification.</p>
-
 <p>The other objectives are centered around the integration of packets managers (npm / bower), task builders (grunt, gulp), support of Node.js, and additional tools for debugging and browsers integrations (Chrome).</p>
-
 <h3 id="the-state-of-docker-and-vagrant-tooling-in-eclipse">The State of Docker and Vagrant Tooling in Eclipse</h3>
-
 <p>It&rsquo;s been a few month I got myself interested in <a href="https://www.vagrantup.com/">Vagrant</a> and <a href="https://www.docker.com/">Docker</a> and started to mess with them, especially for development and integration environments. The idea to setup and share with teams/contributors an immutable infrastructure and repeatable deployment processes is very exciting.</p>
-
 <p>In this talk, I&rsquo;ve been showcased two Eclipse plugins, one for <a href="https://www.docker.com/">Docker</a> integration and the other one for <a href="https://www.vagrantup.com/">Vagrant</a> integration.</p>
-
 <p>At the moment, the two plugins provide new &ldquo;perspectives&rdquo; to the Eclipse IDE, allowing to do everything (I mean, almost everything) you can do on the command line:</p>
-
 <ul>
 <li>Create and manage Vagrant boxes</li>
 <li>Configure your Vagrantfile</li>
@@ -289,14 +230,10 @@ C) Device constantly listening for updates.
 <li>List and manage Docker containers</li>
 <li>Edit Dockerfile</li>
 </ul>
-
 <p>I&rsquo;m a little bit disappointed, even though I personally don&rsquo;t have an affinity for IDE integrations of command lines tools (I like my git separated from my IDE for instance).</p>
-
 <p>Anyway it&rsquo;s worth mentioning that all the developments made on these plugins are the work of developers who are doing it for free, there are not a lot of them, and like everybody else they have to mow their lawn and fix their home on weekends.
 So thanks guys, and keep up the good work.</p>
-
 <h2 id="continuous-delivery-pipeline-as-code-with-jenkins">Continuous Delivery: Pipeline As Code With Jenkins</h2>
-
 
 <figure  style="text-align: center;">
     
@@ -308,39 +245,24 @@ So thanks guys, and keep up the good work.</p>
 </figure>
 
 
-
 <p>I was very enthusiast to attend this talk. I&rsquo;m very interested in the opportunity to manage build jobs in a pipeline-shaped way. I&rsquo;m also interested in &ldquo;Continuous Delivery&rdquo; and in &ldquo;Continuous Deployment&rdquo; for that matter.</p>
-
 <p>So what was this talk about ? Mainly what I could describe as the ability of orchestration, interruption and resilience of build jobs. Nothing less&hellip;</p>
-
 <p>Like said in <a href="http://batmat.github.io/presentations/jenkins-pipeline-as-code/prez.html">the slides</a>, what happens when you have fairly complicated build jobs, requiring operator inputs and possibly the ability to run in parallel?</p>
-
 <p>Apart from creating multiple individual jobs, that you can link or chain later on, leave alone fail-fast and parallelism, there is no idiomatic way to do.</p>
-
 <p>This is the kind of problems &ldquo;Jenkins Pipeline Plugins&rdquo;, which is in reality, a set of plugins, is try to solve. At the core of it is a DSL, the &ldquo;Pipeline DSL&rdquo;, allowing to chain builds, as steps, and attach to each a set of configuration options, like parallelism for instance.</p>
-
 <p>It becomes possible, for example, to configure a few dozens look-alike (small variation) jobs shaping the basis (the dependencies of a cascading build job) and trigger the execution of all these builds in parallel, before the execution of the next build job which depends upon them. All of this while specifying that the <strong>complete</strong> build sequence should stop in case of a failure of any of the base builds (fail-fast).</p>
-
 <p>For the record, the speaker showcased this example exactly, on a <a href="https://www.docker.com/products/docker-swarm/">Docker Swarm</a> build cluster provided by a cloud provider:</p>
-
 <ul>
 <li>336 CPUs</li>
 <li>1.032 TiB RAM</li>
 </ul>
-
 <p>Don&rsquo;t we all have one like that in our basement?</p>
-
 <p>Anyways, I was really curious about the choice of a DSL, instead of a fully declarative description of the build pipeline thanks to configuration file(s).
 It&rsquo;s easy to envision how to describe via simple data structures like maps and collections, the orchestration of jobs and the description of each step.</p>
-
 <p>I did not get a clear answer except that: most of the contributors being Java developers, a DSL (which really looks like Java by the way) seemed a natural choice.</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>I&rsquo;ve fully enjoyed my first time at a conference. The organization was perfect and the quality of the speakers was very satisfying.</p>
-
 <p>I will be please to come over next year at the EclipseCon France 2017, and I recommend to any developer having the opportunity to attend it, to do so without hesitation.</p>
-
 <p>All of the Keynotes and talks have been video recorded and are available on the Eclipse Foundation&rsquo;s <a href="https://www.youtube.com/playlist?list=PLy7t4z5SYNaRJff0KBMbubOaj8gevvML4">Youtube channel</a>.</p>
 
               <hr>

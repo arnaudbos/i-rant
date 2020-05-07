@@ -17,7 +17,7 @@
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
     <title>Loom - Part 3 - Asynchronous code</title>
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.70.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
@@ -74,7 +74,7 @@
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          14 minutes read
+          13 minutes read
           </h4>
         </div>
         <div>
@@ -89,21 +89,17 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              
-
-<blockquote>
-<p>Part 3 in a series of articles about Project Loom.<br />
+              <blockquote>
+<p>Part 3 in a series of articles about Project Loom.<br>
 In this part we re-implement our proxy service with an asynchronous API.</p>
-
 <p>The companion code repository is at <a href="https://github.com/arnaudbos/untangled">arnaudbos/untangled</a></p>
-
-<p>If you&rsquo;d like you could head over to<br />
-<a href="../loom-part-0-rationale">Part 0 - Rationale</a><br />
-<a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br />
-<a href="../loom-part-2-blocking">Part 2 - Blocking code</a><br />
-<a href="../loom-part-3-async">Part 3 - Asynchronous code</a> (this page)</p>
+<p>If you&rsquo;d like you could head over to<br>
+<a href="../loom-part-0-rationale">Part 0 - Rationale</a><br>
+<a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br>
+<a href="../loom-part-2-blocking">Part 2 - Blocking code</a><br>
+<a href="../loom-part-3-async">Part 3 - Asynchronous code</a> (this page)<br>
+<a href="../loom-part-4-nio">Part 4 - Non-thread-blocking async I/O</a></p>
 </blockquote>
-
 
 <figure  style="text-align: center;">
     <a target="_blank" href="https://commons.wikimedia.org/wiki/File:Jean_Baptiste_Jules_Trayer_Bretonische_Schneiderinnen_1854.jpg">
@@ -125,220 +121,141 @@ In this part we re-implement our proxy service with an asynchronous API.</p>
 </figure>
 
 
-
-<hr />
-
-<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#async-api">Async API</a></li>
-<li><a href="#profiling">Profiling</a>
-<ul>
-<li><a href="#request-threads">Request threads</a></li>
-<li><a href="#pulse-threads">Pulse threads</a></li>
-<li><a href="#service-threads">Service threads</a></li>
-<li><a href="#a-word-about-scheduledthreadpoolexecutor">A word about ScheduledThreadPoolExecutor</a></li>
-</ul></li>
-<li><a href="#beware-of-the-lurking-blocking-call">Beware of the lurking blocking call</a></li>
-<li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#post-scriptum">Post Scriptum</a></li>
-</ul></li>
-</ul>
-</nav></div>
-
-<p>We&rsquo;ve covered a lot of ground in the previous entries and we concluded that blocking code <em>&ldquo;is bad&rdquo; ©</em>.<br />
+<hr>
+<!-- raw HTML omitted -->
+<p>We&rsquo;ve covered a lot of ground in the previous entries and we concluded that blocking code <em>&ldquo;is bad&rdquo; ©</em>.<br>
 But what can we do about it?</p>
-
 <p>While researching, I&rsquo;ve read many blog posts presenting <code>asynchronous</code> programming
 as a solution. It makes sense: our kernels use preemptive scheduling. So there&rsquo;s nothing to do when the scheduler
 time-slices a long-running thread. But we <strong>can</strong> maximize efficiency! By <em>being
 careful</em> to avoid blocking calls and use asynchronous APIs.</p>
-
 <p>We will write code that, instead of blocking, will call an async API. This call will return the control of execution
 immediately (so we can execute other instructions) and only notify us when the result is ready.</p>
-
 <p>Let&rsquo;s take a look at the second implementation I&rsquo;ve made of the proxy service I&rsquo;ve presented in the <a href="../loom-part-2-blocking">previous entry</a>.</p>
-
 <p>You can find the complete source code for this sample <a href="https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter02bis_ScheduledFully.java">here</a>.</p>
-
 <h2 id="async-api">Async API</h2>
-
-<p>Changing an API from synchronous to asynchronous seems simple at first.<br />
+<p>Changing an API from synchronous to asynchronous seems simple at first.<br>
 From the inner out, we create a new function, <code>asyncRequest</code>, as an asynchronous alternative to
 <code>blockingRequest</code>.</p>
-
-<pre><code class="language-java">public void asyncRequest(ExecutorService, String, String, CompletionHandler)
-</code></pre>
-
-<p><em>asyncRequest</em> has to return immediately to not block the calling thread, so we give it an
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">asyncRequest</span><span style="color:#f92672">(</span>ExecutorService<span style="color:#f92672">,</span> String<span style="color:#f92672">,</span> String<span style="color:#f92672">,</span> CompletionHandler<span style="color:#f92672">)</span>
+</code></pre></div><p><em>asyncRequest</em> has to return immediately to not block the calling thread, so we give it an
 <code>ExecutorService</code>. This also benefits us to explicit about which pool is used. It also takes a <em>String</em> for the URL, another for the
-headers, and also a <code>CompletionHandler</code>.<br />
+headers, and also a <code>CompletionHandler</code>.<br>
 <em>CompletionHandler</em> is an interface one has to implement. Its methods are called by <em>asyncRequest</em>
 once the result of the request is available: one callback in case of success, another in case of error.</p>
-
-<pre><code class="language-java">public interface CompletionHandler&lt;V&gt; {
-    void completed(V result);
-    void failed(Throwable t);
-}
-</code></pre>
-
-<p>I&rsquo;ll spare you the request details hidden inside the intermediary
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">CompletionHandler</span><span style="color:#f92672">&lt;</span>V<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>V result<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>I&rsquo;ll spare you the request details hidden inside the intermediary
 <code>CoordinatorService#requestConnection(String, CompletionHandler, ExecutorService)</code>. Instead, let&rsquo;s get to the new version
 of <code>getConnection</code> we&rsquo;ve talked about in the previous entry:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getConnection</span><span style="color:#f92672">(</span>CompletionHandler<span style="color:#f92672">&lt;</span>Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span><span style="color:#f92672">&gt;</span> handler<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    getConnection<span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> handler<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
 
-<pre><code class="language-java">private void getConnection(CompletionHandler&lt;Connection.Available&gt; handler) {
-    getConnection(0, 0, null, handler);
-}
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getConnection</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> eta<span style="color:#f92672">,</span>
+                           <span style="color:#66d9ef">long</span> wait<span style="color:#f92672">,</span>
+                           String token<span style="color:#f92672">,</span>
+                           CompletionHandler<span style="color:#f92672">&lt;</span>Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span><span style="color:#f92672">&gt;</span> handler<span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>eta <span style="color:#f92672">&gt;</span> MAX_ETA_MS<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> handler<span style="color:#f92672">.</span><span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> EtaExceededException<span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
 
-private void getConnection(long eta,
-                           long wait,
-                           String token,
-                           CompletionHandler&lt;Connection.Available&gt; handler)
-{
-    if (eta &gt; MAX_ETA_MS) {
-        if (handler!=null) handler.failed(new EtaExceededException());
-    }
+    boundedServiceExecutor<span style="color:#f92672">.</span><span style="color:#a6e22e">schedule</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Retrying download after &#34;</span> <span style="color:#f92672">+</span> wait <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;ms wait.&#34;</span><span style="color:#f92672">);</span>
 
-    boundedServiceExecutor.schedule(() -&gt; {
-        println(&quot;Retrying download after &quot; + wait + &quot;ms wait.&quot;);
-
-        coordinator.requestConnection(
-            token,
-            new CompletionHandler&lt;&gt;() {
-                // ... We'll see this later
-            },
-            boundedServiceExecutor);
-    }, wait, TimeUnit.MILLISECONDS);
-}
-</code></pre>
-
-<p>The signatures are like the synchronous ones, except for the extra <code>CompletionHandler&lt;Connection.Available&gt;</code>
-handler.<br />
+        coordinator<span style="color:#f92672">.</span><span style="color:#a6e22e">requestConnection</span><span style="color:#f92672">(</span>
+            token<span style="color:#f92672">,</span>
+            <span style="color:#66d9ef">new</span> CompletionHandler<span style="color:#f92672">&lt;&gt;()</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// ... We&#39;ll see this later
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">},</span>
+            boundedServiceExecutor<span style="color:#f92672">);</span>
+    <span style="color:#f92672">},</span> wait<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">MILLISECONDS</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>The signatures are like the synchronous ones, except for the extra <code>CompletionHandler&lt;Connection.Available&gt;</code>
+handler.<br>
 But instead of making the request we <code>schedule</code> it to the <code>boundedServiceExecutor</code>.</p>
-
 <p><em>boundedServiceExecutor</em> is an instance of <code>ScheduledThreadPoolExecutor</code>.</p>
-
-<pre><code class="language-java">boundedRequestsExecutor =
-    Executors.newScheduledThreadPool(10, new PrefixedThreadFactory(&quot;requests&quot;));
-</code></pre>
-
-<p>In fact, <em>boundedServiceExecutor</em> is not the only thread pool used in this implementation.<br />
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">boundedRequestsExecutor <span style="color:#f92672">=</span>
+    Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newScheduledThreadPool</span><span style="color:#f92672">(</span>10<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> PrefixedThreadFactory<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;requests&#34;</span><span style="color:#f92672">));</span>
+</code></pre></div><p>In fact, <em>boundedServiceExecutor</em> is not the only thread pool used in this implementation.<br>
 To make things explicit about where each task runs, I&rsquo;ve create 3 dedicated executors:</p>
-
-<pre><code class="language-java">// One from which service methods are called and coordinator requests are sent
-boundedServiceExecutor =
-    Executors.newScheduledThreadPool(10, new PrefixedThreadFactory(&quot;service&quot;));
-// One from which gateway (download) requests are sent
-boundedRequestsExecutor =
-    Executors.newScheduledThreadPool(10, new PrefixedThreadFactory(&quot;requests&quot;));
-// One from which heartbeat resquests are scheduled
-boundedPulseExecutor =
-    Executors.newScheduledThreadPool(10, new PrefixedThreadFactory(&quot;pulse&quot;));
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// One from which service methods are called and coordinator requests are sent
+</span><span style="color:#75715e"></span>boundedServiceExecutor <span style="color:#f92672">=</span>
+    Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newScheduledThreadPool</span><span style="color:#f92672">(</span>10<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> PrefixedThreadFactory<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;service&#34;</span><span style="color:#f92672">));</span>
+<span style="color:#75715e">// One from which gateway (download) requests are sent
+</span><span style="color:#75715e"></span>boundedRequestsExecutor <span style="color:#f92672">=</span>
+    Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newScheduledThreadPool</span><span style="color:#f92672">(</span>10<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> PrefixedThreadFactory<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;requests&#34;</span><span style="color:#f92672">));</span>
+<span style="color:#75715e">// One from which heartbeat resquests are scheduled
+</span><span style="color:#75715e"></span>boundedPulseExecutor <span style="color:#f92672">=</span>
+    Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newScheduledThreadPool</span><span style="color:#f92672">(</span>10<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> PrefixedThreadFactory<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;pulse&#34;</span><span style="color:#f92672">));</span>
+</code></pre></div><blockquote>
 <p>Note that both <code>boundedServiceExecutor</code> and <code>boundedRequestsExecutor</code> could have been instances of
-<code>ThreadPoolExecutor</code> (using <code>Executors#newFixedThreadPool(int, ThreadFactory)</code>)<br />
-rather than <code>ScheduledThreadPoolExecutor</code>;<br />
-because only heartbeat requests (using <code>boundedPulseExecutor</code>) must be delayed.<br />
+<code>ThreadPoolExecutor</code> (using <code>Executors#newFixedThreadPool(int, ThreadFactory)</code>)<br>
+rather than <code>ScheduledThreadPoolExecutor</code>;<br>
+because only heartbeat requests (using <code>boundedPulseExecutor</code>) must be delayed.<br>
 But both being fix-sized pools, the result is the same in this case.</p>
 </blockquote>
-
 <p>Like the synchronous example, <code>getConnection</code> deals with the retry logic. But
 <code>CoordinatorService#requestConnection</code> is asynchronous and takes a <em>CompletionHandler</em>, because it calls to
 <code>asyncRequest</code>. So we have to implement both success and error callback methods.</p>
-
-<pre><code class="language-java">private void getConnection(long eta,
-                           long wait,
-                           String token,
-                           CompletionHandler&lt;Connection.Available&gt; handler)
-    if (eta &gt; MAX_ETA_MS) {
-        if (handler!=null) handler.failed(new EtaExceededException());
-    }
-
-    boundedServiceExecutor.schedule(() -&gt; {
-        println(&quot;Retrying download after &quot; + wait + &quot;ms wait.&quot;);
-
-①      coordinator.requestConnection(
-            token,
-            new CompletionHandler&lt;&gt;() {
-                @Override
-②              public void completed(Connection c) {
-                    if (c instanceof Connection.Available) {
-                        if (handler!=null)
-③                          handler.completed((Connection.Available) c);
-                    } else {
-④                      Connection.Unavailable unavail = (Connection.Unavailable) c;
-                        getConnection(
-                            unavail.getEta(),
-                            unavail.getWait(),
-                            unavail.getToken(),
-                            handler);
-                    }
-                }
-
-                @Override
-⑤              public void failed(Throwable t) {
-                    if (handler!=null) handler.failed(t);
-                }
-            },
-            boundedServiceExecutor);
-    }, wait, TimeUnit.MILLISECONDS);
-}
-</code></pre>
-
-<ol>
-<li>In case of success of the underlying <em>requestConnection &gt; asyncRequest</em> call chain.</li>
-<li>The <code>completed</code> method will be called with the response from the coordinator. The answer could be positive or negative.</li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">new</span> CompletionHandler<span style="color:#f92672">&lt;&gt;()</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>Connection c<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>c <span style="color:#66d9ef">instanceof</span> Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+<span style="color:#960050;background-color:#1e0010">①</span>              handler<span style="color:#f92672">.</span><span style="color:#a6e22e">completed</span><span style="color:#f92672">((</span>Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span><span style="color:#f92672">)</span> c<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+<span style="color:#960050;background-color:#1e0010">②</span>          Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Unavailable</span> unavail <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Unavailable</span><span style="color:#f92672">)</span> c<span style="color:#f92672">;</span>
+            getConnection<span style="color:#f92672">(</span>
+                unavail<span style="color:#f92672">.</span><span style="color:#a6e22e">getEta</span><span style="color:#f92672">(),</span>
+                unavail<span style="color:#f92672">.</span><span style="color:#a6e22e">getWait</span><span style="color:#f92672">(),</span>
+                unavail<span style="color:#f92672">.</span><span style="color:#a6e22e">getToken</span><span style="color:#f92672">(),</span>
+                handler<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#a6e22e">@Override</span>
+<span style="color:#960050;background-color:#1e0010">③</span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> handler<span style="color:#f92672">.</span><span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ol>
 <li>In case of <code>Available</code>, we&rsquo;re done; we can complete the completion <em>handler</em> passed to <code>getConnection</code>. Its caller can
 be notified of the success and proceed (with the download).</li>
 <li>In case of <code>Unavailable</code>, we hide the retry logic and <em>reschedule</em> the call to <em>requestConnection</em> to the executor
 by recursively calling <code>getConnection</code> with updated parameters.</li>
-<li>In case of failure we simply propagate the error to <code>getConnection</code>&rsquo;s caller.</li>
+<li>In case of failure we simply propagate the error to <code>getConnection</code>'s caller.</li>
 </ol>
-
 <p>The callbacks already make this logic cluttered enough; but we&rsquo;re not done! We must now implement <code>getThingy</code>, our
 service method which calls to <code>getConnection</code> and then start the download request.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getThingy</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">,</span> CompletionHandler<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;</span> handler<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Start getThingy.&#34;</span><span style="color:#f92672">);</span>
 
-<pre><code class="language-java">private void getThingy(int i, CompletionHandler&lt;Void&gt; handler) {
-    println(&quot;Start getThingy.&quot;);
+<span style="color:#960050;background-color:#1e0010">①</span>  getConnection<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> CompletionHandler<span style="color:#f92672">&lt;&gt;()</span> <span style="color:#f92672">{</span>
+        <span style="color:#a6e22e">@Override</span>
+<span style="color:#960050;background-color:#1e0010">②</span>      <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span> conn<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Got token, &#34;</span> <span style="color:#f92672">+</span> conn<span style="color:#f92672">.</span><span style="color:#a6e22e">getToken</span><span style="color:#f92672">());</span>
 
-①  getConnection(new CompletionHandler&lt;&gt;() {
-        @Override
-②      public void completed(Connection.Available conn) {
-            println(&quot;Got token, &quot; + conn.getToken());
+            CompletableFuture<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;</span> downloadFut <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CompletableFuture<span style="color:#f92672">&lt;&gt;();</span>
+<span style="color:#960050;background-color:#1e0010">③</span>          gateway<span style="color:#f92672">.</span><span style="color:#a6e22e">downloadThingy</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> CompletionHandler<span style="color:#f92672">&lt;&gt;()</span> <span style="color:#f92672">{</span>
+                <span style="color:#a6e22e">@Override</span>
+<span style="color:#960050;background-color:#1e0010">④</span>              <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>InputStream content<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    <span style="color:#75715e">// Download started
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">}</span>
 
-            CompletableFuture&lt;Void&gt; downloadFut = new CompletableFuture&lt;&gt;();
-③          gateway.downloadThingy(new CompletionHandler&lt;&gt;() {
-                @Override
-④              public void completed(InputStream content) {
-                    // Download started
-                }
+                <span style="color:#a6e22e">@Override</span>
+<span style="color:#960050;background-color:#1e0010">⑥</span>              <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#f92672">...</span> <span style="color:#f92672">}</span>
+<span style="color:#960050;background-color:#1e0010">⑤</span>          <span style="color:#f92672">},</span> boundedServiceExecutor<span style="color:#f92672">);</span>
 
-                @Override
-⑥              public void failed(Throwable t) {
-                    if (t instanceof EtaExceededException) {
-                        err(&quot;Couldn't getThingy because ETA exceeded: &quot; + t);
-                    } else {
-                        err(&quot;Couldn't getThingy because something failed: &quot; + t);
-                    }
-                    if (handler!=null) handler.failed(t);
-                }
-⑤          }, boundedServiceExecutor);
+        <span style="color:#f92672">}</span>
 
-        }
-
-        @Override
-⑥      public void failed(Throwable t) {
-            err(&quot;Task failed.&quot;);
-            if (handler!=null) handler.failed(t);
-        }
-    });
-}
-</code></pre>
-
-<ol>
+        <span style="color:#a6e22e">@Override</span>
+<span style="color:#960050;background-color:#1e0010">⑥</span>      <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#f92672">...</span> <span style="color:#f92672">}</span>
+    <span style="color:#f92672">});</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ol>
 <li>We&rsquo;ve seen above that <code>getConnection</code> takes a completion handler.</li>
 <li>Its <code>complete</code> method will be called when we successfully get a download authorization from the coordinator.</li>
 <li>On <em>successful</em> completion, the download starts, which materializes calling <code>gateway.downloadThingy</code>.
@@ -347,46 +264,41 @@ service method which calls to <code>getConnection</code> and then start the down
 <li>This completion handler is passed an <code>InputStream</code> once we connect to the data source. We
 can then read the content and forward it to this service&rsquo;s client. The consumption of the <em>InputStream</em> and
 forwarding to the client is omitted for now and replaced by the &ldquo;Download started&rdquo; comment.</li>
-<li><code>downloadThingy</code>&rsquo;s last parameter is an optional executor, used to specify which pool is used to run the completion
+<li><code>downloadThingy</code>'s last parameter is an optional executor, used to specify which pool is used to run the completion
 handler. If omitted, it is the calling thread, but in this case, we specify that we want the content
 consumption/forwarding to happen on the <code>boundedServiceExecutor</code>.</li>
-<li>In case of failure from <code>getConnection</code> or <code>downloadThingy</code>, we complete <code>getThingy</code>&rsquo;s completion handler with a
+<li>In case of failure from <code>getConnection</code> or <code>downloadThingy</code>, we complete <code>getThingy</code>'s completion handler with a
 failure.</li>
 </ol>
-
 <p>Now that we have the structure, we can handle the content, but also start the periodic heartbeat requests!</p>
-
-<pre><code class="language-java">    Runnable pulse = new PulseRunnable(i, downloadFut, conn);
-    int total = 0;
-①  try(content) {
-        println(i + &quot; :: Starting pulse &quot;);
-②      boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    Runnable pulse <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PulseRunnable<span style="color:#f92672">(</span>i<span style="color:#f92672">,</span> downloadFut<span style="color:#f92672">,</span> conn<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">int</span> total <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+<span style="color:#960050;background-color:#1e0010">①</span>  <span style="color:#66d9ef">try</span><span style="color:#f92672">(</span>content<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        println<span style="color:#f92672">(</span>i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; :: Starting pulse &#34;</span><span style="color:#f92672">);</span>
+<span style="color:#960050;background-color:#1e0010">②</span>      boundedPulseExecutor<span style="color:#f92672">.</span><span style="color:#a6e22e">schedule</span><span style="color:#f92672">(</span>pulse<span style="color:#f92672">,</span> 2_000L<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">MILLISECONDS</span><span style="color:#f92672">);</span>
     
-        // Get read=-1 quickly and not all content
-        // because of HTTP 1.1 but really don't care
-        byte[] buffer = new byte[8192];
-③      while(true) {
-            int read = content.read(buffer);
-            // drop it
-            if (read==-1 || (total+=read)&gt;=MAX_SIZE) break;
-        }
+        <span style="color:#75715e">// Get read=-1 quickly and not all content
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// because of HTTP 1.1 but really don&#39;t care
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>8192<span style="color:#f92672">];</span>
+<span style="color:#960050;background-color:#1e0010">③</span>      <span style="color:#66d9ef">while</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">int</span> read <span style="color:#f92672">=</span> content<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">);</span>
+            <span style="color:#75715e">// drop it
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>read<span style="color:#f92672">==-</span>1 <span style="color:#f92672">||</span> <span style="color:#f92672">(</span>total<span style="color:#f92672">+=</span>read<span style="color:#f92672">)&gt;=</span>MAX_SIZE<span style="color:#f92672">)</span> <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
     
-        println(&quot;Download finished&quot;);
+        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Download finished&#34;</span><span style="color:#f92672">);</span>
     
-        if (handler!=null)
-④          handler.completed(null);
-    } catch (IOException e) {
-        err(&quot;Download failed.&quot;);
-        if (handler!=null)
-④          handler.failed(e);
-    } finally {
-⑤      downloadFut.complete(null);
-    }
-</code></pre>
-
-<p>Remember this code executes inside <code>downloadThingy</code>&rsquo;s completion handler, so when this code runs, the connection
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+<span style="color:#960050;background-color:#1e0010">④</span>          handler<span style="color:#f92672">.</span><span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        err<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Download failed.&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+<span style="color:#960050;background-color:#1e0010">④</span>          handler<span style="color:#f92672">.</span><span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+<span style="color:#960050;background-color:#1e0010">⑤</span>      downloadFut<span style="color:#f92672">.</span><span style="color:#a6e22e">complete</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>Remember this code executes inside <code>downloadThingy</code>'s completion handler, so when this code runs, the connection
 to the data source is established.</p>
-
 <ol>
 <li>We encapsulate the logic inside a <code>try-with-resource</code> block around <code>content</code> (the <em>InputStream</em>) because it can
 fail at any moment.</li>
@@ -394,109 +306,99 @@ fail at any moment.</li>
 upon completion. The reference to the <em>Future</em> <code>downloadFut</code> allows to stop sending heartbeats
 when the download ends. We&rsquo;ll see <code>PulseRunnable</code> later.</li>
 <li>In the mean time, we consume the <em>InputStream</em> and just ignore the content once again (not important).</li>
-<li>Finally, when the download stops, on success or on error, we <em>complete</em> <code>getThingy</code>&rsquo;s handler accordingly.</li>
+<li>Finally, when the download stops, on success or on error, we <em>complete</em> <code>getThingy</code>'s handler accordingly.</li>
 <li>We don&rsquo;t forget to complete <code>downloadFut</code> either, so the heartbeats stop.</li>
 </ol>
-
 <p>Almost done. We now look at <code>PulseRunnable</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PulseRunnable</span> <span style="color:#66d9ef">implements</span> Runnable <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> i<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> Future<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;</span> download<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span> conn<span style="color:#f92672">;</span>
 
-<pre><code class="language-java">class PulseRunnable implements Runnable {
-    private int i;
-    private Future&lt;Void&gt; download;
-    private Connection.Available conn;
+    PulseRunnable<span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">,</span> Future<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;</span> download<span style="color:#f92672">,</span> Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span> conn<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">download</span> <span style="color:#f92672">=</span> download<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">conn</span> <span style="color:#f92672">=</span> conn<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    PulseRunnable(int i, Future&lt;Void&gt; download, Connection.Available conn) {
-        this.i = i;
-        this.download = download;
-        this.conn = conn;
-    }
-
-    @Override
-    public void run() {
-        if (!download.isDone()) {
-            println(i + &quot; :: Pulse!&quot;);
-①          coordinator.heartbeat(
-                conn.getToken(),
-                new CompletionHandler&lt;&gt;() {
-                    @Override
-②                  public void completed(Connection result) {
-③                      if (!download.isDone()) {
-                            boundedPulseExecutor.schedule(
-                                PulseRunnable.this,
-                                2_000L,
-                                TimeUnit.MILLISECONDS
-                            );
-                        }
-                    }
-
-                    @Override
-②                  public void failed(Throwable t) {
-③                      if (!download.isDone()) {
-                            boundedPulseExecutor.schedule(
-                                PulseRunnable.this,
-                                2_000L,
-                                TimeUnit.MILLISECONDS
-                            );
-                        }
-                    }
-                },
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>download<span style="color:#f92672">.</span><span style="color:#a6e22e">isDone</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            println<span style="color:#f92672">(</span>i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; :: Pulse!&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#960050;background-color:#1e0010">①</span>          coordinator<span style="color:#f92672">.</span><span style="color:#a6e22e">heartbeat</span><span style="color:#f92672">(</span>
+                conn<span style="color:#f92672">.</span><span style="color:#a6e22e">getToken</span><span style="color:#f92672">(),</span>
+                <span style="color:#66d9ef">new</span> CompletionHandler<span style="color:#f92672">&lt;&gt;()</span> <span style="color:#f92672">{</span>
+                    <span style="color:#f92672">...</span>
+                <span style="color:#f92672">},</span>
                 boundedPulseExecutor
-            );
-        } else {
-            println(i + &quot; :: Pulse stopped.&quot;);
-        }
-    }
-}
-</code></pre>
-
-<p>Nothing too fancy.</p>
-
-<ol>
+            <span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+            println<span style="color:#f92672">(</span>i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; :: Pulse stopped.&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ol>
 <li>When started, the runnable calls the asynchronous <code>CoordinatorService#heartbeat</code> method with the token,
 <em>completion handler</em> and executor. The executor is responsible to run the handler&rsquo;s methods (<code>boundedServiceExecutor</code> in
 this case, like when calling <code>GatewayService#downloadThingy</code> above).</li>
-<li>We ignore heartbeat results, whether successes or failures,</li>
-<li>And schedule a new heartbeat request as long as the download <em>Future</em> is not &ldquo;done&rdquo;.</li>
 </ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">coordinator<span style="color:#f92672">.</span><span style="color:#a6e22e">heartbeat</span><span style="color:#f92672">(</span> <span style="color:#75715e">// See previous snippet
+</span><span style="color:#75715e"></span>    conn<span style="color:#f92672">.</span><span style="color:#a6e22e">getToken</span><span style="color:#f92672">(),</span>
+    <span style="color:#66d9ef">new</span> CompletionHandler<span style="color:#f92672">&lt;&gt;()</span> <span style="color:#f92672">{</span>
+        <span style="color:#a6e22e">@Override</span>
+<span style="color:#960050;background-color:#1e0010">②</span>      <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>Connection result<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+<span style="color:#960050;background-color:#1e0010">③</span>          rePulseIfNotDone<span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    
+        <span style="color:#a6e22e">@Override</span>
+<span style="color:#960050;background-color:#1e0010">②</span>      <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+<span style="color:#960050;background-color:#1e0010">③</span>          rePulseIfNotDone<span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">},</span>
+    boundedPulseExecutor
+<span style="color:#f92672">);</span>
+</code></pre></div><!-- raw HTML omitted -->
+<p><!-- raw HTML omitted -->[Show the code for <code>rePulseIfNotDone</code>.]<!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rePulseIfNotDone</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>download<span style="color:#f92672">.</span><span style="color:#a6e22e">isDone</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+        boundedServiceExecutor<span style="color:#f92672">.</span><span style="color:#a6e22e">schedule</span><span style="color:#f92672">(</span>
+            PulseRunnable<span style="color:#f92672">.</span><span style="color:#a6e22e">this</span><span style="color:#f92672">,</span>
+            2_000L<span style="color:#f92672">,</span>
+            TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">MILLISECONDS</span>
+        <span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><!-- raw HTML omitted -->
+<p>Finally, the last piece of the puzzle: lients calling the service:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">CompletableFuture<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;[]</span> futures <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CompletableFuture<span style="color:#f92672">[</span>MAX_CLIENTS<span style="color:#f92672">];</span>
+<span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>MAX_CLIENTS<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">int</span> finalI <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
+    futures<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CompletableFuture<span style="color:#f92672">&lt;&gt;();</span>
+    getThingy<span style="color:#f92672">(</span>finalI<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> CompletionHandler<span style="color:#f92672">&lt;&gt;()</span> <span style="color:#f92672">{</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>Void result<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            futures<span style="color:#f92672">[</span>finalI<span style="color:#f92672">].</span><span style="color:#a6e22e">complete</span><span style="color:#f92672">(</span>result<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
 
-<p>Finally, the last piece of the puzzle, the clients calling the service:</p>
-
-<pre><code class="language-java">CompletableFuture&lt;Void&gt;[] futures = new CompletableFuture[MAX_CLIENTS];
-for(int i=0; i&lt;MAX_CLIENTS; i++) {
-    int finalI = i;
-    futures[i] = new CompletableFuture&lt;&gt;();
-    getThingy(finalI, new CompletionHandler&lt;&gt;() {
-        @Override
-        public void completed(Void result) {
-            futures[finalI].complete(result);
-        }
-
-        @Override
-        public void failed(Throwable t) {
-            futures[finalI].completeExceptionally(t);
-        }
-    });
-}
-</code></pre>
-
-<p>Phew&hellip;</p>
-
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            futures<span style="color:#f92672">[</span>finalI<span style="color:#f92672">].</span><span style="color:#a6e22e">completeExceptionally</span><span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">});</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Phew&hellip;</p>
 <p>That certainly wasn&rsquo;t easy code. Not like the synchronous code we&rsquo;ve seen in the <a href="../loom-part-2-blocking">previous entry</a>! The problem
-is still simple though, so it tells a lot about asynchronous programming: it&rsquo;s a <strong>pain in the butt</strong>.</p>
-
+is still simple though, so it tells a lot about asynchronous programming: it&rsquo;s a <strong>massive  pain in the butt</strong>.</p>
 <p>The logic is all over the place! Asynchronous APIs forces us to split our logic into pieces, but not the pieces we&rsquo;d
 like. A perfectly self-contained function in synchronous programming would have to be split into two to three (if not more)
-callbacks and suddenly it&rsquo;s not easy to reason about the code anymore.<br />
+callbacks and suddenly it&rsquo;s not easy to reason about the code anymore.<br>
 This problem has a name: <strong><a href="http://callbackhell.com/">Callback Hell</a></strong> (and no, it&rsquo;s not just JavaScript, I mean just look at the code above).</p>
-
 <h2 id="profiling">Profiling</h2>
-
 <p>If async is the answer to write efficient services that make the most out of server resources, maybe it&rsquo;s worth the
 pain!</p>
-
 <p>Profiling this code revealed that CPU usage was still low, more or less like in the previous implementation.
 Threads are more interesting:</p>
-
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -519,15 +421,11 @@ Threads are more interesting:</p>
 <div class="title">Not too many threads</div>
 </div>
 
-
-<p>200 clients, 30 threads, everything is proceeding as I have foreseen. But wait&hellip; this is very slow!<br />
+<p>200 clients, 30 threads, everything is proceeding as I have foreseen. But wait&hellip; this is very slow!<br>
 This screenshot shows only the first minute of runtime and then the rest of the chart looks the same.</p>
-
-<p>The previous implementation created a bunch of threads but at least finished quickly, less than a minute.<br />
+<p>The previous implementation created a bunch of threads but at least finished quickly, less than a minute.<br>
 Why is it so slow?</p>
-
 <p><a href="https://visualvm.github.io/">VisualVM</a> to the rescue:</p>
-
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -550,106 +448,84 @@ Why is it so slow?</p>
 <div class="title">Three thread pools</div>
 </div>
 
-
 <p>Let&rsquo;s refer to the implementation to find what threads, from each thread pool (<code>request</code>, <code>pulse</code> and <code>service</code>)
 is doing what.</p>
-
 <h3 id="request-threads">Request threads</h3>
-
 <p>Threads whose names begin with <code>request</code> come from <code>boundedRequestsExecutor</code>. The only place where this <em>Executor</em> is
 used is inside <code>downloadThingy</code>, which I had omitted before. Here it is:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GatewayService</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">downloadThingy</span><span style="color:#f92672">(</span>CompletionHandler<span style="color:#f92672">&lt;</span>InputStream<span style="color:#f92672">&gt;</span> handler<span style="color:#f92672">,</span>
+                        ExecutorService handlerExecutor<span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span>
+    asyncRequest<span style="color:#f92672">(</span>
+        boundedRequestsExecutor<span style="color:#f92672">,</span>
+        <span style="color:#e6db74">&#34;http://localhost:7000&#34;</span><span style="color:#f92672">,</span>
+        String<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span>HEADERS_TEMPLATE<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;GET&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;download&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;text/*&#34;</span><span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>0<span style="color:#f92672">)),</span>
+        <span style="color:#66d9ef">new</span> CompletionHandler<span style="color:#f92672">&lt;&gt;()</span> <span style="color:#f92672">{</span>
+            <span style="color:#a6e22e">@Override</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>InputStream result<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handlerExecutor<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        handlerExecutor<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>
+                          <span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> handler<span style="color:#f92672">.</span><span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>result<span style="color:#f92672">)</span>
+                        <span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                        handler<span style="color:#f92672">.</span><span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>result<span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
 
-<pre><code class="language-java">class GatewayService {
-    void downloadThingy(CompletionHandler&lt;InputStream&gt; handler,
-                        ExecutorService handlerExecutor)
-{
-    asyncRequest(
-        boundedRequestsExecutor,
-        &quot;http://localhost:7000&quot;,
-        String.format(HEADERS_TEMPLATE, &quot;GET&quot;, &quot;download&quot;, &quot;text/*&quot;, String.valueOf(0)),
-        new CompletionHandler&lt;&gt;() {
-            @Override
-            public void completed(InputStream result) {
-                if (handler != null)
-                    if (handlerExecutor!=null) {
-                        handlerExecutor.submit(
-                          () -&gt; handler.completed(result)
-                        );
-                    } else {
-                        handler.completed(result);
-                    }
-            }
-
-            @Override
-            public void failed(Throwable t) {
-                if (handler != null)
-                    if (handlerExecutor!=null) {
-                        handlerExecutor.submit(
-                            () -&gt; handler.failed(t)
-                        );
-                    } else {
-                        handler.failed(t);
-                    }
-            }
-        });
-    }
-}
-</code></pre>
-
-<p>The code of <code>asyncRequest</code> is secret sauce for the moment, suffice to say that the executor it is given
+            <span style="color:#a6e22e">@Override</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>Throwable t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handlerExecutor<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        handlerExecutor<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>
+                            <span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> handler<span style="color:#f92672">.</span><span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>t<span style="color:#f92672">)</span>
+                        <span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                        handler<span style="color:#f92672">.</span><span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">});</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>The code of <code>asyncRequest</code> is secret sauce for the moment, suffice to say that the executor it is given
 (<code>boundedRequestsExecutor</code> in this case) serves only to call its <code>submit(Runnable)</code> method.</p>
-
 <p>So the <code>request-*</code> threads in the VisualVM screenshot above are all doing the same thing: execute an <code>asyncRequest</code>
 and pass the result to whoever the caller is.</p>
-
 <h3 id="pulse-threads">Pulse threads</h3>
-
 <p>Threads whose names begin with <code>pulse</code> come from <code>boundedPulseExecutor</code>. The only places where this <em>Executor</em> is
 used is when scheduling the heartbeat requests from within <code>getThingy</code> and from the &ldquo;pulse&rdquo; <em>Runnable</em> itself:</p>
-
 <p><code>boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);</code></p>
-
 <p>It is also given as the last parameter to <code>CoordinatorService#heartbeat</code> to execute its <em>completion
 handler</em>:</p>
-
-<pre><code class="language-java">@Override
-public void completed(InputStream is) {
-    Runnable r = () -&gt; {
-        if (handler != null)
-            handler.completed(parseToken(() -&gt; is));
-    };
-    if (handlerExecutor!=null) {
-        handlerExecutor.submit(r);
-    } else {
-        r.run();
-    }
-}
-</code></pre>
-
-<p>So the <code>pulse-*</code> threads in the VisualVM screenshot above are doing small things too: execute a heartbeat
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>InputStream is<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    Runnable r <span style="color:#f92672">=</span> <span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+            handler<span style="color:#f92672">.</span><span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>parseToken<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> is<span style="color:#f92672">));</span>
+    <span style="color:#f92672">};</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handlerExecutor<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        handlerExecutor<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>r<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+        r<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>So the <code>pulse-*</code> threads in the VisualVM screenshot above are doing small things too: execute a heartbeat
 <code>asyncRequest</code> and a bit of <code>parseToken</code>, which consists in decoding a few bytes.</p>
-
 <h3 id="service-threads">Service threads</h3>
-
 <p>Threads whose names begin with <code>service</code> come from <code>boundedServiceExecutor</code> and are used in several places.</p>
-
 <ul>
 <li>in <code>getConnection</code>, to submit the call to <code>CoordinatorService#requestConnection</code></li>
 <li>to execute the <em>completion handler</em> of <code>CoordinatorService#requestConnection</code></li>
 <li>to execute the <em>completion handler</em> of <code>GatewayService#downloadThingy</code></li>
 <li>to execute the calls to <code>asyncRequest</code> inside <code>CoordinatorService#requestConnection</code> and <code>CoordinatorService#heartbeat</code></li>
 </ul>
-
 <p>So the <code>service-*</code> threads in the VisualVM screenshot above are doing a few asynchronous calls and also a bit of
 callback execution.</p>
-
 <h3 id="a-word-about-scheduledthreadpoolexecutor">A word about ScheduledThreadPoolExecutor</h3>
-
 <p>It&rsquo;s time to introduce the <code>ScheduledThreadPoolExecutor</code>.</p>
-
 <p>Contrary to cached <code>ThreadPoolExecutor</code>, it doesn&rsquo;t spawn new threads to keep up with the number of <em>Runnable</em>.
 Instead, it stays with the number of threads it is passed when created.</p>
-
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -672,21 +548,15 @@ Instead, it stays with the number of threads it is passed when created.</p>
 <div class="title">Async all the things!</div>
 </div>
 
-
-<p>Each thread runs an infinite loop, executing <em>Runnable</em> after <em>Runnable</em>.<br />
+<p>Each thread runs an infinite loop, executing <em>Runnable</em> after <em>Runnable</em>.<br>
 When using this kind of executor, the goal is to execute non-blocking calls. Blocking calls suspend the
 thread until the result is available, thus preventing the following runnables from executing!</p>
-
 <p>As seen in <a href="../loom-part-2-blocking">Part 2</a>, we want to avoid blocking calls. Especially with this kind of executor, because
 it becomes possible to bring the whole application to a halt!</p>
-
-<p>Fortunately, our whole implementation is asynchronous!<br />
+<p>Fortunately, our whole implementation is asynchronous!<br>
 Every method of our service submits tasks to an executor and there are callbacks all over the place.</p>
-
 <h2 id="beware-of-the-lurking-blocking-call">Beware of the lurking blocking call</h2>
-
 <p>We now have a bit more context on what each thread does. Let&rsquo;s take another look at the VisualVM screenshot:</p>
-
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -709,18 +579,14 @@ Every method of our service submits tasks to an executor and there are callbacks
 <div class="title">&#34;Service&#34; thread pool&#39;s threads are busy</div>
 </div>
 
-
 <p>The <code>request-*</code> and <code>pulse-*</code> threads spend most of their time <code>parked</code>.</p>
-
 <p>Each thread in those pools looks for tasks to execute (<em>runnables</em>) coming down the executor&rsquo;s queue.
 But because the only tasks submitted to them are asynchronous, their execution are quick! Soon, the
 queue is drained, and when there&rsquo;s nothing to do, the executor will park the threads so they don&rsquo;t
 <a href="https://en.wikipedia.org/wiki/Busy_waiting">busy wait</a>.</p>
-
 <p>The <code>service-*</code> threads, however, spend all their time running. And it is as weird as in the previous entry:
 we&rsquo;ve supposed to execute only asynchronous methods and compute nothing. I&rsquo;ll spare you the thread dump, let&rsquo;s
 jump to the <a href="http://www.brendangregg.com/flamegraphs.html">flame graph</a>:</p>
-
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -743,38 +609,31 @@ jump to the <a href="http://www.brendangregg.com/flamegraphs.html">flame graph</
 <div class="title">Bummer!</div>
 </div>
 
-
 <p><strong>There&rsquo;s a blocking call lurking in a dark corner of our &ldquo;beautiful&rdquo; asynchronous API!</strong></p>
-
 <p>And if you didn&rsquo;t see it coming, maybe you understand why I didn&rsquo;t show the code of <code>asyncRequest</code> before.
 Let&rsquo;s look:</p>
-
-<pre><code class="language-java">public static void asyncRequest(ExecutorService executor,
-                                String url,
-                                String headers,
-                                CompletionHandler&lt;InputStream&gt; handler)
-{
-    executor.submit(() -&gt; {
-        try {
-            InputStream is = blockingRequest(url, headers);
-            if (handler!=null)
-                handler.completed(is);
-        } catch (Exception e) {
-            if (handler!=null)
-                handler.failed(e);
-        }
-    });
-}
-</code></pre>
-
-<p>Yup, <em>&ldquo;Mischief managed&rdquo;</em>.<br />
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">asyncRequest</span><span style="color:#f92672">(</span>ExecutorService executor<span style="color:#f92672">,</span>
+                                String url<span style="color:#f92672">,</span>
+                                String headers<span style="color:#f92672">,</span>
+                                CompletionHandler<span style="color:#f92672">&lt;</span>InputStream<span style="color:#f92672">&gt;</span> handler<span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span>
+    executor<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            InputStream is <span style="color:#f92672">=</span> blockingRequest<span style="color:#f92672">(</span>url<span style="color:#f92672">,</span> headers<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+                handler<span style="color:#f92672">.</span><span style="color:#a6e22e">completed</span><span style="color:#f92672">(</span>is<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+                handler<span style="color:#f92672">.</span><span style="color:#a6e22e">failed</span><span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">});</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Yup, <em>&ldquo;Mischief managed&rdquo;</em>.<br>
 Under the hood, <code>asyncRequest</code> calls down to <code>blockingRequest</code> and its blocking <code>SocketChannel</code>/<code>InputStream</code>!</p>
-
 <p>The reason why the <code>service-*</code> threads look busy is that they are actually blocked. And this explains the question I
-was asking before: &ldquo;Why is it so slow?&rdquo;. Which is, because those threads are from a pool managed by a fixed-size
+was asking before: &ldquo;Why is it so slow?&quot;. Which is, because those threads are from a pool managed by a fixed-size
 <code>ScheduledThreadPoolExecutor</code>, so no more than 10 simultaneous requests can be running. But the threads are being
 blocked, preventing other tasks submitted to the executor from running.</p>
-
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -797,40 +656,29 @@ blocked, preventing other tasks submitted to the executor from running.</p>
 <div class="title">Still thread-blocking</div>
 </div>
 
-
 <p>Thus, the net effect of changing this API from synchronous to asynchronous has been a latency increase. Because the
 jobs keep piling up in the executor&rsquo;s queue!</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Some blog posts present asynchronous programming as a solution to the problem of scaling a service. This bothers me.</p>
-
 <p>They often use <code>asynchronous</code> in opposition to <code>blocking</code>. But the opposite to <code>blocking</code> is <code>non-blocking</code>.
-However, using <em>non-blocking</em> alone conflates not blocking the <strong><em>current thread</em></strong> with not blocking <strong><em>any thread</em></strong>.
+However, using <em>non-blocking</em> alone conflates not blocking the <em><strong>current thread</strong></em> with not blocking <em><strong>any thread</strong></em>.
 <code>Non-blocking</code> is not synonymous to <code>non-thread-blocking</code>!</p>
-
 <p>As seen above, using an asynchronous API doesn&rsquo;t mean anything about its thread-blocking properties.
 An asynchronous call submitted to an executor doesn&rsquo;t block the current thread, for sure, but it may very well block
-the thread it is running on!<br />
+the thread it is running on!<br>
 This is usually where you read comments such as &ldquo;use a dedicated thread pool&rdquo;. Indeed, you
 want to dedicate a thread pool for those blocking calls to avoid impacting the rest of your application. But you&rsquo;re left
 with two choices. Either use an unbounded thread pool, risking unpredictable behaviour, or use a bounded one, risking
 increased latency for those tasks.</p>
-
-<p>I prefer to think about <em>blocking</em> and <em>non-blocking</em> as runtime properties.<br />
+<p>I prefer to think about <em>blocking</em> and <em>non-blocking</em> as runtime properties.<br>
 Likewise, I much prefer using <em>asynchronous</em> in opposition to <em>synchronous</em> when talking about an API or <em>programming
 style</em>. <strong>Conflating sync/async as thread-blocking/non-thread-blocking is a source of confusion.</strong> In fact, both are
 orthogonal.</p>
-
-<p>But there&rsquo;s a reason why both are often mixed-up.<br />
+<p>But there&rsquo;s a reason why both are often mixed-up.<br>
 Today, the only—i.e. built-in— way to execute <code>non-thread-blocking</code> code <em>on the JVM</em> is to use <code>asynchronous</code> API.</p>
-
 <p>In the <a href="../loom-part-4-nio">next part</a>, we&rsquo;ll re-implement <code>asyncRequest</code> to be truly non-blocking.</p>
-
 <h2 id="post-scriptum">Post Scriptum</h2>
-
 <p>Writing asynchronous code is hard.</p>
-
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -853,8 +701,7 @@ Today, the only—i.e. built-in— way to execute <code>non-thread-blocking</cod
 <div class="title">It&#39;s over 800!</div>
 </div>
 
-
-<p>On the left a peak to 122 live threads when I did a small mistake.<br />
+<p>On the left a peak to 122 live threads when I did a small mistake.<br>
 On the right a peak to more that 800 live threads when I messed up on purpose to see the result (I swear!).</p>
 
               <hr>
@@ -864,6 +711,19 @@ On the right a peak to more that 800 live threads when I messed up on purpose to
               <div class="related-posts">
                 <h5>Related Posts</h5>
                 
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        May 8, 2020
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-4-nio/">Loom - Part 4 - Non-thread-blocking async I/O</a></strong>
+                      </h6>
+                    </div>
+                  </div>
                 
                 
                 

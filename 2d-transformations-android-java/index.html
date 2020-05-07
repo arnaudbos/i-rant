@@ -17,7 +17,7 @@
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
     <title>2D Transformations with Android and Java</title>
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.70.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
@@ -74,7 +74,7 @@
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          14 minutes read
+          13 minutes read
           </h4>
         </div>
         <div>
@@ -91,219 +91,114 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              
-
-<p>I my previous post, <a href="../matrices-for-developers">&ldquo;Matrices for developers&rdquo;</a>, I&rsquo;ve
+              <p>I my previous post, <a href="../matrices-for-developers">&ldquo;Matrices for developers&rdquo;</a>, I&rsquo;ve
 talked about matrices and how they can be used to compute 2D transformations.</p>
-
 <p>In this post, I want to talk about how to apply what we know about matrices
 in order to perform 2D transformations, first using Java AWT and then with the
 Android SDK.</p>
-
-<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#affine-transformations-with-java">Affine transformations with Java</a>
-<ul>
-<li><a href="#ambiguous-part-1">Ambiguous — Part 1</a></li>
-<li><a href="#well-featured-but-not-that-much">Well featured but not that much</a></li>
-<li><a href="#ambiguous-part-2">Ambiguous — Part 2</a></li>
-<li><a href="#demo">Demo</a></li>
-</ul></li>
-<li><a href="#affine-transformations-with-android">Affine transformations with Android</a>
-<ul>
-<li><a href="#construction">Construction</a></li>
-<li><a href="#well-featured">Well featured</a></li>
-<li><a href="#ambiguous">Ambiguous</a></li>
-<li><a href="#demo-1">Demo</a></li>
-</ul></li>
-<li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#acknowledgements">Acknowledgements</a></li>
-<li><a href="#links">Links</a></li>
-</ul></li>
-</ul>
-</nav></div>
-
+<!-- raw HTML omitted -->
 <h2 id="affine-transformations-with-java">Affine transformations with Java</h2>
-
 <p>When I was working on the project I mentioned at the beginning of the previous
 article, I was constantly moving back and forth between the
 <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/geom/AffineTransform.html">JDK&rsquo;s implementation of affine transformations</a> and the
 <a href="https://developer.android.com/reference/android/graphics/Matrix.html">Android SDK&rsquo;s implementation of matrices</a>.</p>
-
 <p>I find the <code>java.awt.geom.AffineTransform</code> class fairly well featured,
 but it is a bit ambiguous. Fortunately, the documentation is
 good, it&rsquo;s not perfect but at least it&rsquo;s better than Android&rsquo;s one on this
 topic as we shall see later.</p>
-
 <p>The Javadoc starts with a reminder of what are 2D affine transformations and a
 matrix multiplication pattern to transform coordinates.</p>
-
-<div>
-$$
-\begin{bmatrix}
-x^{\prime}\\
-y^{\prime}\\
-1
-\end{bmatrix}
-=
-\begin{bmatrix}
-m_{00} & m_{01} & m_{02}\\
-m_{10} & m_{11} & m_{12}\\
-0 & 0 & 1
-\end{bmatrix}
-.
-\begin{bmatrix}
-x\\
-y\\
-1
-\end{bmatrix}
-=
-\begin{bmatrix}
-m_{00} . x + m_{01} . y + m_{02}\\
-m_{10} . x + m_{11} . y + m_{12}\\
-1
-\end{bmatrix}
-$$
-</div>
-
+<!-- raw HTML omitted -->
 <p>That&rsquo;s neat, you have to appreciate the effort there (I mean, is your
 Javadoc that great? <span class="emoji">:innocent:</span>
 ),
 and Android&rsquo;s Javadoc doesn&rsquo;t have it so&hellip;</p>
-
 <p>The way this pattern is written lets us see a glimpse of implementation details,
 right? Those $m_{00}$, $m_{01}$ and etc, they (not so) strangely resemble
 stringified versions of indexes in a two-dimensional array.</p>
-
-<h3 id="ambiguous-part-1">Ambiguous — Part 1</h3>
-
+<h3 id="ambiguous--part-1">Ambiguous — Part 1</h3>
 <p>So what is <em>&ldquo;ambiguous&rdquo;</em> with this class? Granted it might be a matter of taste,
 but if you look at the constructor
 <code>AffineTransform(m00, m10, m01, m11, m02, m12)</code> and the method
 <code>setTransform(m00, m10, m01, m11, m02, m12)</code>, they only take 6 input
 parameters although the transformation matrices are $3 \times 3$ dimensions
 matrices: they have 9 entries.</p>
-
 <p>While it makes perfectly sense to not take as inputs parameters that are fixed
 in the context of 2D affine transformations (<code>0, 0, 1</code>), I find it disturbing.</p>
-
 <p>More disturbing perhaps, is the ordering of those parameters.</p>
-
 <p>If you make the parallel between those and our $a_{11}$, $a_{12}$, etc. from
-the previous post, you can notice that the reading direction is not the same.<br />
+the previous post, you can notice that the reading direction is not the same.<br>
 With $a_{11}$, $a_{12}$, etc., we used to read more <em>&ldquo;naturally&rdquo;</em> I would say,
-like normal english written text: line by line.<br />
+like normal english written text: line by line.<br>
 Whereas $m_{00}$, $m_{10}$, etc. is reading the matrix column by column.</p>
-
 <p>I&rsquo;m not saying one is better than the other, just that I&rsquo;m more familiar with
 the first one, and that it&rsquo;s worth pointing at it to clarify the use of this
 class. Because the <code>getMatrix(flatmatrix)</code> method will fill in an
-array containing the entries of the matrix in that specific order.<br />
+array containing the entries of the matrix in that specific order.<br>
 Also, <code>getMatrix</code> <em>&ldquo;Retrieves the 6 specifiable values in the $3 \times 3$
 affine transformation matrix&rdquo;</em>, which means it will only give you those
 $m_{00}$, $m_{10}$, etc., entries, not the ones from the third row.</p>
-
 <h3 id="well-featured-but-not-that-much">Well featured but not that much</h3>
-
 <p>To understand what I mean, let&rsquo;s try to execute the kind of transformations we
 have seen throughout the first part of this series.</p>
-
-<h5>1. Can we translate?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes! We have <code>translate(tx, ty)</code>:</p>
-
 <blockquote>
 <p>Concatenates this transform with a translation transformation.</p>
 </blockquote>
-
 <p>We&rsquo;ll see what &ldquo;concatenates&rdquo; means in this context in a moment, for now what
 we understand is that we have a method to apply a translation transformation.</p>
-
-<h5>2. Can we shear?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes, but only by constants, not by angles, we have <code>shear(shx, shy)</code>:</p>
-
 <blockquote>
 <p>Concatenates this transform with a shearing transformation.</p>
 </blockquote>
-
-<h5>3. Can we scale?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes! We have <code>scale(sx, sy)</code>:</p>
-
 <blockquote>
 <p>Concatenates this transform with a scaling transformation.</p>
 </blockquote>
-
-<h5>4. Can we reflect?</h5>
-
+<!-- raw HTML omitted -->
 <p>Not directly, at least I don&rsquo;t see anything doing a reflexion directly, so we
 either have to scale by negative values, or to use
 <code>setTransform(-1, 0, 0, -1, 0, 0)</code> (for example) manually and then
 <code>concatenate</code>.</p>
-
-<h5>5. Can we rotate?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes! We have <code>rotate(theta)</code>:</p>
-
 <blockquote>
 <p>Concatenates this transform with a rotation transformation.</p>
 </blockquote>
-
 <p>Beware: <code>theta</code> here is in radians, not in degrees.</p>
-
-<h5>6. Can we scale on an anchor point?</h5>
-
+<!-- raw HTML omitted -->
 <p>No. You will have to compose your transformation as we&rsquo;ve done it &ldquo;by hand&rdquo;
 above, with a combination of <code>scale(sx, sy)</code> and <code>translate(tx, ty)</code>.</p>
-
-<h5>7. Can we rotate around an anchor point?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes! We have <code>rotate(theta, anchorx, anchory)</code>:</p>
-
 <blockquote>
 <p>Concatenates this transform with a transform that rotates coordinates around
 an anchor point.</p>
 </blockquote>
-
-<h5>8. Can we transform points?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes! We have several methods available in order to transform points (even
 shapes) from their original position to their new coordinates after the
 transformation has been applied.</p>
-
-<h5>Why am I not happy with this?</h5>
-
+<!-- raw HTML omitted -->
 <p>I am, actually, and there are more methods that allow you to do interesting
-stuff with this class.<br />
+stuff with this class.<br>
 I&rsquo;m just wondering why they decided to implement
 <code>rotate(theta, anchorx, anchory)</code> but not
 <code>scale(sx, sy, anchorx, anchory)</code>.</p>
-
 <p>On the other hand, all the methods I&rsquo;ve outlined above are quite opinionated.
 Why? Because they assume that what you want to do is:</p>
-
 <blockquote>
 <p>Concatenates this transform with a transformation</p>
 </blockquote>
-
 <p>An that&rsquo;s where bad stuff happen.</p>
-
-<h3 id="ambiguous-part-2">Ambiguous — Part 2</h3>
-
+<h3 id="ambiguous--part-2">Ambiguous — Part 2</h3>
 <p>All the transformations we&rsquo;ve seen in my previous post about matrices are
 defined this way:</p>
-
-<div>
-$$
-P^{\prime} = \mathbf{T}.P
-$$
-</div>
-
+<!-- raw HTML omitted -->
 <p>Where:</p>
-
 <ul>
 <li>$P$ is a point</li>
 <li>$P^{\prime}$ is the point where $P$ will land after the transformation
@@ -314,127 +209,90 @@ in the reverse order: that is for transforming by $\mathbf{A}$, then
 $\mathbf{B}$, then $\mathbf{C}$ we have
 $\mathbf{T} = \mathbf{C} . \mathbf{B} . \mathbf{A} $, and reciprocally.</li>
 </ul>
-
 <p>Now, look at the definition of the
 <code>concatenate(AffineTransform Tx)</code> method:</p>
-
 <blockquote>
 <p>Concatenates an AffineTransform Tx to this AffineTransform Cx in the most commonly useful way to provide a new user space that is mapped to the former user space by Tx. Cx is updated to perform the combined transformation. Transforming a point p by the updated transform Cx&rsquo; is equivalent to first transforming p by Tx and then transforming the result by the original transform Cx like this: Cx&rsquo;(p) = Cx(Tx(p)) In matrix notation, if this transform Cx is represented by the matrix <strong>[this</strong>] and Tx is represented by the matrix <strong>[Tx</strong>] then this method does the following:</p>
-
 <p><strong>[this</strong>] = <strong>[this</strong>] x <strong>[Tx</strong>]</p>
 </blockquote>
-
 <p>In our notation this gives that for transforming by $\mathbf{A}$, then
 $\mathbf{B}$, then $\mathbf{C}$ we have:</p>
-
-<div>
-$$
-\begin{aligned}
-\mathbf{this} &=
-\left( \left( \mathbf{this} . \mathbf{A} \right) . \mathbf{B} \right) . \mathbf{C}\\\\
-\Leftrightarrow
-\mathbf{this} &= \mathbf{this} . \mathbf{Tx}
-\text{ where }
-\mathbf{Tx} = \mathbf{A} . \mathbf{B} . \mathbf{C}
-\end{aligned}
-$$
-</div>
-
+<!-- raw HTML omitted -->
 <p>This is very different than:</p>
-
-<div>
-$$
-\mathbf{this} = \mathbf{Tx} . \mathbf{this}
-\text{ where }
-\mathbf{Tx} = \mathbf{A} . \mathbf{B} . \mathbf{C}
-$$
-</div>
-
+<!-- raw HTML omitted -->
 <p>Because matrix multiplication is <code>associative</code>,
-<a href="../matrices-for-developers">remember</a>?<br />
+<a href="../matrices-for-developers">remember</a>?<br>
 But matrix multiplication is <em>also</em> <code>non-commutative</code>, so this will lead to
 very different results than what you might expect!</p>
-
 <p>The good news: there&rsquo;s a method <code>preConcatenate(AffineTransform Tx)</code> that does
 what we want:</p>
-
 <blockquote>
 <p><strong>[this</strong>] = <strong>[Tx</strong>] x <strong>[this</strong>]</p>
 </blockquote>
-
 <p>The bad news: you won&rsquo;t be able to represent your transformations with the
 built-in <code>translate</code>, <code>scale</code>, <code>rotate</code> as is. Because they don&rsquo;t behave the
-way you think: they all fall down to the <code>concatenate</code> method.<br />
-At least they don&rsquo;t behave the way <strong><em>I</em></strong> think about transformations, which is
+way you think: they all fall down to the <code>concatenate</code> method.<br>
+At least they don&rsquo;t behave the way <em><strong>I</strong></em> think about transformations, which is
 the one I&rsquo;ve described in my post about matrices.</p>
-
 <p>Honestly, I don&rsquo;t know what the Javadoc means by <em>&ldquo;in the most commonly useful
 way to provide a new user space&rdquo;</em>. I&rsquo;m sure it makes sense for some, but I
 don&rsquo;t get it.</p>
-
 <p>So how do we use the <code>AffineTransform</code> class to chain our transformations the
-way we want?<br />
+way we want?<br>
 Fortunately, the class provides us with a bunch of useful static methods that
 return new matrices that are ready to use and can be combined by using the
 <code>preConcatenate</code> method:</p>
-
 <ul>
 <li><code>AffineTransform.getTranslateInstance(tx, ty)</code></li>
 <li><code>AffineTransform.getRotateInstance(theta)</code></li>
 <li><code>AffineTransform.getScaleInstance(sx, sy)</code></li>
 <li><code>AffineTransform.getShearInstance(shx, shy)</code></li>
 </ul>
-
 <h3 id="demo">Demo</h3>
-
 <p>Performance aside, here&rsquo;s a class that will 2x zoom at the center of a
 rectangle:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.arnaudbos.java2d<span style="color:#f92672">;</span>
+<span style="color:#75715e">// imports stripped
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AffineTransformZoomExample</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// code stripped
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ZoomCanvas</span> <span style="color:#66d9ef">extends</span> JComponent <span style="color:#f92672">{</span>
 
-<pre><code class="language-java">package com.arnaudbos.java2d;
-// imports stripped
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">paint</span><span style="color:#f92672">(</span>Graphics g<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            Graphics2D ourGraphics <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Graphics2D<span style="color:#f92672">)</span> g<span style="color:#f92672">;</span>
 
-public class AffineTransformZoomExample {
-    // code stripped
+            <span style="color:#75715e">// code stripped
+</span><span style="color:#75715e"></span>
+            <span style="color:#75715e">// Draw initial object
+</span><span style="color:#75715e"></span>            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">setColor</span><span style="color:#f92672">(</span>Color<span style="color:#f92672">.</span><span style="color:#a6e22e">black</span><span style="color:#f92672">);</span>
+            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">drawRect</span><span style="color:#f92672">(</span>100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">);</span>
 
-    private static class ZoomCanvas extends JComponent {
+            <span style="color:#75715e">// Create matrix (set to identity by default)
+</span><span style="color:#75715e"></span>            AffineTransform tx <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AffineTransform<span style="color:#f92672">();</span>
 
-        public void paint(Graphics g) {
-            Graphics2D ourGraphics = (Graphics2D) g;
+            <span style="color:#75715e">// This is not the transformation you&#39;re looking for
+</span><span style="color:#75715e"></span>            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">translate</span><span style="color:#f92672">(-</span>150<span style="color:#f92672">,</span> <span style="color:#f92672">-</span>150<span style="color:#f92672">);</span>
+            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">scale</span><span style="color:#f92672">(</span>2<span style="color:#f92672">,</span> 2<span style="color:#f92672">);</span>
+            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">translate</span><span style="color:#f92672">(</span>150<span style="color:#f92672">,</span> 150<span style="color:#f92672">);</span>
+            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">setTransform</span><span style="color:#f92672">(</span>tx<span style="color:#f92672">);</span>
+            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">setColor</span><span style="color:#f92672">(</span>Color<span style="color:#f92672">.</span><span style="color:#a6e22e">red</span><span style="color:#f92672">);</span>
+            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">drawRect</span><span style="color:#f92672">(</span>100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">);</span>
 
-            // code stripped
+            <span style="color:#75715e">// Reset matrix to identity to clear previous transformations
+</span><span style="color:#75715e"></span>            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">setToIdentity</span><span style="color:#f92672">();</span>
 
-            // Draw initial object
-            ourGraphics.setColor(Color.black);
-            ourGraphics.drawRect(100, 100, 100, 100);
-
-            // Create matrix (set to identity by default)
-            AffineTransform tx = new AffineTransform();
-
-            // This is not the transformation you're looking for
-            tx.translate(-150, -150);
-            tx.scale(2, 2);
-            tx.translate(150, 150);
-            ourGraphics.setTransform(tx);
-            ourGraphics.setColor(Color.red);
-            ourGraphics.drawRect(100, 100, 100, 100);
-
-            // Reset matrix to identity to clear previous transformations
-            tx.setToIdentity();
-
-            // Apply our transformations in order to zoom-in the square
-            tx.preConcatenate(AffineTransform.getTranslateInstance(-150, -150));
-            tx.preConcatenate(AffineTransform.getScaleInstance(2, 2));
-            tx.preConcatenate(AffineTransform.getTranslateInstance(150, 150));
-            ourGraphics.setTransform(tx);
-            ourGraphics.setColor(Color.green);
-            ourGraphics.drawRect(100, 100, 100, 100);
-        }
-    }
-}
-</code></pre>
-
-<hr />
-
+            <span style="color:#75715e">// Apply our transformations in order to zoom-in the square
+</span><span style="color:#75715e"></span>            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">preConcatenate</span><span style="color:#f92672">(</span>AffineTransform<span style="color:#f92672">.</span><span style="color:#a6e22e">getTranslateInstance</span><span style="color:#f92672">(-</span>150<span style="color:#f92672">,</span> <span style="color:#f92672">-</span>150<span style="color:#f92672">));</span>
+            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">preConcatenate</span><span style="color:#f92672">(</span>AffineTransform<span style="color:#f92672">.</span><span style="color:#a6e22e">getScaleInstance</span><span style="color:#f92672">(</span>2<span style="color:#f92672">,</span> 2<span style="color:#f92672">));</span>
+            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">preConcatenate</span><span style="color:#f92672">(</span>AffineTransform<span style="color:#f92672">.</span><span style="color:#a6e22e">getTranslateInstance</span><span style="color:#f92672">(</span>150<span style="color:#f92672">,</span> 150<span style="color:#f92672">));</span>
+            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">setTransform</span><span style="color:#f92672">(</span>tx<span style="color:#f92672">);</span>
+            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">setColor</span><span style="color:#f92672">(</span>Color<span style="color:#f92672">.</span><span style="color:#a6e22e">green</span><span style="color:#f92672">);</span>
+            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">drawRect</span><span style="color:#f92672">(</span>100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><hr>
 
 <figure  style="text-align: center;">
     
@@ -451,51 +309,39 @@ public class AffineTransformZoomExample {
 </figure>
 
 
-
 <p>You can
 <a href="http://hg.openjdk.java.net/jdk7/jdk7/jdk/file/9b8c96f96a0f/src/share/classes/java/awt/geom/AffineTransform.java">browse the source of java.awt.geom.AffineTransform</a>
 if you&rsquo;re interested, you&rsquo;ll see all the matrix multiplications performed
 the same way as we&rsquo;ve seen in my previous post.</p>
-
 <p>As you can see, <code>translate</code> and <code>scale</code> which use <code>concatenate</code>
 (aka. &ldquo;post&rdquo;-concatenate) under the hood, don&rsquo;t give the result we might
-expect.<br />
+expect.<br>
 On the other hand, manually using <code>preConcatenate</code> and <code>get...Instance</code>, will.</p>
-
 <p>Let&rsquo;s see how this works on Android.</p>
-
 <h2 id="affine-transformations-with-android">Affine transformations with Android</h2>
-
 <p>Unlike Oracle, Google&rsquo;s <code>android.graphics.Matrix</code> class assumes you already
 know your way around matrices. There&rsquo;s no reminders, no details about matrices,
 no explanations. And the source code will help but is a little more tricky
 to unroll.</p>
-
 <p>You can <a href="https://android.googlesource.com/platform/frameworks/base/+/master/graphics/java/android/graphics/Matrix.java">browse the source of android.graphics.Matrix</a> and
 notice a lot of <code>oops();</code> method calls and <code>native_</code> invocations but nothing
-really helpful.<br />
+really helpful.<br>
 The java <code>Matrix</code> class is in fact a proxy to the underlying <code>JNI</code>
 implementation of matrix operations. The real operations are done by the C++
 <code>Matrix</code> class.</p>
-
 <p>You can find the interface (<code>Matrix.h</code>) <a href="https://android.googlesource.com/platform/frameworks/base/+/master/core/jni/android/graphics/Matrix.h">here</a>
 and implementation (<code>Matrix.cpp</code>) <a href="https://android.googlesource.com/platform/frameworks/base/+/master/core/jni/android/graphics/Matrix.cpp">here</a>. But this is just
 another level of indirection because this class is just a facade on top of the
 <code>SkMatrix</code> dependency which does all the real work on matrix operations. The
 interface (<code>SkMatrix.h</code>) can be found <a href="https://android.googlesource.com/platform/external/skia/+/master/include/core/SkMatrix.h">here</a> and the implementation
 (<code>SkMatrix.cpp</code>) can be found <a href="https://android.googlesource.com/platform/external/skia/+/master/src/core/SkMatrix.cpp">here</a>.</p>
-
 <p>Nonetheless, the API is good and well featured, as long as you understand a
 few things.</p>
-
 <h3 id="construction">Construction</h3>
-
 <p>Unlike Java, Android provides ways of building matrices that seem more
 explicit and straightforward to me.</p>
-
 <p>The first thing we see in the Javadoc is a bunch of constants that are used to
 describe each entry in the matrix:</p>
-
 <ul>
 <li><code>int MPERSP_0 = 6</code></li>
 <li><code>int MPERSP_1 = 7</code></li>
@@ -507,248 +353,180 @@ describe each entry in the matrix:</p>
 <li><code>int MTRANS_X = 2</code></li>
 <li><code>int MTRANS_Y = 5</code></li>
 </ul>
-
 <p>Put this back ordered by their value and now look at:</p>
-
 <ul>
-<li><code>setValues(values)</code>: <em>&ldquo;Copy 9 values from the array into the matrix.&rdquo;</em></li>
-<li><code>getValues(values)</code>: <em>&ldquo;Copy 9 values from the matrix into the array.&rdquo;</em></li>
+<li><code>setValues(values)</code>: <em>&ldquo;Copy 9 values from the array into the matrix.&quot;</em></li>
+<li><code>getValues(values)</code>: <em>&ldquo;Copy 9 values from the matrix into the array.&quot;</em></li>
 </ul>
-
 <p>What we see here is, I think, a more explicit API than the Java one: you are
 dealing with a 3x3 dimensions matrix, so you specify/retrieve the 9 entries
 that this matrix is composed of.</p>
-
 <p>Granted Java&rsquo;s <code>AffineTransform</code> class is named this way for a reason, that
 reason being you can only deal with <strong>affine transformations</strong>. Whereas
 Android&rsquo;s <code>Matrix</code> class can be used to represent projections by playing with
 the <code>MPERSP_0</code>, <code>MPERSP_1</code> and <code>MPERSP_2</code> entries (hence their names and the
 <code>isAffine()</code> method).</p>
-
 <h3 id="well-featured">Well featured</h3>
-
 <p>Let&rsquo;s do it again.</p>
-
-<h5>1. Can we translate?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes! We have <code>preTranslate(dx, dy)</code> and <code>postTranslate(dx, dy)</code>:</p>
-
 <blockquote>
 <p>Pre/Post-concats the matrix with the specified translation.</p>
 </blockquote>
-
-<h5>2. Can we shear?</h5>
-
-<p>Yes, but only by constants not by angles, and it&rsquo;s named &ldquo;skew&rdquo;.<br />
+<!-- raw HTML omitted -->
+<p>Yes, but only by constants not by angles, and it&rsquo;s named &ldquo;skew&rdquo;.<br>
 We have <code>preSkew(kx, ky)</code> and  <code>postSkew(kx, ky)</code>:</p>
-
 <blockquote>
 <p>Pre/Post-concats the matrix with the specified skew.</p>
 </blockquote>
-
 <p>We also have <code>preSkew(kx, ky, px, py)</code> and <code>postSkew(kx, ky, px, py)</code> in order
 to skew not around the origin, by around a given anchor point. That&rsquo;s nice.</p>
-
-<h5>3. Can we scale?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes! We have <code>preScale(sx, sy)</code> and <code>postScale(sx, sy)</code>:</p>
-
 <blockquote>
 <p>Pre/Post-concats the matrix with the specified scale.</p>
 </blockquote>
-
-<h5>4. Can we reflect?</h5>
-
+<!-- raw HTML omitted -->
 <p>Again, not directly, we can scale by negative values, or we can use
 <code>setValues({-1, 0, 0, 0, -1, 0, 0, 0, 1})</code> (for example) and then
 <code>postConcat</code>.</p>
-
-<h5>5. Can we rotate?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes! We have <code>preRotate(degrees)</code> and <code>postRotate(degrees)</code>:</p>
-
 <blockquote>
 <p>Pre/Post-concats the matrix with the specified rotation.</p>
 </blockquote>
-
-<h5>6. Can we scale on an anchor point?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes! We have <code>preScale(sx, sy, px, py)</code> and <code>postScale(sx, sy, px, py)</code>:</p>
-
 <blockquote>
 <p>Pre/Post-concats the matrix with the specified scale.</p>
 </blockquote>
-
-<h5>7. Can we rotate around an anchor point?</h5>
-
+<!-- raw HTML omitted -->
 <p>Yes! We have <code>preRotate(degrees, px, py)</code> and <code>postRotate(degrees, px, py)</code>:</p>
-
 <blockquote>
 <p>Pre-Post-concats the matrix with the specified rotation.</p>
 </blockquote>
-
-<h5>8. Can we transform points?</h5>
-
+<!-- raw HTML omitted -->
 <p>Also yes! We have several methods available in order to transform points and
 shapes from their original position to their new coordinates after the
 transformation has been applied.</p>
-
 <h3 id="ambiguous">Ambiguous</h3>
-
 <p>Yes, I like this word&hellip;</p>
-
 <p>The API is undeniably well featured, provides <code>pre</code> and <code>post</code> methods for
 the most common transformations, a <code>setValues</code> method to create matrices of
 any shape, and also <code>preConcat(Matrix other)</code> and <code>postConcat(Matrix other)</code>.</p>
-
 <p>What do they do?</p>
-
-<h5>preConcat</h5>
-
+<!-- raw HTML omitted -->
 <blockquote>
 <p>Preconcats the matrix with the specified matrix. M&rsquo; = M * other</p>
 </blockquote>
-
 <p>So, if I read correctly, this is equivalent to:</p>
-
-<div>
-$$
-\mathbf{this} = \mathbf{this} . \mathbf{Tx}
-$$
-</div>
-
+<!-- raw HTML omitted -->
 <p>Wait&hellip; in Java&rsquo;s <code>AffineTransform</code>, this was the equivalent of the
 <code>concatenate</code> method&hellip;</p>
-
-<h5>postConcat</h5>
-
+<!-- raw HTML omitted -->
 <blockquote>
 <p>Postconcats the matrix with the specified matrix. M&rsquo; = other * M</p>
 </blockquote>
-
 <p>Again, if I read correctly, this is equivalent to:</p>
-
-<div>
-$$
-\mathbf{this} = \mathbf{Tx} . \mathbf{this}
-$$
-</div>
-
+<!-- raw HTML omitted -->
 <p>Wait&hellip; in Java&rsquo;s <code>AffineTransform</code>, this was the equivalent of the
 <code>preConcatenate</code> method&hellip;</p>
-
-<h5>WTF dude?</h5>
-
+<!-- raw HTML omitted -->
 <p>Exactly. If you don&rsquo;t read the doc, <strong>you&rsquo;re screwed</strong>
-<span class="emoji">:poop:</span>
-</p>
-
+<!-- raw HTML omitted -->:poop:<!-- raw HTML omitted --></p>
 <p>So who&rsquo;s right?</p>
-
 <p>I&rsquo;ve searched a few minutes on the Interwebs and here&rsquo;s what I&rsquo;ve found
 <a href="https://en.wikipedia.org/wiki/Matrix_multiplication">from Wikipedia</a>:</p>
-
 <blockquote>
 <p>&ldquo;pre-multiply (or left multiply) $\mathbf{A}$ by $\mathbf{B}$&rdquo; means
 $\mathbf{B}.\mathbf{A}$,
 while &ldquo;post-multiply (or right multiply) $\mathbf{A}$ by $\mathbf{C}$&rdquo;
 means $\mathbf{A}.\mathbf{C}$</p>
 </blockquote>
-
 <p>And because two sources are better than one, from
 <a href="http://web.cse.ohio-state.edu/~whmin/courses/cse5542-2013-spring/6-Transformation_II.pdf">this &ldquo;ohio-state&rdquo; course</a>:</p>
-
 <blockquote>
 <p>Pre-multiplication is to multiply the new matrix $\mathbf{B}$ to the left
 of the existing matrix $\mathbf{A}$ to get the result
 $\mathbf{C} = \mathbf{B}.\mathbf{A}$</p>
-
 <p>Post-multiplication is to multiply the new matrix $\mathbf{B}$ to the right
 of the existing matrix $\mathbf{A}$ to get the result
 $\mathbf{C} = \mathbf{A}.\mathbf{B}$</p>
 </blockquote>
-
 <p>So it seems like Sun/Oracle got it right, and Google got it backward. Which
-seems weird&hellip;<br />
+seems weird&hellip;<br>
 I&rsquo;ve filled a bug report on the
 <a href="https://code.google.com/p/android/issues/detail?id=229852&amp;q=matrix&amp;colspec=ID%20Status%20Priority%20Owner%20Summary%20Stars%20Reporter%20Opened">Android Open Source Project Issue Tracker</a> in order to know if
 <strong>I</strong> missed something or if it&rsquo;s a real issue.</p>
-
 <p>But it doesn&rsquo;t solve our problem: we have to be cautious when applying affine
 transformations, because the order matters!</p>
-
 <p>And because of the way we want to apply our transformations, in Android we&rsquo;re
 going to make use of the <code>post</code> methods. But the <code>pre</code> methods are here also
 and will simplify your like if you need this kind of operations.</p>
-
 <h3 id="demo-1">Demo</h3>
-
 <p>Again, performance aside, here’s a class that will rotate the Grumpy cat:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.arnaudbos.android2d<span style="color:#f92672">;</span>
+<span style="color:#75715e">// imports stripped
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> <span style="color:#66d9ef">extends</span> AppCompatActivity <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// code stripped
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">enum</span> MatrixConcatenation <span style="color:#f92672">{</span>
+        PRE<span style="color:#f92672">,</span> POST
+    <span style="color:#f92672">}</span>
 
-<pre><code class="language-java">package com.arnaudbos.android2d;
-// imports stripped
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> THETA <span style="color:#f92672">=</span> 30<span style="color:#f92672">;</span>
 
-public class MainActivity extends AppCompatActivity {
-    // code stripped
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onCreate</span><span style="color:#f92672">(</span>Bundle savedInstanceState<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onCreate</span><span style="color:#f92672">(</span>savedInstanceState<span style="color:#f92672">);</span>
 
-    private enum MatrixConcatenation {
-        PRE, POST
-    }
+        <span style="color:#75715e">// Display Grumpy cat
+</span><span style="color:#75715e"></span>        Drawable d <span style="color:#f92672">=</span> getDrawable<span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">drawable</span><span style="color:#f92672">.</span><span style="color:#a6e22e">grumpy</span><span style="color:#f92672">);</span>
+        view <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ImageView<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>
+        view<span style="color:#f92672">.</span><span style="color:#a6e22e">setImageDrawable</span><span style="color:#f92672">(</span>d<span style="color:#f92672">);</span>
+        setContentView<span style="color:#f92672">(</span>view<span style="color:#f92672">);</span>
 
-    private static final float THETA = 30;
+        <span style="color:#75715e">// Center Grumpy cat
+</span><span style="color:#75715e"></span>        view<span style="color:#f92672">.</span><span style="color:#a6e22e">setScaleType</span><span style="color:#f92672">(</span>ImageView<span style="color:#f92672">.</span><span style="color:#a6e22e">ScaleType</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MATRIX</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span><span style="color:#f92672">[]</span> dimensions <span style="color:#f92672">=</span> getSize<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>
+        width <span style="color:#f92672">=</span> dimensions<span style="color:#f92672">[</span>0<span style="color:#f92672">];</span>
+        height <span style="color:#f92672">=</span> dimensions<span style="color:#f92672">[</span>1<span style="color:#f92672">];</span>
+        matrix <span style="color:#f92672">=</span> center<span style="color:#f92672">(</span>width<span style="color:#f92672">,</span> height<span style="color:#f92672">,</span> d<span style="color:#f92672">);</span>
+        view<span style="color:#f92672">.</span><span style="color:#a6e22e">setImageMatrix</span><span style="color:#f92672">(</span>matrix<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> Matrix <span style="color:#a6e22e">center</span><span style="color:#f92672">(</span><span style="color:#66d9ef">float</span> width<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> height<span style="color:#f92672">,</span> Drawable d<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> drawableWidth <span style="color:#f92672">=</span> d<span style="color:#f92672">.</span><span style="color:#a6e22e">getIntrinsicWidth</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> drawableHeight <span style="color:#f92672">=</span> d<span style="color:#f92672">.</span><span style="color:#a6e22e">getIntrinsicHeight</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> widthScale <span style="color:#f92672">=</span> width <span style="color:#f92672">/</span> drawableWidth<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> heightScale <span style="color:#f92672">=</span> height <span style="color:#f92672">/</span> drawableHeight<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> scale <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">min</span><span style="color:#f92672">(</span>1<span style="color:#f92672">.</span><span style="color:#a6e22e">0f</span><span style="color:#f92672">,</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">min</span><span style="color:#f92672">(</span>widthScale<span style="color:#f92672">,</span> heightScale<span style="color:#f92672">));</span>
+        Matrix m <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Matrix<span style="color:#f92672">();</span>
+        m<span style="color:#f92672">.</span><span style="color:#a6e22e">postScale</span><span style="color:#f92672">(</span>scale<span style="color:#f92672">,</span> scale<span style="color:#f92672">);</span>
+        m<span style="color:#f92672">.</span><span style="color:#a6e22e">postTranslate</span><span style="color:#f92672">((</span>width <span style="color:#f92672">-</span> drawableWidth <span style="color:#f92672">*</span> scale<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> 2F<span style="color:#f92672">,</span>
+                <span style="color:#f92672">(</span>height <span style="color:#f92672">-</span> drawableHeight <span style="color:#f92672">*</span> scale<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> 2F<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> m<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-        // Display Grumpy cat
-        Drawable d = getDrawable(R.drawable.grumpy);
-        view = new ImageView(this);
-        view.setImageDrawable(d);
-        setContentView(view);
-
-        // Center Grumpy cat
-        view.setScaleType(ImageView.ScaleType.MATRIX);
-        final float[] dimensions = getSize(this);
-        width = dimensions[0];
-        height = dimensions[1];
-        matrix = center(width, height, d);
-        view.setImageMatrix(matrix);
-    }
-
-    private static Matrix center(float width, float height, Drawable d) {
-        final float drawableWidth = d.getIntrinsicWidth();
-        final float drawableHeight = d.getIntrinsicHeight();
-        final float widthScale = width / drawableWidth;
-        final float heightScale = height / drawableHeight;
-        final float scale = Math.min(1.0f, Math.min(widthScale, heightScale));
-        Matrix m = new Matrix();
-        m.postScale(scale, scale);
-        m.postTranslate((width - drawableWidth * scale) / 2F,
-                (height - drawableHeight * scale) / 2F);
-        return m;
-    }
-
-    private static void rotateGrumpyCat(ImageView view, float x, float y,
-                                        Matrix matrix, MatrixConcatenation p) {
-        switch (p) {
-            case PRE:
-                matrix.preTranslate(-x, -y);
-                matrix.preRotate(THETA);
-                matrix.preTranslate(x, y);
-                break;
-            case POST:
-                matrix.postTranslate(-x, -y);
-                matrix.postRotate(THETA);
-                matrix.postTranslate(x, y);
-                break;
-        }
-        view.setImageMatrix(matrix);
-    }
-}    
-</code></pre>
-
-<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rotateGrumpyCat</span><span style="color:#f92672">(</span>ImageView view<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> x<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> y<span style="color:#f92672">,</span>
+                                        Matrix matrix<span style="color:#f92672">,</span> MatrixConcatenation p<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>p<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">case</span> PRE<span style="color:#f92672">:</span>
+                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">preTranslate</span><span style="color:#f92672">(-</span>x<span style="color:#f92672">,</span> <span style="color:#f92672">-</span>y<span style="color:#f92672">);</span>
+                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">preRotate</span><span style="color:#f92672">(</span>THETA<span style="color:#f92672">);</span>
+                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">preTranslate</span><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> y<span style="color:#f92672">);</span>
+                <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">case</span> POST<span style="color:#f92672">:</span>
+                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">postTranslate</span><span style="color:#f92672">(-</span>x<span style="color:#f92672">,</span> <span style="color:#f92672">-</span>y<span style="color:#f92672">);</span>
+                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">postRotate</span><span style="color:#f92672">(</span>THETA<span style="color:#f92672">);</span>
+                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">postTranslate</span><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> y<span style="color:#f92672">);</span>
+                <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        view<span style="color:#f92672">.</span><span style="color:#a6e22e">setImageMatrix</span><span style="color:#f92672">(</span>matrix<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>    
+</code></pre></div><div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
   <a href="/img/2d-transformations-android-java/grumpy-init.png" itemprop="contentUrl" data-size="1080x1920">
@@ -802,44 +580,33 @@ public class MainActivity extends AppCompatActivity {
 <div class="title">Android rotation demo of pre and post rotate</div>
 </div>
 
-
 <p>This time you can see <code>postScale</code> and <code>postTranslate</code> being called inside
 <code>center</code> in order to scale the image and have the Grumpy cat centered inside
 its view. This is just the initial phase.</p>
-
 <p>The interesting part is the <code>rotateGrumpyCat</code> method, which is supposed to
 rotate the Grumpy cat around a point, the center, but you see the different
 results:</p>
-
 <ul>
 <li><code>post</code> rotate gives the expected result, the Grumpy cat is rotate
 <em>&ldquo;in place&rdquo;</em> by 30 degrees</li>
 <li><code>pre</code> rotate sends our little buddy out of the screen.</li>
 </ul>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Well, it&rsquo;s been fun writing those two articles. I definitely spent more time
-writing the first one, which is full of math, than this one.<br />
+writing the first one, which is full of math, than this one.<br>
 I hope you now have a better understanding of how matrices work and how to
 manipulate them in order to apply the transformations you want. I&rsquo;ve
 kept the code examples really simple on purpose.</p>
-
 <p>If you have questions or feedback, please leave a comment below.</p>
-
 <h2 id="acknowledgements">Acknowledgements</h2>
-
 <p>I want to address my warmest thank you to the following people, who helped me
 during the review process of this article, by providing helpful feedbacks and
 advices:</p>
-
 <ul>
 <li>Igor Laborie (<a href="https://twitter.com/ilaborie">@ilaborie</a>)</li>
 <li>Hadrien Toma (<a href="https://twitter.com/HadrienToma">@HadrienToma</a>)</li>
 </ul>
-
 <h2 id="links">Links</h2>
-
 <ul>
 <li>Source code for <a href="https://github.com/arnaudbos/i-rant/tree/develop/static/code/2d-transformations-android-java/JavaAffineTransform">the Java example on Github</a></li>
 <li>Source code for <a href="https://github.com/arnaudbos/i-rant/tree/develop/static/code/2d-transformations-android-java/AndroidMatrix">the Android example on Github</a></li>
@@ -852,6 +619,19 @@ advices:</p>
               <div class="related-posts">
                 <h5>Related Posts</h5>
                 
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        May 8, 2020
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-4-nio/">Loom - Part 4 - Non-thread-blocking async I/O</a></strong>
+                      </h6>
+                    </div>
+                  </div>
                 
                 
                 

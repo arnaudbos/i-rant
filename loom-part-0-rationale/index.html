@@ -17,7 +17,7 @@
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
     <title>Loom - Part 0 - Rationale</title>
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.70.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
@@ -89,53 +89,42 @@
           <div class="panel-body">
             <div class="blogpost">
               <blockquote>
-<p>Part 0 in a series of articles about Project Loom.<br />
+<p>Part 0 in a series of articles about Project Loom.<br>
 In this part I just talk about me, me, me, me and why I wrote this.</p>
-
 <p>The companion code repository is at <a href="https://github.com/arnaudbos/untangled">arnaudbos/untangled</a></p>
-
-<p>If you&rsquo;d like you could head over to<br />
-<a href="../loom-part-0-rationale">Part 0 - Rationale</a> (this page)<br />
-<a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br />
-<a href="../loom-part-2-blocking">Part 2 - Blocking code</a><br />
-<a href="../loom-part-3-async">Part 3 - Asynchronous code</a></p>
+<p>If you&rsquo;d like you could head over to<br>
+<a href="../loom-part-0-rationale">Part 0 - Rationale</a> (this page)<br>
+<a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br>
+<a href="../loom-part-2-blocking">Part 2 - Blocking code</a><br>
+<a href="../loom-part-3-async">Part 3 - Asynchronous code</a><br>
+<a href="../loom-part-4-nio">Part 4 - Non-thread-blocking async I/O</a></p>
 </blockquote>
-
 <p>Finding good introduction level articles on concurrent programming is difficult because every post assumes
 some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free
 concurrency while you&rsquo;re <em>absolutely not</em> ready for this!</p>
-
 <p>Luckily, a few months ago, we&rsquo;ve had an interesting use-case at work. We had to implement a scheduler for a scarce
 resource in our system.</p>
-
 <p>We&rsquo;ve been using a good deal of concurrency &ldquo;techniques&rdquo; for the past two years: simple <code>threads</code>,
 <code>executor services</code>, <code>reactive</code> (Rx) programming; we were doing fine.</p>
-
 <p>However, for this service, I wasn&rsquo;t convinced by any of those techniques. The problem lent itself well into an actor
-model, so we searched for a library to help us and found <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a>.<br />
+model, so we searched for a library to help us and found <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a>.<br>
 My first introduction to <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a> was around 2014. At the time Clojure&rsquo;s <a href="https://clojure.org/news/2013/06/28/clojure-clore-async-channels">core.async</a> library just came out.</p>
-
-<p>I didn&rsquo;t understand every aspect of the value proposition, but naively started using it.<br />
-And because I was using <code>core.async</code>, I stumbled upon <a href="not Apache Pulsar!">Pulsar</a> which is itself built upon Quasar.<br />
+<p>I didn&rsquo;t understand every aspect of the value proposition, but naively started using it.<br>
+And because I was using <code>core.async</code>, I stumbled upon <a href="https://docs.paralleluniverse.co/pulsar/">Pulsar</a> (not Apache Pulsar!) which is itself built upon Quasar.<br>
 I missed the value proposition of Pulsar, like I did with Quasar, but I was interested
-in this concept of &ldquo;lightweight concurrency&rdquo; and the &ldquo;actor model&rdquo;.<br />
+in this concept of &ldquo;lightweight concurrency&rdquo; and the &ldquo;actor model&rdquo;.<br>
 I longed for the day I would have a use case for this.</p>
-
 <p>Fast forward five years and more experience in the field, Quasar and its actor model were
 a great fit to solve our problem and we used it to great effect. That&rsquo;s when I fell into the rabbit hole: trying to
 understand the underlying concepts and &ldquo;how it works&rdquo;, I stumbling upon Project Loom.</p>
-
 <p>Unfortunately, the <a href="https://wiki.openjdk.java.net/display/loom/Main">OpenJDK wiki</a> and the many videos by <a href="https://twitter.com/pressron">Ron Pressler</a> take for granted a great deal of
 knowledge and start from there. That&rsquo;s when I decided to gain this fundamental knowledge in order to grok
 Project Loom, and share with others so they, too, can connect the dots. I ended up giving a couple of <a href="https://talks.arnaudbos.com/">conference talks</a>
 on this topic in 2019, for which I&rsquo;ve had to research a lot.</p>
-
 <p>This series is about what I&rsquo;ve learnt and what I would have liked to read when I began my research on concurrent
 programming, Reactive Streams, lightweight concurrency and Project Loom: I&rsquo;m writing for the past me.</p>
-
 <p>For people already familiar, I&rsquo;m not promising you&rsquo;ll learn anything new, but hopefully you&rsquo;ll be interested in
 another point of view.</p>
-
 <p>In the <a href="../loom-part-1-scheduling">next part</a>, we talk history!</p>
 
               <hr>
@@ -145,6 +134,19 @@ another point of view.</p>
               <div class="related-posts">
                 <h5>Related Posts</h5>
                 
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        May 8, 2020
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-4-nio/">Loom - Part 4 - Non-thread-blocking async I/O</a></strong>
+                      </h6>
+                    </div>
+                  </div>
                 
                 
                 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Arnaud Bos</title>
@@ -6,7 +6,7 @@
     <description>Recent content on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 01 May 2020 16:57:35 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2020 01:44:26 +0200</lastBuildDate>
     
 	<atom:link href="https://i-rant.arnaudbos.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Loom - Part 4 - Non-thread-blocking async I/O</title>
       <link>https://i-rant.arnaudbos.com/loom-part-4-nio/</link>
-      <pubDate>Fri, 01 May 2020 16:57:35 +0200</pubDate>
+      <pubDate>Fri, 08 May 2020 01:44:26 +0200</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/loom-part-4-nio/</guid>
       <description>Part 4 in a series of articles about Project Loom.
@@ -43,7 +43,8 @@ Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
 Part 3 - Asynchronous code (this page)
-   Atelier de couture  J. Trayer 1854 CC0 1.</description>
+Part 4 - Non-thread-blocking async I/O
+   Atelier de couture  J.</description>
     </item>
     
     <item>
@@ -60,6 +61,7 @@ Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code (this page)
 Part 3 - Asynchronous code
+Part 4 - Non-thread-blocking async I/O
    Weaving  Max Pixel CC0 1.</description>
     </item>
     
@@ -77,7 +79,7 @@ Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling (this page)
 Part 2 - Blocking code
 Part 3 - Asynchronous code
-   Jacquard Loom  Stephencdickson CC BY-SA 4.</description>
+Part 4 - Non-thread-blocking async I/O</description>
     </item>
     
     <item>
@@ -94,7 +96,7 @@ Part 0 - Rationale (this page)
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
 Part 3 - Asynchronous code
- Finding good introduction level articles on concurrent programming is difficult because every post assumes some prior knowledge.</description>
+Part 4 - Non-thread-blocking async I/O</description>
     </item>
     
     <item>
@@ -115,7 +117,7 @@ But we&amp;rsquo;re in 2019 so we have libraries now to lift this problem off of
       <pubDate>Thu, 07 Feb 2019 02:59:53 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/setup-audio-recording-osx/</guid>
-      <description>The goal: something like that   Created: February 7th, 2019 Object: As I was preparing the next evening of the ToulouseJUG I found myself lacking a second mic for our next duet. This post is a note to myself about the setup for recording audio of one or two speakers with the pieces of equipment I have at my disposal, with pictures, so I can come back later and relearn how to do this.</description>
+      <description>The goal: something like that    Created: February 7th, 2019 Object: As I was preparing the next evening of the ToulouseJUG I found myself lacking a second mic for our next duet. This post is a note to myself about the setup for recording audio of one or two speakers with the pieces of equipment I have at my disposal, with pictures, so I can come back later and relearn how to do this.</description>
     </item>
     
     <item>
@@ -124,10 +126,10 @@ But we&amp;rsquo;re in 2019 so we have libraries now to lift this problem off of
       <pubDate>Tue, 25 Sep 2018 22:56:42 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/clojutre-finland-2018-review/</guid>
-      <description>Helsinki   ClojuTRE is a Clojure conference happening in Finland since 2012.
+      <description>Helsinki    ClojuTRE is a Clojure conference happening in Finland since 2012.
 I was super eager to attend a Clojure conference this year, so the addition of SmallFP just before ClojuTRE finally amortized the travel cost.
-tl;dr  SmallFP did deliver a great experience by allowing an audience of Clojure developers to hear about other functional programming languages and concepts.
- The topics were a nice mixture of industry practices, libraries and research.</description>
+tl;dr   SmallFP did deliver a great experience by allowing an audience of Clojure developers to hear about other functional programming languages and concepts.
+  The topics were a nice mixture of industry practices, libraries and research.</description>
     </item>
     
     <item>
@@ -136,9 +138,9 @@ tl;dr  SmallFP did deliver a great experience by allowing an audience of Clojure
       <pubDate>Thu, 05 Jul 2018 23:12:11 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/j-on-the-beach-malaga-2018-review/</guid>
-      <description>360 Photo — Plaza del Obispo   J On The Beach (JOTB) is &amp;ldquo;A Big Data Conference On The Beach&amp;rdquo; happening in Malaga (Spain) and this year (2018) was its third edition.
-tl;dr  The staff was great, the speakers awesome and the talks interesting.
- I felt very comfortable and almost at home during the three days. The atmosphere felt like being at a local conference or meetup but with famous and renowned speakers from around the world.</description>
+      <description>360 Photo — Plaza del Obispo    J On The Beach (JOTB) is &amp;ldquo;A Big Data Conference On The Beach&amp;rdquo; happening in Malaga (Spain) and this year (2018) was its third edition.
+tl;dr   The staff was great, the speakers awesome and the talks interesting.
+  I felt very comfortable and almost at home during the three days. The atmosphere felt like being at a local conference or meetup but with famous and renowned speakers from around the world.</description>
     </item>
     
     <item>
@@ -147,7 +149,7 @@ tl;dr  The staff was great, the speakers awesome and the talks interesting.
       <pubDate>Tue, 28 Nov 2017 06:23:11 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/water-pouring-in-clojure/</guid>
-      <description>Die Hard with a Vengeance — Water puzzle scene   This post is the first or a series where I explore Clojure features and start a discussion with my colleague Igor about Clojure and Kotlin.
+      <description>Die Hard with a Vengeance — Water puzzle scene    This post is the first or a series where I explore Clojure features and start a discussion with my colleague Igor about Clojure and Kotlin.
 This summer, Igor offered to make a live Kotlin demo of a nice problem he&amp;rsquo;s been working on that can serve as a fine exercise to discover and experiment a programming language: the Water pouring puzzle.</description>
     </item>
     
@@ -181,9 +183,8 @@ In Europe for instance (which is my point of view), I can see strong communities
       <pubDate>Fri, 10 Nov 2017 13:41:21 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/use-clojure-already/</guid>
-      <description>Lisp as a secret weapon   I hear a lot of talking going on about Kotlin around me lately.
-There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot has happened around it from the Google announcement that Kotlin would benefit from first class support on Android, up to the hiring of Jake Wharton (a figure in the world of Android developers).
-I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at MonkeyPatch seem to be following the hype (muahaha&amp;hellip;) and are becoming more and more addicted to it.</description>
+      <description>Lisp as a secret weapon    I hear a lot of talking going on about Kotlin around me lately.
+There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot has happened around it from the Google announcement that Kotlin would benefit from first class support on Android, up to the hiring of Jake Wharton (a figure in the world of Android developers).</description>
     </item>
     
     <item>
@@ -192,9 +193,9 @@ I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at M
       <pubDate>Tue, 08 Aug 2017 16:23:15 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/j-on-the-beach-malaga-2017-review/</guid>
-      <description>Panoramic view — Seaside of Malaga — Hiking the day after the conference   J On The Beach (JOTB) is &amp;ldquo;A Big Data Conference On The Beach&amp;rdquo; happening in Malaga (Spain) and this year (2017) was its second edition.
-tl;dr  The staff was great, the speakers awesome and the talks interesting.
- I felt very comfortable and almost at home during the three days. The atmosphere felt like being at a local conference but with famous and renowned speakers from around the world.</description>
+      <description>Panoramic view — Seaside of Malaga — Hiking the day after the conference    J On The Beach (JOTB) is &amp;ldquo;A Big Data Conference On The Beach&amp;rdquo; happening in Malaga (Spain) and this year (2017) was its second edition.
+tl;dr   The staff was great, the speakers awesome and the talks interesting.
+  I felt very comfortable and almost at home during the three days.</description>
     </item>
     
     <item>
@@ -203,7 +204,7 @@ tl;dr  The staff was great, the speakers awesome and the talks interesting.
       <pubDate>Mon, 07 Aug 2017 16:23:04 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/j-on-the-beach-jepsen-workshop/</guid>
-      <description>Network&amp;#39;s Laggy     Store it maybe    Photos shamelessly stolen from Kyle Kinsburry&amp;#39;s website  The first book I&amp;rsquo;ve read about distributed systems was Distributed Systems: Principles and Paradigms by Andrew S. Tanenbaum and Maarten van Steen.
+      <description>Network&amp;#39;s Laggy     Store it maybe    Photos shamelessly stolen from Kyle Kinsburry&amp;#39;s website   The first book I&amp;rsquo;ve read about distributed systems was Distributed Systems: Principles and Paradigms by Andrew S. Tanenbaum and Maarten van Steen.
 I was reading at the library on my last year of study and I remember being confused very often, and to be honest I didn&amp;rsquo;t even finish it&amp;hellip;</description>
     </item>
     
@@ -256,10 +257,10 @@ Is it any good? Yes.</description>
       <pubDate>Wed, 13 Jul 2016 12:55:28 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/eclipsecon-france-2016-review/</guid>
-      <description>Keynote   This ear, I&amp;rsquo;ve been given the opportunity to attend the French edition of the EclipseCon. It&amp;rsquo;s been the first time I could attend an event of this nature with Keynotes, workshops, talks and demos on various topics, informal talks with other attendees and speakers.
+      <description>Keynote    This ear, I&amp;rsquo;ve been given the opportunity to attend the French edition of the EclipseCon. It&amp;rsquo;s been the first time I could attend an event of this nature with Keynotes, workshops, talks and demos on various topics, informal talks with other attendees and speakers.
 Bellow is a feedback on my experience of the EclipseCon France 2016.
 Schedule: https://www.eclipsecon.org/france2016/conference/schedule/session/2016-06-07
-Connecting low power IoT devices with LoRa, MQTT, and The Things Network</description>
+ Connecting low power IoT devices with LoRa, MQTT, and The Things Network  From my point of view, IoT really was an important topic this year in Toulouse, most notably because of the presence of The Things Network, who&amp;rsquo;s been invited by the Eclipse Foundation to lead a workshop and give the first Keynote of the conference.</description>
     </item>
     
     <item>
@@ -268,7 +269,7 @@ Connecting low power IoT devices with LoRa, MQTT, and The Things Network</descri
       <pubDate>Mon, 06 Jun 2016 15:00:36 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/nabaztagtag-internals/</guid>
-      <description>Nabaztag/tag    Updated: June 15th, 2016 Created: June 6th, 2016 Object: Detail what&amp;rsquo;s inside a Nabaztag/tag, with components references when possible.  I&amp;rsquo;m obviously not the first one trying to recycle my Nabaztag. Previous dissections have been done by others so I will reuse what they have done and will keep it here as a reference for my own usage.
+      <description>Nabaztag/tag     Updated: June 15th, 2016 Created: June 6th, 2016 Object: Detail what&amp;rsquo;s inside a Nabaztag/tag, with components references when possible.   I&amp;rsquo;m obviously not the first one trying to recycle my Nabaztag. Previous dissections have been done by others so I will reuse what they have done and will keep it here as a reference for my own usage.
 Most of the information on this page come from this guy, so thank you.</description>
     </item>
     
@@ -278,7 +279,7 @@ Most of the information on this page come from this guy, so thank you.</descript
       <pubDate>Sun, 05 Jun 2016 00:22:34 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/mr-p-outline/</guid>
-      <description>Nabaztag/tags    Updated: June 15th, 2016 Created: June 5th, 2016 Object: Kick-off of &amp;ldquo;Mr. P&amp;rdquo; project for Nabaztag/tag rabbit resurection with a Raspberry Pi. Naming  Nabaztag means &amp;ldquo;rabbit&amp;rdquo; ; There&amp;rsquo;s a rabbit whose name is &amp;ldquo;Mr. Rabbit&amp;rdquo; in Fantastic Mr. Fox film, which I love ; There&amp;rsquo;s also a &amp;ldquo;Mr. Rabbit&amp;rdquo; in the Utopia TV series, which I&amp;rsquo;m an absolute fan of ; I&amp;rsquo;ll use a Raspberry Pi.</description>
+      <description>Nabaztag/tags     Updated: June 15th, 2016 Created: June 5th, 2016 Object: Kick-off of &amp;ldquo;Mr. P&amp;rdquo; project for Nabaztag/tag rabbit resurection with a Raspberry Pi. Naming  Nabaztag means &amp;ldquo;rabbit&amp;rdquo; ; There&amp;rsquo;s a rabbit whose name is &amp;ldquo;Mr. Rabbit&amp;rdquo; in Fantastic Mr. Fox film, which I love ; There&amp;rsquo;s also a &amp;ldquo;Mr. Rabbit&amp;rdquo; in the Utopia TV series, which I&amp;rsquo;m an absolute fan of ; I&amp;rsquo;ll use a Raspberry Pi.</description>
     </item>
     
     <item>
@@ -297,15 +298,6 @@ Most of the information on this page come from this guy, so thank you.</descript
       
       <guid>https://i-rant.arnaudbos.com/drafts/automated-diagrams-in-documentation-with-boot/</guid>
       <description>https://github.com/boot-clj/boot https://github.com/ztellman/rhizome https://github.com/drcode/vijual https://github.com/daveray/dorothy https://github.com/Macroz/tangle http://www.graphviz.org/content/dot-language</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://i-rant.arnaudbos.com/drafts/clojure-spec-idris/</guid>
-      <description>Comment from discussion The Inconvenient Truth About Dynamic vs. Static Typing.</description>
     </item>
     
     <item>

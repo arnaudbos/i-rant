@@ -17,7 +17,7 @@
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
     <title>Loom</title>
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.70.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
@@ -90,40 +90,28 @@
           <div class="panel-body">
             <div class="blogpost">
               <p>Truly non-blocking asynchronous APIs rely on event loops and fine tuned implementation techniques such as work
-stealing and drain loops in order to maximize CPU utilisation.<br />
+stealing and drain loops in order to maximize CPU utilisation.<br>
 But they rely on callbacks too, which leads to the infamous callback-hell that.</p>
-
 <p>TODO: Yup, rework this part, heavily.</p>
-
 <p>But we&rsquo;re in 2019 so we have libraries now to lift this problem off of our shoulders, namely Reactive Streams libraries
 such as RxJava or Pivotal&rsquo;s Project Reactor.</p>
-
 <p>Reactive Streams APIs are a great solution to the inefficient use of CPU but they come as a whole new programming style.
 A new paradigm on a platform that may not be suited for it.</p>
-
 <p>And becauseit&rsquo;s 2019, we&rsquo;re stating to get feedback on these libraries, hinting they&rsquo;re not the best for all use-cases,
 most notably because of debugging and profiling and interoperability with existing (blocking) code.</p>
-
 <p>Even after almost two years I sometimes have to think hard about which Reactor operator to use, am I messing up
 ordering, am I blocking here, am I lazy there, am I stack safe?</p>
-
 <p>So it&rsquo;s interesting to ask, is there another way? Can we write non-blocking, efficient code without Reactive Streams
-APIs while still avoiding async APIs and callback hell?<br />
+APIs while still avoiding async APIs and callback hell?<br>
 Project Loom is one possible answer.</p>
-
 <p>Again, you can see this scheduling story has been running for quite some time now. (TODO link to beginning, possible
 distinct article).</p>
-
 <p>TODO: Note: unrelated to this specific location: synchronized -&gt; doog lea -&gt; reactive -&gt; loom</p>
-
-<p>The lightweight concurrency mechanisms that Loom aims to bring to the JVM are also known as user-threads.<br />
+<p>The lightweight concurrency mechanisms that Loom aims to bring to the JVM are also known as user-threads.<br>
 TODO: Checkboxes again.</p>
-
 <p>Contrary to Kernel threads, which are managed by the kernel, user threads are manager by the language or runtime and
 are named this way because they un in user space.</p>
-
 <p>We&rsquo;ll see why they&rsquo;re interesting and how they work, but I think it&rsquo;s time to check a few boxes now:</p>
-
 <ul>
 <li>lightweight threads</li>
 <li>user threads</li>
@@ -135,73 +123,54 @@ are named this way because they un in user space.</p>
 are all, basically, user thread mechanisms and they differ in their implementation details or whether they&rsquo;re
 first-class citizens or language syntax.</li>
 </ul>
-
 <p>All those details matter from a language implementer&rsquo;s point of view and are really interesting, but if you&rsquo;re not that
 much of a language geek, hopefully I can save you some research time with this statement.</p>
-
 <p>The only bow I&rsquo;m not goiing to tick here is green-threads because they have a specific meaning in the Java world, so
 I&rsquo;m leaving this as an exercise to the reader.</p>
-
-<p>Bak to user-threads.<br />
+<p>Bak to user-threads.<br>
 The conceptual model for user-threads is often referred to in the literature (TODO link) as the M:N model, where M
 represents the number of user-threads running on top of N kernel threads.</p>
-
 <p>Just to give a little bit more details, we can add the letter P in M:N:P to explicit the fact that M user-threads run
 on N kernel threads on top of P processor cores. Where N would be as close to P as possible, ideally.</p>
-
 <p>In Project Loom, user-threads are called lightweight/virtual threads, so I&rsquo;ll stick with this name from now on.</p>
-
 <p>The reason why fibers are interesting is because the cost of creating, suspending and resuming those fibers is
 massively reduced by the scheduler running in user-space, which means no extra kernel/user mode context-switches.</p>
-
-<p>How does it work&hellip;<br />
+<p>How does it work&hellip;<br>
 Implementations vary: Kotlin transforms suspendable functions bytecode during compilation, Clojure transforms code at
 macro-expansion time, etc.</p>
-
 <p>It turns out that Java in particular, and Kotlin too actually, even before it had coroutines, Fibers have exsited for
 quite some time. Since 2013 at least, thanks to a library named <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a>.</p>
-
 <p>Quasar has been developed by a company named <a href="http://www.paralleluniverse.co/">Parallel Universe</a> who, sadly, no longer exists, but whose
-CTO and core developer is now Project Loom&rsquo;s lead developer: Ron Pressler.<br />
+CTO and core developer is now Project Loom&rsquo;s lead developer: Ron Pressler.<br>
 Quasar implements fibers by instrumenting the Java bytecode and scans methods annotated as &ldquo;suspendable&rdquo; and turns them
 into continuations that run on a Fiber scheduler. Those continuations have the ability to <code>yield</code>, or relinquish the
 thread they are currently running on when encountering a blocking call.</p>
-
 <p>On my last project, we implemented a service whose responsibility was to proxy requests to remote backends through
 a limited number of connections. The goal of this scheduler was to maximize the use of connections, or in other words,
-minimize the time during which a given connection would sit idle, unused.<br />
+minimize the time during which a given connection would sit idle, unused.<br>
 I&rsquo;m not ashamed to say that even after almost two years of using Reactor daily, I didn&rsquo;t feel the nerves to do it with
 a Reactive Streams implementation.</p>
-
 <p>My colleague Guillaume started the Spring Boot 2 project, implemented the first REST endpoints and other background
 tasks necessary for the service, but when it was my turn to implement the logic of the scheduler and states and
 transitions, I went for Quasar and fiber-blocking, imperative code, and an actor model, but it&rsquo;s another story.</p>
-
 <p>I&rsquo;m not saying Reactor wasn&rsquo;t a good fit for this problem or that it couldn&rsquo;t be done. In fact I&rsquo;m sure it could be,
 just not by me, and I still think it was a good idea to find another way.</p>
-
 <p>So when you&rsquo;ve followed the work of Ron Pressler, it&rsquo;s not surprising that the way he proposed to approach implementing
-Fibers on the JVM is through the use of continuations.<br />
+Fibers on the JVM is through the use of continuations.<br>
 Now, what&rsquo;s a continuation?</p>
-
-<p>Conceptually, a continuation represents the rest of the execution of a process from a certain point in time.<br />
+<p>Conceptually, a continuation represents the rest of the execution of a process from a certain point in time.<br>
 More practically, when looking at the following code:</p>
-
 <p>TODO: insert code sample with &ldquo;suspension point&rdquo;.</p>
-
-<p>Who&rsquo;s  already heard about continuations?<br />
+<p>Who&rsquo;s  already heard about continuations?<br>
 Most programming languages today do not expose continuations and ways to create them as first-class citizens. Pretty
-much like many languages did not expose functions as first-class until the resurgence of functional programming.<br />
+much like many languages did not expose functions as first-class until the resurgence of functional programming.<br>
 Continuations are very fundamental and extremely powerful, and after preparing this talk I now find them more interesting
 by themselves then their use in the context of fibers. But anyways.</p>
-
-<p>The way continuations allow fibers implementation is via the yielding mechanism.<br />
+<p>The way continuations allow fibers implementation is via the yielding mechanism.<br>
 As soon as a running continuation encounters a blocking call, it calls this yield instruction.</p>
-
 <p>The runtime will then know that this continuation&rsquo;s stack can be saved, put aside for when its execution can be
 restarted, and will pick another continuation, which is ready to be restarted, if any, restore its control stack and
 assign it to the CPU.</p>
-
 <p>So Fibers in Loom are the association of continuations, and a scheduler.</p>
 
               <hr>
@@ -211,6 +180,19 @@ assign it to the CPU.</p>
               <div class="related-posts">
                 <h5>Related Posts</h5>
                 
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        May 8, 2020
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-4-nio/">Loom - Part 4 - Non-thread-blocking async I/O</a></strong>
+                      </h6>
+                    </div>
+                  </div>
                 
                 
                 

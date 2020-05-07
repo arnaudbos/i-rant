@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Repl on Arnaud Bos</title>
+    <title>REPL on Arnaud Bos</title>
     <link>https://i-rant.arnaudbos.com/tags/repl/</link>
-    <description>Recent content in Repl on Arnaud Bos</description>
+    <description>Recent content in REPL on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Tue, 28 Nov 2017 06:23:11 +0100</lastBuildDate>
@@ -17,7 +17,7 @@
       <pubDate>Tue, 28 Nov 2017 06:23:11 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/water-pouring-in-clojure/</guid>
-      <description>Die Hard with a Vengeance — Water puzzle scene   This post is the first or a series where I explore Clojure features and start a discussion with my colleague Igor about Clojure and Kotlin.
+      <description>Die Hard with a Vengeance — Water puzzle scene    This post is the first or a series where I explore Clojure features and start a discussion with my colleague Igor about Clojure and Kotlin.
 This summer, Igor offered to make a live Kotlin demo of a nice problem he&amp;rsquo;s been working on that can serve as a fine exercise to discover and experiment a programming language: the Water pouring puzzle.</description>
     </item>
     

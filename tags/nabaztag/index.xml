@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Nabaztag on Arnaud Bos</title>
+    <title>nabaztag on Arnaud Bos</title>
     <link>https://i-rant.arnaudbos.com/tags/nabaztag/</link>
-    <description>Recent content in Nabaztag on Arnaud Bos</description>
+    <description>Recent content in nabaztag on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Mon, 06 Jun 2016 15:00:36 +0100</lastBuildDate>
@@ -17,7 +17,7 @@
       <pubDate>Mon, 06 Jun 2016 15:00:36 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/nabaztagtag-internals/</guid>
-      <description>Nabaztag/tag    Updated: June 15th, 2016 Created: June 6th, 2016 Object: Detail what&amp;rsquo;s inside a Nabaztag/tag, with components references when possible.  I&amp;rsquo;m obviously not the first one trying to recycle my Nabaztag. Previous dissections have been done by others so I will reuse what they have done and will keep it here as a reference for my own usage.
+      <description>Nabaztag/tag     Updated: June 15th, 2016 Created: June 6th, 2016 Object: Detail what&amp;rsquo;s inside a Nabaztag/tag, with components references when possible.   I&amp;rsquo;m obviously not the first one trying to recycle my Nabaztag. Previous dissections have been done by others so I will reuse what they have done and will keep it here as a reference for my own usage.
 Most of the information on this page come from this guy, so thank you.</description>
     </item>
     
@@ -27,7 +27,7 @@ Most of the information on this page come from this guy, so thank you.</descript
       <pubDate>Sun, 05 Jun 2016 00:22:34 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/mr-p-outline/</guid>
-      <description>Nabaztag/tags    Updated: June 15th, 2016 Created: June 5th, 2016 Object: Kick-off of &amp;ldquo;Mr. P&amp;rdquo; project for Nabaztag/tag rabbit resurection with a Raspberry Pi. Naming  Nabaztag means &amp;ldquo;rabbit&amp;rdquo; ; There&amp;rsquo;s a rabbit whose name is &amp;ldquo;Mr. Rabbit&amp;rdquo; in Fantastic Mr. Fox film, which I love ; There&amp;rsquo;s also a &amp;ldquo;Mr. Rabbit&amp;rdquo; in the Utopia TV series, which I&amp;rsquo;m an absolute fan of ; I&amp;rsquo;ll use a Raspberry Pi.</description>
+      <description>Nabaztag/tags     Updated: June 15th, 2016 Created: June 5th, 2016 Object: Kick-off of &amp;ldquo;Mr. P&amp;rdquo; project for Nabaztag/tag rabbit resurection with a Raspberry Pi. Naming  Nabaztag means &amp;ldquo;rabbit&amp;rdquo; ; There&amp;rsquo;s a rabbit whose name is &amp;ldquo;Mr. Rabbit&amp;rdquo; in Fantastic Mr. Fox film, which I love ; There&amp;rsquo;s also a &amp;ldquo;Mr. Rabbit&amp;rdquo; in the Utopia TV series, which I&amp;rsquo;m an absolute fan of ; I&amp;rsquo;ll use a Raspberry Pi.</description>
     </item>
     
   </channel>

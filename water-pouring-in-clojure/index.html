@@ -17,7 +17,7 @@
     <meta name="description" content="My corner of teh interweb.">
     <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
     <title>Water Pouring Problem in Clojure</title>
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.70.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
@@ -107,52 +107,40 @@
 </figure>
 
 
-
-<hr />
-
+<hr>
 <p>This post is the first or a series where I explore Clojure features
 and start a discussion with my colleague <a href="https://twitter.com/ilaborie">Igor</a> about <a href="https://clojure.org/">Clojure</a>
 and <a href="https://kotlinlang.org/">Kotlin</a>.</p>
-
 <p>This summer, <a href="https://twitter.com/ilaborie">Igor</a> offered to make a live Kotlin demo of a nice problem
 he&rsquo;s been <a href="https://github.com/ilaborie/kotlin-pouring">working on</a> that can serve as a fine exercise to
 discover and experiment a programming language: the
 <a href="https://en.wikipedia.org/wiki/Water_pouring_puzzle">Water pouring puzzle</a>.</p>
-
-<p>In this article I talk about the <strong><em>programming style</em></strong> I&rsquo;ve
+<p>In this article I talk about the <em><strong>programming style</strong></em> I&rsquo;ve
 used to find my solution: a data oriented, bottom-up approach, at the
 REPL.</p>
-
-<hr />
-
+<hr>
 <p>Igor&rsquo;s <a href="https://github.com/ilaborie/kotlin-pouring#guideline-try-to-implements-with-immutable-data-structure">guideline</a> offers a good starting point
 on how OO and/or static typing (including myself when I switch to Java for
-instance) would solve this problem: model the world.<br />
+instance) would solve this problem: model the world.<br>
 Notice how, by following this recipe, you don&rsquo;t get to handle or transform
 any data until point 15 of about 30.</p>
-
 <p>Although I understand how this is more usual, familiar and maybe the most
 straightforward way to do things for a majority of developers, to me this is a
 major drawback. It means that half of the time you are spending laying out
 things, hoping the Lego blocks will fall into place, thinking about types and
 safety when all you should be thinking about should be (IMO) how do I solve
 this particular problem.</p>
-
 <p>After a few years of <a href="http://vvvvalvalval.github.io/posts/what-makes-a-good-repl.html">REPL</a> <a href="https://vimeo.com/223309989">driven development</a> I
 know that I have a good tool to functionally, expressively and
 incrementally solve a problem.</p>
-
 <p>This post is basically a transcript of my thought process as I was writing
-a solver to the Water pouring puzzle at the REPL.<br />
+a solver to the Water pouring puzzle at the REPL.<br>
 It was interesting to take the time to reflect and watch myself work as
 I was proceeding, it took more time but it was definitely an interesting
 experiment.</p>
-
-<hr />
-
+<hr>
 <p>I setup the boilerplate first. (leiningen, dependencies, etc) and a
 namespace to work in:</p>
-
 <div class="language-klipse"
   
   >
@@ -161,16 +149,12 @@ namespace to work in:</p>
 
 </div>
 
-
-<p>At the REPL, the fundamental principle is: <strong><em>exploratory programming</em></strong>.<br />
+<p>At the REPL, the fundamental principle is: <em><strong>exploratory programming</strong></em>.<br>
 I don&rsquo;t know how to find the solution to this problem (yet!),
 all I have at this point is a namespace.</p>
-
 <p>I must begin somewhere, so let&rsquo;s start with some data: a glass has a total
 capacity and a current state (<code>0</code> by default), I need a collection of those.</p>
-
 <p>I start at the REPL by declaring <code>inital-state</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -186,9 +170,7 @@ initial-state
 
 </div>
 
-
 <p>Then <code>final-state</code> to illustrate the target:</p>
-
 <div class="language-klipse"
   
   >
@@ -204,50 +186,41 @@ final-state
 
 </div>
 
-
-<p>Pretty easy: each glass is a <code>map</code> and I put two of those in a <code>vector</code>.<br />
+<p>Pretty easy: each glass is a <code>map</code> and I put two of those in a <code>vector</code>.<br>
 Just thinking about the amount of code I would have to write in Java or Kotlin
 just to get a short sample of data like this gives me goosebumps.</p>
-
 <p>Kotlin <a href="https://discuss.kotlinlang.org/t/plans-for-collection-literals/2049">might</a>,
 at <a href="https://blog.jetbrains.com/kotlin/2017/06/kotlin-future-features-survey-results/">some point</a>,
-have collection literals similar to those, or not.<br />
+have collection literals similar to those, or not.<br>
 There seems to be a debate inside the community whether this is a desired
 feature or not, despite the clear winner of the community survey.</p>
-
 <p>Communicating intent is an important part of a language and Kotlin&rsquo;s debate
 around collection literals seems to fall in the category of convenient syntax
-vs intent. Why?<br />
+vs intent. Why?<br>
 Because Kotlin&rsquo;s designers have made the choice to support both mutable and
 immutable collections as first class citizens. So how do you define what <code>{}</code>
-is or <code>[]</code> is? Is it mutable or immutable?<br />
+is or <code>[]</code> is? Is it mutable or immutable?<br>
 The debate also seem to include considerations such as ordered/unordered and the
 choice of syntax between lists and sets. Good luck figuring that out.</p>
-
 <p>Clojure is based on first-class persistent data-structures so mutation is not
 and option, and its collection literals are easily identified:</p>
-
 <ul>
 <li><code>()</code> for lists (PersistentList)</li>
 <li><code>[]</code> for vectors (PersistentVector)</li>
 <li><code>{}</code> for a maps (PersistentHashMap)</li>
 <li><code>#{}</code> for sets (PersistentHashSet)</li>
 </ul>
-
 <p>Want ordered/unordered variants? array-maps? queues? Sure, just use the
 appropriate constructor, the collections you will use the most are available
-as literals and it&rsquo;s a burden not put on you, the developer.<br />
+as literals and it&rsquo;s a burden not put on you, the developer.<br>
 View it as <em>&ldquo;only convenient&rdquo;</em> if you want to ditch the argument and discussion
 altogether, but with mutation out of the way a whole class of problems are gone
 once again, and the benefit of being able to just copy and paste
 around printed representations of data-structures (in REPL or in logs) and
 use them verbatim as code is priceless.</p>
-
 <p>Alright, so the actions allowed to be performed on a glass are either to <em>pour</em>
 some quantity out of it, or to <em>fill</em> it with some quantity.</p>
-
 <p>So I implement a <code>pour</code> function first:</p>
-
 <div class="language-klipse"
   
   >
@@ -262,12 +235,10 @@ some quantity out of it, or to <em>fill</em> it with some quantity.</p>
 
 </div>
 
-
 <p>This is a multi-arity function:</p>
-
 <ul>
 <li>The first implementation takes a glass as its only parameter and returns a
-<a name="anew"></a>new<sup><a href="#new">1</a></sup> empty glass of the same capacity.</li>
+<!-- raw HTML omitted --><!-- raw HTML omitted -->new<!-- raw HTML omitted --><a href="#new">1</a><!-- raw HTML omitted --> empty glass of the same capacity.</li>
 <li>The second implementation takes a glass as its first parameter and a quantity
 as its second parameter and returns a new glass <em>poured out of</em> the given
 quantity or <em>poured out empty</em> if it contains less than the given quantity.</li>
@@ -278,14 +249,11 @@ is a map, in order to get its <code>current</code> key only, as I don&rsquo;t ca
 a standard library function that returns a new map containing the new
 <code>key/value</code> mapping.</li>
 </ul>
-
 <p>Don&rsquo;t worry about the prefix notation, it&rsquo;s not difficult, it&rsquo;s just different,
 you&rsquo;re not
 <em><a href="https://www.infoq.com/presentations/Simple-Made-Easy">familiar</a></em> with it, and
 you&rsquo;ll get used to it.</p>
-
 <p>Test <code>pour</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -296,7 +264,6 @@ you&rsquo;ll get used to it.</p>
 
 </div>
 
-
 <ul>
 <li>Pouring out empty a glass of capacity <code>5</code> returns an empty glass of capacity
 <code>5</code>.</li>
@@ -305,14 +272,11 @@ a glass of capacity <code>8</code> containing <code>2</code>.</li>
 <li>And pouring out <code>5</code> from a glass of capacity <code>8</code> containing <code>4</code> just returns
 and empty glass, not <code>-1</code>.</li>
 </ul>
-
 <p>Ignore the last <code>nil</code> in the results, it&rsquo;s just the live code evaluation
-plugin that prints it out as the result of the last <code>println</code> call.<br />
+plugin that prints it out as the result of the last <code>println</code> call.<br>
 Go ahead and play with it a little, even change the implementation above
 if you will.</p>
-
 <p>Now the <code>fill</code> function:</p>
-
 <div class="language-klipse"
   
   >
@@ -327,19 +291,15 @@ if you will.</p>
 
 </div>
 
-
 <p>This is also a multi-arity function:</p>
-
 <ul>
 <li>The first implementation fills a glass up to its maximum capacity.</li>
 <li>The second implementation fills a glass <em>up to</em> its maximum capacity given
 a quantity to fill it with.</li>
-<li>Both return a new glass of course (not a copy!!!), we&rsquo;re in <strong><em>immutable</em></strong>
+<li>Both return a new glass of course (not a copy!!!), we&rsquo;re in <em><strong>immutable</strong></em>
 land here.</li>
 </ul>
-
 <p>Test <code>fill</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -350,7 +310,6 @@ land here.</li>
 
 </div>
 
-
 <ul>
 <li>Filling an empty glass returns a glass full.</li>
 <li>Filling <code>1</code> into a glass of capacity <code>8</code> that already contains <code>4</code> returns a
@@ -358,7 +317,6 @@ glass of capacity <code>8</code> containing <code>5</code>.</li>
 <li>And filling <code>2</code> into a glass of capacity <code>8</code> that already contains <code>7</code> returns
 a glass of capacity <code>8</code> that is full, not <code>9</code>.</li>
 </ul>
-
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -397,37 +355,28 @@ a glass of capacity <code>8</code> that is full, not <code>9</code>.</li>
 
 </div>
 
-
 <p>Let&rsquo;s take a break here.</p>
-
-<hr />
-
+<hr>
 <p>One of the major benefits of a good REPL (and Clojure&rsquo;s REPL is a good one),
 is the ability to explore: write one function at a time, execute it
 <strong>right away</strong> with a small amount of data, creating a really short
 <strong>feedback loop</strong> in order to <strong>explore</strong> multiple solutions.</p>
-
 <p>In this blog post I use <a href="https://github.com/viebel/klipse">Klipse</a> in order to present my iterative
-process and <strong>let you play with the code</strong>.<br />
+process and <strong>let you play with the code</strong>.<br>
 This is nice for you to get a feel and try different inputs to my functions,
 or write different implementations if you want to.</p>
-
 <p>A good REPL is superior to TDD because it lets you write (or better: keep)
 tests that matter, get the result out of a function call and use it again as
 data that can populate your <em>real</em> tests.</p>
-
 <p>But if you&rsquo;ve tried other REPLs (ruby, python, node, etc.), you may be
 thinking that a REPL is not practical, because it forces you to copy/paste
 code all the time, go back and forth in you REPL&rsquo;s history in order to
 retrieve past results and implementations just to change a few characters.</p>
-
 <p>And this is where tooling is important.</p>
-
 <p>Lots of Clojure developers use emacs (or cursive, an Intellij plugin) and
-benefit from its integration with the REPL.<br />
+benefit from its integration with the REPL.<br>
 I, personnally, have been enjoying <a href="http://lighttable.com/">Light Table</a> since 2013, and
 this is a screenshot of my laptop while I&rsquo;m working at the REPL:</p>
-
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -450,53 +399,41 @@ this is a screenshot of my laptop while I&rsquo;m working at the REPL:</p>
 <div class="title">Light Table instaREPL</div>
 </div>
 
-
 <p>Do you see the &ldquo;blue&rdquo; data? This is the result of evaluating a Clojure
-expression in the editor itself.<br />
+expression in the editor itself.<br>
 This alone has made it difficult for me to switch to another editor ever since.</p>
-
 <p>At the REPL, I type in <strong>data</strong>, I pass it to <strong>functions</strong> and I get the
 <strong>result</strong> (which I use later as new input/expected output for other tests)
-in front of my eyes.<br />
+in front of my eyes.<br>
 I define <strong>new functions</strong> and make extensive use of <em>&ldquo;variable shadowing&rdquo;</em> to
 <strong>modify the implementation of existing functions</strong>.</p>
-
 <p>No classes, no types, no FactoryFactoryAbstractDelegateProxyPattern:
-just data and functions&hellip;<br />
-I can hear you, static typing addict: <strong>BUT IT IS NOT SAFE!</strong><br />
+just data and functions&hellip;<br>
+I can hear you, static typing addict: <strong>BUT IT IS NOT SAFE!</strong><br>
 Yes, I know, I just don&rsquo;t care at this point! I told you, I&rsquo;m <strong>exploring</strong>.
 I want to go fast, iterate quickly, not model the whole universe and bang my
 head against the type checker.</p>
-
 <p>I can just rely on my tests for now and use simple assertions or
 <a href="https://clojure.org/about/spec">specifications</a> later (or now, but right now
 I&rsquo;m not, obviously) to refine.</p>
-
 <p>I&rsquo;ve never had a shortest feedback loop in any other language I&rsquo;ve used, this is
 pure gold.</p>
-
-<hr />
-
+<hr>
 <p>Let&rsquo;s continue our problem solving.</p>
-
-<p>I have a pouring and a filling function.<br />
+<p>I have a pouring and a filling function.<br>
 Now I&rsquo;d need a function that takes a collection of glasses (state),
 apply an action (commonly called a &lsquo;move&rsquo; in the current domain language)
 and return a new, updated collection of glasses (new state).</p>
-
 <p>What characterizes a move? It&rsquo;s either an <code>empty</code>, <code>pour</code> or <code>fill</code> action
 associated with glass indices:</p>
-
 <ul>
 <li>empty <code>from</code> the nth glass</li>
 <li>fill <code>to</code> the nth glass</li>
 <li>pour <code>from</code> the mth glass <code>to</code> the nth glass</li>
 </ul>
-
-<p>Expressivity matters, so maybe a move would be best represented by a map.<br />
+<p>Expressivity matters, so maybe a move would be best represented by a map.<br>
 A map with a type that characterizes the move (<code>empty</code>, <code>fill</code>, <code>pour</code>) and
 subjects that indicate the source / target / both of the move (<code>from</code>, <code>to</code>):</p>
-
 <div class="language-klipse"
   
   >
@@ -507,11 +444,9 @@ subjects that indicate the source / target / both of the move (<code>from</code>
 
 </div>
 
-
 <p>I&rsquo;m beginning to think that a bit of <em>Ad-hoc polymorphism</em> would
 be great in order to dispatch on the type of move: let&rsquo;s use
 <em>multimethods</em>.</p>
-
 <div class="language-klipse"
   
   >
@@ -522,18 +457,15 @@ be great in order to dispatch on the type of move: let&rsquo;s use
 
 </div>
 
-
 <p>The <code>defmulti</code> macro defines a new multimethod with the associated
-<code>dispatch function</code>.<br />
+<code>dispatch function</code>.<br>
 Which means that the <code>-&gt;move</code> function will take two parameters, and the
 dispatch function will <em>choose</em> the appropriate implementation.</p>
-
 <p>In this case I dispatch based on the value associated to the <code>:type</code> key in the
-<code>move</code> parameter.<br />
-A <code>:empty</code> move will dispatch to the <code>-&gt;move :empty</code> multimethod.<br />
-A <code>:fill</code> move will dispatch to the <code>-&gt;move :fill</code> multimethod.<br />
+<code>move</code> parameter.<br>
+A <code>:empty</code> move will dispatch to the <code>-&gt;move :empty</code> multimethod.<br>
+A <code>:fill</code> move will dispatch to the <code>-&gt;move :fill</code> multimethod.<br>
 A <code>:pour</code> move will dispatch to the <code>-&gt;move :pour</code> multimethod.</p>
-
 <div class="language-klipse"
   
   >
@@ -560,25 +492,21 @@ A <code>:pour</code> move will dispatch to the <code>-&gt;move :pour</code> mult
 
 </div>
 
-
 <p><code>update-in</code> is a <a href="https://clojuredocs.org/clojure.core/update-in">standard library</a>
 function that takes a data structure as a first parameter and &ldquo;updates&rdquo;
 (immutable, remember?) the value nested at the path given by the second
-parameter by applying to it the function supplied as the third parameter&hellip;<br />
+parameter by applying to it the function supplied as the third parameter&hellip;<br>
 Don&rsquo;t pretend you didn&rsquo;t understand, just reread carefully.</p>
-
-<p>Let&rsquo;s take our <code>-&gt;move :empty</code> multimethod as an example.<br />
+<p>Let&rsquo;s take our <code>-&gt;move :empty</code> multimethod as an example.<br>
 Since our move is an <code>:empty</code>, we destructure this parameter to get the
 value at the <code>:from</code> key: the index of the glass in <code>state</code> that we want to
-empty.<br />
+empty.<br>
 Once the glass has been fetched, <code>update-in</code> will evaluate the <code>pour</code> function
-with the glass as its sole parameter.<br />
+with the glass as its sole parameter.<br>
 Since I&rsquo;ve implemented the 1-arity of the <code>pour</code> function so that it just
 returns a new empty glass of same capacity, this result will <em>replace</em>
 the glass in the <code>state</code>.</p>
-
 <p>Let&rsquo;s test <code>-&gt;move</code> to &ldquo;manually&rdquo; go from <code>initial-state</code> to <code>final-state</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -596,21 +524,16 @@ the glass in the <code>state</code>.</p>
 
 </div>
 
-
 <p>It works!</p>
-
 <p>I must now implement a function that, when given a collection of glasses,
 returns a collection of possible moves that can be applied to this state in
 order to produce a <em>meaningful</em> new collection of glasses.</p>
-
 <p>Meaningful as in:</p>
-
 <ul>
 <li>not emptying an empty glass,</li>
 <li>not filling a glass that is full, and</li>
 <li>not pouring into &lsquo;itself&rsquo;, which gets us nowhere</li>
 </ul>
-
 <div class="language-klipse"
   
   >
@@ -627,10 +550,8 @@ order to produce a <em>meaningful</em> new collection of glasses.</p>
 
 </div>
 
-
 <p>I&rsquo;m not going to explain everything, just look at the input and output in this
 test of <code>glasses-&gt;index</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -642,9 +563,7 @@ test of <code>glasses-&gt;index</code>:</p>
 
 </div>
 
-
 <p>The <em>&ldquo;indexing&rdquo;</em> works, now the function for listing moves:</p>
-
 <div class="language-klipse"
   
   >
@@ -663,13 +582,10 @@ test of <code>glasses-&gt;index</code>:</p>
 
 </div>
 
-
 <p>Concatenate the list of moves able to empty the non-empty glasses, fill the
 non-full glasses and pour the non-empty glasses into the distinct non-full
 glasses.</p>
-
 <p>Test <code>available-moves</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -679,10 +595,8 @@ glasses.</p>
 
 </div>
 
-
 <p>I can get the list of moves that are practicable, now let&rsquo;s
 explore the next glasses available from the current glasses.</p>
-
 <div class="language-klipse"
   
   >
@@ -693,9 +607,7 @@ explore the next glasses available from the current glasses.</p>
 
 </div>
 
-
 <p>Test <code>explore</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -704,31 +616,22 @@ explore the next glasses available from the current glasses.</p>
 
 </div>
 
-
 <p>Given a list of glasses (a state), returns the list of glasses I could get to
 (next states) by applying the moves that are available from my current state.</p>
-
-<a class="fold title" onclick="$('#explore').toggleClass('hidden');">[Exploration]</a>
-<div id="explore" class="fold content hidden">
-  <p>I won&rsquo;t need this function because in order to find the list of moves
+<p><!-- raw HTML omitted -->[Exploration]<!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>I won&rsquo;t need this function because in order to find the list of moves
 leading from a state to another I must keep the previous moves in memory when
 exploring further&hellip;</p>
-
 <p><code>explore</code> is not enough, but at least I know how to explore the spectrum
 of all the possible next states for a given state and list of moves.</p>
-
 <p>See? I&rsquo;ve <em>explored</em>, I&rsquo;ve made an experiment with a function mapped over
 some data. And it didn&rsquo;t cost much because my feedback loop is really short.</p>
-
 <p>I&rsquo;ve realized this path is not going to help, so I can just discard it and
 refine my understanding of the steps I need to take to reach my goal.</p>
-
-</div>
-
-
+<!-- raw HTML omitted -->
 <p>Given a <code>node</code> containing glasses and the sequence of moves leading to
 them, return a list of successor nodes.</p>
-
 <div class="language-klipse"
   
   >
@@ -742,13 +645,10 @@ them, return a list of successor nodes.</p>
 
 </div>
 
-
 <p>I evaluate the moves available from the current node&rsquo;s glasses and for each
 one of them I return a new node consisting of the next state of glasses and
 the augmented list of move leading to it.</p>
-
 <p>Test <code>expand</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -760,17 +660,13 @@ the augmented list of move leading to it.</p>
 
 </div>
 
-
 <p>Nice, given glasses and the <code>history</code> of moves that led from an initial
 state to these glasses, I can get the list of next states that are
 <em>possible</em>, with their respective history of moves.</p>
-
 <p>But at some point I might reach a state that I have already visited in the
 past&hellip; So it would be interesting to keep an index of the states that I
 have already visited in order to query it and avoid useless computation.</p>
-
 <p>Let&rsquo;s <em>&ldquo;backtract&rdquo;</em> the already visited nodes:</p>
-
 <div class="language-klipse"
   
   >
@@ -782,9 +678,7 @@ have already visited in order to query it and avoid useless computation.</p>
 
 </div>
 
-
 <p>Test <code>backtrack</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -795,14 +689,11 @@ have already visited in order to query it and avoid useless computation.</p>
 
 </div>
 
-
 <p>The first parameter of <code>backtrack</code> is a set, so <code>contains?</code> is <code>O(1)</code>, not
 <code>O(n)</code>.</p>
-
-<p>I&rsquo;m almost there, right?<br />
+<p>I&rsquo;m almost there, right?<br>
 But I must stop searching at some point, so let&rsquo;s identify a solution among
 a set of candidates:</p>
-
 <div class="language-klipse"
   
   >
@@ -814,17 +705,14 @@ a set of candidates:</p>
 
 </div>
 
-
 <p><code>some</code> is a <a href="https://clojuredocs.org/clojure.core/some">standard library</a>
 function that returns the first logical true value of the predicate function
-result.<br />
+result.<br>
 My predicate function returns the list of moves leading to the current node
 when the glasses of the node match the target glasses state, so if the
 <code>successors</code> collection contains the solution, the list of moves to get
 there is returned.</p>
-
 <p>Test <code>has-solution?</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -842,16 +730,12 @@ there is returned.</p>
 
 </div>
 
-
 <p>And now the final part: I must compose the functions I have written so far
 in order to implement a solver.</p>
-
 <p>This is <em>bottom-up</em>. I know I have all the parts of my solver in place and
 I have tested most of them along the way.</p>
-
 <p>Let&rsquo;s loop over glasses nodes, keeping track of the already visited ones,
 searching for a solution leading to the target state:</p>
-
 <div class="language-klipse"
   
   >
@@ -876,9 +760,7 @@ searching for a solution leading to the target state:</p>
 
 </div>
 
-
 <p>Test <code>solver</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -892,9 +774,7 @@ searching for a solution leading to the target state:</p>
 
 </div>
 
-
 <p>Test it again with a (seemingly) more complicated use case:</p>
-
 <div class="language-klipse"
   
   >
@@ -910,18 +790,13 @@ searching for a solution leading to the target state:</p>
 
 </div>
 
-
-<hr />
-
+<hr>
 <p>Functionally I could stop here because the problem is solved. But there are
 some points that bother me, some <code>vars</code> names that don&rsquo;t reflect what
 piece of information they carry or some functions that could be broken into
 smaller ones.</p>
-
 <p>Let&rsquo;s refactor a little:</p>
-
 <p>Refactor <code>-&gt;move</code> to better reflect domain:</p>
-
 <div class="language-klipse"
   
   >
@@ -949,9 +824,7 @@ smaller ones.</p>
 
 </div>
 
-
 <p>Refactor <code>expand</code> by extracting the node builder:</p>
-
 <div class="language-klipse"
   
   >
@@ -969,11 +842,8 @@ smaller ones.</p>
 
 </div>
 
-
 <p>Refactor <code>solver</code> by decomposing functions:</p>
-
 <p>Let&rsquo;s create a <code>make-glass</code> utility function:</p>
-
 <div class="language-klipse"
   
   >
@@ -986,9 +856,7 @@ smaller ones.</p>
 
 </div>
 
-
 <p>Test <code>make-glass</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -996,7 +864,6 @@ smaller ones.</p>
 (make-glass 5)
 
 </div>
-
 
 <div class="language-klipse"
   
@@ -1006,10 +873,8 @@ smaller ones.</p>
 
 </div>
 
-
 <p>Now a <code>initialize</code> function to create a vector of glasses from capacities or
 capacities + quantities:</p>
-
 <div class="language-klipse"
   
   >
@@ -1022,9 +887,7 @@ capacities + quantities:</p>
 
 </div>
 
-
 <p>Test <code>initialize</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -1032,7 +895,6 @@ capacities + quantities:</p>
 (initialize [8 5 3])
 
 </div>
-
 
 <div class="language-klipse"
   
@@ -1042,10 +904,8 @@ capacities + quantities:</p>
 
 </div>
 
-
 <p>Let&rsquo;s extract the part of the solver that find the successors of a collection
 of nodes into <code>find-successors</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -1056,9 +916,7 @@ of nodes into <code>find-successors</code>:</p>
 
 </div>
 
-
 <p>Test <code>find-successors</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -1067,10 +925,8 @@ of nodes into <code>find-successors</code>:</p>
 
 </div>
 
-
 <p>Let&rsquo;s extract the part of the solver that filters out the successors that have
 already been visited into <code>filter-successors</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -1081,9 +937,7 @@ already been visited into <code>filter-successors</code>:</p>
 
 </div>
 
-
 <p>Test <code>filter-successors</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -1095,10 +949,8 @@ already been visited into <code>filter-successors</code>:</p>
 
 </div>
 
-
 <p>We&rsquo;re almost done. Let&rsquo;s create a function to only keep a distinct set of
 successors from a collection of candidates with <code>get-unique-glasses</code>.</p>
-
 <div class="language-klipse"
   
   >
@@ -1109,9 +961,7 @@ successors from a collection of candidates with <code>get-unique-glasses</code>.
 
 </div>
 
-
 <p>Test <code>distinct-glasses</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -1122,9 +972,7 @@ successors from a collection of candidates with <code>get-unique-glasses</code>.
 
 </div>
 
-
 <p>And now we can rewrite <code>solver</code> with these new pieces.</p>
-
 <div class="language-klipse"
   
   >
@@ -1147,9 +995,7 @@ successors from a collection of candidates with <code>get-unique-glasses</code>.
 
 </div>
 
-
 <p>Test <code>solver</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -1158,7 +1004,6 @@ successors from a collection of candidates with <code>get-unique-glasses</code>.
 (println (simple-solver))
 
 </div>
-
 
 <div class="language-klipse"
   
@@ -1169,9 +1014,7 @@ successors from a collection of candidates with <code>get-unique-glasses</code>.
 
 </div>
 
-
 <p>Implement <code>-main</code>:</p>
-
 <div class="language-klipse"
   
   >
@@ -1185,39 +1028,31 @@ successors from a collection of candidates with <code>get-unique-glasses</code>.
 
 </div>
 
-
-<hr />
-
+<hr>
 <p>It&rsquo;s been a pretty long article in the end. Together we&rsquo;ve implemented a
 function to solve the water pouring problem for an arbitrary list of glasses
 of some quantity in Clojure.</p>
-
 <p>You can find the file I&rsquo;ve used to write this exploratory work
 <a href="https://github.com/arnaudbos/clj-water-pouring/blob/master/src/clj_water_pouring/repl.clj">here</a>, and the final version of the solver without
 all the evaluations <a href="https://github.com/arnaudbos/clj-water-pouring/blob/master/src/clj_water_pouring/core.clj">here</a>.</p>
-
 <p>The thing that is the most interesting to me here is not the number of lines,
-the safety or the provability of correctness.<br />
+the safety or the provability of correctness.<br>
 What I want to stress out is the development at the REPL.</p>
-
 <p>You can see in the repository that I didn&rsquo;t even bother to write tests, because
 I don&rsquo;t plan to share this work, publish it or maintain it. Nonetheless it has
-been tested.<br />
+been tested.<br>
 I has been tested all the way from the beginning, at each function definition,
 with data. You see, I didn&rsquo;t need to use TDD, and I didn&rsquo;t have to write some
 temporary <code>main</code> function to pass inputs to the command line, and I didn&rsquo;t need
 to wait until I&rsquo;ve assembled all the code together to try it fingers crossed.</p>
-
 <p>Through the use of immutability, pure functions and first-class data literals
 I feel like I can achieve more and iterate more quickly than with any other
-language I&rsquo;ve used.<br />
+language I&rsquo;ve used.<br>
 I also argue that the Lisp syntax, although different, is an asset, because
 there&rsquo;s no cognitive load associated with it: no magical keywords, no mix of
 parents, braces or brackets for structure: just lists as functions and data.</p>
-
 <p>Footnote:</p>
-
-<p><a name="new">1</a>: This it is not exactly a new glass as in &lsquo;a copy&rsquo; but a
+<p><!-- raw HTML omitted -->1<!-- raw HTML omitted -->: This it is not exactly a new glass as in &lsquo;a copy&rsquo; but a
 new pointer to a persistent data structure, a concept also know as
 <em>structural sharing</em> (<a href="#anew">go back</a>)</p>
 

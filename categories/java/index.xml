@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Java on Arnaud Bos</title>
+    <title>java on Arnaud Bos</title>
     <link>https://i-rant.arnaudbos.com/categories/java/</link>
-    <description>Recent content in Java on Arnaud Bos</description>
+    <description>Recent content in java on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 01 May 2020 16:57:35 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2020 01:44:26 +0200</lastBuildDate>
     
 	<atom:link href="https://i-rant.arnaudbos.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Loom - Part 4 - Non-thread-blocking async I/O</title>
       <link>https://i-rant.arnaudbos.com/loom-part-4-nio/</link>
-      <pubDate>Fri, 01 May 2020 16:57:35 +0200</pubDate>
+      <pubDate>Fri, 08 May 2020 01:44:26 +0200</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/loom-part-4-nio/</guid>
       <description>Part 4 in a series of articles about Project Loom.
@@ -43,7 +43,8 @@ Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
 Part 3 - Asynchronous code (this page)
-   Atelier de couture  J. Trayer 1854 CC0 1.</description>
+Part 4 - Non-thread-blocking async I/O
+   Atelier de couture  J.</description>
     </item>
     
     <item>
@@ -60,6 +61,7 @@ Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code (this page)
 Part 3 - Asynchronous code
+Part 4 - Non-thread-blocking async I/O
    Weaving  Max Pixel CC0 1.</description>
     </item>
     
@@ -77,7 +79,7 @@ Part 0 - Rationale
 Part 1 - It&amp;rsquo;s all about Scheduling (this page)
 Part 2 - Blocking code
 Part 3 - Asynchronous code
-   Jacquard Loom  Stephencdickson CC BY-SA 4.</description>
+Part 4 - Non-thread-blocking async I/O</description>
     </item>
     
     <item>
@@ -94,7 +96,7 @@ Part 0 - Rationale (this page)
 Part 1 - It&amp;rsquo;s all about Scheduling
 Part 2 - Blocking code
 Part 3 - Asynchronous code
- Finding good introduction level articles on concurrent programming is difficult because every post assumes some prior knowledge.</description>
+Part 4 - Non-thread-blocking async I/O</description>
     </item>
     
     <item>

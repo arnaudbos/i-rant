@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Clojure on Arnaud Bos</title>
+    <title>clojure on Arnaud Bos</title>
     <link>https://i-rant.arnaudbos.com/tags/clojure/</link>
-    <description>Recent content in Clojure on Arnaud Bos</description>
+    <description>Recent content in clojure on Arnaud Bos</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Tue, 28 Nov 2017 06:23:11 +0100</lastBuildDate>
@@ -17,7 +17,7 @@
       <pubDate>Tue, 28 Nov 2017 06:23:11 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/water-pouring-in-clojure/</guid>
-      <description>Die Hard with a Vengeance — Water puzzle scene   This post is the first or a series where I explore Clojure features and start a discussion with my colleague Igor about Clojure and Kotlin.
+      <description>Die Hard with a Vengeance — Water puzzle scene    This post is the first or a series where I explore Clojure features and start a discussion with my colleague Igor about Clojure and Kotlin.
 This summer, Igor offered to make a live Kotlin demo of a nice problem he&amp;rsquo;s been working on that can serve as a fine exercise to discover and experiment a programming language: the Water pouring puzzle.</description>
     </item>
     
@@ -51,9 +51,8 @@ In Europe for instance (which is my point of view), I can see strong communities
       <pubDate>Fri, 10 Nov 2017 13:41:21 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/use-clojure-already/</guid>
-      <description>Lisp as a secret weapon   I hear a lot of talking going on about Kotlin around me lately.
-There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot has happened around it from the Google announcement that Kotlin would benefit from first class support on Android, up to the hiring of Jake Wharton (a figure in the world of Android developers).
-I&amp;rsquo;ve never been very enthusiastic about Kotlin, but my colleagues at MonkeyPatch seem to be following the hype (muahaha&amp;hellip;) and are becoming more and more addicted to it.</description>
+      <description>Lisp as a secret weapon    I hear a lot of talking going on about Kotlin around me lately.
+There&amp;rsquo;s no doubt that since Kotlin v1.0 has been released last year, a lot has happened around it from the Google announcement that Kotlin would benefit from first class support on Android, up to the hiring of Jake Wharton (a figure in the world of Android developers).</description>
     </item>
     
     <item>
