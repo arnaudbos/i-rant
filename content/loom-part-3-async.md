@@ -21,6 +21,7 @@ gallery: true
 > [Part 1 - It's all about Scheduling][part-1]  
 > [Part 2 - Blocking code][part-2]  
 > [Part 3 - Asynchronous code][part-3] (this page)  
+> [Part 4 - Non-thread-blocking async I/O][part-4]  
 
 {{< img center="true" src="/img/loom/handweaving.jpg" alt="Seamstresses in a shop" width="100%" title="Atelier de couture" caption="J. Trayer 1854" attr="CC0 1.0" attrlink="https://creativecommons.org/publicdomain/zero/1.0/deed.en" link="https://commons.wikimedia.org/wiki/File:Jean_Baptiste_Jules_Trayer_Bretonische_Schneiderinnen_1854.jpg">}}
 
@@ -134,52 +135,33 @@ Like the synchronous example, `getConnection` deals with the retry logic. But
 `asyncRequest`. So we have to implement both success and error callback methods.
 
 ```java
-private void getConnection(long eta,
-                           long wait,
-                           String token,
-                           CompletionHandler<Connection.Available> handler)
-    if (eta > MAX_ETA_MS) {
-        if (handler!=null) handler.failed(new EtaExceededException());
+new CompletionHandler<>() {
+    @Override
+    public void completed(Connection c) {
+        if (c instanceof Connection.Available) {
+            if (handler!=null)
+①              handler.completed((Connection.Available) c);
+        } else {
+②          Connection.Unavailable unavail = (Connection.Unavailable) c;
+            getConnection(
+                unavail.getEta(),
+                unavail.getWait(),
+                unavail.getToken(),
+                handler);
+        }
     }
-
-    boundedServiceExecutor.schedule(() -> {
-        println("Retrying download after " + wait + "ms wait.");
-
-①      coordinator.requestConnection(
-            token,
-            new CompletionHandler<>() {
-                @Override
-②              public void completed(Connection c) {
-                    if (c instanceof Connection.Available) {
-                        if (handler!=null)
-③                          handler.completed((Connection.Available) c);
-                    } else {
-④                      Connection.Unavailable unavail = (Connection.Unavailable) c;
-                        getConnection(
-                            unavail.getEta(),
-                            unavail.getWait(),
-                            unavail.getToken(),
-                            handler);
-                    }
-                }
-
-                @Override
-⑤              public void failed(Throwable t) {
-                    if (handler!=null) handler.failed(t);
-                }
-            },
-            boundedServiceExecutor);
-    }, wait, TimeUnit.MILLISECONDS);
+    @Override
+③  public void failed(Throwable t) {
+        if (handler!=null) handler.failed(t);
+    }
 }
 ```
 
-1. In case of success of the underlying _requestConnection > asyncRequest_ call chain.
-2. The `completed` method will be called with the response from the coordinator. The answer could be positive or negative.
-3. In case of `Available`, we're done; we can complete the completion _handler_ passed to `getConnection`. Its caller can
+1. In case of `Available`, we're done; we can complete the completion _handler_ passed to `getConnection`. Its caller can
    be notified of the success and proceed (with the download).
-4. In case of `Unavailable`, we hide the retry logic and _reschedule_ the call to _requestConnection_ to the executor
+2. In case of `Unavailable`, we hide the retry logic and _reschedule_ the call to _requestConnection_ to the executor
    by recursively calling `getConnection` with updated parameters.
-5. In case of failure we simply propagate the error to `getConnection`'s caller.
+3. In case of failure we simply propagate the error to `getConnection`'s caller.
 
 The callbacks already make this logic cluttered enough; but we're not done! We must now implement `getThingy`, our
 service method which calls to `getConnection` and then start the download request.
@@ -201,23 +183,13 @@ private void getThingy(int i, CompletionHandler<Void> handler) {
                 }
 
                 @Override
-⑥              public void failed(Throwable t) {
-                    if (t instanceof EtaExceededException) {
-                        err("Couldn't getThingy because ETA exceeded: " + t);
-                    } else {
-                        err("Couldn't getThingy because something failed: " + t);
-                    }
-                    if (handler!=null) handler.failed(t);
-                }
+⑥              public void failed(Throwable t) { ... }
 ⑤          }, boundedServiceExecutor);
 
         }
 
         @Override
-⑥      public void failed(Throwable t) {
-            err("Task failed.");
-            if (handler!=null) handler.failed(t);
-        }
+⑥      public void failed(Throwable t) { ... }
     });
 }
 ```
@@ -300,27 +272,7 @@ class PulseRunnable implements Runnable {
 ①          coordinator.heartbeat(
                 conn.getToken(),
                 new CompletionHandler<>() {
-                    @Override
-②                  public void completed(Connection result) {
-③                      if (!download.isDone()) {
-                            boundedPulseExecutor.schedule(
-                                PulseRunnable.this,
-                                2_000L,
-                                TimeUnit.MILLISECONDS
-                            );
-                        }
-                    }
-
-                    @Override
-②                  public void failed(Throwable t) {
-③                      if (!download.isDone()) {
-                            boundedPulseExecutor.schedule(
-                                PulseRunnable.this,
-                                2_000L,
-                                TimeUnit.MILLISECONDS
-                            );
-                        }
-                    }
+                    ...
                 },
                 boundedPulseExecutor
             );
@@ -331,15 +283,48 @@ class PulseRunnable implements Runnable {
 }
 ```
 
-Nothing too fancy.
-
 1. When started, the runnable calls the asynchronous `CoordinatorService#heartbeat` method with the token,
    _completion handler_ and executor. The executor is responsible to run the handler's methods (`boundedServiceExecutor` in
    this case, like when calling `GatewayService#downloadThingy` above).
-2. We ignore heartbeat results, whether successes or failures,
-3. And schedule a new heartbeat request as long as the download _Future_ is not "done".
 
-Finally, the last piece of the puzzle, the clients calling the service:
+```java
+coordinator.heartbeat( // See previous snippet
+    conn.getToken(),
+    new CompletionHandler<>() {
+        @Override
+②      public void completed(Connection result) {
+③          rePulseIfNotDone();
+        }
+    
+        @Override
+②      public void failed(Throwable t) {
+③          rePulseIfNotDone();
+        }
+    },
+    boundedPulseExecutor
+);
+```
+
+<ol start="2">
+  <li>We ignore heartbeat results, whether successes or failures,</li>
+  <li>And schedule a new heartbeat request as long as the download <i>Future</i> is not "done".</li>
+</ol>
+
+{{% fold id="identity-matrix" title="Show the code for `rePulseIfNotDone`." %}}
+```java
+private void rePulseIfNotDone() {
+    if (!download.isDone()) {
+        boundedServiceExecutor.schedule(
+            PulseRunnable.this,
+            2_000L,
+            TimeUnit.MILLISECONDS
+        );
+    }
+}
+```
+{{% /fold %}}
+
+Finally, the last piece of the puzzle: lients calling the service:
 
 ```java
 CompletableFuture<Void>[] futures = new CompletableFuture[MAX_CLIENTS];
@@ -363,7 +348,7 @@ for(int i=0; i<MAX_CLIENTS; i++) {
 Phew...
 
 That certainly wasn't easy code. Not like the synchronous code we've seen in the [previous entry][part-2]! The problem
-is still simple though, so it tells a lot about asynchronous programming: it's a **pain in the butt**.
+is still simple though, so it tells a lot about asynchronous programming: it's a **massive  pain in the butt**.
 
 The logic is all over the place! Asynchronous APIs forces us to split our logic into pieces, but not the pieces we'd
 like. A perfectly self-contained function in synchronous programming would have to be split into two to three (if not more)

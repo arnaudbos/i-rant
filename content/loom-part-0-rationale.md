@@ -19,6 +19,7 @@ seoimage: img/loom/jacquard_loom.jpg
 > [Part 1 - It's all about Scheduling][part-1]  
 > [Part 2 - Blocking code][part-2]  
 > [Part 3 - Asynchronous code][part-3]  
+> [Part 4 - Non-thread-blocking async I/O][part-4]  
 
 Finding good introduction level articles on concurrent programming is difficult because every post assumes
 some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free

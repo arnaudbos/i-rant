@@ -21,6 +21,7 @@ gallery: true
 > [Part 1 - It's all about Scheduling][part-1]  
 > [Part 2 - Blocking code][part-2] (this page)  
 > [Part 3 - Asynchronous code][part-3]  
+> [Part 4 - Non-thread-blocking async I/O][part-4]  
 
 {{< img center="true" src="/img/loom/loom.jpg" alt="Loom" width="100%" title="Weaving" caption="Max Pixel" attr="CC0 1.0" attrlink="https://creativecommons.org/publicdomain/zero/1.0/deed.en" link="https://www.maxpixels.net/Post-Impressionist-Post-Impressionism-Fine-Art-Dutch-1428139">}}
 
@@ -487,7 +488,7 @@ One of the blog posts I like the most to explain this issue is
 _"Little's Law, Scalability and Fault Tolerance: The OS is your bottleneck (and what you can do about it)"_ by 
 {{< twitter pressron >}}.
 
-{{< img center="true" src="/img/loom/little.png" alt="Little's Law, Scalability and Fault Tolerance: The OS is your bottleneck (and what you can do about it)" width="100%" link="https://blog.paralleluniverse.co/2014/02/04/littles-law/">}}
+{{< img center="true" src="/img/loom/little.png" alt="Little's Law, Scalability and Fault Tolerance: The OS is your bottleneck (and what you can do about it)" width="100%" link="https://web.archive.org/web/20191122044527/https://blog.paralleluniverse.co/2014/02/04/littles-law/">}}
 
 I'm trying to do half as good in this series, so I strongly suggest that you take a look at it and read _at least_ the
 first 3 parts of the article: _"Our Little Service"_, _"Little’s Law"_ and _"What Dominates the Capacity"_.

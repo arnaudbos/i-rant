@@ -1,11 +1,11 @@
 ---
 title: Loom - Part 4 - Non-thread-blocking async I/O
-date: 2020-05-01T16:57:35+02:00
+date: 2020-05-08T01:44:26+02:00
 description: Part 4 on a series of articles about OpenJDK's Project Loom
 parent: blog
 categories: ["java"]
 tags: ["java", "concurrency"]
-draft: true
+draft: false
 seoimage: img/loom/japaneseweavera.jpg
 highlight: true
 gallery: true
@@ -53,96 +53,36 @@ The crux of this API change lies in the code handling the HTTP requests and bubb
 
 ### asyncNonBlockingRequest
 
-The code is _slightly_ bulky and indented, which illustrates, for dramatic effect, what [callback hell]
-looks like.
+I've been told that the _slightly_ bulky and indented code I had put here at first, which illustrated,
+for dramatic effect, what [callback hell] looks like, could be a bit hard to digest at the start of
+a blog post. So I did my best to split it in several snippets.
 
 ```java
-①  public static void asyncNonBlockingRequest(ExecutorService executor, String url, String headers, RequestHandler handler) {
-        executor.submit(() -> {
-            try {
-                println("Starting request to " + url);
-                URL uri = new URL(url);
-                SocketAddress serverAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
-②              AsynchronousSocketChannel channel = AsynchronousSocketChannel.open(group);
+public static void asyncNonBlockingRequest(
+    ExecutorService executor,
+    String url,
+    String headers,
+①  RequestHandler handler
+) {
+    executor.submit(() -> {
+        try {
+            println("Starting request to " + url);
+            URL uri = new URL(url);
+            SocketAddress serverAddress =
+                new InetSocketAddress(uri.getHost(), uri.getPort());
+②          AsynchronousSocketChannel channel =
+                AsynchronousSocketChannel.open(group);
 
-③              channel.connect(serverAddress, null, new java.nio.channels.CompletionHandler<Void, Void>() {
-                    @Override
-                    public void completed(Void result, Void attachment) {
-                        ByteBuffer headersBuffer = ByteBuffer.wrap((headers + "Host: " + uri.getHost() + "\r\n\r\n").getBytes());
-                        ByteBuffer responseBuffer = ByteBuffer.allocate(1024);
-
-④                      channel.write(headersBuffer, headersBuffer, new java.nio.channels.CompletionHandler<>() {
-                            @Override
-                            public void completed(Integer written, ByteBuffer attachment) {
-                                if (attachment.hasRemaining()) {
-⑤                                 channel.write(attachment, attachment, this);
-                                } else {
-⑥                                 channel.read(responseBuffer, responseBuffer, new java.nio.channels.CompletionHandler<>() {
-                                        @Override
-                                        public void completed(Integer read, ByteBuffer attachment) {
-⑦                                          if (handler.isCancelled()) {
-                                                read = -1;
-                                            }
-
-                                            if (read > 0) {
-                                                attachment.flip();
-                                                byte[] data = new byte[attachment.limit()];
-                                                attachment.get(data);
-⑧                                              if (handler != null) handler.received(data);
-                                                attachment.flip();
-                                                attachment.clear();
-
-⑨                                              channel.read(attachment, attachment, this);
-                                            } else if (read < 0) {
-                                                try {
-                                                    channel.close();
-                                                } catch (IOException e) {
-                                                }
-⑩                                               if (handler != null) handler.completed();
-                                            } else {
-                                                channel.read(attachment, attachment, this);
-                                            }
-                                        }
-
-                                        @Override
-⑪                                      public void failed(Throwable t, ByteBuffer attachment) {
-                                            err("Read failed");
-                                            try {
-                                                channel.close();
-                                            } catch (IOException e) {
-                                            }
-                                            if (handler != null) handler.failed(t);
-                                        }
-                                    });
-                                }
-                            }
-
-                            @Override
-⑫                          public void failed(Throwable t, ByteBuffer attachment) {
-                                err("Write failed");
-                                try {
-                                    channel.close();
-                                } catch (IOException e) {}
-                                if (handler != null) handler.failed(t);
-                            }
-                        });
-                    }
-
-                    @Override
-⑬                  public void failed(Throwable t, Void attachment) {
-                        err("Connect failed");
-                        try {
-                            channel.close();
-                        } catch (IOException e) {}
-                        if (handler != null) handler.failed(t);
-                    }
-                });
-            } catch (Exception e){
-                err("request failed");
-⑭              if (handler != null) handler.failed(e);
-            }
-        });
-    }
+③          channel.connect(
+                serverAddress,
+                null,
+                new CompletionHandler<Void, Void>() {
+                    ...
+                }
+            );
+        } catch (Exception e){ ... }
+    });
+}
 ```
 
 1. Unlike `asyncRequest` from the previous entry, `asyncNonBlockingRequest` doesn't take a
@@ -150,27 +90,103 @@ looks like.
 2. Also unlike `asyncRequest`, which uses a `SocketChannel`, this code opens an `AsynchronousSocketChannel`.  
    `AsynchronousSocketChannel#open` opens a channel (analogous to a [file descriptor]) in _non-blocking mode_ by default.
 3. We _asynchronously_ establish a connection to the remote address.
-4. The connection has been established. We can _asynchronously_ write data to the channel (i.e. send the request).
-5. However, we may not be able to write the whole request (slow network, congestion, who knows), so we should continue
-   until we are sure that the request has been sent entirely.
-6. As soon as the request has been sent, we start listening for the answer, so we _asynchronously_ read from the channel
-   for incoming data.
-7. When data comes in, we have to make sure that the asynchronous call made by the caller has not been cancelled.
-   Because if it has, there is no point in consuming the content.  
-   This is the first reason why `RequestHandler` replaces `CompletionHandler`: more control.
-8. For each incoming data chunk, we send it to the caller so it can decide what to do (decode, aggregate, batch?, etc).  
-   This is the second (and last) reason why `RequestHandler` replaces `CompletionHandler`: handling HTTP content as it
-   arrives from the network.
-9. We may not have consumed the whole response, so we need to check if there is more.
-10. When we are sure that no more response data remains, we can notify the caller that the call is finished.
-11. In case a read operation has failed, we close the channel and fail the call.
-12. In case a write operation has failed, we close the channel and fail the call.
-13. In case the connect operation has failed, we close the channel and fail the call.
-14. We defensively wrap the whole call in a try/catch block to prevent any uncaught exception from killing the thread
-    from the pool.
+
+```java
+channel.connect( // See previous snippet
+    serverAddress,
+    null,
+    new CompletionHandler<Void, Void>() {
+        @Override
+        public void completed(Void result, Void attachment) {
+            ByteBuffer headersBuffer =
+                ByteBuffer.wrap((headers + "Host: " + uri.getHost() + "\r\n\r\n").getBytes());
+            ByteBuffer responseBuffer =
+                ByteBuffer.allocate(1024);
+
+④          channel.write(headersBuffer, headersBuffer, new CompletionHandler<>() {
+                @Override
+                public void completed(Integer written, ByteBuffer attachment) {
+                    if (attachment.hasRemaining()) {
+⑤                     channel.write(attachment, attachment, this);
+                    } else {
+⑥                     channel.read(
+                           responseBuffer,
+                           responseBuffer,
+                           new CompletionHandler<>() {
+                               ...
+                           }
+                       );
+                    }
+                }
+                       
+                @Override
+                public void failed(Throwable t, ByteBuffer attachment) {...}
+            });
+        }
+                       
+        @Override
+        public void failed(Throwable t, Void attachment) {...}
+    });
+```
+
+<ol start="4">
+  <li>The connection has been established. We can <i>asynchronously</i> write data to the channel (i.e. send the request).</li>
+  <li>However, we may not be able to write the whole request (slow network, congestion, who knows), so we should continue
+         until we are sure that the request has been sent entirely.</li>
+  <li>As soon as the request has been sent, we start listening for the answer, so we <i>asynchronously</i> read from the channel
+         for incoming data.</li>
+</ol>
+
+```java
+channel.read( // Se previous snippet
+    responseBuffer,
+    responseBuffer,
+    new CompletionHandler<>() {
+        @Override
+        public void completed(Integer read, ByteBuffer attachment) {
+⑦          if (handler.isCancelled()) {
+                read = -1;
+            }
+
+            if (read > 0) {
+                attachment.flip();
+                byte[] data = new byte[attachment.limit()];
+                attachment.get(data);
+⑧              if (handler != null) handler.received(data);
+                attachment.flip();
+                attachment.clear();
+
+⑨              channel.read(attachment, attachment, this);
+            } else if (read < 0) {
+                try {
+                    channel.close();
+                } catch (IOException e) {
+                }
+⑩               if (handler != null) handler.completed();
+            } else {
+                channel.read(attachment, attachment, this);
+            }
+        }
+
+        @Override
+        public void failed(Throwable t, ByteBuffer attachment) {...}
+    });
+```
+
+<ol start="7">
+  <li>When data comes in, we have to make sure that the asynchronous call made by the caller has not been cancelled.<br/>
+         Because if it has, there is no point in consuming the content.  
+         This is the first reason why <code>RequestHandler</code> replaces <code>CompletionHandler</code>: more control.</li>
+  <li>For each incoming data chunk, we send it to the caller so it can decide what to do (decode, aggregate, batch?, etc).<br/>
+         This is the second (and last) reason why <code>RequestHandler</code> replaces <code>CompletionHandler</code>:
+         handling HTTP content as it arrives from buffers/network.</li>
+  <li>We may not have consumed the whole response, so we need to check if there is more.</li>
+  <li>When we are sure that no more response data remains, we can notify the caller that the call is finished.</li>
+</ol>
 
 The amount of incidental complexity contained in this implementation is incredible. We introduced asynchronous
-programming in the previous entry. Now we introduce a new callback interface with more methods: `RequestHandler`.  
+programming in the previous entry. Now we introduce a new callback interface with more methods: `RequestHandler`.
+
 Why not stick with `CompletionHandler<InputStream>`?  
 Why add `void received(byte[] data);` and force callers to deal with byte array?
 
@@ -239,7 +255,7 @@ only interested in the completion of the call: when the response has been fully 
 
 ```java
 void requestConnection(String token, CompletionHandler<Connection> handler, ExecutorService handlerExecutor) {
-①  AtomicReference<StringBuilder> result = new AtomicReference<>(new StringBuilder());
+①  StringBuilder result = new StringBuilder();
 
 ②  asyncNonBlockingRequest(boundedServiceExecutor,
         "http://localhost:7000",
@@ -249,7 +265,7 @@ void requestConnection(String token, CompletionHandler<Connection> handler, Exec
             @Override
             public void received(byte[] data) {
                 try {
-③                  result.updateAndGet(sb -> sb.append(new String(data)));
+③                  result.append(new String(data));
                 } catch (Exception e) {
                     failed(e);
                 }
@@ -260,7 +276,7 @@ void requestConnection(String token, CompletionHandler<Connection> handler, Exec
                 Runnable r = () -> {
                     if (handler != null)
 ⑤                      Connection conn = parseConnection(
-                            result.get().toString().substring(34)
+                            result.toString().substring(34)
                         );
                 };
                 if (handlerExecutor!=null) {
@@ -275,11 +291,11 @@ void requestConnection(String token, CompletionHandler<Connection> handler, Exec
 }
 ```
 
-1. Instantiate an `AtomicReference<StringBuilder>` to hold the content of the token response before parsing it.
+1. Instantiate an `StringBuilder` to hold the content of the token response before parsing it.
 2. Execute the HTTP request from a thread in the `boundedServiceExecutor` pool.
 3. However small, there's absolutely no guaranty that the whole response will be filled
    into the buffer. That's just the way network buffers work.  
-   The atomic ref references a `StringBuffer` used to aggregate the substrings received by each successful read operation.
+   The `StringBuffer` aggregate the substrings received by each successful read operation.
 4. Execute the callback and parsing (see #5) from a thread in the given `handlerExecutor` pool.
 5. Complete the connection request callback with the parsed token.  
    (Notice the marvellous `.substring(34)` stripping the response header(s))
@@ -419,7 +435,7 @@ this repository. But it's not where I wanted my talks nor this series to go.
 > [this article](https://medium.com/@copyconstruct/the-method-to-epolls-madness-d9d2d6378642).
 
 I only have a basic understanding of how the syscalls mentioned above work. But I'm happy with what I know for the
-moment and to leave this implementation where it is today. Because: 1) It is complex and 2) I'm not going to
+moment and to leave this implementation where it's at. Because: 1) It is complex and 2) I'm not going to
 implement a Web server any time soon. And chances are you aren't either.
 
 Instead, you are probably going to decide to use any of the various flavors of Web servers available in the Java ecosystem.  
@@ -431,7 +447,7 @@ Netty is a wonderful piece of software. It's a highly efficient, performant and 
 it's probably true that Netty powers most of the JVM-based Web services and microservices out there in the world.
 
 Netty is also very much [an asynchronous API][netty-proxy-example]. It's based on en `EventLoop` pattern,
-and the various flavors of "transport" mechanisms to open, close, accept, read from and write to sockets. To
+and has various flavors of "transport" mechanisms to open, close, accept, read from and write to sockets. To
 be more specific, it supports NIO transport (based on what you've seen above, but better), native `epoll` on Linux
 hosts and native `kqueue` on BSD hosts. And it may provide an [io_uring][netty-io_uring] transport one day.
 

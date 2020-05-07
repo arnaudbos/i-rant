@@ -12,7 +12,7 @@ gallery: true
 ---
 
 
-Truly non-blocking asynchronous APIs rely on event loops and fine tuned implementation techniques such as work
+Truly non-blocking asynchronous APIs rely on event loops and fine-tuned implementation techniques such as work
 stealing and drain loops in order to maximize CPU utilisation.  
 But they rely on callbacks too, which leads to the infamous callback-hell that.
 
