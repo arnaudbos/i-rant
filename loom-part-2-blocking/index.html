@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Fira+Code&display=swap">
     <link rel="stylesheet" type="text/css" href="https://i-rant.arnaudbos.com/css/main.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/styles/darcula.min.css">
     
     <!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -179,34 +179,35 @@ various ways, simulate a few (200) clients connecting simultaneously and see the
 <p>I am now going to show you the easiest way I came up with to implement this proxy service.</p>
 <p>You can find the complete source code for this sample <a href="https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter01_SyncBlocking.java">here</a>.</p>
 <p><code>getThingy()</code> is the download endpoint in this example. Each client &ldquo;connecting&rdquo; to the proxy hits this method:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getThingy</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> EtaExceededException<span style="color:#f92672">,</span> IOException <span style="color:#f92672">{</span>
-    println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Start getThingy.&#34;</span><span style="color:#f92672">);</span>
+<pre><code class="language-java">private void getThingy() throws EtaExceededException, IOException {
+    println(&quot;Start getThingy.&quot;);
 
-    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-<span style="color:#960050;background-color:#1e0010">①</span>      Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span> conn <span style="color:#f92672">=</span> getConnection<span style="color:#f92672">();</span>
-        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Got token, &#34;</span> <span style="color:#f92672">+</span> conn<span style="color:#f92672">.</span><span style="color:#a6e22e">getToken</span><span style="color:#f92672">());</span>
+    try {
+①      Connection.Available conn = getConnection();
+        println(&quot;Got token, &quot; + conn.getToken());
 
-        Thread pulse <span style="color:#f92672">=</span> makePulse<span style="color:#f92672">(</span>conn<span style="color:#f92672">);</span>
-<span style="color:#960050;background-color:#1e0010">②</span>      <span style="color:#66d9ef">try</span> <span style="color:#f92672">(</span>InputStream content <span style="color:#f92672">=</span> gateway<span style="color:#f92672">.</span><span style="color:#a6e22e">downloadThingy</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
-<span style="color:#960050;background-color:#1e0010">③</span>         pulse<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        Thread pulse = makePulse(conn);
+②      try (InputStream content = gateway.downloadThingy()) {
+③         pulse.start();
 
-<span style="color:#960050;background-color:#1e0010">④</span>          ignoreContent<span style="color:#f92672">(</span>content<span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            err<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Download failed.&#34;</span><span style="color:#f92672">);</span>
-            <span style="color:#66d9ef">throw</span> e<span style="color:#f92672">;</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
-<span style="color:#960050;background-color:#1e0010">⑤</span>          pulse<span style="color:#f92672">.</span><span style="color:#a6e22e">interrupt</span><span style="color:#f92672">();</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#75715e">// D&#39;oh!
-</span><span style="color:#75715e"></span>        err<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Task interrupted.&#34;</span><span style="color:#f92672">);</span>
-        Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">interrupt</span><span style="color:#f92672">();</span>
-        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
-    <span style="color:#f92672">}</span>
-    println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Download finished&#34;</span><span style="color:#f92672">)</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><ol>
+④          ignoreContent(content);
+        } catch (IOException e) {
+            err(&quot;Download failed.&quot;);
+            throw e;
+        }
+        finally {
+⑤          pulse.interrupt();
+        }
+    } catch (InterruptedException e) {
+        // D'oh!
+        err(&quot;Task interrupted.&quot;);
+        Thread.currentThread().interrupt();
+        throw new RuntimeException(e);
+    }
+    println(&quot;Download finished&quot;)
+}
+</code></pre>
+<ol>
 <li>We retrieve an &ldquo;Available&rdquo; connection <code>conn</code> from the coordinator</li>
 <li>We initiate the download request to the data source (called <code>gateway</code> in this example).</li>
 <li>Once the download has begun we start the heartbeat requests (<em>pulse</em> thread).</li>
@@ -221,47 +222,50 @@ benchmark, I am just simulating the client calls from within the same JVM.</p>
 things. This executor and its thread pool will simulate the Web Server thread pool that could be found inside any Web
 Framework. In the end it is more illustrative to have it directly at hand.</p>
 <p>Let&rsquo;s simulate a few clients, shall we?</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">CompletableFuture<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;[]</span> futures <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CompletableFuture<span style="color:#f92672">[</span>MAX_CLIENTS<span style="color:#f92672">];</span>
-<span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>MAX_CLIENTS<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">int</span> finalI <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
-    futures<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CompletableFuture<span style="color:#f92672">&lt;&gt;();</span>
-    elasticServiceExecutor<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-            getThingy<span style="color:#f92672">(</span>finalI<span style="color:#f92672">);</span>
-            futures<span style="color:#f92672">[</span>finalI<span style="color:#f92672">].</span><span style="color:#a6e22e">complete</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>EtaExceededException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            err<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Couldn&#39;t getThingy because ETA exceeded: &#34;</span> <span style="color:#f92672">+</span> e<span style="color:#f92672">);</span>
-            futures<span style="color:#f92672">[</span>finalI<span style="color:#f92672">].</span><span style="color:#a6e22e">completeExceptionally</span><span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            err<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Couldn&#39;t getThingy because something failed: &#34;</span> <span style="color:#f92672">+</span> e<span style="color:#f92672">);</span>
-            futures<span style="color:#f92672">[</span>finalI<span style="color:#f92672">].</span><span style="color:#a6e22e">completeExceptionally</span><span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">});</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>In this implementation, <code>elasticServiceExecutor</code> is a &ldquo;cached&rdquo; <code>ThreadPoolExecutor</code>, and I will explain why in a
+<pre><code class="language-java">CompletableFuture&lt;Void&gt;[] futures = new CompletableFuture[MAX_CLIENTS];
+for(int i=0; i&lt;MAX_CLIENTS; i++) {
+    int finalI = i;
+    futures[i] = new CompletableFuture&lt;&gt;();
+    elasticServiceExecutor.submit(() -&gt; {
+        try {
+            getThingy(finalI);
+            futures[finalI].complete(null);
+        } catch (EtaExceededException e) {
+            err(&quot;Couldn't getThingy because ETA exceeded: &quot; + e);
+            futures[finalI].completeExceptionally(e);
+        } catch (Exception e) {
+            err(&quot;Couldn't getThingy because something failed: &quot; + e);
+            futures[finalI].completeExceptionally(e);
+        }
+    });
+}
+</code></pre>
+<p>In this implementation, <code>elasticServiceExecutor</code> is a &ldquo;cached&rdquo; <code>ThreadPoolExecutor</code>, and I will explain why in a
 little bit.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">elasticServiceExecutor <span style="color:#f92672">=</span>
-    Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newCachedThreadPool</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> PrefixedThreadFactory<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;service&#34;</span><span style="color:#f92672">));</span>
-</code></pre></div><p>We have a &ldquo;Web Server&rdquo;, clients and our download controller.</p>
+<pre><code class="language-java">elasticServiceExecutor =
+    Executors.newCachedThreadPool(new PrefixedThreadFactory(&quot;service&quot;));
+</code></pre>
+<p>We have a &ldquo;Web Server&rdquo;, clients and our download controller.</p>
 <p>There are a few things to unpack from this controller.<br>
 Let&rsquo;s start with the least interesting bit first, <code>makePulse</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> Thread <span style="color:#a6e22e">makePulse</span><span style="color:#f92672">(</span>Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span> conn<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">while</span><span style="color:#f92672">(!</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">isInterrupted</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-                <span style="color:#75715e">// Periodic heartbeat
-</span><span style="color:#75715e"></span>                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>2_000L<span style="color:#f92672">);</span>
+<pre><code class="language-java">private Thread makePulse(Connection.Available conn) {
+    return new Thread(() -&gt; {
+        while(!Thread.currentThread().isInterrupted()) {
+            try {
+                // Periodic heartbeat
+                Thread.sleep(2_000L);
 
-                println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Pulse!&#34;</span><span style="color:#f92672">);</span>
-                coordinator<span style="color:#f92672">.</span><span style="color:#a6e22e">heartbeat</span><span style="color:#f92672">(</span>conn<span style="color:#f92672">.</span><span style="color:#a6e22e">getToken</span><span style="color:#f92672">());</span>
-            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                <span style="color:#75715e">// D&#39;oh!
-</span><span style="color:#75715e"></span>                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">interrupt</span><span style="color:#f92672">();</span>
-            <span style="color:#f92672">}</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">});</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>Nothing fancy here: sleep for a while, send a request, sleep for a while, send a request, &hellip;</p>
+                println(&quot;Pulse!&quot;);
+                coordinator.heartbeat(conn.getToken());
+            } catch (InterruptedException e) {
+                // D'oh!
+                Thread.currentThread().interrupt();
+            }
+        }
+    });
+}
+</code></pre>
+<p>Nothing fancy here: sleep for a while, send a request, sleep for a while, send a request, &hellip;</p>
 <p>You may have noticed that <em>getThingy</em> uses the <code>gateway</code> service to talk to the data source and that <em>makePulse</em> uses
 the <code>coordinator</code> service to talk to the coordinator.<br>
 So what is this <code>getConnection</code> method and why does <em>getThingy</em> not use <code>coordinator</code> directly?</p>
@@ -269,37 +273,38 @@ So what is this <code>getConnection</code> method and why does <em>getThingy</em
 <code>getConnection</code> is actually a helper to handle
 the <em>Unavailable</em> responses from the coordinator and only return when an <em>Available</em> response has been received. Here&rsquo;s
 the code:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span> <span style="color:#a6e22e">getConnection</span><span style="color:#f92672">()</span>
-    <span style="color:#66d9ef">throws</span> EtaExceededException<span style="color:#f92672">,</span> InterruptedException
-<span style="color:#f92672">{</span>
-<span style="color:#960050;background-color:#1e0010">①</span>  <span style="color:#66d9ef">return</span> getConnection<span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
-<span style="color:#f92672">}</span>
+<pre><code class="language-java">private Connection.Available getConnection()
+    throws EtaExceededException, InterruptedException
+{
+①  return getConnection(0, 0, null);
+}
 
-<span style="color:#66d9ef">private</span> Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span> <span style="color:#a6e22e">getConnection</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> eta<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> wait<span style="color:#f92672">,</span> String token<span style="color:#f92672">)</span>
-    <span style="color:#66d9ef">throws</span> EtaExceededException<span style="color:#f92672">,</span> InterruptedException
-<span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">for</span><span style="color:#f92672">(;;)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>eta <span style="color:#f92672">&gt;</span> MAX_ETA_MS<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> EtaExceededException<span style="color:#f92672">();</span>
-        <span style="color:#f92672">}</span>
+private Connection.Available getConnection(long eta, long wait, String token)
+    throws EtaExceededException, InterruptedException
+{
+    for(;;) {
+        if (eta &gt; MAX_ETA_MS) {
+            throw new EtaExceededException();
+        }
 
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>wait <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>wait<span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
+        if (wait &gt; 0) {
+            Thread.sleep(wait);
+        }
 
-        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Retrying download after &#34;</span> <span style="color:#f92672">+</span> wait <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;ms wait.&#34;</span><span style="color:#f92672">);</span>
+        println(&quot;Retrying download after &quot; + wait + &quot;ms wait.&quot;);
     
-<span style="color:#960050;background-color:#1e0010">②</span>      Connection c <span style="color:#f92672">=</span> coordinator<span style="color:#f92672">.</span><span style="color:#a6e22e">requestConnection</span><span style="color:#f92672">(</span>token<span style="color:#f92672">);</span>
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>c <span style="color:#66d9ef">instanceof</span> Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-<span style="color:#960050;background-color:#1e0010">④</span>          <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Available</span><span style="color:#f92672">)</span> c<span style="color:#f92672">;</span>
-        <span style="color:#f92672">}</span>
-<span style="color:#960050;background-color:#1e0010">③</span>      Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Unavailable</span> unavail <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Connection<span style="color:#f92672">.</span><span style="color:#a6e22e">Unavailable</span><span style="color:#f92672">)</span> c<span style="color:#f92672">;</span>
-        eta <span style="color:#f92672">=</span> unavail<span style="color:#f92672">.</span><span style="color:#a6e22e">getEta</span><span style="color:#f92672">();</span>
-        wait <span style="color:#f92672">=</span> unavail<span style="color:#f92672">.</span><span style="color:#a6e22e">getWait</span><span style="color:#f92672">();</span>
-        token <span style="color:#f92672">=</span> unavail<span style="color:#f92672">.</span><span style="color:#a6e22e">getToken</span><span style="color:#f92672">();</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><ol>
+②      Connection c = coordinator.requestConnection(token);
+        if (c instanceof Connection.Available) {
+④          return (Connection.Available) c;
+        }
+③      Connection.Unavailable unavail = (Connection.Unavailable) c;
+        eta = unavail.getEta();
+        wait = unavail.getWait();
+        token = unavail.getToken();
+    }
+}
+</code></pre>
+<ol>
 <li>We start with initial <code>eta</code> and <code>wait</code> times at zero and no token (<code>null</code>).</li>
 <li>We try to get a grant from the coordinator.</li>
 <li>If the coordinator rejects us with an <code>Unavailable</code> response, we update the <em>eta</em>, <em>wait</em> and <em>token</em> and loop;</li>
@@ -452,37 +457,39 @@ so our cores don&rsquo;t actually do much in practice!</p>
 underlying <code>read</code> system call dominates our application.</p>
 <p>If we track its call stack to find its origin, we stumble upon <code>lambda$run$1</code>. Which, in fact, is the call to the
 astutely named <code>blockingRequest</code> method inside of the <em>gateway</em> service:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SyncGatewayService</span> <span style="color:#f92672">{</span>
-    InputStream <span style="color:#a6e22e">downloadThingy</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> blockingRequest<span style="color:#f92672">(</span>
-            <span style="color:#e6db74">&#34;http://localhost:7000&#34;</span><span style="color:#f92672">,</span>
-            String<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span>HEADERS_TEMPLATE<span style="color:#f92672">,</span>
-                          <span style="color:#e6db74">&#34;GET&#34;</span><span style="color:#f92672">,</span>
-                          <span style="color:#e6db74">&#34;download&#34;</span><span style="color:#f92672">,</span>
-                          <span style="color:#e6db74">&#34;text/*&#34;</span><span style="color:#f92672">,</span>
-                          String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>0<span style="color:#f92672">))</span>
-        <span style="color:#f92672">);</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>Without further suspense, here&rsquo;s its code:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> InputStream <span style="color:#a6e22e">blockingRequest</span><span style="color:#f92672">(</span>String url<span style="color:#f92672">,</span> String headers<span style="color:#f92672">)</span>
-    <span style="color:#66d9ef">throws</span> IOException
-<span style="color:#f92672">{</span>
-    println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Starting request to &#34;</span> <span style="color:#f92672">+</span> url<span style="color:#f92672">);</span>
-    URL uri <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> URL<span style="color:#f92672">(</span>url<span style="color:#f92672">);</span>
-    SocketAddress serverAddress <span style="color:#f92672">=</span>
-        <span style="color:#66d9ef">new</span> InetSocketAddress<span style="color:#f92672">(</span>uri<span style="color:#f92672">.</span><span style="color:#a6e22e">getHost</span><span style="color:#f92672">(),</span> uri<span style="color:#f92672">.</span><span style="color:#a6e22e">getPort</span><span style="color:#f92672">());</span>
-    SocketChannel channel <span style="color:#f92672">=</span> SocketChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">open</span><span style="color:#f92672">(</span>serverAddress<span style="color:#f92672">);</span>
-    ByteBuffer buffer <span style="color:#f92672">=</span> ByteBuffer<span style="color:#f92672">.</span><span style="color:#a6e22e">wrap</span><span style="color:#f92672">(</span>
-        <span style="color:#f92672">(</span>headers <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;Host: &#34;</span> <span style="color:#f92672">+</span> uri<span style="color:#f92672">.</span><span style="color:#a6e22e">getHost</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\r\n\r\n&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">()</span>
-    <span style="color:#f92672">);</span>
-    <span style="color:#66d9ef">do</span> <span style="color:#f92672">{</span>
-        channel<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">);</span>
-    <span style="color:#f92672">}</span> <span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">hasRemaining</span><span style="color:#f92672">());</span>
+<pre><code class="language-java">class SyncGatewayService {
+    InputStream downloadThingy() throws IOException {
+        return blockingRequest(
+            &quot;http://localhost:7000&quot;,
+            String.format(HEADERS_TEMPLATE,
+                          &quot;GET&quot;,
+                          &quot;download&quot;,
+                          &quot;text/*&quot;,
+                          String.valueOf(0))
+        );
+    }
+}
+</code></pre>
+<p>Without further suspense, here&rsquo;s its code:</p>
+<pre><code class="language-java">public static InputStream blockingRequest(String url, String headers)
+    throws IOException
+{
+    println(&quot;Starting request to &quot; + url);
+    URL uri = new URL(url);
+    SocketAddress serverAddress =
+        new InetSocketAddress(uri.getHost(), uri.getPort());
+    SocketChannel channel = SocketChannel.open(serverAddress);
+    ByteBuffer buffer = ByteBuffer.wrap(
+        (headers + &quot;Host: &quot; + uri.getHost() + &quot;\r\n\r\n&quot;).getBytes()
+    );
+    do {
+        channel.write(buffer);
+    } while(buffer.hasRemaining());
 
-    <span style="color:#66d9ef">return</span> channel<span style="color:#f92672">.</span><span style="color:#a6e22e">socket</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>You can see in the call chain that <code>read0</code> originates from calling <code>InputStream#read</code>. The <em>InputStream</em> itself is
+    return channel.socket().getInputStream();
+}
+</code></pre>
+<p>You can see in the call chain that <code>read0</code> originates from calling <code>InputStream#read</code>. The <em>InputStream</em> itself is
 obtained from the <code>SocketChannel</code>. And this, dear reader, is the ugly detail that makes this application not
 efficient and is the reason why we end up with as many threads as clients.</p>
 <p>Because this socket channel (analogous to a <a href="https://en.wikipedia.org/wiki/File_descriptor">file descriptor</a>) is written to and read from in <strong>blocking mode</strong>.</p>
@@ -543,9 +550,10 @@ The CPU will be represented by a <a href="https://en.wikipedia.org/wiki/Wankel_e
 the various flavors of <code>ExecutorService</code> available via the helper <code>java.util.concurrent.Executors</code> are an abstraction
 over native threads with additional thread pool logic, tasks queues management and scheduling mechanisms.</p>
 <p>As said earlier, the executor I&rsquo;ve used in this implementation is a &ldquo;cached&rdquo; <code>ThreadPoolExecutor</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">elasticServiceExecutor <span style="color:#f92672">=</span>
-    Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newCachedThreadPool</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> PrefixedThreadFactory<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;service&#34;</span><span style="color:#f92672">));</span>
-</code></pre></div><p>This executor handles an initial pool of threads as well as a task queue (<code>SynchronousQueue</code>).<br>
+<pre><code class="language-java">elasticServiceExecutor =
+    Executors.newCachedThreadPool(new PrefixedThreadFactory(&quot;service&quot;));
+</code></pre>
+<p>This executor handles an initial pool of threads as well as a task queue (<code>SynchronousQueue</code>).<br>
 It also has a reference to a <code>ThreadFactory</code>, because this executor will try to match each <code>Runnable</code> that is submitted
 to it via its <code>submit</code> method to a runnable thread in its pool. If no thread is available to run the next <em>Runnable</em> in
 the queue, it will use the <em>ThreadFactory</em> to create a new thread and hand the <em>Runnable</em> object to it.</p>
@@ -900,8 +908,9 @@ experiment to try various solutions to the problem of blocking calls and scalabi
 </script>
 
 <!-- Syntax highlighting -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/clojure.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/highlight.min.js"></script>
+
+
 <script>hljs.initHighlightingOnLoad();</script>
 
 

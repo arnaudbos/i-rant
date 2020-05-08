@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Fira+Code&display=swap">
     <link rel="stylesheet" type="text/css" href="https://i-rant.arnaudbos.com/css/main.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/styles/darcula.min.css">
     
     <!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -251,48 +251,49 @@ return new matrices that are ready to use and can be combined by using the
 <h3 id="demo">Demo</h3>
 <p>Performance aside, here&rsquo;s a class that will 2x zoom at the center of a
 rectangle:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.arnaudbos.java2d<span style="color:#f92672">;</span>
-<span style="color:#75715e">// imports stripped
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AffineTransformZoomExample</span> <span style="color:#f92672">{</span>
-    <span style="color:#75715e">// code stripped
-</span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ZoomCanvas</span> <span style="color:#66d9ef">extends</span> JComponent <span style="color:#f92672">{</span>
+<pre><code class="language-java">package com.arnaudbos.java2d;
+// imports stripped
 
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">paint</span><span style="color:#f92672">(</span>Graphics g<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            Graphics2D ourGraphics <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Graphics2D<span style="color:#f92672">)</span> g<span style="color:#f92672">;</span>
+public class AffineTransformZoomExample {
+    // code stripped
 
-            <span style="color:#75715e">// code stripped
-</span><span style="color:#75715e"></span>
-            <span style="color:#75715e">// Draw initial object
-</span><span style="color:#75715e"></span>            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">setColor</span><span style="color:#f92672">(</span>Color<span style="color:#f92672">.</span><span style="color:#a6e22e">black</span><span style="color:#f92672">);</span>
-            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">drawRect</span><span style="color:#f92672">(</span>100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">);</span>
+    private static class ZoomCanvas extends JComponent {
 
-            <span style="color:#75715e">// Create matrix (set to identity by default)
-</span><span style="color:#75715e"></span>            AffineTransform tx <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AffineTransform<span style="color:#f92672">();</span>
+        public void paint(Graphics g) {
+            Graphics2D ourGraphics = (Graphics2D) g;
 
-            <span style="color:#75715e">// This is not the transformation you&#39;re looking for
-</span><span style="color:#75715e"></span>            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">translate</span><span style="color:#f92672">(-</span>150<span style="color:#f92672">,</span> <span style="color:#f92672">-</span>150<span style="color:#f92672">);</span>
-            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">scale</span><span style="color:#f92672">(</span>2<span style="color:#f92672">,</span> 2<span style="color:#f92672">);</span>
-            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">translate</span><span style="color:#f92672">(</span>150<span style="color:#f92672">,</span> 150<span style="color:#f92672">);</span>
-            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">setTransform</span><span style="color:#f92672">(</span>tx<span style="color:#f92672">);</span>
-            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">setColor</span><span style="color:#f92672">(</span>Color<span style="color:#f92672">.</span><span style="color:#a6e22e">red</span><span style="color:#f92672">);</span>
-            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">drawRect</span><span style="color:#f92672">(</span>100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">);</span>
+            // code stripped
 
-            <span style="color:#75715e">// Reset matrix to identity to clear previous transformations
-</span><span style="color:#75715e"></span>            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">setToIdentity</span><span style="color:#f92672">();</span>
+            // Draw initial object
+            ourGraphics.setColor(Color.black);
+            ourGraphics.drawRect(100, 100, 100, 100);
 
-            <span style="color:#75715e">// Apply our transformations in order to zoom-in the square
-</span><span style="color:#75715e"></span>            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">preConcatenate</span><span style="color:#f92672">(</span>AffineTransform<span style="color:#f92672">.</span><span style="color:#a6e22e">getTranslateInstance</span><span style="color:#f92672">(-</span>150<span style="color:#f92672">,</span> <span style="color:#f92672">-</span>150<span style="color:#f92672">));</span>
-            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">preConcatenate</span><span style="color:#f92672">(</span>AffineTransform<span style="color:#f92672">.</span><span style="color:#a6e22e">getScaleInstance</span><span style="color:#f92672">(</span>2<span style="color:#f92672">,</span> 2<span style="color:#f92672">));</span>
-            tx<span style="color:#f92672">.</span><span style="color:#a6e22e">preConcatenate</span><span style="color:#f92672">(</span>AffineTransform<span style="color:#f92672">.</span><span style="color:#a6e22e">getTranslateInstance</span><span style="color:#f92672">(</span>150<span style="color:#f92672">,</span> 150<span style="color:#f92672">));</span>
-            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">setTransform</span><span style="color:#f92672">(</span>tx<span style="color:#f92672">);</span>
-            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">setColor</span><span style="color:#f92672">(</span>Color<span style="color:#f92672">.</span><span style="color:#a6e22e">green</span><span style="color:#f92672">);</span>
-            ourGraphics<span style="color:#f92672">.</span><span style="color:#a6e22e">drawRect</span><span style="color:#f92672">(</span>100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">,</span> 100<span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><hr>
+            // Create matrix (set to identity by default)
+            AffineTransform tx = new AffineTransform();
+
+            // This is not the transformation you're looking for
+            tx.translate(-150, -150);
+            tx.scale(2, 2);
+            tx.translate(150, 150);
+            ourGraphics.setTransform(tx);
+            ourGraphics.setColor(Color.red);
+            ourGraphics.drawRect(100, 100, 100, 100);
+
+            // Reset matrix to identity to clear previous transformations
+            tx.setToIdentity();
+
+            // Apply our transformations in order to zoom-in the square
+            tx.preConcatenate(AffineTransform.getTranslateInstance(-150, -150));
+            tx.preConcatenate(AffineTransform.getScaleInstance(2, 2));
+            tx.preConcatenate(AffineTransform.getTranslateInstance(150, 150));
+            ourGraphics.setTransform(tx);
+            ourGraphics.setColor(Color.green);
+            ourGraphics.drawRect(100, 100, 100, 100);
+        }
+    }
+}
+</code></pre>
+<hr>
 
 <figure  style="text-align: center;">
     
@@ -465,68 +466,69 @@ going to make use of the <code>post</code> methods. But the <code>pre</code> met
 and will simplify your like if you need this kind of operations.</p>
 <h3 id="demo-1">Demo</h3>
 <p>Again, performance aside, here’s a class that will rotate the Grumpy cat:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.arnaudbos.android2d<span style="color:#f92672">;</span>
-<span style="color:#75715e">// imports stripped
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> <span style="color:#66d9ef">extends</span> AppCompatActivity <span style="color:#f92672">{</span>
-    <span style="color:#75715e">// code stripped
-</span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">enum</span> MatrixConcatenation <span style="color:#f92672">{</span>
-        PRE<span style="color:#f92672">,</span> POST
-    <span style="color:#f92672">}</span>
+<pre><code class="language-java">package com.arnaudbos.android2d;
+// imports stripped
 
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> THETA <span style="color:#f92672">=</span> 30<span style="color:#f92672">;</span>
+public class MainActivity extends AppCompatActivity {
+    // code stripped
 
-    <span style="color:#a6e22e">@Override</span>
-    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onCreate</span><span style="color:#f92672">(</span>Bundle savedInstanceState<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onCreate</span><span style="color:#f92672">(</span>savedInstanceState<span style="color:#f92672">);</span>
+    private enum MatrixConcatenation {
+        PRE, POST
+    }
 
-        <span style="color:#75715e">// Display Grumpy cat
-</span><span style="color:#75715e"></span>        Drawable d <span style="color:#f92672">=</span> getDrawable<span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">drawable</span><span style="color:#f92672">.</span><span style="color:#a6e22e">grumpy</span><span style="color:#f92672">);</span>
-        view <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ImageView<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>
-        view<span style="color:#f92672">.</span><span style="color:#a6e22e">setImageDrawable</span><span style="color:#f92672">(</span>d<span style="color:#f92672">);</span>
-        setContentView<span style="color:#f92672">(</span>view<span style="color:#f92672">);</span>
+    private static final float THETA = 30;
 
-        <span style="color:#75715e">// Center Grumpy cat
-</span><span style="color:#75715e"></span>        view<span style="color:#f92672">.</span><span style="color:#a6e22e">setScaleType</span><span style="color:#f92672">(</span>ImageView<span style="color:#f92672">.</span><span style="color:#a6e22e">ScaleType</span><span style="color:#f92672">.</span><span style="color:#a6e22e">MATRIX</span><span style="color:#f92672">);</span>
-        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span><span style="color:#f92672">[]</span> dimensions <span style="color:#f92672">=</span> getSize<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>
-        width <span style="color:#f92672">=</span> dimensions<span style="color:#f92672">[</span>0<span style="color:#f92672">];</span>
-        height <span style="color:#f92672">=</span> dimensions<span style="color:#f92672">[</span>1<span style="color:#f92672">];</span>
-        matrix <span style="color:#f92672">=</span> center<span style="color:#f92672">(</span>width<span style="color:#f92672">,</span> height<span style="color:#f92672">,</span> d<span style="color:#f92672">);</span>
-        view<span style="color:#f92672">.</span><span style="color:#a6e22e">setImageMatrix</span><span style="color:#f92672">(</span>matrix<span style="color:#f92672">);</span>
-    <span style="color:#f92672">}</span>
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> Matrix <span style="color:#a6e22e">center</span><span style="color:#f92672">(</span><span style="color:#66d9ef">float</span> width<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> height<span style="color:#f92672">,</span> Drawable d<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> drawableWidth <span style="color:#f92672">=</span> d<span style="color:#f92672">.</span><span style="color:#a6e22e">getIntrinsicWidth</span><span style="color:#f92672">();</span>
-        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> drawableHeight <span style="color:#f92672">=</span> d<span style="color:#f92672">.</span><span style="color:#a6e22e">getIntrinsicHeight</span><span style="color:#f92672">();</span>
-        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> widthScale <span style="color:#f92672">=</span> width <span style="color:#f92672">/</span> drawableWidth<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> heightScale <span style="color:#f92672">=</span> height <span style="color:#f92672">/</span> drawableHeight<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">float</span> scale <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">min</span><span style="color:#f92672">(</span>1<span style="color:#f92672">.</span><span style="color:#a6e22e">0f</span><span style="color:#f92672">,</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">min</span><span style="color:#f92672">(</span>widthScale<span style="color:#f92672">,</span> heightScale<span style="color:#f92672">));</span>
-        Matrix m <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Matrix<span style="color:#f92672">();</span>
-        m<span style="color:#f92672">.</span><span style="color:#a6e22e">postScale</span><span style="color:#f92672">(</span>scale<span style="color:#f92672">,</span> scale<span style="color:#f92672">);</span>
-        m<span style="color:#f92672">.</span><span style="color:#a6e22e">postTranslate</span><span style="color:#f92672">((</span>width <span style="color:#f92672">-</span> drawableWidth <span style="color:#f92672">*</span> scale<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> 2F<span style="color:#f92672">,</span>
-                <span style="color:#f92672">(</span>height <span style="color:#f92672">-</span> drawableHeight <span style="color:#f92672">*</span> scale<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> 2F<span style="color:#f92672">);</span>
-        <span style="color:#66d9ef">return</span> m<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
+        // Display Grumpy cat
+        Drawable d = getDrawable(R.drawable.grumpy);
+        view = new ImageView(this);
+        view.setImageDrawable(d);
+        setContentView(view);
 
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rotateGrumpyCat</span><span style="color:#f92672">(</span>ImageView view<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> x<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> y<span style="color:#f92672">,</span>
-                                        Matrix matrix<span style="color:#f92672">,</span> MatrixConcatenation p<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>p<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">case</span> PRE<span style="color:#f92672">:</span>
-                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">preTranslate</span><span style="color:#f92672">(-</span>x<span style="color:#f92672">,</span> <span style="color:#f92672">-</span>y<span style="color:#f92672">);</span>
-                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">preRotate</span><span style="color:#f92672">(</span>THETA<span style="color:#f92672">);</span>
-                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">preTranslate</span><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> y<span style="color:#f92672">);</span>
-                <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
-            <span style="color:#66d9ef">case</span> POST<span style="color:#f92672">:</span>
-                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">postTranslate</span><span style="color:#f92672">(-</span>x<span style="color:#f92672">,</span> <span style="color:#f92672">-</span>y<span style="color:#f92672">);</span>
-                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">postRotate</span><span style="color:#f92672">(</span>THETA<span style="color:#f92672">);</span>
-                matrix<span style="color:#f92672">.</span><span style="color:#a6e22e">postTranslate</span><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> y<span style="color:#f92672">);</span>
-                <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
-        <span style="color:#f92672">}</span>
-        view<span style="color:#f92672">.</span><span style="color:#a6e22e">setImageMatrix</span><span style="color:#f92672">(</span>matrix<span style="color:#f92672">);</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>    
-</code></pre></div><div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+        // Center Grumpy cat
+        view.setScaleType(ImageView.ScaleType.MATRIX);
+        final float[] dimensions = getSize(this);
+        width = dimensions[0];
+        height = dimensions[1];
+        matrix = center(width, height, d);
+        view.setImageMatrix(matrix);
+    }
+
+    private static Matrix center(float width, float height, Drawable d) {
+        final float drawableWidth = d.getIntrinsicWidth();
+        final float drawableHeight = d.getIntrinsicHeight();
+        final float widthScale = width / drawableWidth;
+        final float heightScale = height / drawableHeight;
+        final float scale = Math.min(1.0f, Math.min(widthScale, heightScale));
+        Matrix m = new Matrix();
+        m.postScale(scale, scale);
+        m.postTranslate((width - drawableWidth * scale) / 2F,
+                (height - drawableHeight * scale) / 2F);
+        return m;
+    }
+
+    private static void rotateGrumpyCat(ImageView view, float x, float y,
+                                        Matrix matrix, MatrixConcatenation p) {
+        switch (p) {
+            case PRE:
+                matrix.preTranslate(-x, -y);
+                matrix.preRotate(THETA);
+                matrix.preTranslate(x, y);
+                break;
+            case POST:
+                matrix.postTranslate(-x, -y);
+                matrix.postRotate(THETA);
+                matrix.postTranslate(x, y);
+                break;
+        }
+        view.setImageMatrix(matrix);
+    }
+}    
+</code></pre>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
   <a href="/img/2d-transformations-android-java/grumpy-init.png" itemprop="contentUrl" data-size="1080x1920">
@@ -716,8 +718,9 @@ advices:</p>
 </script>
 
 <!-- Syntax highlighting -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/clojure.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/highlight.min.js"></script>
+
+
 <script>hljs.initHighlightingOnLoad();</script>
 
 

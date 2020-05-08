@@ -22,7 +22,7 @@ I was reading at the library on my last year of study and I remember being confu
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Fira+Code&display=swap">
     <link rel="stylesheet" type="text/css" href="https://i-rant.arnaudbos.com/css/main.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/styles/darcula.min.css">
     
     <!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -215,15 +215,16 @@ which will analyze the <em>history</em>, more manageable.</p>
 <p>Stripping the details of the <code>clojure</code> implementation, here are examples of
 operations (think JSON documents, JavaScript Objects, Java HashMaps,
 Python Dictionaries, whatever seems familiar to you):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-clojure" data-lang="clojure"><span style="color:#75715e">;; a read: we don&#39;t know what value we&#39;ll read from the system yes so value is &#39;nil</span>
-{<span style="color:#e6db74">:type</span> <span style="color:#e6db74">:invoke</span>, <span style="color:#e6db74">:f</span> <span style="color:#e6db74">:read</span>, <span style="color:#e6db74">:value</span> nil}
+<pre><code class="language-clojure">;; a read: we don't know what value we'll read from the system yes so value is 'nil
+{:type :invoke, :f :read, :value nil}
 
-<span style="color:#75715e">;; a write of an integer that will be performed on the system</span>
-{<span style="color:#e6db74">:type</span> <span style="color:#e6db74">:invoke</span>, <span style="color:#e6db74">:f</span> <span style="color:#e6db74">:write</span>, <span style="color:#e6db74">:value</span> (rand-int <span style="color:#ae81ff">5</span>)}
+;; a write of an integer that will be performed on the system
+{:type :invoke, :f :write, :value (rand-int 5)}
 
-<span style="color:#75715e">;; a compare-and-set of an old integer and a new integer value</span>
-{<span style="color:#e6db74">:type</span> <span style="color:#e6db74">:invoke</span>, <span style="color:#e6db74">:f</span> <span style="color:#e6db74">:cas</span>, <span style="color:#e6db74">:value</span> [(rand-int <span style="color:#ae81ff">5</span>) (rand-int <span style="color:#ae81ff">5</span>)]}
-</code></pre></div><p>These operations are <em><code>invocation operations</code></em>, they just describe a bunch of
+;; a compare-and-set of an old integer and a new integer value
+{:type :invoke, :f :cas, :value [(rand-int 5) (rand-int 5)]}
+</code></pre>
+<p>These operations are <em><code>invocation operations</code></em>, they just describe a bunch of
 types of operations for the <em>clients</em> to perform.</p>
 <p>It is the <em>generator</em>&lsquo;s job to actually generate a few operations and then let
 the <em>clients</em> performs the operations and return <em><code>completion operations</code></em>
@@ -431,8 +432,9 @@ don&rsquo;t hesitate, he really <em>knows his stuff</em> and he is a <em>fantast
 </script>
 
 <!-- Syntax highlighting -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/clojure.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/highlight.min.js"></script>
+
+
 <script>hljs.initHighlightingOnLoad();</script>
 
 

@@ -105,7 +105,7 @@ Part 4 - Non-thread-blocking async I/O</description>
       <pubDate>Mon, 04 Nov 2019 12:23:00 +0100</pubDate>
       
       <guid>https://i-rant.arnaudbos.com/loom/</guid>
-      <description>Truly non-blocking asynchronous APIs rely on event loops and fine tuned implementation techniques such as work stealing and drain loops in order to maximize CPU utilisation.
+      <description>Truly non-blocking asynchronous APIs rely on event loops and fine-tuned implementation techniques such as work stealing and drain loops in order to maximize CPU utilisation.
 But they rely on callbacks too, which leads to the infamous callback-hell that.
 TODO: Yup, rework this part, heavily.
 But we&amp;rsquo;re in 2019 so we have libraries now to lift this problem off of our shoulders, namely Reactive Streams libraries such as RxJava or Pivotal&amp;rsquo;s Project Reactor.</description>
