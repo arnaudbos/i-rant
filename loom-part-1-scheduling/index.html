@@ -122,7 +122,27 @@ In this part we skim the surface of scheduling history before diving into the JV
 
 
 <hr>
-<!-- raw HTML omitted -->
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#theres-only-one-hard-problem">There&rsquo;s only one hard problem</a></li>
+    <li><a href="#the-land-before-time">The Land Before Time</a>
+      <ul>
+        <li><a href="#sequential-execution">Sequential execution</a></li>
+        <li><a href="#batch-processing">Batch processing</a></li>
+        <li><a href="#time-sharing">Time-sharing</a></li>
+      </ul>
+    </li>
+    <li><a href="#process-switch">Process switch</a></li>
+    <li><a href="#threads">Threads</a></li>
+    <li><a href="#multitasking">Multitasking</a>
+      <ul>
+        <li><a href="#preemptive-scheduling">Preemptive scheduling</a></li>
+        <li><a href="#cooperative-scheduling">Cooperative scheduling</a></li>
+      </ul>
+    </li>
+    <li><a href="#to-be-continued">To be continued</a></li>
+  </ul>
+</nav></div>
 <h2 id="theres-only-one-hard-problem">There&rsquo;s only one hard problem</h2>
 <p>The first problem with concurrency (and computer science in general), is that
 we&rsquo;re extremely bad at naming things. We sometimes use the same word to describe several distinct concepts,
@@ -170,7 +190,14 @@ interested in knowing the implementation differences between operating systems p
  let&rsquo;s try to untangle this by first taking a look back
 in history.</p>
 <h2 id="the-land-before-time">The Land Before Time</h2>
-<!-- raw HTML omitted -->
+<figure style="text-align: center;">
+    <a target="_blank" href="https://commons.wikimedia.org/wiki/File:Women_holding_parts_of_the_first_four_Army_computers.jpg">
+        <img src="/img/loom/computers.jpg" alt="When the computer wore a skirt" width="100%"/>
+    </a>
+    <figcaption>
+        <h6>"When the <em><a target="_blank" href="https://www.history.com/news/coding-used-to-be-a-womans-job-so-it-was-paid-less-and-undervalued">computer</a></em> wore a skirt" — <em><a target="_blank" href="https://www.nasa.gov/centers/langley/news/researchernews/rn_kjohnson.html">Katherine Johnson</a></em></h6>
+    </figcaption>
+</figure>
 <h3 id="sequential-execution">Sequential execution</h3>
 <p>The first computers were capable of running one set of instructions, a program, sequentially and would sit idle the rest
 of the time. Up until another program was executed. Kind of like a sewing machine (or a loom!).</p>
@@ -301,7 +328,7 @@ In it, you can see Turing Award winner <del>Buddy Holly</del> <a href="https://e
   <iframe src="https://www.youtube.com/embed/Q07PhW5sCEk" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
 </div>
 
-<!-- raw HTML omitted --></p>
+<br /></p>
 <p>Processes won&rsquo;t spin on I/O but rather be <em>parked</em>, while another process would be allocated
 CPU time. Time-sharing allows <strong>concurrency</strong>: the <strong>illusion of parallelism</strong> and <strong>efficient use of physical
 resources</strong>.</p>

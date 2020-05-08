@@ -122,7 +122,22 @@ In this part we re-implement our proxy service with an asynchronous API.</p>
 
 
 <hr>
-<!-- raw HTML omitted -->
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#async-api">Async API</a></li>
+    <li><a href="#profiling">Profiling</a>
+      <ul>
+        <li><a href="#request-threads">Request threads</a></li>
+        <li><a href="#pulse-threads">Pulse threads</a></li>
+        <li><a href="#service-threads">Service threads</a></li>
+        <li><a href="#a-word-about-scheduledthreadpoolexecutor">A word about ScheduledThreadPoolExecutor</a></li>
+      </ul>
+    </li>
+    <li><a href="#beware-of-the-lurking-blocking-call">Beware of the lurking blocking call</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#post-scriptum">Post Scriptum</a></li>
+  </ul>
+</nav></div>
 <p>We&rsquo;ve covered a lot of ground in the previous entries and we concluded that blocking code <em>&ldquo;is bad&rdquo; ©</em>.<br>
 But what can we do about it?</p>
 <p>While researching, I&rsquo;ve read many blog posts presenting <code>asynchronous</code> programming
@@ -367,9 +382,12 @@ this case, like when calling <code>GatewayService#downloadThingy</code> above).<
     boundedPulseExecutor
 );
 </code></pre>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->[Show the code for <code>rePulseIfNotDone</code>.]<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<ol start="2">
+  <li>We ignore heartbeat results, whether successes or failures,</li>
+  <li>And schedule a new heartbeat request as long as the download <i>Future</i> is not "done".</li>
+</ol>
+<p><a class="fold title" onclick="$('#identity-matrix').toggleClass('hidden');">[Show the code for <code>rePulseIfNotDone</code>.]</a></p>
+<div id="identity-matrix" class="fold content hidden">
 <pre><code class="language-java">private void rePulseIfNotDone() {
     if (!download.isDone()) {
         boundedServiceExecutor.schedule(
@@ -380,7 +398,7 @@ this case, like when calling <code>GatewayService#downloadThingy</code> above).<
     }
 }
 </code></pre>
-<!-- raw HTML omitted -->
+</div>
 <p>Finally, the last piece of the puzzle: lients calling the service:</p>
 <pre><code class="language-java">CompletableFuture&lt;Void&gt;[] futures = new CompletableFuture[MAX_CLIENTS];
 for(int i=0; i&lt;MAX_CLIENTS; i++) {

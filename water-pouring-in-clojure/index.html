@@ -238,7 +238,7 @@ some quantity out of it, or to <em>fill</em> it with some quantity.</p>
 <p>This is a multi-arity function:</p>
 <ul>
 <li>The first implementation takes a glass as its only parameter and returns a
-<!-- raw HTML omitted --><!-- raw HTML omitted -->new<!-- raw HTML omitted --><a href="#new">1</a><!-- raw HTML omitted --> empty glass of the same capacity.</li>
+<a name="anew"></a>new<sup><a href="#new">1</a></sup> empty glass of the same capacity.</li>
 <li>The second implementation takes a glass as its first parameter and a quantity
 as its second parameter and returns a new glass <em>poured out of</em> the given
 quantity or <em>poured out empty</em> if it contains less than the given quantity.</li>
@@ -618,8 +618,8 @@ explore the next glasses available from the current glasses.</p>
 
 <p>Given a list of glasses (a state), returns the list of glasses I could get to
 (next states) by applying the moves that are available from my current state.</p>
-<p><!-- raw HTML omitted -->[Exploration]<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<p><a class="fold title" onclick="$('#explore').toggleClass('hidden');">[Exploration]</a></p>
+<div id="explore" class="fold content hidden">
 <p>I won&rsquo;t need this function because in order to find the list of moves
 leading from a state to another I must keep the previous moves in memory when
 exploring further&hellip;</p>
@@ -629,7 +629,7 @@ of all the possible next states for a given state and list of moves.</p>
 some data. And it didn&rsquo;t cost much because my feedback loop is really short.</p>
 <p>I&rsquo;ve realized this path is not going to help, so I can just discard it and
 refine my understanding of the steps I need to take to reach my goal.</p>
-<!-- raw HTML omitted -->
+</div>
 <p>Given a <code>node</code> containing glasses and the sequence of moves leading to
 them, return a list of successor nodes.</p>
 <div class="language-klipse"
@@ -1052,7 +1052,7 @@ I also argue that the Lisp syntax, although different, is an asset, because
 there&rsquo;s no cognitive load associated with it: no magical keywords, no mix of
 parents, braces or brackets for structure: just lists as functions and data.</p>
 <p>Footnote:</p>
-<p><!-- raw HTML omitted -->1<!-- raw HTML omitted -->: This it is not exactly a new glass as in &lsquo;a copy&rsquo; but a
+<p><a name="new">1</a>: This it is not exactly a new glass as in &lsquo;a copy&rsquo; but a
 new pointer to a persistent data structure, a concept also know as
 <em>structural sharing</em> (<a href="#anew">go back</a>)</p>
 

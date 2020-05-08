@@ -74,7 +74,7 @@
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          11 minutes read
+          12 minutes read
           </h4>
         </div>
         <div>
@@ -122,7 +122,21 @@ In this part we re-implement our proxy service with non-thread-blocking asynchro
 
 
 <hr>
-<!-- raw HTML omitted -->
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#java-nio">Java NIO</a>
+      <ul>
+        <li><a href="#asyncnonblockingrequest">asyncNonBlockingRequest</a></li>
+        <li><a href="#but-why">But why?</a></li>
+        <li><a href="#new-callback-interface">New callback interface</a></li>
+      </ul>
+    </li>
+    <li><a href="#profiling">Profiling</a></li>
+    <li><a href="#mode-switches">Mode switches</a></li>
+    <li><a href="#going-further">Going further</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav></div>
 <p>Starting from where we left in the <a href="../loom-part-3-async">previous entry</a>, we can say that  <code>Asynchronous</code> API are nice
 because they don&rsquo;t block the calling thread. But an asynchronous API is not a guarantee that it will not block
 other underlying threads. Thus, the problem of memory footprint, context switches and cache misses of kernel
@@ -212,7 +226,13 @@ a blog post. So I did my best to split it in several snippets.</p>
         public void failed(Throwable t, Void attachment) {...}
     });
 </code></pre>
-<!-- raw HTML omitted -->
+<ol start="4">
+  <li>The connection has been established. We can <i>asynchronously</i> write data to the channel (i.e. send the request).</li>
+  <li>However, we may not be able to write the whole request (slow network, congestion, who knows), so we should continue
+         until we are sure that the request has been sent entirely.</li>
+  <li>As soon as the request has been sent, we start listening for the answer, so we <i>asynchronously</i> read from the channel
+         for incoming data.</li>
+</ol>
 <pre><code class="language-java">channel.read( // Se previous snippet
     responseBuffer,
     responseBuffer,
@@ -247,7 +267,16 @@ a blog post. So I did my best to split it in several snippets.</p>
         public void failed(Throwable t, ByteBuffer attachment) {...}
     });
 </code></pre>
-<!-- raw HTML omitted -->
+<ol start="7">
+  <li>When data comes in, we have to make sure that the asynchronous call made by the caller has not been cancelled.<br/>
+         Because if it has, there is no point in consuming the content.  
+         This is the first reason why <code>RequestHandler</code> replaces <code>CompletionHandler</code>: more control.</li>
+  <li>For each incoming data chunk, we send it to the caller so it can decide what to do (decode, aggregate, batch?, etc).<br/>
+         This is the second (and last) reason why <code>RequestHandler</code> replaces <code>CompletionHandler</code>:
+         handling HTTP content as it arrives from buffers/network.</li>
+  <li>We may not have consumed the whole response, so we need to check if there is more.</li>
+  <li>When we are sure that no more response data remains, we can notify the caller that the call is finished.</li>
+</ol>
 <p>The amount of incidental complexity contained in this implementation is incredible. We introduced asynchronous
 programming in the previous entry. Now we introduce a new callback interface with more methods: <code>RequestHandler</code>.</p>
 <p>Why not stick with <code>CompletionHandler&lt;InputStream&gt;</code>?<br>
@@ -285,7 +314,7 @@ submitting read and write operations to the executor is the best approach.</p>
 there&rsquo;s no need to submit the operations to the executor manually.<br>
 It doesn&rsquo;t make much of a difference, but that, plus not having to call <code>channel.configureBlocking(false);</code> was simpler
 so I choose the later.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><a name="note-on-AsynchronousSocketChannel"></a></p>
 <blockquote>
 <p>We&rsquo;ll see later why this is a mistake and has a major drawback related to its recursive nature.</p>
 </blockquote>

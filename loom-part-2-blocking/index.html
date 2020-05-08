@@ -122,7 +122,25 @@ In this part we implement a proxy service, the easiest way possible.</p>
 
 
 <hr>
-<!-- raw HTML omitted -->
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#a-simple-use-case">A simple use case</a></li>
+    <li><a href="#first-implementation">First implementation</a></li>
+    <li><a href="#profiling">Profiling</a>
+      <ul>
+        <li><a href="#cpu-usage">CPU usage</a></li>
+        <li><a href="#threads">Threads</a></li>
+      </ul>
+    </li>
+    <li><a href="#context-switches">Context switches</a>
+      <ul>
+        <li><a href="#what-they-are">What they are</a></li>
+        <li><a href="#why-they-are-bad">Why they are bad</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav></div>
 <h2 id="a-simple-use-case">A simple use case</h2>
 <p>One of the biggest pain points I had learning about concurrent programming was the emphasis put on
 <code>Blocking</code>, <code>Non-blocking</code>, <code>Synchronous</code> and <code>Asynchronous</code> code. <br>

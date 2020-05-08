@@ -74,7 +74,7 @@
           &nbsp;&nbsp;
           —
           &nbsp;&nbsp;
-          13 minutes read
+          14 minutes read
           </h4>
         </div>
         <div>
@@ -96,7 +96,29 @@ talked about matrices and how they can be used to compute 2D transformations.</p
 <p>In this post, I want to talk about how to apply what we know about matrices
 in order to perform 2D transformations, first using Java AWT and then with the
 Android SDK.</p>
-<!-- raw HTML omitted -->
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#affine-transformations-with-java">Affine transformations with Java</a>
+      <ul>
+        <li><a href="#ambiguous--part-1">Ambiguous — Part 1</a></li>
+        <li><a href="#well-featured-but-not-that-much">Well featured but not that much</a></li>
+        <li><a href="#ambiguous--part-2">Ambiguous — Part 2</a></li>
+        <li><a href="#demo">Demo</a></li>
+      </ul>
+    </li>
+    <li><a href="#affine-transformations-with-android">Affine transformations with Android</a>
+      <ul>
+        <li><a href="#construction">Construction</a></li>
+        <li><a href="#well-featured">Well featured</a></li>
+        <li><a href="#ambiguous">Ambiguous</a></li>
+        <li><a href="#demo-1">Demo</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+    <li><a href="#links">Links</a></li>
+  </ul>
+</nav></div>
 <h2 id="affine-transformations-with-java">Affine transformations with Java</h2>
 <p>When I was working on the project I mentioned at the beginning of the previous
 article, I was constantly moving back and forth between the
@@ -108,7 +130,33 @@ good, it&rsquo;s not perfect but at least it&rsquo;s better than Android&rsquo;s
 topic as we shall see later.</p>
 <p>The Javadoc starts with a reminder of what are 2D affine transformations and a
 matrix multiplication pattern to transform coordinates.</p>
-<!-- raw HTML omitted -->
+<div>
+$$
+\begin{bmatrix}
+x^{\prime}\\
+y^{\prime}\\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+m_{00} & m_{01} & m_{02}\\
+m_{10} & m_{11} & m_{12}\\
+0 & 0 & 1
+\end{bmatrix}
+.
+\begin{bmatrix}
+x\\
+y\\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+m_{00} . x + m_{01} . y + m_{02}\\
+m_{10} . x + m_{11} . y + m_{12}\\
+1
+\end{bmatrix}
+$$
+</div>
 <p>That&rsquo;s neat, you have to appreciate the effort there (I mean, is your
 Javadoc that great? <span class="emoji">:innocent:</span>
 ),
@@ -141,48 +189,48 @@ $m_{00}$, $m_{10}$, etc., entries, not the ones from the third row.</p>
 <h3 id="well-featured-but-not-that-much">Well featured but not that much</h3>
 <p>To understand what I mean, let&rsquo;s try to execute the kind of transformations we
 have seen throughout the first part of this series.</p>
-<!-- raw HTML omitted -->
+<h5>1. Can we translate?</h5>
 <p>Yes! We have <code>translate(tx, ty)</code>:</p>
 <blockquote>
 <p>Concatenates this transform with a translation transformation.</p>
 </blockquote>
 <p>We&rsquo;ll see what &ldquo;concatenates&rdquo; means in this context in a moment, for now what
 we understand is that we have a method to apply a translation transformation.</p>
-<!-- raw HTML omitted -->
+<h5>2. Can we shear?</h5>
 <p>Yes, but only by constants, not by angles, we have <code>shear(shx, shy)</code>:</p>
 <blockquote>
 <p>Concatenates this transform with a shearing transformation.</p>
 </blockquote>
-<!-- raw HTML omitted -->
+<h5>3. Can we scale?</h5>
 <p>Yes! We have <code>scale(sx, sy)</code>:</p>
 <blockquote>
 <p>Concatenates this transform with a scaling transformation.</p>
 </blockquote>
-<!-- raw HTML omitted -->
+<h5>4. Can we reflect?</h5>
 <p>Not directly, at least I don&rsquo;t see anything doing a reflexion directly, so we
 either have to scale by negative values, or to use
 <code>setTransform(-1, 0, 0, -1, 0, 0)</code> (for example) manually and then
 <code>concatenate</code>.</p>
-<!-- raw HTML omitted -->
+<h5>5. Can we rotate?</h5>
 <p>Yes! We have <code>rotate(theta)</code>:</p>
 <blockquote>
 <p>Concatenates this transform with a rotation transformation.</p>
 </blockquote>
 <p>Beware: <code>theta</code> here is in radians, not in degrees.</p>
-<!-- raw HTML omitted -->
+<h5>6. Can we scale on an anchor point?</h5>
 <p>No. You will have to compose your transformation as we&rsquo;ve done it &ldquo;by hand&rdquo;
 above, with a combination of <code>scale(sx, sy)</code> and <code>translate(tx, ty)</code>.</p>
-<!-- raw HTML omitted -->
+<h5>7. Can we rotate around an anchor point?</h5>
 <p>Yes! We have <code>rotate(theta, anchorx, anchory)</code>:</p>
 <blockquote>
 <p>Concatenates this transform with a transform that rotates coordinates around
 an anchor point.</p>
 </blockquote>
-<!-- raw HTML omitted -->
+<h5>8. Can we transform points?</h5>
 <p>Yes! We have several methods available in order to transform points (even
 shapes) from their original position to their new coordinates after the
 transformation has been applied.</p>
-<!-- raw HTML omitted -->
+<h5>Why am I not happy with this?</h5>
 <p>I am, actually, and there are more methods that allow you to do interesting
 stuff with this class.<br>
 I&rsquo;m just wondering why they decided to implement
@@ -197,7 +245,11 @@ Why? Because they assume that what you want to do is:</p>
 <h3 id="ambiguous--part-2">Ambiguous — Part 2</h3>
 <p>All the transformations we&rsquo;ve seen in my previous post about matrices are
 defined this way:</p>
-<!-- raw HTML omitted -->
+<div>
+$$
+P^{\prime} = \mathbf{T}.P
+$$
+</div>
 <p>Where:</p>
 <ul>
 <li>$P$ is a point</li>
@@ -217,9 +269,26 @@ $\mathbf{T} = \mathbf{C} . \mathbf{B} . \mathbf{A} $, and reciprocally.</li>
 </blockquote>
 <p>In our notation this gives that for transforming by $\mathbf{A}$, then
 $\mathbf{B}$, then $\mathbf{C}$ we have:</p>
-<!-- raw HTML omitted -->
+<div>
+$$
+\begin{aligned}
+\mathbf{this} &=
+\left( \left( \mathbf{this} . \mathbf{A} \right) . \mathbf{B} \right) . \mathbf{C}\\\\
+\Leftrightarrow
+\mathbf{this} &= \mathbf{this} . \mathbf{Tx}
+\text{ where }
+\mathbf{Tx} = \mathbf{A} . \mathbf{B} . \mathbf{C}
+\end{aligned}
+$$
+</div>
 <p>This is very different than:</p>
-<!-- raw HTML omitted -->
+<div>
+$$
+\mathbf{this} = \mathbf{Tx} . \mathbf{this}
+\text{ where }
+\mathbf{Tx} = \mathbf{A} . \mathbf{B} . \mathbf{C}
+$$
+</div>
 <p>Because matrix multiplication is <code>associative</code>,
 <a href="../matrices-for-developers">remember</a>?<br>
 But matrix multiplication is <em>also</em> <code>non-commutative</code>, so this will lead to
@@ -369,12 +438,12 @@ the <code>MPERSP_0</code>, <code>MPERSP_1</code> and <code>MPERSP_2</code> entri
 <code>isAffine()</code> method).</p>
 <h3 id="well-featured">Well featured</h3>
 <p>Let&rsquo;s do it again.</p>
-<!-- raw HTML omitted -->
+<h5>1. Can we translate?</h5>
 <p>Yes! We have <code>preTranslate(dx, dy)</code> and <code>postTranslate(dx, dy)</code>:</p>
 <blockquote>
 <p>Pre/Post-concats the matrix with the specified translation.</p>
 </blockquote>
-<!-- raw HTML omitted -->
+<h5>2. Can we shear?</h5>
 <p>Yes, but only by constants not by angles, and it&rsquo;s named &ldquo;skew&rdquo;.<br>
 We have <code>preSkew(kx, ky)</code> and  <code>postSkew(kx, ky)</code>:</p>
 <blockquote>
@@ -382,31 +451,31 @@ We have <code>preSkew(kx, ky)</code> and  <code>postSkew(kx, ky)</code>:</p>
 </blockquote>
 <p>We also have <code>preSkew(kx, ky, px, py)</code> and <code>postSkew(kx, ky, px, py)</code> in order
 to skew not around the origin, by around a given anchor point. That&rsquo;s nice.</p>
-<!-- raw HTML omitted -->
+<h5>3. Can we scale?</h5>
 <p>Yes! We have <code>preScale(sx, sy)</code> and <code>postScale(sx, sy)</code>:</p>
 <blockquote>
 <p>Pre/Post-concats the matrix with the specified scale.</p>
 </blockquote>
-<!-- raw HTML omitted -->
+<h5>4. Can we reflect?</h5>
 <p>Again, not directly, we can scale by negative values, or we can use
 <code>setValues({-1, 0, 0, 0, -1, 0, 0, 0, 1})</code> (for example) and then
 <code>postConcat</code>.</p>
-<!-- raw HTML omitted -->
+<h5>5. Can we rotate?</h5>
 <p>Yes! We have <code>preRotate(degrees)</code> and <code>postRotate(degrees)</code>:</p>
 <blockquote>
 <p>Pre/Post-concats the matrix with the specified rotation.</p>
 </blockquote>
-<!-- raw HTML omitted -->
+<h5>6. Can we scale on an anchor point?</h5>
 <p>Yes! We have <code>preScale(sx, sy, px, py)</code> and <code>postScale(sx, sy, px, py)</code>:</p>
 <blockquote>
 <p>Pre/Post-concats the matrix with the specified scale.</p>
 </blockquote>
-<!-- raw HTML omitted -->
+<h5>7. Can we rotate around an anchor point?</h5>
 <p>Yes! We have <code>preRotate(degrees, px, py)</code> and <code>postRotate(degrees, px, py)</code>:</p>
 <blockquote>
 <p>Pre-Post-concats the matrix with the specified rotation.</p>
 </blockquote>
-<!-- raw HTML omitted -->
+<h5>8. Can we transform points?</h5>
 <p>Also yes! We have several methods available in order to transform points and
 shapes from their original position to their new coordinates after the
 transformation has been applied.</p>
@@ -416,25 +485,33 @@ transformation has been applied.</p>
 the most common transformations, a <code>setValues</code> method to create matrices of
 any shape, and also <code>preConcat(Matrix other)</code> and <code>postConcat(Matrix other)</code>.</p>
 <p>What do they do?</p>
-<!-- raw HTML omitted -->
+<h5>preConcat</h5>
 <blockquote>
 <p>Preconcats the matrix with the specified matrix. M&rsquo; = M * other</p>
 </blockquote>
 <p>So, if I read correctly, this is equivalent to:</p>
-<!-- raw HTML omitted -->
+<div>
+$$
+\mathbf{this} = \mathbf{this} . \mathbf{Tx}
+$$
+</div>
 <p>Wait&hellip; in Java&rsquo;s <code>AffineTransform</code>, this was the equivalent of the
 <code>concatenate</code> method&hellip;</p>
-<!-- raw HTML omitted -->
+<h5>postConcat</h5>
 <blockquote>
 <p>Postconcats the matrix with the specified matrix. M&rsquo; = other * M</p>
 </blockquote>
 <p>Again, if I read correctly, this is equivalent to:</p>
-<!-- raw HTML omitted -->
+<div>
+$$
+\mathbf{this} = \mathbf{Tx} . \mathbf{this}
+$$
+</div>
 <p>Wait&hellip; in Java&rsquo;s <code>AffineTransform</code>, this was the equivalent of the
 <code>preConcatenate</code> method&hellip;</p>
-<!-- raw HTML omitted -->
+<h5>WTF dude?</h5>
 <p>Exactly. If you don&rsquo;t read the doc, <strong>you&rsquo;re screwed</strong>
-<!-- raw HTML omitted -->:poop:<!-- raw HTML omitted --></p>
+<span class="emoji">:poop:</span></p>
 <p>So who&rsquo;s right?</p>
 <p>I&rsquo;ve searched a few minutes on the Interwebs and here&rsquo;s what I&rsquo;ve found
 <a href="https://en.wikipedia.org/wiki/Matrix_multiplication">from Wikipedia</a>:</p>
