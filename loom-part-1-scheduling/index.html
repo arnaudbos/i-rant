@@ -181,9 +181,8 @@ interested in knowing the implementation differences between operating systems p
 <ol>
 <li>Can you spot the mistake?</li>
 <li>Do you know what concept each of those terms refer to?</li>
-<li>If yes, are you sure you know them well enough to explain their meaning to somebody?</li>
 </ol>
-<p>If you&rsquo;ve answered yes three times, stop reading and go do something else! <span class="emoji">:wave:</span>
+<p>If you&rsquo;ve answered twice, stop reading and go do something else! <span class="emoji">:wave:</span>
 </p>
 <hr>
 <p>Still with me? Alright <span class="emoji">:muscle:</span>
@@ -228,10 +227,10 @@ of the time. Up until another program was executed. Kind of like a sewing machin
 <p>&ldquo;Operators&rdquo; were the names of the first computers, who used <em>computers</em>.</p>
 </blockquote>
 <p>We have two operators. The first starts &ldquo;writing a program&rdquo; (wiring cables, turning switches, etc) to make the
-computer calculate the solution to a problem.</p>
-<p>Operator1 must wait the end of the program to get the result. Only then can Operator2 write her program and make it run.
+computer compute the solution to a problem.</p>
+<p>Operator 1 must wait the end of the program to get the result. Only then can Operator 2 write her program and make it run.
 There is no possibility for parallelism: the programs are executed sequentially.</p>
-<p>Soon, the bottleneck to solve problems faster shifted from computers to humans. Even with new ways to
+<p>Soon, the bottleneck to solve problems faster shifted from computers to humans. Indeed, even with new ways to
 write programs (punch cards, magnetic tapes) the time taken by each programmer to &ldquo;insert&rdquo; its program into the machine
 became unacceptable—i.e., too expensive.</p>
 <p>In this situation, a good scheduler has to do something. Right?</p>
@@ -263,8 +262,8 @@ programs to a waiting queue of jobs to be performed.</p>
 </div>
 
 <p>In the diagram above, Program1 and Program2 are submitted one after the other, so Program1 runs first and thenProgram2.</p>
-<p>But having to append a program into a &ldquo;giant&rdquo; batch of jobs for the program to compute, and then wait for the computer
-to return all the results was a massive pain in the butt!<br>
+<p>But having to append a program into a &ldquo;giant&rdquo; batch of jobs for the mainframe to compute, and then wait for it
+to return all the results, was a massive pain in the butt!<br>
 Imagine debugging your programs <strong>with a 24 hours feedback loop&hellip;</strong></p>
 
 <figure  >
@@ -284,7 +283,7 @@ Imagine debugging your programs <strong>with a 24 hours feedback loop&hellip;</s
 
 <p>It was not only painful for programmers though. It was also painful for <em>users</em> who would have to run the programs!</p>
 <p>It&rsquo;s a common problem in scheduling: optimising for a use case (less computer idle time) ends up
-making it worse from another point of view (more programmer idle time).</p>
+making it worse from another point of view (more human idle time).</p>
 <p>Computers kept getting faster and faster for sure, and although programmers tried to make the best of the computing
 power they could get, any single user wouldn&rsquo;t make efficient use of a computer by herself!</p>
 <p>Indeed, processes, to do something useful, have to be fed with inputs and produce any kind of output. Otherwise they&rsquo;d
@@ -316,7 +315,7 @@ to a teletypewriter or a &ldquo;high-speed&rdquo; Xerox printer.</p>
 
 <p>In the above diagram, we can see Program1 finishing before Program2 can start, but there are <em>gaps</em> between bursts
 of execution. Same for Program2.<br>
-And all the time during which a processor is waiting for I/O (polling, <a href="https://en.wikipedia.org/wiki/Busy_waiting">busy waiting</a>) rather than &ldquo;crunching numbers&rdquo;,
+So all the time during which a processor is waiting for I/O (polling, <a href="https://en.wikipedia.org/wiki/Busy_waiting">busy waiting</a>) rather than &ldquo;crunching numbers&rdquo;,
 is wasted.</p>
 <p>Schedulers to the rescue!</p>
 <h3 id="time-sharing">Time-sharing</h3>
@@ -329,7 +328,7 @@ In it, you can see Turing Award winner <del>Buddy Holly</del> <a href="https://e
 </div>
 
 <br /></p>
-<p>Processes won&rsquo;t spin on I/O but rather be <em>parked</em>, while another process would be allocated
+<p>Processes wouldn&rsquo;t spin on I/O anymore but rather be <em>parked</em>, while another process would be allocated
 CPU time. Time-sharing allows <strong>concurrency</strong>: the <strong>illusion of parallelism</strong> and <strong>efficient use of physical
 resources</strong>.</p>
 <p>Let&rsquo;s see an example:</p>
@@ -368,8 +367,8 @@ Program1 then picks up the result from its I/O call and finishes running too.</p
 to the kind of work they do.</p>
 <p><em>CPU-bound</em> tasks that don&rsquo;t require much (if any) communication could be tackled by multiple processes (instances
 of a program communicating through IPC).</p>
-<p>But some tasks require communication. Coupled cooperative processes for which IPC may be too expensive are an example.
-Tasks requiring many I/O operations (<em>I/O bound</em>) also.<br>
+<p>Some other tasks require communication. Coupled cooperative processes for which IPC may be too expensive are an example.
+Tasks requiring many I/O operations (<em>I/O bound</em>) as well.<br>
 For such applications, the time to <em>switch</em> from e.g. <code>P1</code> to <code>P2</code> and back to <code>P1</code>, may hamper its fast realization
 and/or drain physical resources&hellip;</p>
 <p>From a scheduling perspective, it would be nice to have a mechanism so that cooperative processes (of which there were
@@ -409,16 +408,16 @@ And threads have interesting characteristics with regard to the previous points.
 <p>Conceptually, a thread is like a process: it embodies the execution of a set of instructions and, at runtime, gets
 its own <a href="https://en.wikipedia.org/wiki/Call_stack">control stack</a> filled with stack frames. What&rsquo;s really remarkable about threads however, is their ability (for
 better or worse) to share the memory of their parent process.</p>
-<p>Each thread having has its own call stack makes it possible for multiple threads, while in a single process, to
+<p>Each thread having its own call stack makes it possible for multiple threads, while in a single process, to
 execute <strong>different sets of instructions</strong> running <strong>in parallel</strong> on distinct cores.</p>
 <p>Therefore, cooperative processes can be implemented as a single process, with multiple threads communicating directly
 by sharing memory places (data).</p>
 <p>I/O bound processes also benefit from this new layer of indirection because switching between threads of the same
 process is typically faster than switching between processes.</p>
 <blockquote>
-<p>Nowadays a context switch is almost synonymous with switching between threads rather than between processes.<br>
-But &ldquo;context switch&rdquo; is also used, in many many blog posts and articles, to talk about <em>process switches</em>,
-<em>thread switches</em> or <em>mode switches</em> almost indistinguishably.<br>
+<p>Nowadays, a context switch is almost synonymous with switching between threads rather than between processes.
+But &ldquo;context switch&rdquo; is also used, in many blog posts and articles, to talk about <em>process switches</em>,
+<em>thread switches</em> or <em>mode switches</em>, almost indistinguishably.<br>
 We&rsquo;ll touch on these differences in the <a href="../loom-part-2-blocking">next part</a>.</p>
 </blockquote>
 <p>Let&rsquo;s talk about time-sharing a bit more.</p>
@@ -428,7 +427,7 @@ by their users and that connecting more users to one would amortize its cost.</p
 <p>In order to do that, time-sharing employed both</p>
 <ul>
 <li>multiprogramming: multiple programs running concurrently; and</li>
-<li>multitasking: programs would run one after the other, in <strong>short</strong> bursts (to avoid greedy programs to monopolize the CPU).</li>
+<li>multitasking: programs would run one after the other, in <strong>short</strong> bursts (preventing greedy programs to monopolize the CPU).</li>
 </ul>
 <p>There are several techniques that can lead to effective multitasking and fair (or not) sharing of CPU cycles, but they
 can be grouped in two main categories: <code>Preemptive multitasking</code> and <code>Cooperative multitasking</code>; and their properties are
@@ -436,7 +435,7 @@ enforced by scheduler policies.</p>
 <h3 id="preemptive-scheduling">Preemptive scheduling</h3>
 <p>A preemptive scheduler may suspend a running thread when it blocks on I/O or waits on a condition, so the processor
 can be assigned another thread to work on. It may also prevent spin-locking or CPU intensive tasks to
-<em>hog the CPU</em> by allowing threads for a finite amount of time before parking it, in order to let
+<em>hog the CPU</em> by allowing threads for a finite amount of time, before parking them in order to let
 other tasks a &ldquo;fair&rdquo; chance to run.</p>
 <blockquote>
 <p>To be <em>fair</em> (pun intended), &ldquo;fair&rdquo; scheduling isn&rsquo;t a solved problem, and I didn&rsquo;t dive into the details of the
@@ -482,9 +481,8 @@ algorithms. These two resources may be good entry-points for more research <a hr
 </div>
 
 <p>The first figure (left) illustrates a thread/task being preempted by the kernel, using a <em>context-switch</em>
-when a blocking call occurs, in order to satisfy the scheduling policy.<br>
-The first thread is parked while the next thread is executed. Eventually (hopefully), the first thread is going to be
-unparked and its execution resumed.</p>
+when a blocking call occurs, in order to satisfy the scheduling policy: the first thread is parked while the
+next thread is executed. Eventually (hopefully), the first thread is going to be unparked and its execution resumed.</p>
 <p>The second figure (right) illustrates a thread being preempted because its execution duration is longer than the
 time it is authorized to run on the CPU (also named its <em>quantum</em>).</p>
 <p>Preemptive multitasking is what we get from our modern operating systems, or kernels. The preemption is specified
@@ -528,8 +526,8 @@ I/O after an asynchronous call).</p>
 <p>Cooperative multitasking requires <strong>ALL</strong> programs to cooperate. Consequently, fairness is not ensured, which
 explains why most modern operating systems implement preemptive scheduling.</p>
 <h2 id="to-be-continued">To be continued</h2>
-<p>I think we&rsquo;ve covered most of the ground work necessary to understand where we&rsquo;re at from a scheduling
-point of view regarding modern computers.</p>
+<p>I think we&rsquo;ve covered most of the groundwork necessary to understand where we&rsquo;re at, from a scheduling
+point of view, regarding modern computers.</p>
 <p>I obviously took a great detour to explain some fundamentals. There&rsquo;s been so much innovation in computer systems in
 the last 60 years that I had to cut corners and didn&rsquo;t do it any justice.</p>
 <p>If it picked your curiosity, start with the links I&rsquo;ve provided and follow those threads (pun intended).</p>

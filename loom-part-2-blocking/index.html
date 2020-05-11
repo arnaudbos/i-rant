@@ -147,11 +147,15 @@ In this part we implement a proxy service, the easiest way possible.</p>
 We&rsquo;ll touch on all four in the next parts of this series.</p>
 <p>After reading a lot I figured that implementing a simple use case would comfort my understandings and help me convey
 what I wanted to explain. So here&rsquo;s a not totally made up, simple use case:</p>
+<ol>
+<li>clients need access to some restricted resources,</li>
+<li>a proxying service will rate-limit the clients access, based on a token policy.</li>
+</ol>
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
-  <a href="/img/loom/demo.png" itemprop="contentUrl" data-size="2530x1180">
-      <img src="/img/loom/demo.png" itemprop="thumbnail"
+  <a href="/img/loom/demo-1.png" itemprop="contentUrl" data-size="2530x1180">
+      <img src="/img/loom/demo-1.png" itemprop="thumbnail"
         
         
         width="100%"
@@ -169,29 +173,49 @@ what I wanted to explain. So here&rsquo;s a not totally made up, simple use case
 <div class="title">Use case: A proxy server</div>
 </div>
 
-<p>Clients need access to some restricted resources. A proxying service will rate-limit the clients access, based on a
-token policy.</p>
 <ol>
 <li>A client addresses a download request to the proxy service.</li>
 <li>The proxy service registers the request to a coordinator.</li>
 <li>The coordinator is responsible for the scheduling logic using a priority queue. Its logic is irrelevant.</li>
 <li>The coordinator responds either &ldquo;Unavailable&rdquo; or &ldquo;Available&rdquo;.</li>
 <li>&ldquo;Unavailable&rdquo; means that the client can&rsquo;t download the resource just yet (responses&rsquo; payload contains a token).</li>
-<li>The payload also contains an &ldquo;ETA&rdquo; so the service can decide to abort or to retry, using the token to keep its place
+<li>The payload also contains an &ldquo;ETA&rdquo;, so the service can decide to abort or to retry, using the token to keep its place
 in the coordinator&rsquo;s queue.</li>
 <li>The payload also contains a &ldquo;wait&rdquo; time to rate-limit the retry requests to the coordinator.</li>
-<li>The proxy may have to retry a couple of times, on behalf of the client, but will eventually receive an &ldquo;Available&rdquo;
-response.</li>
-<li>With an &ldquo;Available&rdquo; response and the token contained in its payload, the proxy service can initiate a download
-request to the data source.</li>
-<li>The proxy service streams the content of the download request back to its client;</li>
-<li>While at the same time sending periodic &ldquo;heartbeat&rdquo; requests to the coordinator to ensure its token is not revoked.</li>
+</ol>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/demo-2.png" itemprop="contentUrl" data-size="2530x1180">
+      <img src="/img/loom/demo-2.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Sequence diagram, also detailed in text in the following paragraphs.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Use case: A proxy server</div>
+</div>
+
+<ol start="8">
+  <li>The proxy may have to retry a couple of times, on behalf of the client, but will eventually receive an "Available" response.</li>
+  <li>With an "Available" response and the token contained in its payload, the proxy service can initiate a download request to the data source.</li>
+  <li>The proxy service streams the content of the download request back to its client;</li>
+  <li>While at the same time sending periodic "heartbeat" requests to the coordinator to ensure its token is not revoked.</li>
 </ol>
 <p>We are going to use this scenario in the next parts of the series. We will implement this proxy service in
 various ways, simulate a few (200) clients connecting simultaneously and see the pros and cons of each implementation.</p>
 <blockquote>
-<p>Bear in mind that this is not a benchmark, it&rsquo;s just an experiment.<br>
-200 clients is a really low number but is enough to observe a few interesting things.</p>
+<p>Bear in mind that this is not a benchmark, it&rsquo;s just an experiment! 200 clients is a really low number
+but is enough to observe a few interesting things.</p>
 </blockquote>
 <h2 id="first-implementation">First implementation</h2>
 <p>I am now going to show you the easiest way I came up with to implement this proxy service.</p>
@@ -206,7 +230,7 @@ various ways, simulate a few (200) clients connecting simultaneously and see the
 
         Thread pulse = makePulse(conn);
 ②      try (InputStream content = gateway.downloadThingy()) {
-③         pulse.start();
+③          pulse.start();
 
 ④          ignoreContent(content);
         } catch (IOException e) {
@@ -367,7 +391,7 @@ about 8% for a very short time during startup). Which makes sense, right?</p>
 we send a bunch or requests, wait a little in between, then some more requests to forward content from
 buffers and&hellip; Done.</p>
 <p>None of this requires a lot of CPU power so this screenshot should not be surprising. In fact, it will be the same
-for all the other implementations we will see in the next parts so I am not going to embed it again.</p>
+for all the other implementations we will see in the next parts, so I am not going to display it again.</p>
 <p>Looking at the threads is much more interesting.</p>
 <h3 id="threads">Threads</h3>
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
@@ -397,8 +421,8 @@ create a first batch of about 200 threads. And then progressively start 200 more
 <p>The last 200 are pretty obvious given the implementation of <code>makePulse</code>: once the proxy begins to receive <code>Available</code>
 responses from the coordinator, it starts the threads instantiated by the calls to <code>makePulse</code>. This is just an
 implementation detail. A wrong one for sure, but a minor detail.</p>
-<p>What should be more intriguing are the first 200 (the 10 additional ones are created by the JVM itself, the net
-addition from our application is of 200). Why are 200 clients creating 200 threads?</p>
+<p>What should be more intriguing are the first 200 (the 10 additional ones are created by the JVM itself). Why are
+200 clients creating 200 threads?</p>
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -474,7 +498,7 @@ so our cores don&rsquo;t actually do much in practice!</p>
 <p>This <a href="http://www.brendangregg.com/flamegraphs.html">flame graph</a> was acquired using <a href="https://github.com/jvm-profiling-tools/async-profiler">async-profiler</a> and shows that time spent running <code>SocketDispatcher#read0</code>'s
 underlying <code>read</code> system call dominates our application.</p>
 <p>If we track its call stack to find its origin, we stumble upon <code>lambda$run$1</code>. Which, in fact, is the call to the
-astutely named <code>blockingRequest</code> method inside of the <em>gateway</em> service:</p>
+astutely named <code>blockingRequest</code> method, inside of the <em>gateway</em> service:</p>
 <pre><code class="language-java">class SyncGatewayService {
     InputStream downloadThingy() throws IOException {
         return blockingRequest(
@@ -510,12 +534,12 @@ astutely named <code>blockingRequest</code> method inside of the <em>gateway</em
 <p>You can see in the call chain that <code>read0</code> originates from calling <code>InputStream#read</code>. The <em>InputStream</em> itself is
 obtained from the <code>SocketChannel</code>. And this, dear reader, is the ugly detail that makes this application not
 efficient and is the reason why we end up with as many threads as clients.</p>
-<p>Because this socket channel (analogous to a <a href="https://en.wikipedia.org/wiki/File_descriptor">file descriptor</a>) is written to and read from in <strong>blocking mode</strong>.</p>
+<p>Because this socket channel (analogous to a <a href="https://en.wikipedia.org/wiki/File_descriptor">file descriptor</a>) is written to and read from in <strong>blocking mode</strong>.
+What&rsquo;s a blocking call and why is it bad?<br>
+Let&rsquo;s talk about what happens when one of our threads&rsquo; runnable contains a thread blocking call.</p>
 <h2 id="context-switches">Context switches</h2>
 <h3 id="what-they-are">What they are</h3>
-<p>What&rsquo;s a blocking call and why is it bad? Let&rsquo;s talk about what happens when one of our threads encounters a thread
-blocking call.</p>
-<p>For the sake of simplicity, I am going to assume here that our CPUs run two kinds of instructions.</p>
+<p>For the sake of simplicity, let&rsquo;s assume that our CPUs run two kinds of instructions.</p>
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -538,7 +562,7 @@ blocking call.</p>
 <div class="title">Legend</div>
 </div>
 
-<p>Instructions coming from what we&rsquo;ll call our &ldquo;user code&rdquo; represented by the triangle, hexagon, square and round shapes.<br>
+<p>Instructions coming from what we&rsquo;ll call our &ldquo;user code&rdquo;, represented by the triangle, hexagon, square and round shapes.<br>
 And instructions coming from the kernel whose goals are to enforce scheduling policies represented by the circle and
 cross shapes.<br>
 The CPU will be represented by a <a href="https://en.wikipedia.org/wiki/Wankel_engine">Wankel engine</a>.</p>
@@ -565,21 +589,21 @@ The CPU will be represented by a <a href="https://en.wikipedia.org/wiki/Wankel_e
 </div>
 
 <p>On the JVM, the threads we manipulate are actually kernel threads. The threads which are instantiated and managed by
-the various flavors of <code>ExecutorService</code> available via the helper <code>java.util.concurrent.Executors</code> are an abstraction
-over native threads with additional thread pool logic, tasks queues management and scheduling mechanisms.</p>
+the various flavors of <code>ExecutorService</code>, available via the helper <code>java.util.concurrent.Executors</code>, are an abstraction
+over native threads, with additional thread pool logic, tasks queues management and scheduling mechanisms.</p>
 <p>As said earlier, the executor I&rsquo;ve used in this implementation is a &ldquo;cached&rdquo; <code>ThreadPoolExecutor</code>.</p>
 <pre><code class="language-java">elasticServiceExecutor =
     Executors.newCachedThreadPool(new PrefixedThreadFactory(&quot;service&quot;));
 </code></pre>
-<p>This executor handles an initial pool of threads as well as a task queue (<code>SynchronousQueue</code>).<br>
-It also has a reference to a <code>ThreadFactory</code>, because this executor will try to match each <code>Runnable</code> that is submitted
-to it via its <code>submit</code> method to a runnable thread in its pool. If no thread is available to run the next <em>Runnable</em> in
+<p>This executor handles an initial pool of threads, as well as a task queue (<code>SynchronousQueue</code>).<br>
+It also has a reference to a <code>ThreadFactory</code>, because this executor will try to match each <code>Runnable</code>, that is submitted
+to it via its <code>submit</code> method, to a runnable thread in its pool. If no thread is available to run the next <em>Runnable</em> in
 the queue, it will use the <em>ThreadFactory</em> to create a new thread and hand the <em>Runnable</em> object to it.</p>
 <p>The threads thus created are managed by the kernel, which itself manages its own priority queue and acts according to
 its scheduling policy (we&rsquo;ve talked about this in the <a href="../loom-part-1-scheduling">part 1 of this series</a>). The priority queue shown in the
 illustration above is the kernel&rsquo;s.</p>
 <p>So, in a nutshell, when a thread is scheduled to run, its instructions are executed one after the other by the CPU.<br>
-Up until it finishes or a blocking call is made.</p>
+Up until it finishes, or a blocking call is made.</p>
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -603,17 +627,17 @@ Up until it finishes or a blocking call is made.</p>
 </div>
 
 <p>In the illustration above, the &ldquo;round&rdquo; instructions come from the currently scheduled thread. We can see that the
-current instruction is in fact a blocking OS call (syscall, such as <code>read</code>).</p>
-<p>What will actually happen here, is a <strong>context switch</strong>.<br>
-Because the thread is currently trying to execute an action <em>outside</em> its current <a href="https://en.wikipedia.org/wiki/Protection_ring">protection ring</a>.</p>
+current instruction is, in fact, a blocking OS call (syscall, such as <code>read</code>).</p>
+<p>What will actually happen here, is a <strong>context switch</strong>. Because the thread is currently trying to execute an
+action <em>outside</em> its current <a href="https://en.wikipedia.org/wiki/Protection_ring">protection ring</a>.</p>
 <p>JVM applications run in <em>user space</em> (ring 3) to ensure memory and hardware protection.<br>
-The kernel runs in <em>kernel space</em> (ring 0) and is responsible to ensure computer security and that processes behave,
+The kernel runs in <em>kernel space</em> (ring 0). It is responsible to ensure computer security and that processes behave,
 basically.</p>
-<p>When executing syscalls such as blocking <code>read</code>s, <em>kernel space</em> access level is required. Kernel instructions will be
+<p>When executing syscalls, such as blocking <code>read</code>s, <em>kernel space</em> access level is required. Kernel instructions will be
 run on behalf of the &ldquo;user code&rdquo; and will, for instance, ensure that this thread does not hold onto the CPU while
 waiting for its call to return and that another thread has a chance to run in the mean time, hence ensuring compliance
 with the scheduling policies.</p>
-<p>For the sake of simplicity, I&rsquo;m representing a context switch as a 2 step process.</p>
+<p>For the sake of simplicity, I&rsquo;m representing a context switch as a 2-step process.</p>
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
   <figure itemscope itemtype="http://schema.org/ImageObject">
@@ -637,7 +661,7 @@ with the scheduling policies.</p>
 </div>
 
 <p>During the first step, the kernel is going to <em>suspend</em> the execution of the current thread. In order to do this,
-it is going to save a few things such as the current instruction or process counter (on which instruction did the
+it is going to save a few things, such as the current instruction or process counter (on which instruction did the
 thread pause), the thread&rsquo;s current call stack, the state of CPU registers it was accessing, etc.</p>
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
@@ -690,9 +714,8 @@ a priority queue. But the actual logic may be more complicated, including severa
 <div class="title">2/2: schedule next</div>
 </div>
 
-<p>In the second step, the kernel decides which thread should be scheduled next according to its policies, and this thread
-is allocated to the CPU. If this thread had been scheduled before, its state would have to be restored first, of
-course.</p>
+<p>In the second step, the kernel decides which thread should be scheduled next, according to its policies, and this thread
+is allocated to the CPU. If this thread had been scheduled before, its state would have to be restored first.</p>
 <p>This thread itself may contain instructions pointing at a blocking syscall, which would trigger a new context switch,
 and so on and so forth until eventually the result of the blocking syscall made by the round instruction above is
 available and this thread is scheduled again.</p>
@@ -784,7 +807,7 @@ available and this thread is scheduled again.</p>
 
 <p>I&rsquo;m trying to do half as good in this series, so I strongly suggest that you take a look at it and read <em>at least</em> the
 first 3 parts of the article: <em>&ldquo;Our Little Service&rdquo;</em>, <em>&ldquo;Little’s Law&rdquo;</em> and <em>&ldquo;What Dominates the Capacity&rdquo;</em>.</p>
-<p>It explains that the number of connections our services can handle when executing blocking code is
+<p>It explains that the number of connections our services can handle, when executing blocking code, is
 not limited by the number of network connections our OS can keep open, but by the number of threads we create.<br>
 Each kernel thread stack takes memory space and thread scheduling (context switches explained above) wastes CPU cycles,
 induce CPU cache misses and adds latency to requests.</p>
@@ -818,7 +841,7 @@ already have are under-utilized.<br>
 </blockquote>
 <h2 id="conclusion">Conclusion</h2>
 <p>This part of the series presented a use case from which we can build upon and
-experiment to try various solutions to the problem of blocking calls and scalability.</p>
+experiment. The goal is to find acceptable solutions to blocking calls and scalability issues.</p>
 <p>I hope you understand a little more about blocking calls and context switches after reading this.</p>
 <p>In the <a href="../loom-part-3-async">next part</a>, we will take a look at asynchronous calls.</p>
 

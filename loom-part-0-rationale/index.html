@@ -99,32 +99,32 @@ In this part I just talk about me, me, me, me and why I wrote this.</p>
 <a href="../loom-part-3-async">Part 3 - Asynchronous code</a><br>
 <a href="../loom-part-4-nio">Part 4 - Non-thread-blocking async I/O</a></p>
 </blockquote>
-<p>Finding good introduction level articles on concurrent programming is difficult because every post assumes
-some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free
-concurrency while you&rsquo;re <em>absolutely not</em> ready for this!</p>
-<p>Luckily, a few months ago, we&rsquo;ve had an interesting use-case at work. We had to implement a scheduler for a scarce
-resource in our system.</p>
+<p>Finding good introduction level articles on concurrent programming is difficult, because every post assumes
+some prior knowledge. You quickly find yourself into dark corners of the Web, where people talk about lock-free
+concurrency: you&rsquo;re <em>probably</em> not ready for this if you&rsquo;re reading this blog!</p>
+<p>Luckily for me, a few months ago, at a client&rsquo;s, we&rsquo;ve had an interesting use-case. We had to implement a
+scheduler for a scarce resource in our system.</p>
 <p>We&rsquo;ve been using a good deal of concurrency &ldquo;techniques&rdquo; for the past two years: simple <code>threads</code>,
 <code>executor services</code>, <code>reactive</code> (Rx) programming; we were doing fine.</p>
-<p>However, for this service, I wasn&rsquo;t convinced by any of those techniques. The problem lent itself well into an actor
-model, so we searched for a library to help us and found <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a>.<br>
-My first introduction to <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a> was around 2014. At the time Clojure&rsquo;s <a href="https://clojure.org/news/2013/06/28/clojure-clore-async-channels">core.async</a> library just came out.</p>
-<p>I didn&rsquo;t understand every aspect of the value proposition, but naively started using it.<br>
-And because I was using <code>core.async</code>, I stumbled upon <a href="https://docs.paralleluniverse.co/pulsar/">Pulsar</a> (not Apache Pulsar!) which is itself built upon Quasar.<br>
-I missed the value proposition of Pulsar, like I did with Quasar, but I was interested
-in this concept of &ldquo;lightweight concurrency&rdquo; and the &ldquo;actor model&rdquo;.<br>
+<p>However, for this service, I wasn&rsquo;t convinced by any of those techniques an looking for an alternative. The
+problem lent itself well into an actor model, so we searched for a library to help us and found <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a>.<br>
+My first introduction to <a href="https://docs.paralleluniverse.co/quasar/">Quasar</a> was around 2014. At the time when Clojure&rsquo;s <a href="https://clojure.org/news/2013/06/28/clojure-clore-async-channels">core.async</a> library just came out.</p>
+<p>I didn&rsquo;t understand every aspect of the value proposition or <code>core.async</code>, but naively started using it.<br>
+And because I was using it, I stumbled upon <a href="https://docs.paralleluniverse.co/pulsar/">Pulsar</a> (not <em>Apache</em> Pulsar!) which is itself built upon Quasar.<br>
+I completely missed the value propositions of Quasar and Pulsar back then, but I was interested in this
+concept of &ldquo;lightweight concurrency&rdquo; and the &ldquo;actor model&rdquo;.<br>
 I longed for the day I would have a use case for this.</p>
-<p>Fast forward five years and more experience in the field, Quasar and its actor model were
-a great fit to solve our problem and we used it to great effect. That&rsquo;s when I fell into the rabbit hole: trying to
-understand the underlying concepts and &ldquo;how it works&rdquo;, I stumbling upon Project Loom.</p>
+<p>Fast forward five years, and more experience in the field, Quasar and its actor model were
+a great fit to solve our problem, and we used it to great effect. That&rsquo;s when I fell into a rabbit hole: trying to
+understand the underlying concepts and &ldquo;how it works&rdquo;, I stumbled upon Project Loom.</p>
 <p>Unfortunately, the <a href="https://wiki.openjdk.java.net/display/loom/Main">OpenJDK wiki</a> and the many videos by <a href="https://twitter.com/pressron">Ron Pressler</a> take for granted a great deal of
 knowledge and start from there. That&rsquo;s when I decided to gain this fundamental knowledge in order to grok
 Project Loom, and share with others so they, too, can connect the dots. I ended up giving a couple of <a href="https://talks.arnaudbos.com/">conference talks</a>
-on this topic in 2019, for which I&rsquo;ve had to research a lot.</p>
-<p>This series is about what I&rsquo;ve learnt and what I would have liked to read when I began my research on concurrent
+on this topic in 2019-2020, for which I&rsquo;ve had to research a lot.</p>
+<p>This series is about what I&rsquo;ve learnt, and what I would have liked to read, when I began my research on concurrent
 programming, Reactive Streams, lightweight concurrency and Project Loom: I&rsquo;m writing for the past me.</p>
 <p>For people already familiar, I&rsquo;m not promising you&rsquo;ll learn anything new, but hopefully you&rsquo;ll be interested in
-another point of view.</p>
+another point of view and kind enough to point errors.</p>
 <p>In the <a href="../loom-part-1-scheduling">next part</a>, we talk history!</p>
 
               <hr>

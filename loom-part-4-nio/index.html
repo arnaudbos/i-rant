@@ -143,8 +143,8 @@ other underlying threads. Thus, the problem of memory footprint, context switche
 threads remains.</p>
 <p>I also wrote this:</p>
 <blockquote>
-<p><strong>There&rsquo;s a reason why both sync/async and thread-blocking/non-thread-blocking are often mixed-up:<br>
-Today, the only—i.e. built-in— way to execute <code>non-thread-blocking</code> code <em>on the JVM</em> is to use <code>asynchronous</code> API.</strong></p>
+<p><strong>There&rsquo;s a reason why both sync/async and thread-blocking/non-thread-blocking are often mixed-up:
+today, the only—i.e. built-in— way to execute <code>non-thread-blocking</code> code <em>on the JVM</em> is to use <code>asynchronous</code> API.</strong></p>
 </blockquote>
 <p>Let&rsquo;s implement our use case once again (see <a href="..//loom-part-2-blocking/#a-simple-use-case">part-2</a>) with an asynchronous <strong>and</strong> non-thread-blocking API:
 <code>Java NIO</code>.</p>
