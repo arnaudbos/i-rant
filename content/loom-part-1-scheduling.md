@@ -69,9 +69,8 @@ Quick questions:
 
 1. Can you spot the mistake?
 2. Do you know what concept each of those terms refer to?
-3. If yes, are you sure you know them well enough to explain their meaning to somebody?
 
-If you've answered yes three times, stop reading and go do something else! {{< emoji content=":wave:" >}}
+If you've answered twice, stop reading and go do something else! {{< emoji content=":wave:" >}}
 
 -----
 
@@ -105,12 +104,12 @@ The diagram below shows the execution of two distinct programs on such a computi
 > "Operators" were the names of the first computers, who used _computers_.
 
 We have two operators. The first starts "writing a program" (wiring cables, turning switches, etc) to make the
-computer calculate the solution to a problem.
+computer compute the solution to a problem.
 
-Operator1 must wait the end of the program to get the result. Only then can Operator2 write her program and make it run.
+Operator 1 must wait the end of the program to get the result. Only then can Operator 2 write her program and make it run.
 There is no possibility for parallelism: the programs are executed sequentially.
 
-Soon, the bottleneck to solve problems faster shifted from computers to humans. Even with new ways to
+Soon, the bottleneck to solve problems faster shifted from computers to humans. Indeed, even with new ways to
 write programs (punch cards, magnetic tapes) the time taken by each programmer to "insert" its program into the machine
 became unacceptable—i.e., too expensive.
 
@@ -132,8 +131,8 @@ programs to a waiting queue of jobs to be performed.
 
 In the diagram above, Program1 and Program2 are submitted one after the other, so Program1 runs first and thenProgram2.
 
-But having to append a program into a "giant" batch of jobs for the program to compute, and then wait for the computer
-to return all the results was a massive pain in the butt!  
+But having to append a program into a "giant" batch of jobs for the mainframe to compute, and then wait for it
+to return all the results, was a massive pain in the butt!  
 Imagine debugging your programs **with a 24 hours feedback loop...**
 
 {{< img src="/img/loom/kropotchev.png" title="\"Batch processing\" spoof movie — Stanford" alt="Silent spoof movie relating the adventures of a programmer waiting on batch processing." width="100%" link="https://www.computerhistory.org/revolution/punched-cards/2/211/2253">}}
@@ -141,7 +140,7 @@ Imagine debugging your programs **with a 24 hours feedback loop...**
 It was not only painful for programmers though. It was also painful for _users_ who would have to run the programs!
 
 It's a common problem in scheduling: optimising for a use case (less computer idle time) ends up
-making it worse from another point of view (more programmer idle time).
+making it worse from another point of view (more human idle time).
 
 Computers kept getting faster and faster for sure, and although programmers tried to make the best of the computing
 power they could get, any single user wouldn't make efficient use of a computer by herself!
@@ -160,7 +159,7 @@ to a teletypewriter or a "high-speed" Xerox printer.
 
 In the above diagram, we can see Program1 finishing before Program2 can start, but there are _gaps_ between bursts
 of execution. Same for Program2.  
-And all the time during which a processor is waiting for I/O (polling, [busy waiting]) rather than "crunching numbers",
+So all the time during which a processor is waiting for I/O (polling, [busy waiting]) rather than "crunching numbers",
 is wasted.
 
 Schedulers to the rescue!
@@ -174,7 +173,7 @@ In it, you can see Turing Award winner ~~Buddy Holly~~ [Fernando Corbató] expla
 {{< youtube Q07PhW5sCEk >}}
 <br />
 
-Processes won't spin on I/O but rather be _parked_, while another process would be allocated
+Processes wouldn't spin on I/O anymore but rather be _parked_, while another process would be allocated
 CPU time. Time-sharing allows **concurrency**: the **illusion of parallelism** and **efficient use of physical
 resources**.
 
@@ -204,8 +203,8 @@ to the kind of work they do.
 _CPU-bound_ tasks that don't require much (if any) communication could be tackled by multiple processes (instances
 of a program communicating through IPC).
 
-But some tasks require communication. Coupled cooperative processes for which IPC may be too expensive are an example.
-Tasks requiring many I/O operations (_I/O bound_) also.  
+Some other tasks require communication. Coupled cooperative processes for which IPC may be too expensive are an example.
+Tasks requiring many I/O operations (_I/O bound_) as well.  
 For such applications, the time to _switch_ from e.g. `P1` to `P2` and back to `P1`, may hamper its fast realization
 and/or drain physical resources...
 
@@ -233,7 +232,7 @@ Conceptually, a thread is like a process: it embodies the execution of a set of 
 its own [control stack] filled with stack frames. What's really remarkable about threads however, is their ability (for
 better or worse) to share the memory of their parent process.
 
-Each thread having has its own call stack makes it possible for multiple threads, while in a single process, to
+Each thread having its own call stack makes it possible for multiple threads, while in a single process, to
 execute **different sets of instructions** running **in parallel** on distinct cores.
 
 Therefore, cooperative processes can be implemented as a single process, with multiple threads communicating directly
@@ -242,9 +241,9 @@ by sharing memory places (data).
 I/O bound processes also benefit from this new layer of indirection because switching between threads of the same
 process is typically faster than switching between processes.
 
-> Nowadays a context switch is almost synonymous with switching between threads rather than between processes.  
-> But "context switch" is also used, in many many blog posts and articles, to talk about _process switches_,
-> _thread switches_ or _mode switches_ almost indistinguishably.  
+> Nowadays, a context switch is almost synonymous with switching between threads rather than between processes.
+> But "context switch" is also used, in many blog posts and articles, to talk about _process switches_,
+> _thread switches_ or _mode switches_, almost indistinguishably.  
 > We'll touch on these differences in the [next part][part-2].
 
 Let's talk about time-sharing a bit more.
@@ -257,7 +256,7 @@ by their users and that connecting more users to one would amortize its cost.
 In order to do that, time-sharing employed both
 
 * multiprogramming: multiple programs running concurrently; and
-* multitasking: programs would run one after the other, in **short** bursts (to avoid greedy programs to monopolize the CPU).
+* multitasking: programs would run one after the other, in **short** bursts (preventing greedy programs to monopolize the CPU).
 
 There are several techniques that can lead to effective multitasking and fair (or not) sharing of CPU cycles, but they
 can be grouped in two main categories: `Preemptive multitasking` and `Cooperative multitasking`; and their properties are
@@ -267,7 +266,7 @@ enforced by scheduler policies.
 
 A preemptive scheduler may suspend a running thread when it blocks on I/O or waits on a condition, so the processor
 can be assigned another thread to work on. It may also prevent spin-locking or CPU intensive tasks to
-_hog the CPU_ by allowing threads for a finite amount of time before parking it, in order to let
+_hog the CPU_ by allowing threads for a finite amount of time, before parking them in order to let
 other tasks a "fair" chance to run.
  
 > To be _fair_ (pun intended), "fair" scheduling isn't a solved problem, and I didn't dive into the details of the
@@ -284,9 +283,8 @@ other tasks a "fair" chance to run.
 {{< /gallery >}}
 
 The first figure (left) illustrates a thread/task being preempted by the kernel, using a _context-switch_
-when a blocking call occurs, in order to satisfy the scheduling policy.  
-The first thread is parked while the next thread is executed. Eventually (hopefully), the first thread is going to be
-unparked and its execution resumed.
+when a blocking call occurs, in order to satisfy the scheduling policy: the first thread is parked while the
+next thread is executed. Eventually (hopefully), the first thread is going to be unparked and its execution resumed.
 
 The second figure (right) illustrates a thread being preempted because its execution duration is longer than the
 time it is authorized to run on the CPU (also named its _quantum_).
@@ -321,8 +319,8 @@ explains why most modern operating systems implement preemptive scheduling.
 
 ## To be continued
 
-I think we've covered most of the ground work necessary to understand where we're at from a scheduling
-point of view regarding modern computers.
+I think we've covered most of the groundwork necessary to understand where we're at, from a scheduling
+point of view, regarding modern computers.
 
 I obviously took a great detour to explain some fundamentals. There's been so much innovation in computer systems in
 the last 60 years that I had to cut corners and didn't do it any justice.

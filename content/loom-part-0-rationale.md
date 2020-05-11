@@ -21,40 +21,40 @@ seoimage: img/loom/jacquard_loom.jpg
 > [Part 3 - Asynchronous code][part-3]  
 > [Part 4 - Non-thread-blocking async I/O][part-4]  
 
-Finding good introduction level articles on concurrent programming is difficult because every post assumes
-some prior knowledge. You can quickly find yourself into dark corners of the Web where people talk about lock-free
-concurrency while you're _absolutely not_ ready for this!
+Finding good introduction level articles on concurrent programming is difficult, because every post assumes
+some prior knowledge. You quickly find yourself into dark corners of the Web, where people talk about lock-free
+concurrency: you're _probably_ not ready for this if you're reading this blog!
 
-Luckily, a few months ago, we've had an interesting use-case at work. We had to implement a scheduler for a scarce
-resource in our system.
+Luckily for me, a few months ago, at a client's, we've had an interesting use-case. We had to implement a
+scheduler for a scarce resource in our system.
 
 We've been using a good deal of concurrency "techniques" for the past two years: simple `threads`,
 `executor services`, `reactive` (Rx) programming; we were doing fine.
 
-However, for this service, I wasn't convinced by any of those techniques. The problem lent itself well into an actor
-model, so we searched for a library to help us and found [Quasar].  
-My first introduction to [Quasar] was around 2014. At the time Clojure's [core.async] library just came out.
+However, for this service, I wasn't convinced by any of those techniques an looking for an alternative. The
+problem lent itself well into an actor model, so we searched for a library to help us and found [Quasar].  
+My first introduction to [Quasar] was around 2014. At the time when Clojure's [core.async] library just came out.
 
-I didn't understand every aspect of the value proposition, but naively started using it.  
-And because I was using `core.async`, I stumbled upon [Pulsar] (not Apache Pulsar!) which is itself built upon Quasar.  
-I missed the value proposition of Pulsar, like I did with Quasar, but I was interested
-in this concept of "lightweight concurrency" and the "actor model".  
+I didn't understand every aspect of the value proposition or `core.async`, but naively started using it.  
+And because I was using it, I stumbled upon [Pulsar] (not _Apache_ Pulsar!) which is itself built upon Quasar.  
+I completely missed the value propositions of Quasar and Pulsar back then, but I was interested in this
+concept of "lightweight concurrency" and the "actor model".  
 I longed for the day I would have a use case for this.
 
-Fast forward five years and more experience in the field, Quasar and its actor model were
-a great fit to solve our problem and we used it to great effect. That's when I fell into the rabbit hole: trying to
-understand the underlying concepts and "how it works", I stumbling upon Project Loom.
+Fast forward five years, and more experience in the field, Quasar and its actor model were
+a great fit to solve our problem, and we used it to great effect. That's when I fell into a rabbit hole: trying to
+understand the underlying concepts and "how it works", I stumbled upon Project Loom.
 
 Unfortunately, the [OpenJDK wiki][wiki] and the many videos by [Ron Pressler] take for granted a great deal of
 knowledge and start from there. That's when I decided to gain this fundamental knowledge in order to grok
 Project Loom, and share with others so they, too, can connect the dots. I ended up giving a couple of [conference talks][talks]
-on this topic in 2019, for which I've had to research a lot.
+on this topic in 2019-2020, for which I've had to research a lot.
 
-This series is about what I've learnt and what I would have liked to read when I began my research on concurrent
+This series is about what I've learnt, and what I would have liked to read, when I began my research on concurrent
 programming, Reactive Streams, lightweight concurrency and Project Loom: I'm writing for the past me.
 
 For people already familiar, I'm not promising you'll learn anything new, but hopefully you'll be interested in
-another point of view.
+another point of view and kind enough to point errors.
 
 In the [next part][part-1], we talk history!
 

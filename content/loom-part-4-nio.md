@@ -36,8 +36,8 @@ threads remains.
 
 I also wrote this:
 
-> **There's a reason why both sync/async and thread-blocking/non-thread-blocking are often mixed-up:  
-> Today, the only—i.e. built-in— way to execute `non-thread-blocking` code *on the JVM* is to use `asynchronous` API.**
+> **There's a reason why both sync/async and thread-blocking/non-thread-blocking are often mixed-up: 
+> today, the only—i.e. built-in— way to execute `non-thread-blocking` code *on the JVM* is to use `asynchronous` API.**
 
 Let's implement our use case once again (see [part-2][use-case]) with an asynchronous **and** non-thread-blocking API:
 `Java NIO`.

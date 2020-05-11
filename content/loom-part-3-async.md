@@ -55,8 +55,8 @@ public void asyncRequest(ExecutorService, String, String, CompletionHandler)
 ```
 
 _asyncRequest_ has to return immediately to not block the calling thread, so we give it an
-`ExecutorService`. This also benefits us to explicit about which pool is used. It also takes a _String_ for the URL, another for the
-headers, and also a `CompletionHandler`.  
+`ExecutorService`. This also benefits us, by being explicit about which pool is used.
+It also takes a _String_ for the URL, another for the headers, and also a `CompletionHandler`.  
 _CompletionHandler_ is an interface one has to implement. Its methods are called by _asyncRequest_
 once the result of the request is available: one callback in case of success, another in case of error.
 
@@ -100,7 +100,7 @@ private void getConnection(long eta,
 
 The signatures are like the synchronous ones, except for the extra `CompletionHandler<Connection.Available>`
 handler.  
-But instead of making the request we `schedule` it to the `boundedServiceExecutor`.
+But instead of making the request, we `schedule` it to the `boundedServiceExecutor`.
 
 _boundedServiceExecutor_ is an instance of `ScheduledThreadPoolExecutor`.
 
@@ -110,7 +110,7 @@ boundedRequestsExecutor =
 ```
 
 In fact, _boundedServiceExecutor_ is not the only thread pool used in this implementation.  
-To make things explicit about where each task runs, I've create 3 dedicated executors:
+To make things explicit about where each task runs, I've created 3 dedicated executors:
 
 ```java
 // One from which service methods are called and coordinator requests are sent
@@ -128,7 +128,7 @@ boundedPulseExecutor =
 > `ThreadPoolExecutor` (using `Executors#newFixedThreadPool(int, ThreadFactory)`)  
 > rather than `ScheduledThreadPoolExecutor`;  
 > because only heartbeat requests (using `boundedPulseExecutor`) must be delayed.  
-> But both being fix-sized pools, the result is the same in this case.
+> But both being fix-sized pools, the result is the same.
 
 Like the synchronous example, `getConnection` deals with the retry logic. But
 `CoordinatorService#requestConnection` is asynchronous and takes a _CompletionHandler_, because it calls to
@@ -196,7 +196,7 @@ private void getThingy(int i, CompletionHandler<Void> handler) {
 
 1. We've seen above that `getConnection` takes a completion handler.
 2. Its `complete` method will be called when we successfully get a download authorization from the coordinator.
-3. On _successful_ completion, the download starts, which materializes calling `gateway.downloadThingy`.
+3. On _successful_ completion, the download starts, which materializes by calling `gateway.downloadThingy`.
   `downloadThingy` is, itself, asynchronous because it also calls down to `asyncRequest`, so we must give it a new
   _CompletionHandler_.
 4. This completion handler is passed an `InputStream` once we connect to the data source. We
@@ -324,7 +324,7 @@ private void rePulseIfNotDone() {
 ```
 {{% /fold %}}
 
-Finally, the last piece of the puzzle: lients calling the service:
+Finally, the last piece of the puzzle: clients calling the service:
 
 ```java
 CompletableFuture<Void>[] futures = new CompletableFuture[MAX_CLIENTS];
@@ -372,7 +372,7 @@ Threads are more interesting:
 200 clients, 30 threads, everything is proceeding as I have foreseen. But wait... this is very slow!  
 This screenshot shows only the first minute of runtime and then the rest of the chart looks the same.
 
-The previous implementation created a bunch of threads but at least finished quickly, less than a minute.  
+The previous implementation created a bunch of threads but at least finished quickly, in less than a minute.  
 Why is it so slow?
 
 [VisualVM] to the rescue:
@@ -396,7 +396,7 @@ class GatewayService {
     void downloadThingy(CompletionHandler<InputStream> handler,
                         ExecutorService handlerExecutor)
 {
-    asyncRequest(
+①  asyncRequest(
         boundedRequestsExecutor,
         "http://localhost:7000",
         String.format(HEADERS_TEMPLATE, "GET", "download", "text/*", String.valueOf(0)),
@@ -438,7 +438,7 @@ and pass the result to whoever the caller is.
 ### Pulse threads
 
 Threads whose names begin with `pulse` come from `boundedPulseExecutor`. The only places where this _Executor_ is
-used is when scheduling the heartbeat requests from within `getThingy` and from the "pulse" _Runnable_ itself:
+used is when scheduling the heartbeat requests, from within `getThingy` and from the "pulse" _Runnable_ itself:
 
 `boundedPulseExecutor.schedule(pulse, 2_000L, TimeUnit.MILLISECONDS);`
 
@@ -460,7 +460,7 @@ public void completed(InputStream is) {
 }
 ```
 
-So the `pulse-*` threads in the VisualVM screenshot above are doing small things too: execute a heartbeat
+So the `pulse-*` threads, in the VisualVM screenshot above, are doing small things too: execute a heartbeat
 `asyncRequest` and a bit of `parseToken`, which consists in decoding a few bytes.
 
 ### Service threads
@@ -488,19 +488,20 @@ Instead, it stays with the number of threads it is passed when created.
   width="100%" %}}
 {{< /gallery >}}
 
-Each thread runs an infinite loop, executing _Runnable_ after _Runnable_.  
-When using this kind of executor, the goal is to execute non-blocking calls. Blocking calls suspend the
-thread until the result is available, thus preventing the following runnables from executing!
+Each thread runs an infinite loop, executing _Runnable_ after _Runnable_ from the executor's tasks queue. When
+using this kind of executor, the goal is to execute non-blocking calls. Blocking calls suspend the thread until
+the result of the call is available. Executing a blocking call on such thread would suspend it and prevent
+it from executing the next tasks from the queue!
 
 As seen in [Part 2][part-2], we want to avoid blocking calls. Especially with this kind of executor, because
 it becomes possible to bring the whole application to a halt!
 
-Fortunately, our whole implementation is asynchronous!  
-Every method of our service submits tasks to an executor and there are callbacks all over the place. 
+Fortunately, our whole implementation is asynchronous! Every method of our service submits tasks to an executor
+and there are callbacks all over the place.
 
 ## Beware of the lurking blocking call
 
-We now have a bit more context on what each thread does. Let's take another look at the VisualVM screenshot:
+We now have a bit more context on what each thread does. Let's take **another** look at the VisualVM screenshot:
 
 {{< gallery title="\"Service\" thread pool's threads are busy" >}}
   {{% galleryimage file="/img/loom/impl2-threads-running.png"
@@ -511,9 +512,8 @@ We now have a bit more context on what each thread does. Let's take another look
 The `request-*` and `pulse-*` threads spend most of their time `parked`.
 
 Each thread in those pools looks for tasks to execute (_runnables_) coming down the executor's queue.
-But because the only tasks submitted to them are asynchronous, their execution are quick! Soon, the
-queue is drained, and when there's nothing to do, the executor will park the threads so they don't
-[busy wait][busy-waiting].
+Because the only tasks submitted to them are asynchronous, their execution are quick! Soon, the
+queue is drained and there's nothing to do. The executor will thus park the threads.
 
 The `service-*` threads, however, spend all their time running. And it is as weird as in the previous entry:
 we've supposed to execute only asynchronous methods and compute nothing. I'll spare you the thread dump, let's
@@ -549,13 +549,14 @@ public static void asyncRequest(ExecutorService executor,
 }
 ```
 
-Yup, _"Mischief managed"_.  
-Under the hood, `asyncRequest` calls down to `blockingRequest` and its blocking `SocketChannel`/`InputStream`!
+<p style="width: 100%; text-align: center;"><i>"Mischief managed"</i></p>
 
-The reason why the `service-*` threads look busy is that they are actually blocked. And this explains the question I
-was asking before: "Why is it so slow?". Which is, because those threads are from a pool managed by a fixed-size
-`ScheduledThreadPoolExecutor`, so no more than 10 simultaneous requests can be running. But the threads are being
-blocked, preventing other tasks submitted to the executor from running.
+Under the hood, `asyncRequest` calls down to `blockingRequest` and its blocking `SocketChannel`/`InputStream`!
+The reason why the `service-*` threads look busy is that they are actually blocked.
+
+Previously, I've asked: "Why is it so slow?". The answer is: because those threads are from a pool managed by a
+fixed-size `ScheduledThreadPoolExecutor`, on top of which no more than 10 simultaneous requests can be running.
+The threads being blocked, they prevent other tasks submitted to the executor from running.
 
 {{< gallery title="Still thread-blocking" >}}
   {{% galleryimage file="/img/loom/still-thread-blocking.png"
@@ -564,31 +565,29 @@ blocked, preventing other tasks submitted to the executor from running.
 {{< /gallery >}}
 
 Thus, the net effect of changing this API from synchronous to asynchronous has been a latency increase. Because the
-jobs keep piling up in the executor's queue!
+jobs keep piling up in the executor's queue! We're, in effect, limited our parallelism.
 
 ## Conclusion
 
 Some blog posts present asynchronous programming as a solution to the problem of scaling a service. This bothers me.
 
-They often use `asynchronous` in opposition to `blocking`. But the opposite to `blocking` is `non-blocking`.
-However, using _non-blocking_ alone conflates not blocking the ***current thread*** with not blocking ***any thread***.
-`Non-blocking` is not synonymous to `non-thread-blocking`!
+They often use `asynchronous` in opposition to `blocking`. However, the opposite of _blocking_ is `non-blocking`, not
+_asynchronous_. Using _non-blocking_ alone conflates not blocking the ***current thread*** with not blocking ***any thread***.
+_Non-blocking_ does noot equate _non-thread-blocking_!
 
 As seen above, using an asynchronous API doesn't mean anything about its thread-blocking properties.
 An asynchronous call submitted to an executor doesn't block the current thread, for sure, but it may very well block
-the thread it is running on!  
-This is usually where you read comments such as "use a dedicated thread pool". Indeed, you
-want to dedicate a thread pool for those blocking calls to avoid impacting the rest of your application. But you're left
-with two choices. Either use an unbounded thread pool, risking unpredictable behaviour, or use a bounded one, risking
-increased latency for those tasks.
+the thread it is running on! This is usually where you read comments such as "use a dedicated thread pool".  
+Indeed, you want to dedicate a thread pool for those blocking calls to avoid impacting the rest of your application.
+But you're left with two choices. Either use an unbounded thread pool, risking unpredictable behaviour, or use a bounded
+one, risking increased latency for those tasks.
 
-I prefer to think about _blocking_ and _non-blocking_ as runtime properties.  
-Likewise, I much prefer using _asynchronous_ in opposition to _synchronous_ when talking about an API or _programming
-style_. **Conflating sync/async as thread-blocking/non-thread-blocking is a source of confusion.** In fact, both are
-orthogonal.  
+I prefer to think about _blocking_ and _non-blocking_ as runtime properties. Likewise, I much prefer using _asynchronous_
+as opposed to _synchronous_ when talking about an API or _programming style_. **Conflating sync/async as
+thread-blocking/non-thread-blocking is a source of confusion.** In fact, both are orthogonal.  
 
-But there's a reason why both are often mixed-up.  
-Today, the only—i.e. built-in— way to execute `non-thread-blocking` code *on the JVM* is to use `asynchronous` API.
+But there's a reason why both are often mixed-up: today, the only—i.e. built-in— way to execute `non-thread-blocking`
+code *on the JVM* is to use `asynchronous` API.
 
 In the [next part][part-4], we'll re-implement `asyncRequest` to be truly non-blocking.
 
@@ -602,8 +601,8 @@ Writing asynchronous code is hard.
   width="100%" %}}
 {{< /gallery >}}
 
-On the left a peak to 122 live threads when I did a small mistake.  
-On the right a peak to more that 800 live threads when I messed up on purpose to see the result (I swear!).
+On the left a peak to 122 live threads when I did a small mistake. On the right a peak to more that 800 live threads
+when I messed up on purpose to see the result (I swear!).
 
 [part-0]: ../loom-part-0-rationale
 [part-1]: ../loom-part-1-scheduling

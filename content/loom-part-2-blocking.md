@@ -38,35 +38,43 @@ We'll touch on all four in the next parts of this series.
 After reading a lot I figured that implementing a simple use case would comfort my understandings and help me convey
 what I wanted to explain. So here's a not totally made up, simple use case:
 
+1. clients need access to some restricted resources,
+2. a proxying service will rate-limit the clients access, based on a token policy.
+
 {{< gallery title="Use case: A proxy server" >}}
-  {{% galleryimage file="/img/loom/demo.png"
+  {{% galleryimage file="/img/loom/demo-1.png"
   size="2530x1180" caption="Sequence diagram, also detailed in text in the following paragraphs."
   width="100%" %}}
 {{< /gallery >}}
-
-Clients need access to some restricted resources. A proxying service will rate-limit the clients access, based on a
-token policy.
 
 1. A client addresses a download request to the proxy service.
 2. The proxy service registers the request to a coordinator.
 3. The coordinator is responsible for the scheduling logic using a priority queue. Its logic is irrelevant.
 4. The coordinator responds either "Unavailable" or "Available".
 5. "Unavailable" means that the client can't download the resource just yet (responses' payload contains a token).
-6. The payload also contains an "ETA" so the service can decide to abort or to retry, using the token to keep its place
+6. The payload also contains an "ETA", so the service can decide to abort or to retry, using the token to keep its place
    in the coordinator's queue.
 7. The payload also contains a "wait" time to rate-limit the retry requests to the coordinator.
-8. The proxy may have to retry a couple of times, on behalf of the client, but will eventually receive an "Available"
-   response.
-9. With an "Available" response and the token contained in its payload, the proxy service can initiate a download
-   request to the data source.
-10. The proxy service streams the content of the download request back to its client;
-11. While at the same time sending periodic "heartbeat" requests to the coordinator to ensure its token is not revoked.
+
+{{< gallery title="Use case: A proxy server" >}}
+  {{% galleryimage file="/img/loom/demo-2.png"
+  size="2530x1180" caption="Sequence diagram, also detailed in text in the following paragraphs."
+  width="100%" %}}
+{{< /gallery >}}
+
+<ol start="8">
+  <li>The proxy may have to retry a couple of times, on behalf of the client, but will eventually receive an "Available" response.</li>
+  <li>With an "Available" response and the token contained in its payload, the proxy service can initiate a download request to the data source.</li>
+  <li>The proxy service streams the content of the download request back to its client;</li>
+  <li>While at the same time sending periodic "heartbeat" requests to the coordinator to ensure its token is not revoked.</li>
+</ol>
+
 
 We are going to use this scenario in the next parts of the series. We will implement this proxy service in
 various ways, simulate a few (200) clients connecting simultaneously and see the pros and cons of each implementation.
 
-> Bear in mind that this is not a benchmark, it's just an experiment.  
-> 200 clients is a really low number but is enough to observe a few interesting things. 
+> Bear in mind that this is not a benchmark, it's just an experiment! 200 clients is a really low number
+> but is enough to observe a few interesting things. 
 
 ## First implementation
 
@@ -86,7 +94,7 @@ private void getThingy() throws EtaExceededException, IOException {
 
         Thread pulse = makePulse(conn);
 ②      try (InputStream content = gateway.downloadThingy()) {
-③         pulse.start();
+③          pulse.start();
 
 ④          ignoreContent(content);
         } catch (IOException e) {
@@ -257,7 +265,7 @@ we send a bunch or requests, wait a little in between, then some more requests t
 buffers and... Done.
 
 None of this requires a lot of CPU power so this screenshot should not be surprising. In fact, it will be the same
-for all the other implementations we will see in the next parts so I am not going to embed it again.
+for all the other implementations we will see in the next parts, so I am not going to display it again.
 
 Looking at the threads is much more interesting.
 
@@ -276,8 +284,8 @@ The last 200 are pretty obvious given the implementation of `makePulse`: once th
 responses from the coordinator, it starts the threads instantiated by the calls to `makePulse`. This is just an
 implementation detail. A wrong one for sure, but a minor detail.
 
-What should be more intriguing are the first 200 (the 10 additional ones are created by the JVM itself, the net
-addition from our application is of 200). Why are 200 clients creating 200 threads?
+What should be more intriguing are the first 200 (the 10 additional ones are created by the JVM itself). Why are
+200 clients creating 200 threads?
 
 {{< gallery title="200+ threads \"running\"" >}}
   {{% galleryimage file="/img/loom/impl1-threads-running.png"
@@ -311,7 +319,7 @@ This [flame graph] was acquired using [async-profiler] and shows that time spent
 underlying `read` system call dominates our application.
 
 If we track its call stack to find its origin, we stumble upon `lambda$run$1`. Which, in fact, is the call to the
-astutely named `blockingRequest` method inside of the _gateway_ service:
+astutely named `blockingRequest` method, inside of the _gateway_ service:
 
 ```java
 class SyncGatewayService {
@@ -355,15 +363,14 @@ obtained from the `SocketChannel`. And this, dear reader, is the ugly detail tha
 efficient and is the reason why we end up with as many threads as clients.
 
 Because this socket channel (analogous to a [file descriptor]) is written to and read from in **blocking mode**.
+What's a blocking call and why is it bad?  
+Let's talk about what happens when one of our threads' runnable contains a thread blocking call.
 
 ## Context switches
 
 ### What they are
 
-What's a blocking call and why is it bad? Let's talk about what happens when one of our threads encounters a thread
-blocking call.
-
-For the sake of simplicity, I am going to assume here that our CPUs run two kinds of instructions.
+For the sake of simplicity, let's assume that our CPUs run two kinds of instructions.
 
 {{< gallery title="Legend" >}}
   {{% galleryimage file="/img/loom/engine.png"
@@ -371,7 +378,7 @@ For the sake of simplicity, I am going to assume here that our CPUs run two kind
   width="100%" %}}
 {{< /gallery >}}
 
-Instructions coming from what we'll call our "user code" represented by the triangle, hexagon, square and round shapes.  
+Instructions coming from what we'll call our "user code", represented by the triangle, hexagon, square and round shapes.  
 And instructions coming from the kernel whose goals are to enforce scheduling policies represented by the circle and
 cross shapes.  
 The CPU will be represented by a [Wankel engine].
@@ -383,8 +390,8 @@ The CPU will be represented by a [Wankel engine].
 {{< /gallery >}}
 
 On the JVM, the threads we manipulate are actually kernel threads. The threads which are instantiated and managed by
-the various flavors of `ExecutorService` available via the helper `java.util.concurrent.Executors` are an abstraction
-over native threads with additional thread pool logic, tasks queues management and scheduling mechanisms.
+the various flavors of `ExecutorService`, available via the helper `java.util.concurrent.Executors`, are an abstraction
+over native threads, with additional thread pool logic, tasks queues management and scheduling mechanisms.
 
 As said earlier, the executor I've used in this implementation is a "cached" `ThreadPoolExecutor`.
 
@@ -393,9 +400,9 @@ elasticServiceExecutor =
     Executors.newCachedThreadPool(new PrefixedThreadFactory("service"));
 ```
 
-This executor handles an initial pool of threads as well as a task queue (`SynchronousQueue`).  
-It also has a reference to a `ThreadFactory`, because this executor will try to match each `Runnable` that is submitted
-to it via its `submit` method to a runnable thread in its pool. If no thread is available to run the next _Runnable_ in
+This executor handles an initial pool of threads, as well as a task queue (`SynchronousQueue`).  
+It also has a reference to a `ThreadFactory`, because this executor will try to match each `Runnable`, that is submitted
+to it via its `submit` method, to a runnable thread in its pool. If no thread is available to run the next _Runnable_ in
 the queue, it will use the _ThreadFactory_ to create a new thread and hand the _Runnable_ object to it.
 
 The threads thus created are managed by the kernel, which itself manages its own priority queue and acts according to
@@ -403,7 +410,7 @@ its scheduling policy (we've talked about this in the [part 1 of this series][pa
 illustration above is the kernel's.
 
 So, in a nutshell, when a thread is scheduled to run, its instructions are executed one after the other by the CPU.  
-Up until it finishes or a blocking call is made.
+Up until it finishes, or a blocking call is made.
 
 {{< gallery title="Close Encounters of the Blocking Kind" >}}
   {{% galleryimage file="/img/loom/context-switch-2.png"
@@ -412,21 +419,21 @@ Up until it finishes or a blocking call is made.
 {{< /gallery >}}
 
 In the illustration above, the "round" instructions come from the currently scheduled thread. We can see that the
-current instruction is in fact a blocking OS call (syscall, such as `read`).
+current instruction is, in fact, a blocking OS call (syscall, such as `read`).
 
-What will actually happen here, is a **context switch**.  
-Because the thread is currently trying to execute an action _outside_ its current [protection ring].
+What will actually happen here, is a **context switch**. Because the thread is currently trying to execute an
+action _outside_ its current [protection ring].
 
 JVM applications run in _user space_ (ring 3) to ensure memory and hardware protection.  
-The kernel runs in _kernel space_ (ring 0) and is responsible to ensure computer security and that processes behave,
+The kernel runs in _kernel space_ (ring 0). It is responsible to ensure computer security and that processes behave,
 basically.
 
-When executing syscalls such as blocking `read`s, _kernel space_ access level is required. Kernel instructions will be
+When executing syscalls, such as blocking `read`s, _kernel space_ access level is required. Kernel instructions will be
 run on behalf of the "user code" and will, for instance, ensure that this thread does not hold onto the CPU while
 waiting for its call to return and that another thread has a chance to run in the mean time, hence ensuring compliance
 with the scheduling policies.
 
-For the sake of simplicity, I'm representing a context switch as a 2 step process.
+For the sake of simplicity, I'm representing a context switch as a 2-step process.
 
 {{< gallery title="A context switch" >}}
   {{% galleryimage file="/img/loom/context-switch-3.png"
@@ -435,7 +442,7 @@ For the sake of simplicity, I'm representing a context switch as a 2 step proces
 {{< /gallery >}}
 
 During the first step, the kernel is going to _suspend_ the execution of the current thread. In order to do this,
-it is going to save a few things such as the current instruction or process counter (on which instruction did the
+it is going to save a few things, such as the current instruction or process counter (on which instruction did the
 thread pause), the thread's current call stack, the state of CPU registers it was accessing, etc.
 
 {{< gallery title="1/2: save execution state" >}}
@@ -457,9 +464,8 @@ back into the priority queue.
   width="100%" %}}
 {{< /gallery >}}
 
-In the second step, the kernel decides which thread should be scheduled next according to its policies, and this thread
-is allocated to the CPU. If this thread had been scheduled before, its state would have to be restored first, of
-course.
+In the second step, the kernel decides which thread should be scheduled next, according to its policies, and this thread
+is allocated to the CPU. If this thread had been scheduled before, its state would have to be restored first.
 
 This thread itself may contain instructions pointing at a blocking syscall, which would trigger a new context switch,
 and so on and so forth until eventually the result of the blocking syscall made by the round instruction above is
@@ -493,7 +499,7 @@ _"Little's Law, Scalability and Fault Tolerance: The OS is your bottleneck (and 
 I'm trying to do half as good in this series, so I strongly suggest that you take a look at it and read _at least_ the
 first 3 parts of the article: _"Our Little Service"_, _"Little’s Law"_ and _"What Dominates the Capacity"_.
 
-It explains that the number of connections our services can handle when executing blocking code is
+It explains that the number of connections our services can handle, when executing blocking code, is
 not limited by the number of network connections our OS can keep open, but by the number of threads we create.  
 Each kernel thread stack takes memory space and thread scheduling (context switches explained above) wastes CPU cycles,
 induce CPU cache misses and adds latency to requests.
@@ -529,7 +535,7 @@ can handle.
 ## Conclusion
 
 This part of the series presented a use case from which we can build upon and
-experiment to try various solutions to the problem of blocking calls and scalability.
+experiment. The goal is to find acceptable solutions to blocking calls and scalability issues.
 
 I hope you understand a little more about blocking calls and context switches after reading this.
 
