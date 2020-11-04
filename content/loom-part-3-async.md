@@ -22,6 +22,7 @@ gallery: true
 > [Part 2 - Blocking code][part-2]  
 > [Part 3 - Asynchronous code][part-3] (this page)  
 > [Part 4 - Non-thread-blocking async I/O][part-4]  
+> [Part 5 - Reactive Streams][part-5]  
 
 {{< img center="true" src="/img/loom/handweaving.jpg" alt="Seamstresses in a shop" width="100%" title="Atelier de couture" caption="J. Trayer 1854" attr="CC0 1.0" attrlink="https://creativecommons.org/publicdomain/zero/1.0/deed.en" link="https://commons.wikimedia.org/wiki/File:Jean_Baptiste_Jules_Trayer_Bretonische_Schneiderinnen_1854.jpg">}}
 
@@ -609,6 +610,7 @@ when I messed up on purpose to see the result (I swear!).
 [part-2]: ../loom-part-2-blocking
 [part-3]: ../loom-part-3-async
 [part-4]: ../loom-part-4-nio
+[part-5]: ../loom-part-5-reactive-streams
 [VisualVM]: https://visualvm.github.io/
 [flame graph]: http://www.brendangregg.com/flamegraphs.html
 [Callback Hell]: http://callbackhell.com/

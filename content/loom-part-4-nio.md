@@ -22,6 +22,7 @@ gallery: true
 > [Part 2 - Blocking code][part-2]  
 > [Part 3 - Asynchronous code][part-3]  
 > [Part 4 - Non-thread-blocking async I/O][part-4] (this page)  
+> [Part 5 - Reactive Streams][part-5]  
 
 {{< img center="true" src="/img/loom/japaneseweavera.jpg" alt="Japanese loom" width="100%" title="機織り" caption="Yanagawa Shigenobu" attr="CC0 1.0" attrlink="https://creativecommons.org/publicdomain/zero/1.0/deed.en" link="https://commons.wikimedia.org/wiki/File:Japaneseweavera.jpg">}}
 
@@ -467,13 +468,14 @@ in an API I can reason about and build on top of, without pulling my hair out.
 Luckily, there's an ~~API~~ [Specification][rx-spec] for that! And several libraries which implement it and
 provide composable, functional, declarative and lazy API. That's quite a mouthful.
 
-In the next part, we'll re-implement our use-case using on of these libraries.
+In the [next part][part-5], we'll re-implement our use-case using one of these libraries.
 
 [part-0]: ../loom-part-0-rationale
 [part-1]: ../loom-part-1-scheduling
 [part-2]: ../loom-part-2-blocking
 [part-3]: ../loom-part-3-async
 [part-4]: ../loom-part-4-nio
+[part-5]: ../loom-part-5-reactive-streams
 [use-case]: ..//loom-part-2-blocking/#a-simple-use-case
 [VisualVM]: https://visualvm.github.io/
 [flame graph]: http://www.brendangregg.com/flamegraphs.html

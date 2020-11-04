@@ -80,7 +80,7 @@ Clojure compares on the matter (Kotlin being out of the equation here).
 
 I hope this post will be the first of a series where [Igor][igor] and I (and
 maybe [Frederic][frederic] on Idris?) might go back and forth, answering
-each other. It's up to them.
+each other.
 
 [kotlin]: https://kotlinlang.org/
 [kotlin-first-class-android]: https://blog.jetbrains.com/kotlin/2017/05/kotlin-on-android-now-official/

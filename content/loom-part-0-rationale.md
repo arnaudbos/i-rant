@@ -20,6 +20,7 @@ seoimage: img/loom/jacquard_loom.jpg
 > [Part 2 - Blocking code][part-2]  
 > [Part 3 - Asynchronous code][part-3]  
 > [Part 4 - Non-thread-blocking async I/O][part-4]  
+> [Part 5 - Reactive Streams][part-5]  
 
 Finding good introduction level articles on concurrent programming is difficult, because every post assumes
 some prior knowledge. You quickly find yourself into dark corners of the Web, where people talk about lock-free
@@ -63,6 +64,7 @@ In the [next part][part-1], we talk history!
 [part-2]: ../loom-part-2-blocking
 [part-3]: ../loom-part-3-async
 [part-4]: ../loom-part-4-nio
+[part-5]: ../loom-part-5-reactive-streams
 [Quasar]: https://docs.paralleluniverse.co/quasar/
 [Clojure]: https://clojure.org/
 [core.async]: https://clojure.org/news/2013/06/28/clojure-clore-async-channels
