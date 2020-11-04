@@ -22,6 +22,7 @@ gallery: true
 > [Part 2 - Blocking code][part-2] (this page)  
 > [Part 3 - Asynchronous code][part-3]  
 > [Part 4 - Non-thread-blocking async I/O][part-4]  
+> [Part 5 - Reactive Streams][part-5]  
 
 {{< img center="true" src="/img/loom/loom.jpg" alt="Loom" width="100%" title="Weaving" caption="Max Pixel" attr="CC0 1.0" attrlink="https://creativecommons.org/publicdomain/zero/1.0/deed.en" link="https://www.maxpixels.net/Post-Impressionist-Post-Impressionism-Fine-Art-Dutch-1428139">}}
 
@@ -546,6 +547,7 @@ In the [next part][part-3], we will take a look at asynchronous calls.
 [part-2]: ../loom-part-2-blocking
 [part-3]: ../loom-part-3-async
 [part-4]: ../loom-part-4-nio
+[part-5]: ../loom-part-5-reactive-streams
 [VisualVM]: https://visualvm.github.io/
 [flame graph]: http://www.brendangregg.com/flamegraphs.html
 [async-profiler]: https://github.com/jvm-profiling-tools/async-profiler
