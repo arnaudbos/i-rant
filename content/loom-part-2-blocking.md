@@ -492,7 +492,7 @@ Now it's time to connect the dots and understand why blocking calls deserve such
 
 One of the blog posts I like the most to explain this issue is
 _"Little's Law, Scalability and Fault Tolerance: The OS is your bottleneck (and what you can do about it)"_ by 
-{{< twitter pressron >}}.
+[Ron Pressler].
 
 {{< img center="true" src="/img/loom/little.png" alt="Little's Law, Scalability and Fault Tolerance: The OS is your bottleneck (and what you can do about it)" width="100%" link="https://web.archive.org/web/20191122044527/https://blog.paralleluniverse.co/2014/02/04/littles-law/">}}
 
@@ -554,3 +554,4 @@ In the [next part][part-3], we will take a look at asynchronous calls.
 [Wankel engine]: https://en.wikipedia.org/wiki/Wankel_engine
 [chapter-1]: https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter01_SyncBlocking.java
 [file descriptor]: https://en.wikipedia.org/wiki/File_descriptor
+[Ron Pressler]: https://twitter.com/pressron

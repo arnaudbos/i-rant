@@ -44,7 +44,7 @@ started introducing [Clojure](https://clojure.org/) for a brief moment:
 the syntax, data structures literals and the immutability part,
 just enough to be able to follow the hands-on part of the workshop.
 
-{{< tweet 864748353489428481 >}}
+{{< tweet id="864748353489428481" user="arnaud_bos" >}}
 
 It's true that Clojure might be disturbing at first glance, like any new
 programming language's syntax.  

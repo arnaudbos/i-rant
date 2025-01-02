@@ -57,7 +57,7 @@ Soon enough, the 2017 line-up was released, followed by the schedule so when I
 saw the subjects and the speakers I managed to get one of the first round of
 tickets
 
-{{< tweet 816912096948613120 >}}
+{{< tweet id="816912096948613120" user="JOTBConf" >}}
 
 I didn't know how to cut this article, maybe in half? or maybe an entry by
 talk was more appropriate?  

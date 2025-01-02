@@ -120,9 +120,7 @@ of GPU kernels, from the comfort of the Clojure REPL.
 The numbers showed in his slides comparing runtime speed for basic "number
 crunching" tasks are telling, and he presents a style of programming which
 is functional and interactive as another approach to notebook based programming,
-which seems to be problematic:
-
-{{< tweet 1033035196428378113 >}}
+which seems to be problematic.
 
 I have to admit I'm far (oh so far) from being an expert in this field (I've
 just tried some basic introductory exercises a few times), but this presentation
@@ -215,12 +213,6 @@ You can still [read the abstract here](https://clojutre.org/2018/#martinklepsch)
 
 ## Carp: A Language for the 21st Century (Veit Heller)
 
-In a tweet:
-
-{{< tweet 1043582174014902274 >}}
-
-Pretty exciting right?
-
 Veit Heller gave us a gentle introduction to the language he is a core
 contributor to. Carp is designed for realtime applications: games and graphical
 libraries.
@@ -251,10 +243,10 @@ image size.
 
 [Abstract, slides and video available here](https://clojutre.org/2018/#janstepien).
 
-On a side note, if you haven't read this paper (below) by Oracle Labs people about
+On a side note, if you haven't read this paper by Oracle Labs people about
 Truffle, I encourage you to do so now!
 
-{{< tweet 994190039155388416 >}}
+https://labs.oracle.com/pls/apex/f?p=94065:10:103995161328214:5354
 
 # Conclusion
 

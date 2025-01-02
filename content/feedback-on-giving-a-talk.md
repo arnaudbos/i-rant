@@ -10,7 +10,7 @@ seoimage: img/feedback-on-giving-a-talk/left.jpg
 gallery: true
 ---
 
-{{< tweet 928664706222575616 >}}
+{{< tweet id="928664706222575616" user="arnaud_bos" >}}
 
 Last week I gave a talk at a local meetup, the Toulouse Java User Group,
 where I presented Lisp and Clojure.

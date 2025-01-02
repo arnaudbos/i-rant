@@ -30,7 +30,7 @@ becoming more and more addicted to it.
 [Igor][igor] offered to make a live demo in order to show me what it is they
 (he) like about Kotlin.
 
-{{< tweet 893066399794556928 >}}
+{{< tweet id="893066399794556928" user="MonkeyPatch_io" >}}
 
 During his presentation I've noticed a few points that I disliked, but before
 jumping to conclusion I decided to dig a bit further, reading
@@ -43,7 +43,7 @@ Amongst other small things, the consensus begun to build: *"It's a better
 Java than Java"*...  
 Exactly what I feared.
 
-{{< tweet 898808015146627072 >}}
+{{< tweet id="898808015146627072" user="arnaud_bos" >}}
 
 To fulfill the promise made in this tweet, I took it as a game to code the
 same code example Igor showed me in [Clojure][clojure] in order to return
@@ -66,9 +66,7 @@ my *"obsessive enthusiasm"* of Clojure.
 
 And the static typing and type systems aficionados around me (who seem to be
 legion, interestingly) have come to discover and appreciate [Idris][idris] and
-its [dependent types](https://en.wikipedia.org/wiki/Dependent_type):
-
-{{< tweet 912183360285544448 >}}
+its [dependent types](https://en.wikipedia.org/wiki/Dependent_type).
 
 I remember having heard about Idris around summer 2016 in this
 [podcast](https://www.functionalgeekery.com/episode-54-edwin-brady/).  

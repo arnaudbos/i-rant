@@ -330,7 +330,7 @@ If it picked your curiosity, start with the links I've provided and follow those
 Alternatively, this Twitter thread covers about the same period but with more details (dates, pre-historic computer
 names, etc):
 
-{{< tweet 1201956309941116928 >}}
+{{< tweet id="1201956309941116928" user="Foone" >}}
 
 In the [next part][part-2], we will experiment!
 
