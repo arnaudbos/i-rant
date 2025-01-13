@@ -574,7 +574,7 @@ Some blog posts present asynchronous programming as a solution to the problem of
 
 They often use `asynchronous` in opposition to `blocking`. However, the opposite of _blocking_ is `non-blocking`, not
 _asynchronous_. Using _non-blocking_ alone conflates not blocking the ***current thread*** with not blocking ***any thread***.
-_Non-blocking_ does noot equate _non-thread-blocking_!
+_Non-blocking_ does not equate _non-thread-blocking_ !
 
 As seen above, using an asynchronous API doesn't mean anything about its thread-blocking properties.
 An asynchronous call submitted to an executor doesn't block the current thread, for sure, but it may very well block
@@ -602,7 +602,7 @@ Writing asynchronous code is hard.
   width="100%" %}}
 {{< /gallery >}}
 
-On the left a peak to 122 live threads when I did a small mistake. On the right a peak to more that 800 live threads
+On the left a peak to 122 live threads when I did a small mistake. On the right a peak to more than 800 live threads
 when I messed up on purpose to see the result (I swear!).
 
 [part-0]: ../loom-part-0-rationale
