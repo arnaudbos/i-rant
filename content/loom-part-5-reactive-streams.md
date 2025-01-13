@@ -125,7 +125,7 @@ heard the joke that "A monad is just a monoid in the category if endofunctors"?
 Fasten your seatbelt now, 'cause that's so 2010s.
 
 Apparently 2020 wasn't bad enough to some, so over the years we've had variations like
-"A Kleisi is just ...", or "An Arrow is just ...", and the latest to my knowledge:
+"A Kleisli is just ...", or "An Arrow is just ...", and the latest to my knowledge:
 "It's always traverse".
 
 Some will tell you that you don't have to worry about all this theoretical knowledge,
@@ -286,7 +286,7 @@ Don't believe me? Go watch this talk: [Tomasz Nurkiewicz — Reactive programmin
 Don't believe him? Go ahead and try to implement a reactive semaphore...
 
 This is something you learn from experience. And here's my love-hate relationship
-with reactive streams exposed: I kinda like this complexity. It very satisfying!  
+with reactive streams exposed: I kinda like this complexity. It is very satisfying!  
 Having to think about the problems, cracking the API, finding an "elegant" solution,
 and it's efficient!
 
