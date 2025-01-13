@@ -98,7 +98,8 @@ In this part we re-implement our proxy service with non-thread-blocking asynchro
 <a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br>
 <a href="../loom-part-2-blocking">Part 2 - Blocking code</a><br>
 <a href="../loom-part-3-async">Part 3 - Asynchronous code</a><br>
-<a href="../loom-part-4-nio">Part 4 - Non-thread-blocking async I/O</a> (this page)</p>
+<a href="../loom-part-4-nio">Part 4 - Non-thread-blocking async I/O</a> (this page)<br>
+<a href="../loom-part-5-reactive-streams">Part 5 - Reactive Streams</a></p>
 </blockquote>
 
 <figure  style="text-align: center;">
@@ -574,7 +575,7 @@ I, for one, would rather avoid asynchronous API if given the choice. Alternative
 in an API I can reason about and build on top of, without pulling my hair out.</p>
 <p>Luckily, there&rsquo;s an <del>API</del> <a href="https://github.com/reactive-streams/reactive-streams-jvm">Specification</a> for that! And several libraries which implement it and
 provide composable, functional, declarative and lazy API. That&rsquo;s quite a mouthful.</p>
-<p>In the next part, we&rsquo;ll re-implement our use-case using on of these libraries.</p>
+<p>In the <a href="../loom-part-5-reactive-streams">next part</a>, we&rsquo;ll re-implement our use-case using one of these libraries.</p>
 
               <hr>
               <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
@@ -582,6 +583,21 @@ provide composable, functional, declarative and lazy API. That&rsquo;s quite a m
               <p>If you want to leave a general comment or read what others have to say, please use the collapsible panel on the right of this page.</p>
               <div class="related-posts">
                 <h5>Related Posts</h5>
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        January 13, 2025
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-5-reactive-streams/">Loom - Part 5 - Reactive Streams</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
                 
                 
                   <div class="row">
@@ -608,21 +624,6 @@ provide composable, functional, declarative and lazy API. That&rsquo;s quite a m
                     <div class="col-sm-8 col-md-8 col-lg-8">
                       <h6 style="text-align: left">
                         <strong><a href="/loom-part-2-blocking/">Loom - Part 2 - Blocking code</a></strong>
-                      </h6>
-                    </div>
-                  </div>
-                
-                
-                
-                  <div class="row">
-                    <div class="col-sm-4 col-md-4 col-lg-4">
-                      <h6 style="text-align: right">
-                        December 14, 2019
-                      </h6>
-                    </div>
-                    <div class="col-sm-8 col-md-8 col-lg-8">
-                      <h6 style="text-align: left">
-                        <strong><a href="/loom-part-1-scheduling/">Loom - Part 1 - It&rsquo;s all about Scheduling</a></strong>
                       </h6>
                     </div>
                   </div>

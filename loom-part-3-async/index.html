@@ -98,7 +98,8 @@ In this part we re-implement our proxy service with an asynchronous API.</p>
 <a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br>
 <a href="../loom-part-2-blocking">Part 2 - Blocking code</a><br>
 <a href="../loom-part-3-async">Part 3 - Asynchronous code</a> (this page)<br>
-<a href="../loom-part-4-nio">Part 4 - Non-thread-blocking async I/O</a></p>
+<a href="../loom-part-4-nio">Part 4 - Non-thread-blocking async I/O</a><br>
+<a href="../loom-part-5-reactive-streams">Part 5 - Reactive Streams</a></p>
 </blockquote>
 
 <figure  style="text-align: center;">
@@ -695,7 +696,7 @@ jobs keep piling up in the executor&rsquo;s queue! We&rsquo;re, in effect, limit
 <p>Some blog posts present asynchronous programming as a solution to the problem of scaling a service. This bothers me.</p>
 <p>They often use <code>asynchronous</code> in opposition to <code>blocking</code>. However, the opposite of <em>blocking</em> is <code>non-blocking</code>, not
 <em>asynchronous</em>. Using <em>non-blocking</em> alone conflates not blocking the <em><strong>current thread</strong></em> with not blocking <em><strong>any thread</strong></em>.
-<em>Non-blocking</em> does noot equate <em>non-thread-blocking</em>!</p>
+<em>Non-blocking</em> does not equate <em>non-thread-blocking</em> !</p>
 <p>As seen above, using an asynchronous API doesn&rsquo;t mean anything about its thread-blocking properties.
 An asynchronous call submitted to an executor doesn&rsquo;t block the current thread, for sure, but it may very well block
 the thread it is running on! This is usually where you read comments such as &ldquo;use a dedicated thread pool&rdquo;.<br>
@@ -732,7 +733,7 @@ code <em>on the JVM</em> is to use <code>asynchronous</code> API.</p>
 <div class="title">It&#39;s over 800!</div>
 </div>
 
-<p>On the left a peak to 122 live threads when I did a small mistake. On the right a peak to more that 800 live threads
+<p>On the left a peak to 122 live threads when I did a small mistake. On the right a peak to more than 800 live threads
 when I messed up on purpose to see the result (I swear!).</p>
 
               <hr>
@@ -741,6 +742,21 @@ when I messed up on purpose to see the result (I swear!).</p>
               <p>If you want to leave a general comment or read what others have to say, please use the collapsible panel on the right of this page.</p>
               <div class="related-posts">
                 <h5>Related Posts</h5>
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        January 13, 2025
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-5-reactive-streams/">Loom - Part 5 - Reactive Streams</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
                 
                 
                   <div class="row">
@@ -767,21 +783,6 @@ when I messed up on purpose to see the result (I swear!).</p>
                     <div class="col-sm-8 col-md-8 col-lg-8">
                       <h6 style="text-align: left">
                         <strong><a href="/loom-part-2-blocking/">Loom - Part 2 - Blocking code</a></strong>
-                      </h6>
-                    </div>
-                  </div>
-                
-                
-                
-                  <div class="row">
-                    <div class="col-sm-4 col-md-4 col-lg-4">
-                      <h6 style="text-align: right">
-                        December 14, 2019
-                      </h6>
-                    </div>
-                    <div class="col-sm-8 col-md-8 col-lg-8">
-                      <h6 style="text-align: left">
-                        <strong><a href="/loom-part-1-scheduling/">Loom - Part 1 - It&rsquo;s all about Scheduling</a></strong>
                       </h6>
                     </div>
                   </div>

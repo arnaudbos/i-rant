@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+        
+    <meta property="og:title" content="Loom - Part 5 - Reactive Streams" />
+    <meta property="og:description" content="Part 5 on a series of articles about OpenJDK&#39;s Project Loom" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://i-rant.arnaudbos.com/loom-part-5-reactive-streams/" />
+    
+    <meta property="og:image" content="https://i-rant.arnaudbos.com/img/loom/sergio-gonzalez-YFXUumP4m5U-unsplash.jpg" />
+    
+
+    <meta name="description" content="My corner of teh interweb.">
+    <link rel="shortcut icon" type="image/x-icon" href="https://i-rant.arnaudbos.com/img/favicon.ico">
+    <title>Loom - Part 5 - Reactive Streams</title>
+    <meta name="generator" content="Hugo 0.70.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Fira+Code&display=swap">
+    <link rel="stylesheet" type="text/css" href="https://i-rant.arnaudbos.com/css/main.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/darcula.min.css">
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://www.arnaudbos.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="https://i-rant.arnaudbos.com/">BLOG</a></li>
+        
+        <li><a href="https://side-effects.arnaudbos.com/">PROJECTS</a></li>
+        
+        <li><a href="https://talks.arnaudbos.com/">TALKS</a></li>
+        
+        <li><a href="https://level-up.arnaudbos.com/">LEVEL-UP</a></li>
+        
+        <li><a href="https://vitae.arnaudbos.com/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <a href="/loom-part-5-reactive-streams/">Loom - Part 5 - Reactive Streams</a>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 13, 2025
+          &nbsp;&nbsp;
+          —
+          &nbsp;&nbsp;
+          10 minutes read
+          </h4>
+        </div>
+        <div>
+          <h4>
+            
+            <span class="label label-success tag">java</span>
+            
+            <span class="label label-success tag">concurrency</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <blockquote>
+<p>Part 5 in a series of articles about Project Loom.<br>
+In this part we re-implement our proxy service using a Reactive Streams API.</p>
+<p>The companion code repository is at <a href="https://github.com/arnaudbos/untangled">arnaudbos/untangled</a></p>
+<p>If you&rsquo;d like you could head over to<br>
+<a href="../loom-part-0-rationale">Part 0 - Rationale</a><br>
+<a href="../loom-part-1-scheduling">Part 1 - It&rsquo;s all about Scheduling</a><br>
+<a href="../loom-part-2-blocking">Part 2 - Blocking code</a><br>
+<a href="../loom-part-3-async">Part 3 - Asynchronous code</a><br>
+<a href="../loom-part-4-nio">Part 4 - Non-thread-blocking async I/O</a><br>
+<a href="../loom-part-5-reactive-streams">Part 5 - Reactive Streams</a> (this page)</p>
+</blockquote>
+
+<figure  style="text-align: center;">
+    
+        <img src="/img/loom/sergio-gonzalez-YFXUumP4m5U-unsplash.jpg" alt="Loom"
+            width="100%"
+            />
+    
+    
+    <figcaption>
+        <p>
+        Photo by Sergio Gonzalez
+        <a target="_blank" href="https://unsplash.com/photos/YFXUumP4m5U"> 
+            on Unsplash
+        </a> 
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<hr>
+<h2 id="table-of-contents">Table Of Contents</h2><div id="toc" class="well col-md-12"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#reactive-streams">Reactive Streams</a>
+      <ul>
+        <li><a href="#the-honeymoon">The honeymoon</a></li>
+        <li><a href="#the-learning-curve-of-fp">The learning curve of FP</a></li>
+        <li><a href="#the-learning-curve-of-rx">The learning curve of Rx</a></li>
+      </ul>
+    </li>
+    <li><a href="#profiling">Profiling</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav></div>
+<p>Spoiler alert: I have a love-hate relationship with the Reactive Streams specification
+and implementation libraries.</p>
+<p>Let&rsquo;s see what they have to offer, and what are the tradeoffs.</p>
+<h2 id="reactive-streams">Reactive Streams</h2>
+<p>Let me begin with a quote:</p>
+<blockquote>
+<p>Reactive Streams is an initiative to provide a standard for asynchronous stream
+processing with non-blocking back pressure. This encompasses efforts aimed at
+runtime environments (JVM and JavaScript) as well as network protocols.</p>
+<p>— <a href="https://www.reactive-streams.org/">Reactive Streams</a></p>
+</blockquote>
+<p>Two sentences, but a lot to unpack here. Reactive Streams, the concept and the ensuing
+specification, is about unifying efforts, across platforms, to provide foundations for
+building scalable systems with the following characteristics (which I&rsquo;ll let you
+read the definition of on the <a href="https://www.reactivemanifesto.org/">Reactive Manifesto</a>): <code>responsive</code>, <code>resilient</code>, <code>elastic</code>
+and <code>message driven</code>.</p>
+<p>The key takeaways are <strong>asynchronous</strong> stream processing, <strong>non-blocking</strong> and
+<strong>back pressure</strong>.</p>
+<p>We&rsquo;ll dive into the first two and leave the last one for another post. For the
+reminder of this article, the &ldquo;Reactive Streams way&rdquo; will be illustrated using
+Pivotal&rsquo;s <a href="https://projectreactor.io/">Project Reactor</a>.</p>
+<blockquote>
+<p>Reactor is a fourth-generation reactive library, based on the Reactive Streams
+specification, for building non-blocking applications on the JVM.</p>
+</blockquote>
+<h3 id="the-honeymoon">The honeymoon</h3>
+<p>As I said in the <a href="../loom-part-4-nio">previous installment</a> of this series, Reactor is one such
+library which implements the Reactive Streams specification and provides a
+&ldquo;<em>composable, functional, declarative and lazy API</em>&quot;.</p>
+<p>So let&rsquo;s see how it can help us turn the gobbledygook of callback nesting,
+that was born out of Java NIO, into a simple program. We&rsquo;ll begin with the
+<code>makePulse</code> function.</p>
+<p>(makePulse is the function responsible for periodically sending the heartbeat requests
+in the <a href="..//loom-part-2-blocking/#a-simple-use-case">use-case</a> we&rsquo;ve already seen throughout this series)</p>
+<pre><code class="language-java">private Mono&lt;Void&gt; makePulse(Connection.Available conn) {
+①  return Flux.interval(Duration.ofSeconds(2L))
+②      .flatMap(l -&gt; coordinator.heartbeat(conn.getToken()))
+③      .doOnNext(c -&gt; println(&quot;Pulse!&quot;))
+④      .then()
+⑤      .doOnCancel(() -&gt; println(&quot;Pulse cancelled&quot;))
+⑥      .doOnTerminate(() -&gt; println(&quot;Pulse terminated&quot;));
+}
+</code></pre>
+<p>First, take a second to appreciate how having a functional programming background helps
+a lot to find such library really appealing.<br>
+For the past few years the trend on the JVM has been to go more functional, which started
+progressively with lambdas and other functional constructs such as <code>Optional</code> and <code>Stream</code>,
+so this API should look kinda familiar.</p>
+<ol>
+<li>Every 2 seconds</li>
+<li>Send a heartbeat request to the coordinator</li>
+<li>&ldquo;log&rdquo; that a heart beat has happened</li>
+<li>when this stream of operations comes to an end, just turn it into a single &ldquo;completion signal&rdquo;</li>
+<li>&ldquo;log&rdquo; when this <code>Flux</code> has been cancelled (somehow)</li>
+<li>&ldquo;log&rdquo; that the heart is no longer pulsing, whatever may be the cause</li>
+</ol>
+<p>If you&rsquo;re familiar with the <code>Optional</code> or <code>Stream</code> API or better, with the <a href="https://www.vavr.io/">Vavr</a> library,
+the only thing which may surprise you is this <code>then()</code> function call.<br>
+Other than that, we&rsquo;re infinitely flatMap—ing over a stream of ever-increasing longs.</p>
+<p>It&rsquo;s nice and all, especially compared to the <a href="https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter03_AsyncNonBlocking.java#L150">40+ lines</a> of the Java NIO
+implementation, and even compared to the <a href="https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter01_SyncBlocking.java#L89">10-ish lines</a> of the
+straightforward blocking implementation.</p>
+<p>Sadly, there is a &ldquo;but&rdquo;. Two actually.</p>
+<h3 id="the-learning-curve-of-fp">The learning curve of FP</h3>
+<p>If programming is a kind of roller coaster then functional programming is definitely
+one of the sections that&rsquo;s got a few hills. I&rsquo;m not going to include any code example
+in this section but bear with me.</p>
+<p>Not everyone is keen on learning &ldquo;functional programming&rdquo; and its many concepts. Those
+who do usually come to like the way it makes managing state more conceivable, helps
+isolate side-effects, promotes composability, increases conciseness, boosts
+expressiveness and all the yada yada of &ldquo;safety&rdquo;.</p>
+<p>I agree with all the above. Unfortunately, in the FP advocates community there are
+also the ones who can&rsquo;t help but flog about category theory to death. Have you ever
+heard the joke that &ldquo;A monad is just a monoid in the category if endofunctors&rdquo;?<br>
+Fasten your seatbelt now, &lsquo;cause that&rsquo;s so 2010s.</p>
+<p>Apparently 2020 wasn&rsquo;t bad enough to some, so over the years we&rsquo;ve had variations like
+&ldquo;A Kleisi is just &hellip;&quot;, or &ldquo;An Arrow is just &hellip;&quot;, and the latest to my knowledge:
+&ldquo;It&rsquo;s always traverse&rdquo;.</p>
+<p>Some will tell you that you don&rsquo;t have to worry about all this theoretical knowledge,
+that you&rsquo;re already using monads and such without even realizing it. On the other hand
+it&rsquo;s like each time a concept becomes somewhat approachable (due to a sheer amount of SO
+questions and blog posts) and even &ldquo;mainstream&rdquo; after a year or two, some folks decide to
+dive deeper in search of more infantilizing meme material. Jeez!</p>
+
+<figure  style="text-align: center;">
+    <a target="_blank" href="https://patrickmn.com/software/the-haskell-pyramid/">
+        <img src="/img/loom/haskell_pyramid.png" alt="The Haskell Pyramid"
+            width="100%"
+            />
+    </a>
+    
+    <figcaption>
+        <p>
+        &#34;The Haskell Pyramid&#34; by
+        <a target="_blank" href="https://patrickmn.com/software/the-haskell-pyramid/"> 
+            Patrick Mylund Nielsen
+        </a> 
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<p><a class="fold title" onclick="$('#explore').toggleClass('hidden');">[Disclaimer on the use of the previous image]</a></p>
+<div id="explore" class="fold content hidden">
+<p>The image above was taken from a very heart-warming blog post.</p>
+<p>It didn&rsquo;t seem fair to me to include it without a note on how this image, out of context,
+could give an impression opposite to the indent of its author&rsquo;s full article. Which is,
+in a nutshell: &ldquo;It’s perfectly possible to be productive in Haskell without understanding
+anything about monads!&quot;.</p>
+<p>I have included this image here as it illustrates what I was saying about the ever-increasing
+pyramid height, because even though it is out of its context, it isn&rsquo;t false either.</p>
+</div>
+<p>Tackling the cognitive load of asynchrony by hiding it behind functional abstractions
+is one approach to solving the problem (not the only one as we&rsquo;ll see), and if you start
+using a &ldquo;reactive&rdquo; library, you&rsquo;re in for a serious ride.</p>
+<h3 id="the-learning-curve-of-rx">The learning curve of Rx</h3>
+<p>As if &ldquo;mastering&rdquo; FP wasn&rsquo;t enough, the learning curve of Rx itself is no sinecure either.</p>
+<p>It took me a good year to know what I was doing with <a href="https://projectreactor.io/">Project Reactor</a> and some
+of its features still feel impenetrable. The vicious thing, I think, is the false impression
+of simplicity, the warm cosy feeling given by code samples like the one above.</p>
+<p>If you&rsquo;ve read about reactive streams/reactive programming you may have been warned
+about the steep learning curve. In fact, it&rsquo;s actually staged, at least in my opinion.
+Meaning that after having climbed your way up the first plateau, you&rsquo;ll know just enough
+to be dangerous.</p>
+<p><code>.block()</code> here? <code>.subscribe(foo -&gt; { [...] bar.subscribe(); })</code> there? Using <code>.flatMap</code>,
+<code>.flatMapSequential</code> and <code>.concatMap</code> interchangeably? <code>.publishOn</code> or <code>.subscribeOn</code>?
+Flatmap-ing over a <code>Flux</code> when really what you wanted was a <code>Mono</code> because the previous
+step was supposed to race rather than yield all values, and the type system didn&rsquo;t save
+ya (true story)?</p>
+<p>Let&rsquo;s remind ourselves what the logic looked like in <a href="../loom-part-2-blocking">Part 2 - Blocking code</a>:</p>
+<pre><code class="language-java">private Connection.Available getConnection()
+    throws EtaExceededException, InterruptedException
+{
+①  return getConnection(0, 0, null);
+}
+
+private Connection.Available getConnection(long eta, long wait, String token)
+    throws EtaExceededException, InterruptedException
+{
+    for(;;) {
+        if (eta &gt; MAX_ETA_MS) {
+            throw new EtaExceededException();
+        }
+
+        if (wait &gt; 0) {
+            Thread.sleep(wait);
+        }
+
+        println(&quot;Retrying download after &quot; + wait + &quot;ms wait.&quot;);
+    
+②      Connection c = coordinator.requestConnection(token);
+        if (c instanceof Connection.Available) {
+④          return (Connection.Available) c;
+        }
+③      Connection.Unavailable unavail = (Connection.Unavailable) c;
+        eta = unavail.getEta();
+        wait = unavail.getWait();
+        token = unavail.getToken();
+    }
+}
+</code></pre>
+<ol>
+<li>We start with initial <code>eta</code> and <code>wait</code> times at zero and no token (<code>null</code>).</li>
+<li>We try to get a grant from the coordinator.</li>
+<li>If the coordinator rejects us with an <code>Unavailable</code> response, we update the <em>eta</em>, <em>wait</em> and <em>token</em> and loop;</li>
+<li>Otherwise we can return the <code>Available</code> response.</li>
+</ol>
+<p>Ready to see what it looks like with a reactive streams implementation?</p>
+<p>(You can find the complete source code for this sample <a href="https://github.com/arnaudbos/untangled/blob/master/hawaii/src/main/java/io/monkeypatch/untangled/Chapter04_Reactive.java">here</a>.)</p>
+<pre><code class="language-java">private Mono&lt;Connection.Available&gt; getConnection() {
+①    return getConnection(0, 0, null);
+}
+
+private Mono&lt;Connection.Available&gt; getConnection(long eta, long wait, String token) {
+    AtomicLong etaRef = new AtomicLong(eta);
+    AtomicLong waitRef = new AtomicLong(wait);
+    AtomicReference&lt;String&gt; tokenRef = new AtomicReference&lt;&gt;(token);
+    return Mono.defer(() -&gt; {
+        if (etaRef.get() &gt; MAX_ETA_MS) {
+            return Mono.error(new EtaExceededException());
+        }
+        return Mono.delay(Duration.ofMillis(waitRef.get()))
+②            .flatMap(i -&gt; coordinator.requestConnection(tokenRef.get()));
+    }).flatMap(c -&gt; {
+        if (c instanceof Connection.Available) {
+④            return Mono.just((Connection.Available) c);
+        } else {
+            Connection.Unavailable unavail = (Connection.Unavailable) c;
+            etaRef.set(unavail.getEta());
+            waitRef.set(unavail.getWait());
+            tokenRef.set(unavail.getToken());
+③            return Mono.empty();
+        }
+    }).repeatWhenEmpty(Repeat
+        .onlyIf(ctx -&gt; true)
+        .doOnRepeat(ctx -&gt;
+            println(waitRef.get() + &quot;, &quot; + etaRef.get() + &quot;, &quot; + tokenRef.get())));
+}
+</code></pre>
+
+<figure  style="text-align: center;">
+    
+        <img src="/img/loom/that-escalated-quickly.jpg" alt="That Escalated Quickly"
+            width="50%"
+            />
+    
+    
+</figure>
+
+
+<p>I have made two image to highlight the most relevant parts of the previous code, to give visual cues :</p>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/reactive-example-1.png" itemprop="contentUrl" data-size="2118x1552">
+      <img src="/img/loom/reactive-example-1.png" itemprop="thumbnail"
+        
+        
+        width="395px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Essential complexity (job to be done).
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/reactive-example-2.png" itemprop="contentUrl" data-size="2116x1554">
+      <img src="/img/loom/reactive-example-2.png" itemprop="thumbnail"
+        
+        
+        width="395px"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    Accidental complexity.
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Essential VS Accidental complexity</div>
+</div>
+
+<p>On the left, essential complexity, the job to be done aka attempt to retrieve a token.<br>
+On the right, accidental complexity, what Reactor requires in order to do the task.</p>
+<p>The <code>Mono.defer</code>, the <code>Mono.empty</code>+<code>repeatWhenEmpty</code>, the two <code>AtomicLong</code> and the
+<code>AtomcReference</code> are all necessary in order to implement an efficient, non-blocking
+<strong>and stack-safe</strong> version of this very simple task.</p>
+<p>I can&rsquo;t stress enough how puzzling some other tasks can seem when working with such
+paradigm. On a daily basis there are:</p>
+<ul>
+<li>thread pools to handle, keep track of, <code>publishOn</code> or <code>subscribeOn</code></li>
+<li>blocking calls to avoid</li>
+<li>asynchronous calls and libraries to wrap</li>
+<li><code>Future</code>s to complete</li>
+<li>backpressure to operate</li>
+<li><code>InputStreams</code> to read from/write into and convert to <code>Flux</code> without blocking</li>
+<li>local state to encapsulate in thread-safe ways</li>
+<li>context to make flow</li>
+<li>streams to <code>materialize</code>/<code>dematerialize</code></li>
+<li>concurrency and parallelism amounts to consider (for many Rx operators!)</li>
+<li>queue sizes and defaults to take into account</li>
+<li>and a shit ton of marble diagrams to decypher&hellip;</li>
+</ul>
+<p>Don&rsquo;t believe me? Go watch this talk: <a href="https://youtu.be/z0a0N9OgaAA">Tomasz Nurkiewicz — Reactive programming lessons learned</a><br>
+Don&rsquo;t believe him? Go ahead and try to implement a reactive semaphore&hellip;</p>
+<p>This is something you learn from experience. And here&rsquo;s my love-hate relationship
+with reactive streams exposed: I kinda like this complexity. It very satisfying!<br>
+Having to think about the problems, cracking the API, finding an &ldquo;elegant&rdquo; solution,
+and it&rsquo;s efficient!</p>
+<p>The hard truth is, not many projects really need to trade computing costs for
+more expensive developers and, implicitly, higher maintenance costs.</p>
+<h2 id="profiling">Profiling</h2>
+<div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+  <a href="/img/loom/impl4-threads.png" itemprop="contentUrl" data-size="2372x1286">
+      <img src="/img/loom/impl4-threads.png" itemprop="thumbnail"
+        
+        
+        width="100%"
+        height="142"
+        />
+  </a>
+
+  <figcaption itemprop="caption description">
+    
+    <span itemprop="copyrightHolder"></span>
+  </figcaption>
+</figure>
+
+
+<div class="title">Reactive Streams threads</div>
+</div>
+
+<p>Once again, <a href="https://visualvm.github.io/">VisualVM</a> confirms that we are, indeed, using our resources very efficiently.</p>
+<p>Keeping aside the numbers used as suffixes of the <code>reactor-http-kqueue-(n)</code> threads
+(which are irrelevant in this case), we see that there are only 12 of them living for the
+whole duration of the experiment.</p>
+<p>On the other side, a few more threads have been created implicitly by my implementation
+and are started &ldquo;at subscription time&rdquo; in order to deal with our application logic&rsquo;s
+event handling.</p>
+<p>Indeed, just like in the <a href="../loom-part-4-nio">previous post</a>, the threads of this pool spend most
+of their time parked. The small amount of <em>events</em> to handle reactor calls (<code>request</code>,
+<code>next</code>, etc) and logic is far from sufficient to keep them busy.</p>
+<p>reactor-netty&rsquo;s threads, on the contrary, are 100% busy handling (or expecting) file
+descriptor events from the <code>kqueue</code> syscalls (<code>kqueue</code> is the FreeBSD (OS X) equivalent
+to <code>epoll</code> that we have talked about before).</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>It took me a whole lot of time to get back on track with this series. The pandemic first,
+then life itself, took me away from it. I hope you&rsquo;ll find this post useful, it&rsquo;s not as
+technical as the previous ones because the Reactive Streams specification and various
+implementations are well established now, more than five years after the start of this
+series.</p>
+<p>The main point of this article is to outline the accidental complexity that libraries
+like Reactor introduce, and how pervasive they are if you want to tap into its full
+potential end-to-end. I didn&rsquo;t talk about backpressure yet, I plan to write a full
+article on this topic, which will require more code samples to try to explain correctly.</p>
+<p>In the next articles of this series, we will (finally!) discover Loom, why it was brought
+into existence, what promises it made and how it kept its promises, how it works and
+how to use it. Stay tuned!</p>
+
+              <hr>
+              <p>This blog uses <a target="_blank" href="https://web.hypothes.is/">Hypothesis</a> for public and private (group) comments.</p>
+              <p>You can <em>annotate</em> or <em>highlight</em> words or paragraphs directly by selecting the text!</p>
+              <p>If you want to leave a general comment or read what others have to say, please use the collapsible panel on the right of this page.</p>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        May 8, 2020
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-4-nio/">Loom - Part 4 - Non-thread-blocking async I/O</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 23, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-3-async/">Loom - Part 3 - Asynchronous code</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        December 18, 2019
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/loom-part-2-blocking/">Loom - Part 2 - Blocking code</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <!-- Hypothes.is -->
+<script type="application/json" class="js-hypothesis-config">
+    {"showHighlights": false}
+</script>
+<script src="https://hypothes.is/embed.js" async></script>
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/arnaudbos/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+<div class="scroll-to-top">
+  <a href="#">Scroll<br>to Top</a>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://i-rant.arnaudbos.com/js/docs.min.js"></script>
+<script src="https://i-rant.arnaudbos.com/js/main.js"></script>
+
+<script src="https://i-rant.arnaudbos.com/js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- EmojiOne -->
+<script src="https://cdn.jsdelivr.net/emojione/2.2.7/lib/js/emojione.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/2.2.7/assets/css/emojione.min.css"/>
+
+<script>
+(function (){
+  var emojis = document.getElementsByClassName('emoji');
+  for(var i=0; i<emojis.length; i++){
+	  var content = emojis[i].textContent;
+    emojis[i].innerHTML = emojione.shortnameToImage(content);
+  }
+})();
+</script>
+
+<!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/languages/clojure.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<link rel="stylesheet" href="/css/photoswipe.css">
+<link rel="stylesheet" href="/css/default-skin/default-skin.css">
+<script src="/js/photoswipe.min.js"></script>
+<script src="/js/photoswipe-ui-default.min.js"></script>
+<script src="/js/initphotoswipe.js"></script>
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+<style>
+    .gallery { float: right; margin-bottom: 10px; text-align: center; }
+    .gallery img { height: auto; }
+    .gallery .title { text-align: center; text-decoration: underline; }
+    .gallery figure { display: block; float: left; margin: 0 5px 5px 0; }
+    .gallery figcaption { display: none; }
+</style>
+
+<script>initPhotoSwipeFromDOM('.gallery');</script>
+
+
+
+
+
+
+
+  </body>
+</html>

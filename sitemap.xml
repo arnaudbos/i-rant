@@ -4,36 +4,41 @@
   
   <url>
     <loc>https://i-rant.arnaudbos.com/</loc>
-    <lastmod>2020-05-08T01:44:26+02:00</lastmod>
+    <lastmod>2025-01-13T00:00:00+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://i-rant.arnaudbos.com/categories/</loc>
-    <lastmod>2020-05-08T01:44:26+02:00</lastmod>
+    <lastmod>2025-01-13T00:00:00+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://i-rant.arnaudbos.com/tags/concurrency/</loc>
-    <lastmod>2020-05-08T01:44:26+02:00</lastmod>
+    <lastmod>2025-01-13T00:00:00+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://i-rant.arnaudbos.com/tags/java/</loc>
-    <lastmod>2020-05-08T01:44:26+02:00</lastmod>
+    <lastmod>2025-01-13T00:00:00+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://i-rant.arnaudbos.com/categories/java/</loc>
-    <lastmod>2020-05-08T01:44:26+02:00</lastmod>
+    <lastmod>2025-01-13T00:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://i-rant.arnaudbos.com/loom-part-4-nio/</loc>
-    <lastmod>2020-05-08T01:44:26+02:00</lastmod>
+    <loc>https://i-rant.arnaudbos.com/loom-part-5-reactive-streams/</loc>
+    <lastmod>2025-01-13T00:00:00+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://i-rant.arnaudbos.com/tags/</loc>
+    <lastmod>2025-01-13T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://i-rant.arnaudbos.com/loom-part-4-nio/</loc>
     <lastmod>2020-05-08T01:44:26+02:00</lastmod>
   </url>
   
@@ -55,11 +60,6 @@
   <url>
     <loc>https://i-rant.arnaudbos.com/loom-part-0-rationale/</loc>
     <lastmod>2019-12-14T15:38:21+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://i-rant.arnaudbos.com/loom/</loc>
-    <lastmod>2019-11-04T12:23:00+01:00</lastmod>
   </url>
   
   <url>
