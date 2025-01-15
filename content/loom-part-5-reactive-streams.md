@@ -121,7 +121,7 @@ expressiveness and all the yada yada of "safety".
 
 I agree with all the above. Unfortunately, in the FP advocates community there are
 also the ones who can't help but flog about category theory to death. Have you ever
-heard the joke that "A monad is just a monoid in the category if endofunctors"?  
+heard the joke that "A monad is just a monoid in the category of endofunctors"?  
 Fasten your seatbelt now, 'cause that's so 2010s.
 
 Apparently 2020 wasn't bad enough to some, so over the years we've had variations like
@@ -246,8 +246,9 @@ private Mono<Connection.Available> getConnection(long eta, long wait, String tok
             println(waitRef.get() + ", " + etaRef.get() + ", " + tokenRef.get())));
 }
 ```
-
-{{< img center="true" src="/img/loom/that-escalated-quickly.jpg" alt="That Escalated Quickly" width="50%">}}
+<br />
+{{< img center="true" src="/img/loom/that-escalated-quickly.png" alt="That Escalated Quickly" width="75%">}}
+<br />
 
 I have made two image to highlight the most relevant parts of the previous code, to give visual cues :
 
