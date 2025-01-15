@@ -319,7 +319,7 @@ of their time parked. The small amount of *events* to handle reactor calls (`req
 reactor-netty's threads are seemingly 100% busy handling file descriptor events from the
 `kqueue` syscalls (`kqueue` is the FreeBSD (OS X) equivalent to `epoll` that we have
 talked about before), but this is a limitation from VisualVM. The load of concurrent
-clients of this experiment is waaaaaay to small to actually make the threads as busy as
+clients of this experiment is waaaaaay too small to actually make the threads as busy as
 the monitoring tool seems to think and the threads are actually __expecting__ events.
 The CPU usage on my machine is, indeed, very small.
 
