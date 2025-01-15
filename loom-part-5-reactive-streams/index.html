@@ -208,7 +208,7 @@ isolate side-effects, promotes composability, increases conciseness, boosts
 expressiveness and all the yada yada of &ldquo;safety&rdquo;.</p>
 <p>I agree with all the above. Unfortunately, in the FP advocates community there are
 also the ones who can&rsquo;t help but flog about category theory to death. Have you ever
-heard the joke that &ldquo;A monad is just a monoid in the category if endofunctors&rdquo;?<br>
+heard the joke that &ldquo;A monad is just a monoid in the category of endofunctors&rdquo;?<br>
 Fasten your seatbelt now, &lsquo;cause that&rsquo;s so 2010s.</p>
 <p>Apparently 2020 wasn&rsquo;t bad enough to some, so over the years we&rsquo;ve had variations like
 &ldquo;A Kleisli is just &hellip;&quot;, or &ldquo;An Arrow is just &hellip;&quot;, and the latest to my knowledge:
@@ -335,17 +335,19 @@ private Mono&lt;Connection.Available&gt; getConnection(long eta, long wait, Stri
             println(waitRef.get() + &quot;, &quot; + etaRef.get() + &quot;, &quot; + tokenRef.get())));
 }
 </code></pre>
+<p><br />
 
 <figure  style="text-align: center;">
     
-        <img src="/img/loom/that-escalated-quickly.jpg" alt="That Escalated Quickly"
-            width="50%"
+        <img src="/img/loom/that-escalated-quickly.png" alt="That Escalated Quickly"
+            width="75%"
             />
     
     
 </figure>
 
 
+<br /></p>
 <p>I have made two image to highlight the most relevant parts of the previous code, to give visual cues :</p>
 <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
