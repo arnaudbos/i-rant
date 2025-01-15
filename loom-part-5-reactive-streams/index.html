@@ -449,9 +449,12 @@ event handling.</p>
 <p>Indeed, just like in the <a href="../loom-part-4-nio">previous post</a>, the threads of this pool spend most
 of their time parked. The small amount of <em>events</em> to handle reactor calls (<code>request</code>,
 <code>next</code>, etc) and logic is far from sufficient to keep them busy.</p>
-<p>reactor-netty&rsquo;s threads, on the contrary, are 100% busy handling (or expecting) file
-descriptor events from the <code>kqueue</code> syscalls (<code>kqueue</code> is the FreeBSD (OS X) equivalent
-to <code>epoll</code> that we have talked about before).</p>
+<p>reactor-netty&rsquo;s threads are seemingly 100% busy handling file descriptor events from the
+<code>kqueue</code> syscalls (<code>kqueue</code> is the FreeBSD (OS X) equivalent to <code>epoll</code> that we have
+talked about before), but this is a limitation from VisualVM. The load of concurrent
+clients of this experiment is waaaaaay to small to actually make the threads as busy as
+the monitoring tool seems to think and the threads are actually <strong>expecting</strong> events.
+The CPU usage on my machine is, indeed, very small.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>It took me a whole lot of time to get back on track with this series. The pandemic first,
 then life itself, took me away from it. I hope you&rsquo;ll find this post useful, it&rsquo;s not as
