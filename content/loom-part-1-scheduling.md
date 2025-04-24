@@ -329,9 +329,7 @@ the last 60 years that I had to cut corners and didn't do it any justice.
 If it picked your curiosity, start with the links I've provided and follow those threads (pun intended).
 
 Alternatively, this Twitter thread covers about the same period but with more details (dates, pre-historic computer
-names, etc):
-
-{{< tweet id="1201956309941116928" user="Foone" >}}
+names, etc): https://twitter.com/Foone/status/1201956309941116928
 
 In the [next part][part-2], we will experiment!
 

@@ -30,8 +30,6 @@ becoming more and more addicted to it.
 [Igor][igor] offered to make a live demo in order to show me what it is they
 (he) like about Kotlin.
 
-{{< tweet id="893066399794556928" user="MonkeyPatch_io" >}}
-
 During his presentation I've noticed a few points that I disliked, but before
 jumping to conclusion I decided to dig a bit further, reading
 [Kotlin in Action][kotlin-in-action] during vacations two weeks later.
@@ -43,9 +41,7 @@ Amongst other small things, the consensus begun to build: *"It's a better
 Java than Java"*...  
 Exactly what I feared.
 
-{{< tweet id="898808015146627072" user="arnaud_bos" >}}
-
-To fulfill the promise made in this tweet, I took it as a game to code the
+To fulfill a promise made in a (now deleted) tweet, I took it as a game to code the
 same code example Igor showed me in [Clojure][clojure] in order to return
 the favor to my colleagues.
 
